@@ -17,6 +17,8 @@ client.on('message', msg => {
     for(let i = 0; i < config.ownerRoles.length; ++i) {
       if (member.roles.cache.has(config.ownerRoles[i])) {
         var embed = new Discord.MessageEmbed();
+        embed.setTitle('Ping to an owner');
+        embed.setTimestamp();
         embed.setDescription(`From: ${msg.author}\nContent: ${msg.content}`);
         logChannel.send(embed);
         msg.channel.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`);
