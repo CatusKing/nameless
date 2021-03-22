@@ -12,7 +12,7 @@ client.once('ready', () => {
 
 client.on('message', msg => {
   if (msg.author.bot) return;
-  const logChannel = client.channels.cache.get('823385901258375198');
+  const logChannel = client.channels.cache.get('823525965330251786');
   msg.mentions.members.forEach(member => {
     for(let i = 0; i < config.ownerRoles.length; ++i) {
       if (member.roles.cache.has(config.ownerRoles[i])) {
