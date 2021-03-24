@@ -93,7 +93,14 @@ client.once('ready', async () => {
     client.user.setActivity(config.status[status]
       .replace('%bank%', await currency.getBalance('bank'))
       .replace('%prefix%', prefix)
-      );
+      .replace('%top%', currency.sort((a, b) => b.balance - a.balance)
+        .filter(user => client.users.cache.has(user.user_id))
+        .first()
+        .forEach((user, position) => {
+          return client.users.cache.get(user.user_id).tag;
+        })
+      )
+    );
   }, 300000);
   console.log(`Logged in as ${client.user.tag}`);
 });
@@ -214,11 +221,11 @@ client.on('message', async msg => {
     var slot3 = Math.floor(Math.random() * config.emojis.length);
     const diamond = config.emojis.length - 1;
     let total = 0;
-    if (slot1 == 0 || slot2 == 0 || slot3 == 0) total -= bet
-    else if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
+    if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
     else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
     else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
     else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) total = bet * 2;
+    if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
     total -= bet;
     await currency.addBalance(msg.author.id, total);
     await currency.addBalance('bank', -total);
