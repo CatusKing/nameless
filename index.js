@@ -140,8 +140,8 @@ client.on('message', async msg => {
         logChannel.send(embed);
         reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
         goOn = false;
-        break;
       }
+      if (!goOn) return;
     });
   }
   if (msg.channel.id == '823549746836799508' && msg.content.includes('!announce!')) {
