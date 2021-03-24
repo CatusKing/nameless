@@ -72,14 +72,14 @@ function reply(channelId = String, content = String, color = String) {
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
-  setInterval(() => {
+  setInterval(async () => {
     const guild = client.guilds.cache.get('765334473461465098');
     var description = '';
-    guild.channels.cache.forEach(ch => {
+    guild.channels.cache.forEach(async ch => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
-        ch.members.forEach(m => {
+        ch.members.forEach(async m => {
           if (!m.voice.deaf) {
-            currency.addBalance(m.id, 5);
+            await currency.addBalance(m.id, 5);
             description += `\n+5🍰 to ${m} for sitting in vc`;
           }
         })
@@ -87,7 +87,7 @@ client.once('ready', async () => {
     });
     log('824308505225199667', description, '#baffc9');
   }, 60000);
-  setInterval(() => {
+  setInterval(async () => {
     ++status;
     if (status == config.status.length) status = 0;
     client.user.setActivity(config.status[status]
