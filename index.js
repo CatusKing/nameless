@@ -90,16 +90,17 @@ client.once('ready', async () => {
   setInterval(async () => {
     ++status;
     if (status == config.status.length) status = 0;
+    let top;
+    await currency.sort((a, b) => b.balance - a.balance)
+      .filter(user => client.users.cache.has(user.user_id))
+      .first()
+      .forEach((user, position) => {
+        top = client.users.cache.get(user.user_id).tag;
+    })
     client.user.setActivity(config.status[status]
       .replace('%bank%', await currency.getBalance('bank'))
       .replace('%prefix%', prefix)
-      .replace('%top%', currency.sort((a, b) => b.balance - a.balance)
-        .filter(user => client.users.cache.has(user.user_id))
-        .first()
-        .forEach((user, position) => {
-          return client.users.cache.get(user.user_id).tag;
-        })
-      )
+      .replace('%top%', top)
     );
   }, 300000);
   console.log(`Logged in as ${client.user.tag}`);
