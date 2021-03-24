@@ -204,7 +204,7 @@ client.on('message', async msg => {
     var slot3 = Math.floor(Math.random() * config.emojis.length);
     const diamond = config.emojis.length - 1;
     let total = 0;
-    if (slot1 == 0 || slot2 == 0 || slot3 == 0) continue;
+    if (slot1 == 0 || slot2 == 0 || slot3 == 0) {}
     else if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
     else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
     else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
