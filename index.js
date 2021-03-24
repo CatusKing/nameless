@@ -117,10 +117,11 @@ client.on('message', async msg => {
     msg.mentions.members.forEach(member => {
       for(let i = 0; i < config.ownerRoles.length; ++i) {
         if (member.roles.cache.has(config.ownerRoles[i])) {
-          var embed = new Discord.MessageEmbed();
-          embed.setTitle('Ping to an owner');
-          embed.setTimestamp();
-          embed.setDescription(`From: ${msg.author}\nContent: ${msg.content}`);
+          var embed = new Discord.MessageEmbed()
+            .setTitle('Ping to an owner')
+            .setTimestamp()
+            .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
+            .setColor('#ff7784');
           logChannel.send(embed);
           msg.channel.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`);
           msg.delete();
@@ -167,11 +168,11 @@ client.on('message', async msg => {
     for(let i = 0; i < config.help.length; ++i) {
       description += `\n${prefix}${config.help[i]}`
     }
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#baffc9');
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
     msg.channel.send(embed);
   } else if (command == 'balance') {
     const target = msg.mentions.users.first() || msg.author;
-    return msg.channel.send(new Discord.MessageEmbed().setDescription(`${target.tag} has ${currency.getBalance(target.id)}💰`).setColor('#baffc9'));
+    return msg.channel.send(new Discord.MessageEmbed().setDescription(`${target.tag} has ${currency.getBalance(target.id)}💰`).setColor('#ffffba'));
   } else if (command == 'lb' || command == 'leaderboard') {
     var temp = 10
     if (!isNaN(args[0]) && Math.floor(args[0]) < 20) temp = Math.floor(args[0]);
@@ -182,7 +183,7 @@ client.on('message', async msg => {
       .forEach((user, position) => {
         description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${user.balance}💰`
       });
-    msg.channel.send(new Discord.MessageEmbed().setDescription(description).setColor('#baffc9'));
+    msg.channel.send(new Discord.MessageEmbed().setDescription(description).setColor('#ffffba'));
   }
 });
 
