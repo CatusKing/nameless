@@ -139,6 +139,7 @@ client.on('message', async msg => {
             .setColor('#ff7784');
           logChannel.send(embed);
           reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
+          break;
         }
       }
     });
