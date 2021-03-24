@@ -76,6 +76,7 @@ client.once('ready', async () => {
     var embed = new Discord.MessageEmbed().setDescription(description).setColor('#f7c9a3');
     moneyLogChannel.send(embed);
   }, 60000);
+  client.user.setActivity(`${prefix}help`);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
