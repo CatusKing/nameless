@@ -72,7 +72,7 @@ function reply(channelId = String, content = String, color = String) {
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
-  setInterval(async () => {
+  setInterval(() => {
     const guild = client.guilds.cache.get('765334473461465098');
     var description = '';
     guild.channels.cache.forEach(ch => {
