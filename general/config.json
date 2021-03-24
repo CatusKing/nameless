@@ -2,7 +2,10 @@
   "prefix": "p!",
   "ownerRoles": ["765334473499607073"],
   "help": [
+    "income - Explains how you make points",
     "balance [@User] - Allows you to look at your or another users balance",
-    "leaderboard [1-20] - Allows you to look at the top players in the server"
-  ]
+    "leaderboard [1-20] - Allows you to look at the top players in the server",
+    "gamble <all || number || help> - Allows you to gamble for more points"
+  ],
+  "emojis": [":space_invader:", "🎂", ":teady_bear:", "♥", "🍓", "🍰", "💎"]
 }
