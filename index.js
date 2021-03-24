@@ -194,6 +194,7 @@ client.on('message', async msg => {
   } else if (command == 'gamble' || command == 'g') {
     if (args[0] == 'help') return reply(msg.channel.id, 'DANIEL MAKE AN EXPLANATION', '#9e9d9d')
     const balance = await currency.getBalance(msg.author.id);
+    const bank = await currency.getBalance('bank');
     var bet = 0;
     if (args[0] == 'all') bet = balance;
     else if (!isNaN(args[0]) && Math.floor(args[0]) >= 500) bet = Math.floor(args[0]);
@@ -204,7 +205,7 @@ client.on('message', async msg => {
     var slot3 = Math.floor(Math.random() * config.emojis.length);
     const diamond = config.emojis.length - 1;
     let total = 0;
-    if (slot1 == 0 || slot2 == 0 || slot3 == 0) {}
+    if (slot1 == 0 || slot2 == 0 || slot3 == 0) total -= bet
     else if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
     else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
     else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
@@ -217,10 +218,10 @@ client.on('message', async msg => {
       .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
     if (total > 0) {
       embed.setColor('#baffc9')
-        .setDescription(`${total}🍰 points given to ${msg.author}\n${total}🍰 points taken from the bank`);
+        .setDescription(`${total}🍰 points given to ${msg.author}(${balance + total})\n${total}🍰 points taken from the bank(${bank - total})`);
     } else {
       embed.setColor('#ff7784')
-        .setDescription(`${-total}🍰 points taken from ${msg.author}\n${-total}🍰 points given to the bank`)
+        .setDescription(`${-total}🍰 points taken from ${msg.author}(${balance + total})\n${-total}🍰 points given to the bank(${bank - total})`);
     }
     msg.channel.send(embed);
   }
