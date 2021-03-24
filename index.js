@@ -10,9 +10,9 @@ const prefix = config.prefix;
 var testing = false;
 if (process.argv.includes('--testing') || process.argv.includes('-t')) testing = true;
 
-Reflect.defineProperty(currency, 'add', {
+Reflect.defineProperty(currency, 'addBalance', {
 	/* eslint-disable-next-line func-name-matching */
-	value: async function add(id, amount) {
+	value: async function addBalance(id, amount) {
 		const user = currency.get(id);
 		if (user) {
 			user.balance += Number(amount);
@@ -62,6 +62,12 @@ function log(channelId = String, content = String, color = String) {
   channel.send(embed);
 }
 
+function reply(channelId = String, content = String, color = String) {
+  const channel = client.channels.cache.get(channelId);
+  const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
+  channel.send(embed);
+}
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
@@ -72,8 +78,8 @@ client.once('ready', async () => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
-            currency.add(m.id, 5);
-            description += `\n+5💰 to ${m} for sitting in vc`;
+            currency.addBalance(m.id, 5);
+            description += `\n+5🍰 to ${m} for sitting in vc`;
           }
         })
       }
@@ -105,12 +111,12 @@ client.on('message', async msg => {
 
   if (msg.channel.type != 'text') return;
 
-  //Money
+  //Points
   const cooldown = currency.getCooldown(msg.author.id);
   if (cooldown < Date.now()) {
-    await currency.add(msg.author.id, 5);
+    await currency.addBalance(msg.author.id, 5);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    log('824308505225199667', `+5💰 to ${msg.author} for sending a message`, '#baffc9');
+    log('824308505225199667', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
 
   //Owner Stuff
@@ -124,8 +130,7 @@ client.on('message', async msg => {
             .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
             .setColor('#ff7784');
           logChannel.send(embed);
-          msg.channel.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`);
-          msg.delete();
+          reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
         }
       }
     });
@@ -169,11 +174,12 @@ client.on('message', async msg => {
     for(let i = 0; i < config.help.length; ++i) {
       description += `\n${prefix}${config.help[i]}`
     }
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
-    msg.channel.send(embed);
-  } else if (command == 'balance') {
+    reply(msg.channel.id, description, '#ffffba');
+  } else if (command == 'income') {
+    reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain every time you gain the +5🍰 points.\n2. Spending 1 minute in vc will give you +5🍰`, '#ffffba')
+  } else if (command == 'balance' || command == 'bal') {
     const target = msg.mentions.users.first() || msg.author;
-    return msg.channel.send(new Discord.MessageEmbed().setDescription(`${target.tag} has ${currency.getBalance(target.id)}💰`).setColor('#ffffba'));
+    return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
   } else if (command == 'lb' || command == 'leaderboard') {
     var temp = 10
     if (!isNaN(args[0]) && Math.floor(args[0]) < 20) temp = Math.floor(args[0]);
@@ -182,9 +188,42 @@ client.on('message', async msg => {
       .filter(user => client.users.cache.has(user.user_id))
       .first(temp)
       .forEach((user, position) => {
-        description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${user.balance}💰`
+        description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${user.balance}🍰`
       });
-    msg.channel.send(new Discord.MessageEmbed().setDescription(description).setColor('#ffffba'));
+    reply(msg.channel.id, description, '#ffffba');
+  } else if (command == 'gamble' || command == 'g') {
+    if (args[0] == 'help') return reply(msg.channel.id, 'DANIEL MAKE AN EXPLANATION', '#9e9d9d')
+    const balance = await currency.getBalance(msg.author.id);
+    var bet = 0;
+    if (args[0] == 'all') bet = balance;
+    else if (!isNaN(args[0]) && Math.floor(args[0]) >= 500) bet = Math.floor(args[0]);
+    else return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all || number || help>>\nps. minimal gamble amount is 500🍰`, '#9e9d9d');
+    if (bet > balance) return reply(msg.channel.id, `Not enough funds! Your balance is ${balance}🍰`);
+    var slot1 = Math.floor(Math.random() * config.emojis.length);
+    var slot2 = Math.floor(Math.random() * config.emojis.length);
+    var slot3 = Math.floor(Math.random() * config.emojis.length);
+    const diamond = config.emojis.length - 1;
+    let total = 0;
+    if (slot1 == 0 || slot2 == 0 || slot3 == 0) continue;
+    else if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
+    else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
+    else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
+    else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) total = bet * 2;
+    total -= bet;
+    await currency.addBalance(msg.author.id, total);
+    await currency.addBalance('bank', -total);
+    var embed = new Discord.MessageEmbed()
+      .setAuthor('**Slot Machine**')
+      .setTitle(`${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
+      .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
+    if (total > 0) {
+      embed.setColor('#baffc9')
+        .setDescription(`${total}🍰 points given to ${msg.author}\n${total}🍰 points taken from the bank`);
+    } else {
+      embed.setColor('#ff7784')
+        .setDescription(`${-total}🍰 points taken from ${msg.author}\n${-total}🍰 points given to the bank`)
+    }
+    msg.channel.send(embed);
   }
 });
 
