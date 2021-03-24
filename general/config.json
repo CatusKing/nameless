@@ -5,7 +5,12 @@
     "income - Explains how you make points",
     "balance [@User] - Allows you to look at your or another users balance",
     "leaderboard [1-20] - Allows you to look at the top players in the server",
-    "gamble <all \\|\\| number \\|\\| help> - Allows you to gamble for more points"
+    "gamble <all \\|\\| number \\|\\| help> - Allows you to gamble for more points",
+    "bank - Display's the bank's balance"
+  ],
+  "status": [
+    "Bank: %bank%🍰",
+    "%prefix%help"
   ],
   "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"]
 }
