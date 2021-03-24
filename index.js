@@ -75,11 +75,11 @@ client.once('ready', async () => {
   setInterval(async () => {
     const guild = client.guilds.cache.get('765334473461465098');
     var description = '';
-    guild.channels.cache.forEach(async ch => {
+    guild.channels.cache.forEach(ch => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
-        ch.members.forEach(async m => {
+        ch.members.forEach(m => {
           if (!m.voice.deaf) {
-            await currency.addBalance(m.id, 5);
+            currency.addBalance(m.id, 5);
             description += `\n+5🍰 to ${m} for sitting in vc`;
           }
         })
