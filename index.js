@@ -213,8 +213,7 @@ client.on('message', async msg => {
     await currency.addBalance(msg.author.id, total);
     await currency.addBalance('bank', -total);
     var embed = new Discord.MessageEmbed()
-      .setAuthor('**Slot Machine**')
-      .setTitle(`${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
+      .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
       .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
     if (total > 0) {
       embed.setColor('#baffc9')
