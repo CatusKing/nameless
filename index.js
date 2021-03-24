@@ -61,11 +61,14 @@ client.once('ready', async () => {
   storedBalances.forEach(b => currency.set(b.user_id, b));
   setInterval(() => {
     const guild = client.guilds.cache.get('765334473461465098');
+    const moneyLogChannel = client.channels.cache.get('824308505225199667');
     guild.channels.cache.forEach(ch => {
       if (ch.type == 'voice') {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
             currency.add(m.id, 5);
+            var embed = new Discord.MessageEmbed().setTitle(`+5💰`).setDescription(`To ${msg.author} for sending a message`);
+            moneyLogChannel.send(embed);
           }
         })
       }
@@ -76,6 +79,11 @@ client.once('ready', async () => {
 
 //Non-currency stuff
 client.on('message', async msg => {
+  //Logs an channels
+  const logChannel = client.channels.cache.get('823525965330251786');
+  const announcementChannel = client.channels.cache.get('765334474090348588');
+  const moneyLogChannel = client.channels.cache.get('824308505225199667');
+
   if (msg.author.bot || msg.webhookID) return;
 
   //Dm commands
@@ -95,12 +103,13 @@ client.on('message', async msg => {
   const cooldown = currency.getCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     await currency.add(msg.author.id, 5);
-    await currency.setCooldown(msg.author.id, Date.now() + 60000)
+    await currency.setCooldown(msg.author.id, Date.now() + 60000);
+    var embed = new Discord.MessageEmbed().setTitle(`+5💰`).setDescription(`To ${msg.author} for sending a message`);
+    moneyLogChannel.send(embed);
   }
 
   //Owner Stuff
-  const logChannel = client.channels.cache.get('823525965330251786');
-  const announcementChannel = client.channels.cache.get('765334474090348588');
+
   if (!msg.member.roles.cache.get('765334473499607073')) {
     msg.mentions.members.forEach(member => {
       for(let i = 0; i < config.ownerRoles.length; ++i) {
