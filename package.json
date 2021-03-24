@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/CactusKing101/Kenz-Bot#readme",
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2"
   }
 }

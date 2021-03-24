@@ -1,2 +1,3 @@
 node_modules
 general/token.json
+database.sqlite

@@ -1,17 +1,84 @@
 const Discord = require('discord.js');
 const token = require('./general/token.json');
 const config = require('./general/config.json');
+const { Users } = require('./dbObjects');
+const { Op } = require('sequelize');
 
 const client = new Discord.Client();
+const currency = new Discord.Collection();
+const prefix = config.prefix;
 var testing = false;
 if (process.argv.includes('--testing') || process.argv.includes('-t')) testing = true;
 
-client.once('ready', () => {
+Reflect.defineProperty(currency, 'add', {
+	/* eslint-disable-next-line func-name-matching */
+	value: async function add(id, amount) {
+		const user = currency.get(id);
+		if (user) {
+			user.balance += Number(amount);
+			return user.save();
+		}
+		const newUser = await Users.create({ user_id: id, balance: amount, cooldown: Date.now() });
+		currency.set(id, newUser);
+		return newUser;
+	},
+});
+
+Reflect.defineProperty(currency, 'setCooldown', {
+	/* eslint-disable-next-line func-name-matching */
+	value: async function setCooldown(id, amount) {
+		const user = currency.get(id);
+		if (user) {
+			user.cooldown = Number(amount);
+			return user.save();
+		}
+		const newUser = await Users.create({ user_id: id, balance: 0, cooldown: amount }).catch(function(err) {
+      console.log(err)
+    });
+		currency.set(id, newUser);
+		return newUser;
+	},
+});
+
+Reflect.defineProperty(currency, 'getCooldown', {
+	/* eslint-disable-next-line func-name-matching */
+	value: function getCooldown(id) {
+		const user = currency.get(id);
+		return user ? user.cooldown : 0;
+	},
+});
+
+Reflect.defineProperty(currency, 'getBalance', {
+	/* eslint-disable-next-line func-name-matching */
+	value: function getBalance(id) {
+		const user = currency.get(id);
+		return user ? user.balance : 0;
+	},
+});
+
+client.once('ready', async () => {
+  const storedBalances = await Users.findAll();
+  storedBalances.forEach(b => currency.set(b.user_id, b));
+  setInterval(() => {
+    const guild = client.guilds.cache.get('765334473461465098');
+    guild.channels.cache.forEach(ch => {
+      if (ch.type == 'voice') {
+        ch.members.forEach(m => {
+          if (!m.voice.deaf) {
+            currency.add(m.id, 5);
+          }
+        })
+      }
+    });
+  }, 60000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
+//Non-currency stuff
 client.on('message', async msg => {
   if (msg.author.bot || msg.webhookID) return;
+
+  //Dm commands
   if (msg.channel.type == 'dm') {
     const guild = client.guilds.cache.get('765334473461465098');
     const member = guild.members.cache.get(msg.author.id);
@@ -21,7 +88,17 @@ client.on('message', async msg => {
       msg.channel.send('Ran the following updates\nPfP');
     }
   }
+
   if (msg.channel.type != 'text') return;
+
+  //Money
+  const cooldown = currency.getCooldown(msg.author.id);
+  if (cooldown < Date.now()) {
+    await currency.add(msg.author.id, 5);
+    await currency.setCooldown(msg.author.id, Date.now() + 60000)
+  }
+
+  //Owner Stuff
   const logChannel = client.channels.cache.get('823525965330251786');
   const announcementChannel = client.channels.cache.get('765334474090348588');
   if (!msg.member.roles.cache.get('765334473499607073')) {
@@ -66,6 +143,27 @@ client.on('message', async msg => {
             msg.channel.send('No response :(');
           });
       });
+  }
+  
+  //Curency Stuff
+  if (!msg.content.startsWith(prefix) || msg.channel.type != 'text') return;
+  const args = msg.content.slice(prefix.length).trim().split(' ');
+  const command = args.shift().toLowerCase();
+
+  if (command == 'balance') {
+    const target = msg.mentions.users.first() || msg.author;
+    return msg.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
+  } else if (command == 'lb' || command == 'leaderboard') {
+    var temp = 10
+    if (!isNaN(args[0]) && Math.floor(args[0]) < 20) temp = Math.floor(args[0]);
+    return msg.channel.send(
+      currency.sort((a, b) => b.balance - a.balance)
+        .filter(user => client.users.cache.has(user.user_id))
+        .first(temp)
+        .map((user, position) => `(${position + 1}) ${(client.users.cache.get(user.user_id).tag)}: ${user.balance}💰`)
+        .join('\n'),
+      { code: true },
+    );
   }
 });
 
