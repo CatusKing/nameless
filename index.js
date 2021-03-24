@@ -67,9 +67,8 @@ client.once('ready', async () => {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
             currency.add(m.id, 5);
-            var embed = new Discord.MessageEmbed().setTitle(`+5💰`).setDescription(`To ${m} for sitting in vc`);
+            var embed = new Discord.MessageEmbed().setTitle(`+5💰 to ${m} for sitting in vc`);
             moneyLogChannel.send(embed);
-            console.log(3);
           }
         })
       }
@@ -104,10 +103,8 @@ client.on('message', async msg => {
   const cooldown = currency.getCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     await currency.add(msg.author.id, 5);
-    console.log(1);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    console.log(2);
-    var embed = new Discord.MessageEmbed().setTitle(`+5💰`).setDescription(`To ${msg.author} for sending a message`);
+    var embed = new Discord.MessageEmbed().setTitle(`+5💰 to ${msg.author} for sending a message`);
     moneyLogChannel.send(embed);
   }
 
