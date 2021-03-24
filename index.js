@@ -129,18 +129,18 @@ client.on('message', async msg => {
 
   //Owner Stuff
   if (!msg.member.roles.cache.get('765334473499607073')) {
+    let goOn = true;
     msg.mentions.members.forEach(member => {
-      for(let i = 0; i < config.ownerRoles.length; ++i) {
-        if (member.roles.cache.has(config.ownerRoles[i])) {
-          var embed = new Discord.MessageEmbed()
-            .setTitle('Ping to an owner')
-            .setTimestamp()
-            .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
-            .setColor('#ff7784');
-          logChannel.send(embed);
-          reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
-          break;
-        }
+      if (member.roles.cache.has('765334473499607073')) {
+        var embed = new Discord.MessageEmbed()
+          .setTitle('Ping to an owner')
+          .setTimestamp()
+          .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
+          .setColor('#ff7784');
+        logChannel.send(embed);
+        reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
+        goOn = false;
+        break;
       }
     });
   }
