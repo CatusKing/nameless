@@ -9,7 +9,8 @@
   ],
   "status": [
     "Bank: %bank%🍰",
-    "%prefix%help"
+    "%prefix%help",
+    "%top% is #1"
   ],
   "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"]
 }
