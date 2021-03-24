@@ -161,7 +161,14 @@ client.on('message', async msg => {
   const args = msg.content.slice(prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
 
-  if (command == 'balance') {
+  if (command == 'help') {
+    let description = '';
+    for(let i = 0; i < config.help.length; ++i) {
+      description += `\n${prefix}${config.help[i]}`
+    }
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
+    msg.channel.send(embed);
+  } else if (command == 'balance') {
     const target = msg.mentions.users.first() || msg.author;
     return msg.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
   } else if (command == 'lb' || command == 'leaderboard') {
