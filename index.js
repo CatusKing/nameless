@@ -8,6 +8,7 @@ const client = new Discord.Client();
 const currency = new Discord.Collection();
 const prefix = config.prefix;
 var testing = false;
+var status = 0;
 if (process.argv.includes('--testing') || process.argv.includes('-t')) testing = true;
 
 Reflect.defineProperty(currency, 'addBalance', {
@@ -86,7 +87,14 @@ client.once('ready', async () => {
     });
     log('824308505225199667', description, '#baffc9');
   }, 60000);
-  client.user.setActivity(`${prefix}help`);
+  setInterval(() => {
+    ++status;
+    if (status == config.status.length) status = 0;
+    client.user.setActivity(config.status[status]
+      .replace('%bank%', await currency.getBalance('bank'))
+      .replace('%prefix%', prefix)
+      );
+  }, 300000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -224,6 +232,8 @@ client.on('message', async msg => {
         .setDescription(`${-total}🍰 points taken from ${msg.author}(${balance + total})\n${-total}🍰 points given to the bank(${bank - total})`);
     }
     msg.channel.send(embed);
+  } else if (command == 'bank') {
+    reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
   }
 });
 
