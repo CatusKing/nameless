@@ -73,7 +73,7 @@ client.once('ready', async () => {
       }
     });
     const moneyLogChannel = client.channels.cache.get('824308505225199667');
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#f7c9a3');
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#baffc9');
     moneyLogChannel.send(embed);
   }, 60000);
   client.user.setActivity(`${prefix}help`);
@@ -167,22 +167,22 @@ client.on('message', async msg => {
     for(let i = 0; i < config.help.length; ++i) {
       description += `\n${prefix}${config.help[i]}`
     }
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#baffc9');
     msg.channel.send(embed);
   } else if (command == 'balance') {
     const target = msg.mentions.users.first() || msg.author;
-    return msg.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
+    return msg.channel.send(new Discord.MessageEmbed().setDescription(`${target.tag} has ${currency.getBalance(target.id)}💰`).setColor('#baffc9'));
   } else if (command == 'lb' || command == 'leaderboard') {
     var temp = 10
     if (!isNaN(args[0]) && Math.floor(args[0]) < 20) temp = Math.floor(args[0]);
-    return msg.channel.send(
-      currency.sort((a, b) => b.balance - a.balance)
-        .filter(user => client.users.cache.has(user.user_id))
-        .first(temp)
-        .map((user, position) => `(${position + 1}) ${(client.users.cache.get(user.user_id).tag)}: ${user.balance}💰`)
-        .join('\n'),
-      { code: true },
-    );
+    let description = '';
+    currency.sort((a, b) => b.balance - a.balance)
+      .filter(user => client.users.cache.has(user.user_id))
+      .first(temp)
+      .forEach((user, position) => {
+        description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${user.balance}💰`
+      });
+    msg.channel.send(new Discord.MessageEmbed().setDescription(description).setColor('#baffc9'));
   }
 });
 
