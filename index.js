@@ -208,7 +208,7 @@ client.on('message', async msg => {
       });
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'gamble' || command == 'g') {
-    if (args[0] == 'help') return reply(msg.channel.id, 'DANIEL MAKE AN EXPLANATION', '#9e9d9d')
+    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰 \nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d')
     const balance = await currency.getBalance(msg.author.id);
     const bank = await currency.getBalance('bank');
     var bet = 0;
