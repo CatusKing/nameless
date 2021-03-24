@@ -56,6 +56,12 @@ Reflect.defineProperty(currency, 'getBalance', {
 	},
 });
 
+function log(channelId = String, content = String, color = String) {
+  const channel = client.channels.cache.get(channelId);
+  const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
+  channel.send(embed);
+}
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
@@ -72,9 +78,7 @@ client.once('ready', async () => {
         })
       }
     });
-    const moneyLogChannel = client.channels.cache.get('824308505225199667');
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#baffc9');
-    moneyLogChannel.send(embed);
+    log('824308505225199667', description, '#baffc9');
   }, 60000);
   client.user.setActivity(`${prefix}help`);
   console.log(`Logged in as ${client.user.tag}`);
@@ -85,7 +89,6 @@ client.on('message', async msg => {
   //Logs an channels
   const logChannel = client.channels.cache.get('823525965330251786');
   const announcementChannel = client.channels.cache.get('765334474090348588');
-  const moneyLogChannel = client.channels.cache.get('824308505225199667');
 
   if (msg.author.bot || msg.webhookID) return;
 
@@ -107,12 +110,10 @@ client.on('message', async msg => {
   if (cooldown < Date.now()) {
     await currency.add(msg.author.id, 5);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    var embed = new Discord.MessageEmbed().setDescription(`+5💰 to ${msg.author} for sending a message`).setColor('#baffc9');
-    moneyLogChannel.send(embed);
+    log('824308505225199667', `+5💰 to ${msg.author} for sending a message`, '#baffc9');
   }
 
   //Owner Stuff
-
   if (!msg.member.roles.cache.get('765334473499607073')) {
     msg.mentions.members.forEach(member => {
       for(let i = 0; i < config.ownerRoles.length; ++i) {
