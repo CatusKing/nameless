@@ -61,18 +61,20 @@ client.once('ready', async () => {
   storedBalances.forEach(b => currency.set(b.user_id, b));
   setInterval(() => {
     const guild = client.guilds.cache.get('765334473461465098');
-    const moneyLogChannel = client.channels.cache.get('824308505225199667');
+    var description = '';
     guild.channels.cache.forEach(ch => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
             currency.add(m.id, 5);
-            var embed = new Discord.MessageEmbed().setDescription(`+5💰 to ${m} for sitting in vc`);
-            moneyLogChannel.send(embed);
+            description += `\n+5💰 to ${m} for sitting in vc`;
           }
         })
       }
     });
+    const moneyLogChannel = client.channels.cache.get('824308505225199667');
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#f7c9a3');
+    moneyLogChannel.send(embed);
   }, 60000);
   console.log(`Logged in as ${client.user.tag}`);
 });
@@ -104,7 +106,7 @@ client.on('message', async msg => {
   if (cooldown < Date.now()) {
     await currency.add(msg.author.id, 5);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    var embed = new Discord.MessageEmbed().setDescription(`+5💰 to ${msg.author} for sending a message`);
+    var embed = new Discord.MessageEmbed().setDescription(`+5💰 to ${msg.author} for sending a message`).setColor('#baffc9');
     moneyLogChannel.send(embed);
   }
 
