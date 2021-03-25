@@ -79,8 +79,13 @@ client.once('ready', async () => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
-            currency.addBalance(m.id, 5);
-            description += `\n+5🍰 to ${m} for sitting in vc`;
+            let amount = 2;
+            if (!m.voice.mute) {
+              amount += 3;
+              if (m.voice.selfVideo) amount += 3;
+            }
+            currency.addBalance(m.id, amount);
+            description += `\n+${anount}🍰 to ${m} for sitting in vc`;
           }
         })
       }
@@ -193,7 +198,7 @@ client.on('message', async msg => {
     }
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'income') {
-    reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain every time you gain the +5🍰 points.\n2. Spending 1 minute in vc will give you +5🍰`, '#ffffba')
+    reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain every time you gain the +5🍰 points.\n2. Spending 1 minute in vc will give you +2🍰 points. If you are not muted you will instead get +5🍰 points. If you are not muted and use camera you will get +2🍰 points.`, '#ffffba')
   } else if (command == 'balance' || command == 'bal') {
     const target = msg.mentions.users.first() || msg.author;
     return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
