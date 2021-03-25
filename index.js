@@ -154,7 +154,8 @@ client.on('message', async msg => {
           .setTitle('Ping to an owner')
           .setTimestamp()
           .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
-          .setColor('#ff7784');
+          .setColor('#ff7784')
+          .setFooter(msg.url);
         logChannel.send(embed);
         reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
         goOn = false;
