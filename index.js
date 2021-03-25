@@ -91,9 +91,9 @@ client.once('ready', async () => {
     ++status;
     if (status == config.status.length) status = 0;
     let top;
-    await currency.sort((a, b) => b.balance - a.balance)
+    currency.sort((a, b) => b.balance - a.balance)
       .filter(user => client.users.cache.has(user.user_id))
-      .first()
+      .first(1)
       .forEach((user, position) => {
         top = client.users.cache.get(user.user_id).tag;
     })
