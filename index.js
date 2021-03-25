@@ -91,7 +91,7 @@ client.once('ready', async () => {
         })
       }
     });
-    log('824308505225199667', description, '#baffc9');
+    if (description != '') log('824308505225199667', description, '#baffc9');
   }, 60000);
   setInterval(async () => {
     ++status;
@@ -102,9 +102,13 @@ client.once('ready', async () => {
       .first(1)
       .forEach((user, position) => {
         top = client.users.cache.get(user.user_id).tag;
-    })
+    });
+    let bank = await currency.getBalance('bank') + '';
+    if (bank.length > 3 && bank.length < 7) bank = `${Math.round(bank / 100) / 10}k`;
+    else if (bank.length > 6 && bank.length < 10) bank = `${Math.round(bank / 100000) / 10}m`;
+    else if (bank.length > 9 && bank.length < 13) bank = `${Math.round(bank / 100000000) / 10}b`;
     client.user.setActivity(config.status[status]
-      .replace('%bank%', await currency.getBalance('bank'))
+      .replace('%bank%', bank)
       .replace('%prefix%', prefix)
       .replace('%top%', top)
     );
