@@ -253,10 +253,10 @@ client.on('message', async msg => {
       .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
     if (total > 0) {
       embed.setColor('#baffc9')
-        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${total - bet}🍰 points taken from the bank(${bank + bet - total})`);
+        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${total - bet}🍰 points taken from the bank(${bank + bet - total}🍰)`);
     } else {
       embed.setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${bet - total}🍰 points added to the bank(${bank + total - bet})`);
+        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${bet - total}🍰 points added to the bank(${bank + total - bet}🍰)`);
     }
     msg.channel.send(embed);
   } else if (command == 'bank') {
