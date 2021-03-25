@@ -261,8 +261,6 @@ client.on('message', async msg => {
     msg.channel.send(embed);
   } else if (command == 'bank') {
     reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
-  } else if (command == 'test' && msg.author.id == '473110112844644372') {
-    client.emit("guildMemberAdd", msg.member);
   }
 });
 
