@@ -85,7 +85,7 @@ client.once('ready', async () => {
               if (m.voice.selfVideo) amount += 3;
             }
             currency.addBalance(m.id, amount);
-            description += `\n+${anount}🍰 to ${m} for sitting in vc`;
+            description += `\n+${amount}🍰 to ${m} for sitting in vc`;
           }
         })
       }
