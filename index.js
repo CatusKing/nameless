@@ -264,6 +264,7 @@ client.on('message', async msg => {
   } else if (command == 'test' && msg.author.id == '473110112844644372') {
     client.emit("guildMemberAdd", msg.member);
   }
+  console.log(msg.content)
 });
 
 client.on('guildMemberAdd', member => {
