@@ -79,6 +79,7 @@ client.once('ready', async () => {
       if (ch.type == 'voice' && ch.id != '765334475290443783') {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
+            if (m.user.bot) return;
             let amount = 2;
             if (!m.voice.mute) {
               amount += 3;
