@@ -246,17 +246,18 @@ client.on('message', async msg => {
     else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
     else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) total = bet * 2;
     if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
-    await currency.addBalance(msg.author.id, total - bet);
-    await currency.addBalance('bank', bet - total);
+    let outcome = total - bet;
+    await currency.addBalance(msg.author.id, outcome);
+    await currency.addBalance('bank', -outcome);
     var embed = new Discord.MessageEmbed()
       .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
       .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
     if (total > 0) {
       embed.setColor('#baffc9')
-        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${total - bet}🍰 points taken from the bank(${bank + bet - total}🍰)`);
+        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + outcome})\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
     } else {
       embed.setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + total})\n${bet - total}🍰 points added to the bank(${bank + total - bet}🍰)`);
+        .setDescription(`You Spent: ${bet}\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
     }
     msg.channel.send(embed);
   } else if (command == 'bank') {
