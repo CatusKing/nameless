@@ -106,8 +106,8 @@ client.once('ready', async () => {
     });
     let bank = await currency.getBalance('bank') + '';
     if (bank.length > 3 && bank.length < 7) bank = `${Math.round(bank / 100) / 10}k`;
-    else if (bank.length > 6 && bank.length < 10) bank = `${Math.round(bank / 100000) / 10}m`;
-    else if (bank.length > 9 && bank.length < 13) bank = `${Math.round(bank / 100000000) / 10}b`;
+    else if (bank.length > 6 && bank.length < 10) bank = `${Math.round(bank / 10000) / 100}m`;
+    else if (bank.length > 9 && bank.length < 13) bank = `${Math.round(bank / 10000000) / 100}b`;
     client.user.setActivity(config.status[status]
       .replace('%bank%', bank)
       .replace('%prefix%', prefix)
@@ -228,7 +228,7 @@ client.on('message', async msg => {
       });
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'gamble' || command == 'g') {
-    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMiminal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d')
+    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMiminal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
     const balance = await currency.getBalance(msg.author.id);
     const bank = await currency.getBalance('bank');
     var bet = 0;
