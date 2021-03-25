@@ -80,9 +80,9 @@ client.once('ready', async () => {
         ch.members.forEach(m => {
           if (!m.voice.deaf) {
             if (m.user.bot) return;
-            let amount = 1;
+            let amount = 2;
             if (!m.voice.mute) {
-              amount += 4;
+              amount += 3;
               if (m.voice.selfVideo) amount += 3;
             }
             currency.addBalance(m.id, amount);
@@ -200,11 +200,11 @@ client.on('message', async msg => {
   if (command == 'help') {
     let description = '';
     for(let i = 0; i < config.help.length; ++i) {
-      description += `\n${prefix}${config.help[i]}`
+      description += `\n${prefix}${config.help[i]}`;
     }
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'income') {
-    reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain.\n2. Spending 1 minute in vc will give you +1🍰 point. If you are not muted you will instead get a total of +5🍰 points. If you are not muted and use camera you will get a total +8🍰 points.\n3. also events may give point eventually`, '#ffffba')
+    reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain.\n2. Spending 1 minute in vc will give you +2🍰 point. If you are not muted you will instead get a total of +5🍰 points. If you are not muted and use camera you will get a total +8🍰 points.\n3. also events may give point eventually`, '#ffffba')
   } else if (command == 'balance' || command == 'bal') {
     const target = msg.mentions.users.first() || msg.author;
     return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
