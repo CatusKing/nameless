@@ -264,14 +264,13 @@ client.on('message', async msg => {
   } else if (command == 'test' && msg.author.id == '473110112844644372') {
     client.emit("guildMemberAdd", msg.member);
   }
-  console.log(msg.content)
 });
 
 client.on('guildMemberAdd', member => {
   if (member.guild.id != '765334473461465098') return;
   const channel = member.guild.channels.cache.get('765334473763323930');
   embed = new Discord.MessageEmbed()
-    .setDescription('❝ ♡୨. . . ⏝ welcome %member%!!\nenjoy your stay at pastel arcade.\npleasure is all ours!\n\n♡ :: check out ::\n≡ ┆rules ﹕\n≡ ┆roles ﹕\n≡ ┆introductions﹕\n≡ ┆informations﹕\n\n. . . ⏝ remember !!\nthis server is sfw & nontoxic.\nfollow the rules, dm staff if you have any problems.\nand keep our server a safe place for all!\n\n!! thank you for stopping by ⏝. . .୧♡'.replace('%member%', member))
+    .setDescription('❝ ♡୨. . . ⏝ welcome %member%!!\nenjoy your stay at pastel arcade.\npleasure is all ours!\n\n♡ :: check out ::\n≡ ┆rules ﹕<#765334473763323931>\n≡ ┆roles ﹕<#765334473763323932>\n≡ ┆introductions﹕<#765334473952722975>\n≡ ┆informations﹕<#765334473952722979>\n\n. . . ⏝ remember !!\nthis server is sfw & nontoxic.\nfollow the rules, dm staff if you have any problems.\nand keep our server a safe place for all!\n\n!! thank you for stopping by ⏝. . .୧♡'.replace('%member%', member))
     .setColor('#fab4d0')
     .setThumbnail('https://images-ext-2.discordapp.net/external/s8eKrW63Pu258hFIWC3bpmKlHeSBuuJu-ny858ZANew/https/cdn.mee6.xyz/guild-images/765334473461465098/e486700997c764fe9bdba854d4c91ad639ca42e17b14285adb59fec3a9e333fd.jpeg?width=88&height=88')
     .setImage('https://images-ext-1.discordapp.net/external/LqEYDSIs0dH-aCJnIo91Mj_Qstfzs85APMzCiSimSu8/https/cdn.mee6.xyz/guild-images/765334473461465098/41b0a2086b322e0e1adcd026653226f2bc06c8a7607cebf168af71bdb23790f3.jpeg');
