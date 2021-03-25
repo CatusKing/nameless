@@ -224,7 +224,7 @@ client.on('message', async msg => {
         if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
         else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
         else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
-        description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${balance}🍰`
+        description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
       });
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'gamble' || command == 'g') {
@@ -260,7 +260,7 @@ client.on('message', async msg => {
         .setDescription(`You Spent: ${bet}\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
     }
     msg.channel.send(embed);
-  } else if (command == 'bank') {
+  } else if (command == 'bank' || command == 'b') {
     reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
   }
 });
