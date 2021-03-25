@@ -221,8 +221,8 @@ client.on('message', async msg => {
       .forEach((user, position) => {
         let balance = user.balance + '';
         if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
-        else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 100000) / 10}m`;
-        else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 100000000) / 10}b`;
+        else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
+        else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
         description += `\n(${position + 1}) ${(client.users.cache.get(user.user_id))}: ${balance}🍰`
       });
     reply(msg.channel.id, description, '#ffffba');
