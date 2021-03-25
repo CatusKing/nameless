@@ -208,8 +208,11 @@ client.on('message', async msg => {
     const target = msg.mentions.users.first() || msg.author;
     return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
   } else if (command == 'lb' || command == 'leaderboard') {
-    var temp = 10
-    if (!isNaN(args[0]) && Math.floor(args[0]) < 20) temp = Math.floor(args[0]);
+    var temp = 10;
+    if (!isNaN(args[0])) {
+      if (args[0] <= 20 && args[0] > 0) temp = Math.floor(args[0]);
+      else if (args[0] > 20) temp = 20;
+    }
     let description = '';
     currency.sort((a, b) => b.balance - a.balance)
       .filter(user => client.users.cache.has(user.user_id))
