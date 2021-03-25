@@ -205,7 +205,7 @@ client.on('message', async msg => {
       .filter(user => client.users.cache.has(user.user_id))
       .first(temp)
       .forEach((user, position) => {
-        let balance = user.balance;
+        let balance = user.balance + '';
         if (user.balance.length + '' > 3 && user.balance.length + '' < 7) balance = `${Math.round(user.balance / 100) / 10}k`;
         else if (user.balance.length + '' > 6 && user.balance.length + '' < 10) balance = `${Math.round(user.balance / 100000) / 10}m`;
         else if (user.balance.length + '' > 9 && user.balance.length + '' < 13) balance = `${Math.round(user.balance / 100000000) / 10}b`;
