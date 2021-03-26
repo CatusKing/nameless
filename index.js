@@ -154,9 +154,8 @@ client.on('message', async msg => {
         var embed = new Discord.MessageEmbed()
           .setTitle('Ping to an owner')
           .setTimestamp()
-          .setDescription(`From: ${msg.author}\nContent: ${msg.content}`)
-          .setColor('#9e9d9d')
-          .setURL(msg.url);
+          .setDescription(`From: ${msg.author}\nContent: ${msg.content}\nLink: ${msg.url}`)
+          .setColor('#9e9d9d');
         logChannel.send(embed);
         reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
         goOn = false;
