@@ -262,6 +262,28 @@ client.on('message', async msg => {
     msg.channel.send(embed);
   } else if (command == 'bank' || command == 'b') {
     reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
+  } else if (command == 'add') {
+    if (msg.member.roles.cache.has('765334473499607073')) {
+      const target = msg.mentions.users.first() || msg.author;
+      if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!add <amount> [@User]', '#9e9d9d');
+      const amount = Math.floor(args[0]);
+      const balance = currency.getBalance(target.id);
+      currency.addBalance(msg.author.id, amount);
+      currency.addBalance('bank', -amount);
+      reply(msg.channel.id, `Given ${amount} to ${target}\nThey now have ${balance + amount}`, '#baffc9');
+      log(logChannel.id, `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'remove') {
+    if (msg.member.roles.cache.has('765334473499607073')) {
+      const target = msg.mentions.users.first() || msg.author;
+      if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!remove <amount> [@User]', '#9e9d9d');
+      const amount = Math.floor(args[0]);
+      const balance = currency.getBalance(target.id);
+      currency.addBalance(msg.author.id, -amount);
+      currency.addBalance('bank', amount);
+      reply(msg.channel.id, `Taken ${amount} from ${target}\nThey now have ${balance - amount}`, '#ff7784');
+      log(logChannel.id, `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   }
 });
 
