@@ -5,7 +5,9 @@
     "balance [@User] - Allows you to look at your or another users balance",
     "leaderboard [1-20] - Allows you to look at the top players in the server",
     "gamble <all \\|\\| number \\|\\| help> - Allows you to gamble for more points",
-    "bank - Display's the bank's balance"
+    "bank - Display's the bank's balance",
+    "add <amount> [@User] - Takes money from the bank and gives it to the target",
+    "remove <amount> [@User] - Gives money to the bank and takes it from the target"
   ],
   "status": [
     "Bank: %bank%🍰",
