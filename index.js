@@ -19,7 +19,21 @@ Reflect.defineProperty(currency, 'addBalance', {
 			user.balance += Number(amount);
 			return user.save();
 		}
-		const newUser = await Users.create({ user_id: id, balance: amount, cooldown: Date.now() });
+		const newUser = await Users.create({ user_id: id, balance: amount });
+		currency.set(id, newUser);
+		return newUser;
+	},
+});
+
+Reflect.defineProperty(currency, 'addMessage', {
+	/* eslint-disable-next-line func-name-matching */
+	value: async function addMessage(id, amount) {
+		const user = currency.get(id);
+		if (user) {
+			user.messages += Number(amount);
+			return user.save();
+		}
+		const newUser = await Users.create({ user_id: id, messages: amount });
 		currency.set(id, newUser);
 		return newUser;
 	},
@@ -33,9 +47,7 @@ Reflect.defineProperty(currency, 'setCooldown', {
 			user.cooldown = Number(amount);
 			return user.save();
 		}
-		const newUser = await Users.create({ user_id: id, balance: 0, cooldown: amount }).catch(function(err) {
-      console.log(err)
-    });
+		const newUser = await Users.create({ user_id: id, cooldown: amount });
 		currency.set(id, newUser);
 		return newUser;
 	},
@@ -54,6 +66,14 @@ Reflect.defineProperty(currency, 'getBalance', {
 	value: function getBalance(id) {
 		const user = currency.get(id);
 		return user ? user.balance : 0;
+	},
+});
+
+Reflect.defineProperty(currency, 'getMessages', {
+	/* eslint-disable-next-line func-name-matching */
+	value: function getMessages(id) {
+		const user = currency.get(id);
+		return user ? user.messages : 0;
 	},
 });
 
@@ -145,6 +165,9 @@ client.on('message', async msg => {
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
     log('824308505225199667', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
+
+  //Record message count
+  currency.addMessage(msg.author.id, 1);
 
   //Owner Stuff
   if (!msg.member.roles.cache.get('765334473499607073')) {
@@ -258,7 +281,7 @@ client.on('message', async msg => {
     } else {
       embed.setColor('#ff7784')
         .setDescription(`You Spent: ${bet}\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
-      log('824308505225199667', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}`, '#ff7784')
+      log('824308505225199667', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}`, '#ff7784');
     }
     msg.channel.send(embed);
   } else if (command == 'bank' || command == 'b') {
