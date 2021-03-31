@@ -14,5 +14,8 @@
     "%prefix%help",
     "%top% is #1"
   ],
-  "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"]
+  "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"],
+  "shop": [
+    "**DJ** - 10K🍰"
+  ]
 }
