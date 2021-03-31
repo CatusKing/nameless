@@ -344,9 +344,10 @@ client.on('message', async msg => {
     reply(msg.channel.id, description, '#9e9d9d');
   } else if (command == 'buy') {
     const balance = await currency.getBalance(msg.author.id);
-    const item = args[0] || '';
+    
+    if (!args[0]) return reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
 
-    if (item.toLowerCase() == 'dj') {
+    if (args[0].toLowerCase() == 'dj') {
       const role = msg.guild.roles.cache.get('824841157401247756');
 
       if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K🍰\nYou have ${balance}🍰`, '#9e9d9d');
@@ -358,7 +359,7 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} you are now a ${role}`, '#9e9d9d');
     }
   } else {
-    reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d')
+    reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
   }
 });
 
