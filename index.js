@@ -346,7 +346,7 @@ client.on('message', async msg => {
     const balance = await currency.getBalance(msg.author.id);
     if (args[0].toLowerCase() == 'dj') {
       const role = msg.guild.roles.cache.get('824841157401247756');
-      if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K\nYou have ${balance}🍰`);
+      if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K\nYou have ${balance}🍰`, '#9e9d9d');
       if (msg.member.roles.cache.has('824841157401247756')) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
       msg.member.roles.add(role);
       currency.addBalance(msg.author.id, -10000);
