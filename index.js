@@ -340,7 +340,7 @@ client.on('message', async msg => {
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'shop') {
     var description = '';
-    for(let i = 0; i < config.shop.list.length; ++i) description += `\n${config.shop.list[i]}`;
+    for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop.list[i]}`;
     reply(msg.channel.id, description, '#9e9d9d');
   } else if (command == 'buy') {
     const balance = await currency.getBalance(msg.author.id);
