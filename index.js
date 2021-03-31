@@ -192,7 +192,7 @@ client.on('message', async msg => {
           .setDescription(`From: ${msg.author}\nContent: ${msg.content}\nLink: ${msg.url}`)
           .setColor('#9e9d9d');
         logChannel.send(embed);
-        reply(msg.channel.id, `Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff.`, '#ff7784');
+        msg.author.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff`);
         goOn = false;
       }
 
@@ -208,12 +208,12 @@ client.on('message', async msg => {
         const filter = m => m.author.id == msg.author.id;
         msg.channel.awaitMessages(filter, {max: 1, time: 15000, errors: ['time']})
           .then(async collected => {
-
+            
             if (collected.first().content.toLowerCase().includes('yes')) {
               try {
                 const webhooks = await announcementChannel.fetchWebhooks();
                 const webhook = webhooks.first();
-
+                
                 if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
                 await webhook.send(msg.content.replace('!announce!',''), {
                   username: msg.guild.name,
@@ -338,6 +338,21 @@ client.on('message', async msg => {
       reply(msg.channel.id, `Taken ${amount} from ${target}\nThey now have ${balance - amount}`, '#ff7784');
       log('824308505225199667', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'shop') {
+    var description = '';
+    for(let i = 0; i < config.shop.list.length; ++i) description += `\n${config.shop.list[i]}`;
+    reply(msg.channel.id, description, '#9e9d9d');
+  } else if (command == 'buy') {
+    const balance = await currency.getBalance(msg.author.id);
+    if (args[0].toLowerCase() == 'dj') {
+      const role = msg.guild.roles.cache.get('824841157401247756');
+      if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K\nYou have ${balance}🍰`);
+      if (msg.member.roles.cache.has('824841157401247756')) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+      msg.member.roles.add(role);
+      currency.addBalance(msg.author.id, -10000);
+      currency.addBalance('bank', 10000);
+      reply(msg.channel.id, `${msg.author} you are now a ${role}`, '#9e9d9d');
+    }
   }
 });
 
