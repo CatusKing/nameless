@@ -7,7 +7,9 @@
     "gamble <all \\|\\| number \\|\\| help> - Allows you to gamble for more points",
     "bank - Display's the bank's balance",
     "add <amount> [@User] - Takes money from the bank and gives it to the target",
-    "remove <amount> [@User] - Gives money to the bank and takes it from the target"
+    "remove <amount> [@User] - Gives money to the bank and takes it from the target",
+    "shop - Displays what you can use your points for",
+    "buy <item> - Allows you to buy items from the shop"
   ],
   "status": [
     "Bank: %bank%🍰",
