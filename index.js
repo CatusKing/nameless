@@ -186,6 +186,9 @@ client.on('message', async msg => {
     msg.mentions.members.forEach(member => {
 
       if (member.roles.cache.has('765334473499607073')) {
+        var responseEmbed = new Discord.MessageEmbed()
+          .setDescription(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff`)
+          .setColor('#9e9d9d');
         var embed = new Discord.MessageEmbed()
           .setTitle('Ping to an owner')
           .setTimestamp()
@@ -195,7 +198,7 @@ client.on('message', async msg => {
         msg.author.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff`);
         goOn = false;
       }
-
+      
       if (!goOn) return;
     });
   };
