@@ -195,7 +195,7 @@ client.on('message', async msg => {
           .setDescription(`From: ${msg.author}\nContent: ${msg.content}\nLink: ${msg.url}`)
           .setColor('#9e9d9d');
         logChannel.send(embed);
-        msg.author.send(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff`);
+        msg.channel.send(responseEmbed);
         goOn = false;
       }
       
