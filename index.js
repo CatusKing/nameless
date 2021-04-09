@@ -9,7 +9,6 @@ const currency = new Discord.Collection();
 const prefix = config.prefix;
 var testing = false;
 var status = 0;
-if (process.argv.includes('--testing') || process.argv.includes('-t')) testing = true;
 
 Reflect.defineProperty(currency, 'addBalance', {
 	/* eslint-disable-next-line func-name-matching */
@@ -142,6 +141,23 @@ client.once('ready', async () => {
       .replace('%top%', top)
     );
   }, 300000);
+  setInterval(() => {
+    const msg = client.channels.cache.get('830198572996624404').fetchMessage('830200495154397245');
+    let description = '';
+    currency.sort((a, b) => b.balance - a.balance)
+      .filter(user => client.users.cache.has(user.user_id))
+      .first(20)
+      .forEach((user, position) => {
+        let balance = user.balance + '';
+
+        if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
+        else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
+        else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
+        description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
+      });
+    var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
+    msg.edit(embed);
+  }, 600000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -150,6 +166,7 @@ client.on('message', async msg => {
   //Logs an channels
   const logChannel = client.channels.cache.get('823525965330251786');
   const announcementChannel = client.channels.cache.get('765334474090348588');
+  const eventChannel = client.channels.cache.get('765334474090348589');
 
   if (msg.author.bot || msg.webhookID) return;
 
@@ -204,7 +221,6 @@ client.on('message', async msg => {
   };
   
   if (msg.channel.id == '823549746836799508' && msg.content.includes('!announce!')) {
-
     if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
     msg.channel.send(`Is this announcement ok? (Respond yes or no)\n${msg.content.replace('!announce!', '')}`)
       .then(async () => {
@@ -228,6 +244,36 @@ client.on('message', async msg => {
               }
             } else {
               msg.channel.send('Announcement canceled!');
+            }
+          }).catch(() => {
+            msg.channel.send('No response :(');
+          });
+      });
+  }
+  if (msg.channel.id == '823549746836799508' && msg.content.includes('!event!')) {
+    if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
+    msg.channel.send(`Is this event ok? (Respond yes or no)\n${msg.content.replace('!event!', '')}`)
+      .then(async () => {
+        const filter = m => m.author.id == msg.author.id;
+        msg.channel.awaitMessages(filter, {max: 1, time: 15000, errors: ['time']})
+          .then(async collected => {
+            
+            if (collected.first().content.toLowerCase().includes('yes')) {
+              try {
+                const webhooks = await eventChannel.fetchWebhooks();
+                const webhook = webhooks.first();
+                
+                if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
+                await webhook.send(msg.content.replace('!event!',''), {
+                  username: msg.guild.name,
+                  avatarURL: msg.guild.iconURL(),
+                  embeds: [],
+                });
+              } catch (error) {
+                console.warn(error);
+              }
+            } else {
+              msg.channel.send('Event canceled!');
             }
           }).catch(() => {
             msg.channel.send('No response :(');
@@ -378,5 +424,4 @@ client.on('guildMemberAdd', member => {
   channel.send(embed);
 });
 
-if (testing) client.login(token.testing);
-else client.login(token.main);
+client.login(token.main);
