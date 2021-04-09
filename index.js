@@ -160,7 +160,7 @@ client.once('ready', async () => {
         message.edit(embed);
       })
       .catch(console.error);
-  }, 600000);
+  }, 300000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
