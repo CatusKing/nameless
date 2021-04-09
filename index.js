@@ -140,7 +140,7 @@ client.once('ready', async () => {
       .replace('%prefix%', prefix)
       .replace('%top%', top)
     );
-  }, 600000);
+  }, 300000);
   setInterval(() => {
     client.channels.cache.get('830198572996624404').messages.fetch('830210843358003270')
       .then(message => {
@@ -160,7 +160,7 @@ client.once('ready', async () => {
         message.edit(embed);
       })
       .catch(console.error);
-  }, 300000);
+  }, 120000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
