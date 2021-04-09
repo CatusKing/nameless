@@ -142,7 +142,7 @@ client.once('ready', async () => {
     );
   }, 300000);
   setInterval(() => {
-    client.channels.cache.get('830198572996624404').messages.fetch("701574160211771462")
+    client.channels.cache.get('830198572996624404').messages.fetch('830200495154397245')
       .then(message => {
         message.edit('hi');
       })
