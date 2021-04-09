@@ -144,10 +144,6 @@ client.once('ready', async () => {
   setInterval(() => {
     client.channels.cache.get('830198572996624404').messages.fetch('830200495154397245')
       .then(message => {
-        var today = new Date();
-        var date = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-        var time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-        var dateTime = `${date} ${time}`;
         let description = '';
         currency.sort((a, b) => b.balance - a.balance)
           .filter(user => client.users.cache.has(user.user_id))
@@ -161,10 +157,10 @@ client.once('ready', async () => {
             description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
           });
         var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
-        message.edit(`This leaderboard was last updated on ${dateTime} ${embed}`);
+        message.edit(embed);
       })
       .catch(console.error);
-  }, 6000);
+  }, 600000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
