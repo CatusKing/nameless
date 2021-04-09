@@ -142,7 +142,7 @@ client.once('ready', async () => {
     );
   }, 300000);
   setInterval(() => {
-    const msg = client.channels.cache.get('830198572996624404').fetchMessage('830200495154397245');
+    const msg = client.channels.cache.get('830198572996624404').messages.fetch('830200495154397245');
     let description = '';
     currency.sort((a, b) => b.balance - a.balance)
       .filter(user => client.users.cache.has(user.user_id))
