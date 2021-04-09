@@ -300,27 +300,6 @@ client.on('message', async msg => {
   } else if (command == 'balance' || command == 'bal') {
     const target = msg.mentions.users.first() || msg.author;
     return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
-  } else if (command == 'lb' || command == 'leaderboard') {
-    var temp = 10;
-
-    if (!isNaN(args[0])) {
-
-      if (args[0] <= 20 && args[0] > 0) temp = Math.floor(args[0]);
-      else if (args[0] > 20) temp = 20;
-    }
-    let description = '';
-    currency.sort((a, b) => b.balance - a.balance)
-      .filter(user => client.users.cache.has(user.user_id))
-      .first(temp)
-      .forEach((user, position) => {
-        let balance = user.balance + '';
-
-        if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
-        else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
-        else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
-        description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
-      });
-    reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'gamble' || command == 'g') {
 
     if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMiminal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
