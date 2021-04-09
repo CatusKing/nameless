@@ -143,6 +143,7 @@ client.once('ready', async () => {
   }, 300000);
   setInterval(() => {
     const msg = client.channels.cache.get('830198572996624404').messages.fetch('830200495154397245');
+    msg.fetch();
     // let description = '';
     // currency.sort((a, b) => b.balance - a.balance)
     //   .filter(user => client.users.cache.has(user.user_id))
@@ -157,7 +158,7 @@ client.once('ready', async () => {
     //   });
     // var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
     // msg.edit(embed);
-    console.log(msg.content)
+    msg.edit('hi')
   }, 6000);
   console.log(`Logged in as ${client.user.tag}`);
 });
