@@ -144,23 +144,22 @@ client.once('ready', async () => {
   setInterval(() => {
     client.channels.cache.get('830198572996624404').messages.fetch('830200495154397245')
       .then(message => {
-        message.edit('hi');
+        let description = '';
+        currency.sort((a, b) => b.balance - a.balance)
+          .filter(user => client.users.cache.has(user.user_id))
+          .first(20)
+          .forEach((user, position) => {
+            let balance = user.balance + '';
+    
+            if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
+            else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
+            else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
+            description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
+          });
+        var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
+        message.edit(embed);
       })
       .catch(console.error);
-    // let description = '';
-    // currency.sort((a, b) => b.balance - a.balance)
-    //   .filter(user => client.users.cache.has(user.user_id))
-    //   .first(20)
-    //   .forEach((user, position) => {
-    //     let balance = user.balance + '';
-
-    //     if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
-    //     else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
-    //     else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
-    //     description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
-    //   });
-    // var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
-    // msg.edit(embed);
   }, 6000);
   console.log(`Logged in as ${client.user.tag}`);
 });
