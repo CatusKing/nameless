@@ -92,11 +92,11 @@ client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
   setInterval(() => {
-    const guild = client.guilds.cache.get('765334473461465098');
+    const guild = client.guilds.cache.get('830495072876494879');
     var description = '';
     guild.channels.cache.forEach(ch => {
       
-      if (ch.type == 'voice' && ch.id != '765334475290443783') {
+      if (ch.type == 'voice' && ch.id != '830505700269883412') {
         ch.members.forEach(m => {
 
           if (!m.voice.deaf) {
@@ -117,7 +117,7 @@ client.once('ready', async () => {
       }
     });
 
-    if (description != '') log('824308505225199667', description, '#baffc9');
+    if (description != '') log('830503210951245865', description, '#baffc9');
   }, 60000);
   setInterval(async () => {
     ++status;
@@ -142,7 +142,7 @@ client.once('ready', async () => {
     );
   }, 300000);
   setInterval(() => {
-    client.channels.cache.get('830198572996624404').messages.fetch('830210843358003270')
+    client.channels.cache.get('830506017304477726').messages.fetch('NNN')
       .then(message => {
         let description = '';
         currency.sort((a, b) => b.balance - a.balance)
@@ -167,18 +167,17 @@ client.once('ready', async () => {
 //Non-currency stuff
 client.on('message', async msg => {
   //Logs an channels
-  const logChannel = client.channels.cache.get('823525965330251786');
-  const announcementChannel = client.channels.cache.get('765334474090348588');
-  const eventChannel = client.channels.cache.get('765334474090348589');
+  const announcementChannel = client.channels.cache.get('830506698908893235');
+  const eventChannel = client.channels.cache.get('830506718164287498');
 
   if (msg.author.bot || msg.webhookID) return;
 
   //Dm commands
   if (msg.channel.type == 'dm') {
-    const guild = client.guilds.cache.get('765334473461465098');
+    const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
 
-    if (!member.roles.cache.get('765334473499607073')) return msg.channel.send('Sorry only owners can run core commands!');
+    if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
 
     if (msg.content == '!update') {
       client.user.setAvatar(guild.iconURL());
@@ -194,36 +193,13 @@ client.on('message', async msg => {
   if (cooldown < Date.now()) {
     await currency.addBalance(msg.author.id, 5);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    log('824308505225199667', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
+    log('830503210951245865', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
 
   //Record message count
   currency.addMessage(msg.author.id, 1);
-
-  //Owner Stuff
-  if (!msg.member.roles.cache.get('765334473499607073')) {
-    let goOn = true;
-    msg.mentions.members.forEach(member => {
-
-      if (member.roles.cache.has('765334473499607073')) {
-        var responseEmbed = new Discord.MessageEmbed()
-          .setDescription(`Hey ${msg.author} do you mind not pinning the owners. If you need anything you can always ping the staff`)
-          .setColor('#9e9d9d');
-        var embed = new Discord.MessageEmbed()
-          .setTitle('Ping to an owner')
-          .setTimestamp()
-          .setDescription(`From: ${msg.author}\nContent: ${msg.content}\nLink: ${msg.url}`)
-          .setColor('#9e9d9d');
-        logChannel.send(embed);
-        msg.channel.send(responseEmbed);
-        goOn = false;
-      }
-      
-      if (!goOn) return;
-    });
-  };
   
-  if (msg.channel.id == '823549746836799508' && msg.content.includes('!announce!')) {
+  if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
     if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
     msg.channel.send(`Is this announcement ok? (Respond yes or no)\n${msg.content.replace('!announce!', '')}`)
       .then(async () => {
@@ -253,7 +229,7 @@ client.on('message', async msg => {
           });
       });
   }
-  if (msg.channel.id == '823549746836799508' && msg.content.includes('!event!')) {
+  if (msg.channel.id == '830503569622827069' && msg.content.includes('!event!')) {
     if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
     msg.channel.send(`Is this event ok? (Respond yes or no)\n${msg.content.replace('!event!', '')}`)
       .then(async () => {
@@ -334,18 +310,18 @@ client.on('message', async msg => {
     if (total > 0) {
       embed.setColor('#baffc9')
         .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + outcome})\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
-      log('824308505225199667', `+${outcome}🍰 to ${msg.author} from gambling ${bet}`, '#baffc9');
+      log('830503210951245865', `+${outcome}🍰 to ${msg.author} from gambling ${bet}`, '#baffc9');
     } else {
       embed.setColor('#ff7784')
         .setDescription(`You Spent: ${bet}\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
-      log('824308505225199667', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}`, '#ff7784');
+      log('830503210951245865', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}`, '#ff7784');
     }
     msg.channel.send(embed);
   } else if (command == 'bank' || command == 'b') {
     reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
   } else if (command == 'add') {
 
-    if (msg.member.roles.cache.has('765334473499607073')) {
+    if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;
 
       if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!add <amount> [@User]', '#9e9d9d');
@@ -354,11 +330,11 @@ client.on('message', async msg => {
       currency.addBalance(target.id, amount);
       currency.addBalance('bank', -amount);
       reply(msg.channel.id, `Given ${amount} to ${target}\nThey now have ${balance + amount}`, '#baffc9');
-      log('824308505225199667', `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
+      log('830503210951245865', `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'remove') {
     
-    if (msg.member.roles.cache.has('765334473499607073')) {
+    if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;
 
       if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!remove <amount> [@User]', '#9e9d9d');
@@ -367,7 +343,7 @@ client.on('message', async msg => {
       currency.addBalance(target.id, -amount);
       currency.addBalance('bank', amount);
       reply(msg.channel.id, `Taken ${amount} from ${target}\nThey now have ${balance - amount}`, '#ff7784');
-      log('824308505225199667', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
+      log('830503210951245865', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'shop') {
     var description = '';
@@ -379,11 +355,11 @@ client.on('message', async msg => {
     if (!args[0]) return reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
 
     if (args[0].toLowerCase() == 'dj') {
-      const role = msg.guild.roles.cache.get('824841157401247756');
+      const role = msg.guild.roles.cache.get('830507721987194920');
 
       if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K🍰\nYou have ${balance}🍰`, '#9e9d9d');
 
-      if (msg.member.roles.cache.has('824841157401247756')) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+      if (msg.member.roles.cache.has('830507721987194920')) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
       msg.member.roles.add(role);
       currency.addBalance(msg.author.id, -10000);
       currency.addBalance('bank', 10000);
@@ -392,18 +368,6 @@ client.on('message', async msg => {
   } else {
     reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
   }
-});
-
-client.on('guildMemberAdd', member => {
-  
-  if (member.guild.id != '765334473461465098') return;
-  const channel = member.guild.channels.cache.get('765334473763323930');
-  embed = new Discord.MessageEmbed()
-    .setDescription('❝ ♡୨. . . ⏝ welcome %member%!!\nenjoy your stay at pastel arcade.\npleasure is all ours!\n\n♡ :: check out ::\n≡ ┆rules ﹕<#765334473763323931>\n≡ ┆roles ﹕<#765334473763323932>\n≡ ┆introductions﹕<#765334473952722975>\n≡ ┆informations﹕<#765334473952722979>\n\n. . . ⏝ remember !!\nthis server is sfw & nontoxic.\nfollow the rules, dm staff if you have any problems.\nand keep our server a safe place for all!\n\n!! thank you for stopping by ⏝. . .୧♡'.replace('%member%', member))
-    .setColor('#fab4d0')
-    .setThumbnail('https://images-ext-2.discordapp.net/external/s8eKrW63Pu258hFIWC3bpmKlHeSBuuJu-ny858ZANew/https/cdn.mee6.xyz/guild-images/765334473461465098/e486700997c764fe9bdba854d4c91ad639ca42e17b14285adb59fec3a9e333fd.jpeg?width=88&height=88')
-    .setImage('https://images-ext-1.discordapp.net/external/LqEYDSIs0dH-aCJnIo91Mj_Qstfzs85APMzCiSimSu8/https/cdn.mee6.xyz/guild-images/765334473461465098/41b0a2086b322e0e1adcd026653226f2bc06c8a7607cebf168af71bdb23790f3.jpeg');
-  channel.send(embed);
 });
 
 client.login(token.main);
