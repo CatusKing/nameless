@@ -367,6 +367,18 @@ client.on('message', async msg => {
     } else {
       reply(msg.channel.id, 'That is not a valid item in the shop', '#9e9d9d');
     }
+  } else if (command == 'badges') {
+    const balance = await currency.getBalance(msg.author.id);
+    let description = '';
+    for(let i = 0; i < config.badges.names.length; ++i) {
+      const role = msg.guild.roles.cache.get(config.badges.ids[i])
+      if (config.badges.amounts[i] >= balance && !msg.member.roles.cache.has(config.badges.ids[i])) {
+        msg.member.roles.add(role);
+        description += `\n✅ - ${config.badges.names[i]}`;
+      } else {
+        description += `\n❌ - ${config.badges.names[i]}`;
+      }
+    }
   } else {
     reply(msg.channel.id, 'You can use p!help to see the avalible commands', '#9e9d9d');
   }
