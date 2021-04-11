@@ -149,6 +149,7 @@ client.once('ready', async () => {
   setInterval(() => {
     client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
       .then(message => {
+
         let description = '';
         currency.sort((a, b) => b.balance - a.balance)
           .filter(user => client.users.cache.has(user.user_id))
@@ -158,7 +159,9 @@ client.once('ready', async () => {
             description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
           });
         var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
-        message.edit(embed);
+        message.embeds.first(pastEmbed => {
+          if (pastEmbed.description != description) message.edit(embed);
+        });
       })
       .catch(console.error);
   }, 120000);
