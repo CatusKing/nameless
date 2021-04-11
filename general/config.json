@@ -8,7 +8,8 @@
     "add <amount> [@User] - Takes money from the bank and gives it to the target",
     "remove <amount> [@User] - Gives money to the bank and takes it from the target",
     "shop - Displays what you can use your points for",
-    "buy <item> - Allows you to buy items from the shop"
+    "buy <item> - Allows you to buy items from the shop",
+    "badges - gives you a badge that lasts forever and costs nothing"
   ],
   "status": [
     "Bank: %bank%🍰",
