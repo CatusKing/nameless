@@ -88,6 +88,14 @@ function reply(channelId = String, content = String, color = String) {
   channel.send(embed);
 }
 
+function round(balance = Number) {
+  let bal = balance + '';
+
+  if (bal.length > 3 && bal.length < 7) return `${Math.round(bal / 100) / 10}k`;
+  else if (bal.length > 6 && bal.length < 10) return `${Math.round(bal / 10000) / 100}m`;
+  else if (bal.length > 9 && bal.length < 13) return `${Math.round(bal / 10000000) / 100}b`;
+}
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
@@ -130,11 +138,7 @@ client.once('ready', async () => {
       .forEach((user, position) => {
         top = client.users.cache.get(user.user_id).tag;
     });
-    let bank = await currency.getBalance('bank') + '';
-
-    if (bank.length > 3 && bank.length < 7) bank = `${Math.round(bank / 100) / 10}k`;
-    else if (bank.length > 6 && bank.length < 10) bank = `${Math.round(bank / 10000) / 100}m`;
-    else if (bank.length > 9 && bank.length < 13) bank = `${Math.round(bank / 10000000) / 100}b`;
+    let bank = round(await currency.get('bank'));
     client.user.setActivity(config.status[status]
       .replace('%bank%', bank)
       .replace('%prefix%', prefix)
@@ -149,11 +153,7 @@ client.once('ready', async () => {
           .filter(user => client.users.cache.has(user.user_id))
           .first(20)
           .forEach((user, position) => {
-            let balance = user.balance + '';
-    
-            if (balance.length > 3 && balance.length < 7) balance = `${Math.round(balance / 100) / 10}k`;
-            else if (balance.length > 6 && balance.length < 10) balance = `${Math.round(balance / 10000) / 100}m`;
-            else if (balance.length > 9 && balance.length < 13) balance = `${Math.round(balance / 10000000) / 100}b`;
+            let balance = round(user.balance);
             description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
           });
         var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
@@ -329,7 +329,7 @@ client.on('message', async msg => {
       const balance = currency.getBalance(target.id);
       currency.addBalance(target.id, amount);
       currency.addBalance('bank', -amount);
-      reply(msg.channel.id, `Given ${amount} to ${target}\nThey now have ${balance + amount}`, '#baffc9');
+      reply(msg.channel.id, `Given ${amount}🍰 to ${target}\nThey now have ${balance + amount}🍰`, '#baffc9');
       log('830503210951245865', `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'remove') {
@@ -342,7 +342,7 @@ client.on('message', async msg => {
       const balance = currency.getBalance(target.id);
       currency.addBalance(target.id, -amount);
       currency.addBalance('bank', amount);
-      reply(msg.channel.id, `Taken ${amount} from ${target}\nThey now have ${balance - amount}`, '#ff7784');
+      reply(msg.channel.id, `Taken ${amount}🍰 from ${target}\nThey now have ${balance - amount}🍰`, '#ff7784');
       log('830503210951245865', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'shop') {
@@ -369,7 +369,7 @@ client.on('message', async msg => {
     }
   } else if (command == 'badges') {
     const balance = await currency.getBalance(msg.author.id);
-    let description = '';
+    let description = `Your balance: ${balance}`;
     for(let i = 0; i < config.badges.names.length; ++i) {
       const role = msg.guild.roles.cache.get(config.badges.ids[i])
       if (config.badges.amounts[i] <= balance && !msg.member.roles.cache.has(config.badges.ids[i])) {
