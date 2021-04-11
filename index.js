@@ -159,8 +159,11 @@ client.once('ready', async () => {
             description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
           });
         var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
-        message.embeds.first(pastEmbed => {
-          if (pastEmbed.description != description) message.edit(embed);
+        message.embeds.forEach(pastEmbed => {
+          if (pastEmbed.description != description) {
+            message.edit(embed);
+            break;
+          }
         });
       })
       .catch(console.error);
