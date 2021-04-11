@@ -139,7 +139,7 @@ client.once('ready', async () => {
       .forEach((user, position) => {
         top = client.users.cache.get(user.user_id).tag;
     });
-    let bank = round(await currency.get('bank'));
+    let bank = round(await currency.getBalance('bank'));
     client.user.setActivity(config.status[status]
       .replace('%bank%', bank)
       .replace('%prefix%', prefix)
