@@ -379,6 +379,7 @@ client.on('message', async msg => {
         description += `\n❌ - ${config.badges.names[i]}`;
       }
     }
+    reply(msg.channel.id, description, '#ffffba');
   } else {
     reply(msg.channel.id, 'You can use p!help to see the avalible commands', '#9e9d9d');
   }
