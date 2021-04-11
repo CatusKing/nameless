@@ -94,6 +94,7 @@ function round(balance = Number) {
   if (bal.length > 3 && bal.length < 7) return `${Math.round(bal / 100) / 10}k`;
   else if (bal.length > 6 && bal.length < 10) return `${Math.round(bal / 10000) / 100}m`;
   else if (bal.length > 9 && bal.length < 13) return `${Math.round(bal / 10000000) / 100}b`;
+  else return bal;
 }
 
 client.once('ready', async () => {
