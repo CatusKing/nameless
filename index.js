@@ -372,8 +372,8 @@ client.on('message', async msg => {
     let description = `Your balance: ${balance}`;
     for(let i = 0; i < config.badges.names.length; ++i) {
       const role = msg.guild.roles.cache.get(config.badges.ids[i])
-      if (config.badges.amounts[i] <= balance && !msg.member.roles.cache.has(config.badges.ids[i])) {
-        msg.member.roles.add(role);
+      if (config.badges.amounts[i] <= balance) {
+        if (!msg.member.roles.cache.has(config.badges.ids[i])) msg.member.roles.add(role);
         description += `\n✅ - ${config.badges.names[i]}`;
       } else {
         description += `\n❌ - ${config.badges.names[i]}`;
