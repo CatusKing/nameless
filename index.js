@@ -153,7 +153,7 @@ client.once('ready', async () => {
         let description = '';
         currency.sort((a, b) => b.balance - a.balance)
           .filter(user => client.users.cache.has(user.user_id))
-          .first(20)
+          .first(config.leaderboard_count)
           .forEach((user, position) => {
             let balance = round(user.balance);
             description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
