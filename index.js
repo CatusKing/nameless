@@ -162,7 +162,7 @@ client.once('ready', async () => {
         message.embeds.forEach(pastEmbed => {
           if (pastEmbed.description != description) {
             message.edit(embed);
-            break;
+            return;
           }
         });
       })
