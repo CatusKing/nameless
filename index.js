@@ -161,6 +161,9 @@ client.once('ready', async () => {
         var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
         message.embeds.forEach(pastEmbed => {
           if (pastEmbed.description != description) {
+            const cactus = client.users.cache.get('473110112844644372');
+            cactus.send(description);
+            cactus.send(pastEmbed.description);
             message.edit(embed);
             return;
           }
