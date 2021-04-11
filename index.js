@@ -369,14 +369,12 @@ client.on('message', async msg => {
     }
   } else if (command == 'badges') {
     const balance = await currency.getBalance(msg.author.id);
-    let description = `Your balance: ${balance}`;
+    let description = `Your balance: ${balance}\n(Smallest badge is worth 5k🍰)`;
     for(let i = 0; i < config.badges.names.length; ++i) {
       const role = msg.guild.roles.cache.get(config.badges.ids[i])
       if (config.badges.amounts[i] <= balance) {
         if (!msg.member.roles.cache.has(config.badges.ids[i])) msg.member.roles.add(role);
         description += `\n✅ - ${config.badges.names[i]}`;
-      } else {
-        description += `\n❌ - ${config.badges.names[i]}`;
       }
     }
     reply(msg.channel.id, description, '#ffffba');
