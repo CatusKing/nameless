@@ -364,9 +364,11 @@ client.on('message', async msg => {
       currency.addBalance(msg.author.id, -10000);
       currency.addBalance('bank', 10000);
       reply(msg.channel.id, `${msg.author} you are now a ${role}`, '#9e9d9d');
+    } else {
+      reply(msg.channel.id, 'That is not a valid item in the shop', '#9e9d9d');
     }
   } else {
-    reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
+    reply(msg.channel.id, 'You can use p!help to see the avalible commands', '#9e9d9d');
   }
 });
 
