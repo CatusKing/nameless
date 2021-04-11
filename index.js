@@ -325,7 +325,7 @@ client.on('message', async msg => {
     if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;
 
-      if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!add <amount> [@User]', '#9e9d9d');
+      if (isNaN(args[0])) return reply(msg.channel.id, `Sorry you need to use the command like this ${prefix}add <amount> [@User]`, '#9e9d9d');
       const amount = Math.floor(args[0]);
       const balance = currency.getBalance(target.id);
       currency.addBalance(target.id, amount);
@@ -338,7 +338,7 @@ client.on('message', async msg => {
     if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;
 
-      if (isNaN(args[0])) return reply(msg.channel.id, 'Sorry you need to use the command like this p!remove <amount> [@User]', '#9e9d9d');
+      if (isNaN(args[0])) return reply(msg.channel.id, `Sorry you need to use the command like this ${prefix}remove <amount> [@User]`, '#9e9d9d');
       const amount = Math.floor(args[0]);
       const balance = currency.getBalance(target.id);
       currency.addBalance(target.id, -amount);
@@ -353,7 +353,7 @@ client.on('message', async msg => {
   } else if (command == 'buy') {
     const balance = await currency.getBalance(msg.author.id);
     
-    if (!args[0]) return reply(msg.channel.id, 'You can use p!shop to see what you can buy', '#9e9d9d');
+    if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
 
     if (args[0].toLowerCase() == 'dj') {
       const role = msg.guild.roles.cache.get('830507721987194920');
@@ -380,7 +380,7 @@ client.on('message', async msg => {
     }
     reply(msg.channel.id, description, '#ffffba');
   } else {
-    reply(msg.channel.id, 'You can use p!help to see the avalible commands', '#9e9d9d');
+    reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
   }
 });
 
