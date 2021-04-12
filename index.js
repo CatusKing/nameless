@@ -7,7 +7,6 @@ const { Op } = require('sequelize');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
 const prefix = config.prefix;
-var testing = false;
 var status = 0;
 
 Reflect.defineProperty(currency, 'addBalance', {
