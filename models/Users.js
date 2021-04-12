@@ -14,11 +14,6 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: 0,
 			allowNull: false,
 		},
-		messages: {
-			type: DataTypes.INTEGER,
-			defaultValue: 0,
-			allowNull: false,
-		},
 		weekly: {
 			type: DataTypes.INTEGER,
 			defaultValue: 0,
