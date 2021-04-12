@@ -387,14 +387,7 @@ client.on('message', async msg => {
 
 client.on('messageUpdate', (oldMsg, newMsg) => {
   if (oldMsg.partial) {
-    try {
-      oldMsg.fetch().then(fullMessage => {
-        if (fullMessage.content) log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${fullMessage.content}\nNew: ${newMsg.content}`, '#9e9d9d');
-        else log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
   } else {
     if (newMsg.author.bot) return;
     if (oldMsg.content) log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
