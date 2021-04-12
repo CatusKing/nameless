@@ -9,71 +9,109 @@ const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
 
-Reflect.defineProperty(currency, 'addBalance', {
-	/* eslint-disable-next-line func-name-matching */
-	value: async function addBalance(id, amount) {
-		const user = currency.get(id);
-		if (user) {
-			user.balance += Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});
+function start() {
+  Reflect.defineProperty(currency, 'addBalance', {
+    value: async function addBalance(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.balance += Number(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, balance: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
+  
+  Reflect.defineProperty(currency, 'addMessage', {
+    value: async function addMessage(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.messages += Number(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, messages: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
+  
+  Reflect.defineProperty(currency, 'setCooldown', {
+    value: async function setCooldown(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.cooldown = Number(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, cooldown: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
 
-Reflect.defineProperty(currency, 'addMessage', {
-	/* eslint-disable-next-line func-name-matching */
-	value: async function addMessage(id, amount) {
-		const user = currency.get(id);
-		if (user) {
-			user.messages += Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, messages: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});
+  Reflect.defineProperty(currency, 'setDaily', {
+    value: async function setDaily(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.daily = Number(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, daily: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
 
-Reflect.defineProperty(currency, 'setCooldown', {
-	/* eslint-disable-next-line func-name-matching */
-	value: async function setCooldown(id, amount) {
-		const user = currency.get(id);
-		if (user) {
-			user.cooldown = Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, cooldown: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});
+  Reflect.defineProperty(currency, 'setWeekly', {
+    value: async function setWeekly(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.weekly = Number(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, weekly: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
+  
+  Reflect.defineProperty(currency, 'getCooldown', {
+    value: function getCooldown(id) {
+      const user = currency.get(id);
+      return user ? user.cooldown : 0;
+    },
+  });
+  
+  Reflect.defineProperty(currency, 'getBalance', {
+    value: function getBalance(id) {
+      const user = currency.get(id);
+      return user ? user.balance : 0;
+    },
+  });
+  
+  Reflect.defineProperty(currency, 'getMessages', {
+    value: function getMessages(id) {
+      const user = currency.get(id);
+      return user ? user.messages : 0;
+    },
+  });
 
-Reflect.defineProperty(currency, 'getCooldown', {
-	/* eslint-disable-next-line func-name-matching */
-	value: function getCooldown(id) {
-		const user = currency.get(id);
-		return user ? user.cooldown : 0;
-	},
-});
+  Reflect.defineProperty(currency, 'getWeekly', {
+    value: function getWeekly(id) {
+      const user = currency.get(id);
+      return user ? user.weekly : 0;
+    },
+  });
 
-Reflect.defineProperty(currency, 'getBalance', {
-	/* eslint-disable-next-line func-name-matching */
-	value: function getBalance(id) {
-		const user = currency.get(id);
-		return user ? user.balance : 0;
-	},
-});
+  Reflect.defineProperty(currency, 'getDaily', {
+    value: function getDaily(id) {
+      const user = currency.get(id);
+      return user ? user.daily : 0;
+    },
+  });
+}
 
-Reflect.defineProperty(currency, 'getMessages', {
-	/* eslint-disable-next-line func-name-matching */
-	value: function getMessages(id) {
-		const user = currency.get(id);
-		return user ? user.messages : 0;
-	},
-});
+start();
 
 function log(channelId = String, content = String, color = String) {
   const channel = client.channels.cache.get(channelId);
