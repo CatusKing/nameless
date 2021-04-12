@@ -23,19 +23,6 @@ function start() {
     },
   });
   
-  Reflect.defineProperty(currency, 'addMessage', {
-    value: async function addMessage(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.messages += Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, messages: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
-  
   Reflect.defineProperty(currency, 'setCooldown', {
     value: async function setCooldown(id, amount) {
       const user = currency.get(id);
@@ -86,13 +73,6 @@ function start() {
     value: function getBalance(id) {
       const user = currency.get(id);
       return user ? user.balance : 0;
-    },
-  });
-  
-  Reflect.defineProperty(currency, 'getMessages', {
-    value: function getMessages(id) {
-      const user = currency.get(id);
-      return user ? user.messages : 0;
     },
   });
 
@@ -234,9 +214,6 @@ client.on('message', async msg => {
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
-
-  //Record message count
-  currency.addMessage(msg.author.id, 1);
   
   if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
     if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
