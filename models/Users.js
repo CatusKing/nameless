@@ -18,6 +18,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			defaultValue: 0,
 			allowNull: false,
+		},
+		weekly: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+			allowNull: false,
+		},
+		daily: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+			allowNull: false,
 		}
 	}, {
 		timestamps: false,
