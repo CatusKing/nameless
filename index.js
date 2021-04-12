@@ -412,7 +412,7 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
       log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
     } else {
-      reply(msg.channel.id, `${msg.author} you have already claimed for this week`, '#9e9d9d');
+      reply(msg.channel.id, `${msg.author} you have already claimed for the day`, '#9e9d9d');
     }
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
