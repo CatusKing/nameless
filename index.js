@@ -311,11 +311,11 @@ client.on('message', async msg => {
     
     if (total > 0) {
       embed.setColor('#baffc9')
-        .setDescription(`You Spent: ${bet}\nYou made: ${total}🍰 (${balance + outcome})\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
+        .setDescription(`You Spent: ${bet}🍰\nYou made: ${total}🍰 (${balance + outcome})\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
       log('830503210951245865', `+${outcome}🍰 to ${msg.author} from gambling ${bet}🍰`, '#baffc9');
     } else {
       embed.setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
+        .setDescription(`You Spent: ${bet}🍰\nYou Made: ${total}🍰 (${balance + outcome})\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
       log('830503210951245865', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}🍰`, '#ff7784');
     }
     msg.channel.send(embed);
