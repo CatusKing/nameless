@@ -4,7 +4,7 @@ const config = require('./general/config.json');
 const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
 
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
 const prefix = config.prefix;
 var testing = false;
@@ -386,6 +386,7 @@ client.on('message', async msg => {
 });
 
 client.on('messageUpdate', (oldMsg, newMsg) => {
+  if (oldMsg.partial) console.log('partial');
   if (newMsg.author.bot) return;
   if (oldMsg.content) log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
   else log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
