@@ -376,7 +376,7 @@ client.on('message', async msg => {
       const role = msg.guild.roles.cache.get(config.badges.ids[i])
       if (config.badges.amounts[i] <= balance) {
         if (!msg.member.roles.cache.has(config.badges.ids[i])) msg.member.roles.add(role);
-        description += `\n✅ - ${config.badges.names[i]}`;
+        description += `\n✅ ${config.badges.names[i]}`;
       }
     }
     reply(msg.channel.id, description, '#ffffba');
