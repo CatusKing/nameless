@@ -394,6 +394,26 @@ client.on('message', async msg => {
       }
     }
     reply(msg.channel.id, description, '#ffffba');
+  } else if (command == 'weekly') {
+    if (await currency.getWeekly(msg.author.id) <= Date.now()) {
+      currency.addBalance(msg.author.id, 2000);
+      currency.addBalance('bank', -2000);
+      currency.setWeekly(msg.author.id, Date.now() + 604800000);
+      reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
+      log('830503210951245865', `+4000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
+    } else {
+      reply(msg.channel.id, `${msg.author} you have already claimed for this week`, '#9e9d9d');
+    }
+  } else if (command == 'daily') {
+    if (await currency.getDaily(msg.author.id) <= Date.now()) {
+      currency.addBalance(msg.author.id, 200);
+      currency.addBalance('bank', -200);
+      currency.setDaily(msg.author.id, Date.now() + 86400000);
+      reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
+      log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
+    } else {
+      reply(msg.channel.id, `${msg.author} you have already claimed for this week`, '#9e9d9d');
+    }
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
   }
