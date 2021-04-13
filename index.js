@@ -405,10 +405,11 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} you have already claimed for this week`, '#9e9d9d');
     }
   } else if (command == 'daily') {
-    if (await currency.getDaily(msg.author.id) <= Date.now()) {
+    var date = new Date();
+    if (await currency.getDaily(msg.author.id) != date.getDate()) {
       currency.addBalance(msg.author.id, 200);
       currency.addBalance('bank', -200);
-      currency.setDaily(msg.author.id, Date.now() + 86400000);
+      currency.setDaily(msg.author.id, date.getDate());
       reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
       log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
     } else {
