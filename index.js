@@ -395,14 +395,15 @@ client.on('message', async msg => {
     }
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'weekly') {
-    if (await currency.getWeekly(msg.author.id) <= Date.now()) {
-      currency.addBalance(msg.author.id, 2000);
+    const weekly = await currency.getWeekly(msg.author.id);
+    if (weekly <= Date.now()) {
+      await currency.addBalance(msg.author.id, 2000);
       currency.addBalance('bank', -2000);
       currency.setWeekly(msg.author.id, Date.now() + 604800000);
       reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
       log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
     } else {
-      reply(msg.channel.id, `${msg.author} you have already claimed for this week`, '#9e9d9d');
+      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${Math.floor(((weekly - Date.now()) / 60000) / 60) + 1}`, '#9e9d9d');
     }
   } else if (command == 'daily') {
     var date = new Date();
