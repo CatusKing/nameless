@@ -406,7 +406,7 @@ client.on('message', async msg => {
       let result = Math.floor(((weekly - Date.now()) / 60000) / 60) + 1;
       if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
       else result = `${result} hours`;
-      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${}`, '#9e9d9d');
+      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
     }
   } else if (command == 'daily') {
     var date = new Date();
