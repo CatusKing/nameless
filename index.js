@@ -403,7 +403,10 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
       log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
     } else {
-      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${Math.floor(((weekly - Date.now()) / 60000) / 60) + 1}`, '#9e9d9d');
+      let result = Math.floor(((weekly - Date.now()) / 60000) / 60) + 1;
+      if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
+      else result = `${result} hours`;
+      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${}`, '#9e9d9d');
     }
   } else if (command == 'daily') {
     var date = new Date();
