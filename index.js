@@ -387,8 +387,10 @@ client.on('message', async msg => {
     const balance = await currency.getBalance(msg.author.id);
     let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
     for(let i = 0; i < config.badges.names.length; ++i) {
-      const role = msg.guild.roles.cache.get(config.badges.ids[i])
+      const role = msg.guild.roles.cache.get(config.badges.ids[i]);
+
       if (config.badges.amounts[i] <= balance) {
+
         if (!msg.member.roles.cache.has(config.badges.ids[i])) msg.member.roles.add(role);
         description += `\n✅ ${config.badges.names[i]}`;
       }
@@ -396,6 +398,7 @@ client.on('message', async msg => {
     reply(msg.channel.id, description, '#ffffba');
   } else if (command == 'weekly') {
     const weekly = await currency.getWeekly(msg.author.id);
+
     if (weekly <= Date.now()) {
       await currency.addBalance(msg.author.id, 2000);
       currency.addBalance('bank', -2000);
@@ -404,12 +407,15 @@ client.on('message', async msg => {
       log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
     } else {
       let result = Math.floor(((weekly - Date.now()) / 60000) / 60) + 1;
+
       if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
+      else if (result == 1) `${result} hour`;
       else result = `${result} hours`;
       reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
     }
   } else if (command == 'daily') {
     var date = new Date();
+
     if (await currency.getDaily(msg.author.id) != date.getDate()) {
       currency.addBalance(msg.author.id, 200);
       currency.addBalance('bank', -200);
@@ -417,7 +423,11 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
       log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
     } else {
-      reply(msg.channel.id, `${msg.author} you have already claimed for the day`, '#9e9d9d');
+      let result = 24 - date.getHours();
+
+      if (result == 1) result = `${result} hour`;
+      else result = `${result} hours`;
+      reply(msg.channel.id, `${msg.author} you have already claimed for the day\nYou can claim again in ${result}`, '#9e9d9d');
     }
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
@@ -425,6 +435,7 @@ client.on('message', async msg => {
 });
 
 client.on('messageUpdate', (oldMsg, newMsg) => {
+
   if (oldMsg.partial) {
     try {
       oldMsg.fetch().then(fullMessage => {
@@ -434,7 +445,9 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
       console.error(error);
     }
   } else {
+
     if (newMsg.author.bot) return;
+
     if (oldMsg.content) log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
     else log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
   }
