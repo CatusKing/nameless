@@ -479,7 +479,7 @@ client.on('guildMemberAdd', member => {
     // This is just to simplify the message being sent below (inviter doesn't have a tag property)
     const inviter = client.users.cache.get(invite.inviter.id);
     
-    log('832758919059341313', `${member.user.tag} joined using invite code ${invite.code} from ${inviter.tag}. Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
+    log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
   });
 });
 
