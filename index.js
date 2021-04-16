@@ -114,6 +114,12 @@ function round(balance = Number) {
   else return bal;
 }
 
+// Initialize the invite cache
+const invites = {};
+
+// A pretty useful method to create a delay without blocking the whole script.
+const wait = require('util').promisify(setTimeout);
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
