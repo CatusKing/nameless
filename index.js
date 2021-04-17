@@ -446,6 +446,7 @@ client.on('message', async msg => {
   }
 });
 
+//Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
 
   if (oldMsg.partial) {
@@ -465,6 +466,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
   }
 });
 
+//Updates the cache of invites
 client.on('inviteCreate', () => {
   client.guilds.cache.forEach(g => {
     g.fetchInvites().then(guildInvites => {
@@ -472,7 +474,6 @@ client.on('inviteCreate', () => {
     });
   });
 });
-
 client.on('inviteDelete', () => {
   client.guilds.cache.forEach(g => {
     g.fetchInvites().then(guildInvites => {
@@ -481,6 +482,7 @@ client.on('inviteDelete', () => {
   });
 });
 
+//Sends welcome message plus who ivited them
 client.on('guildMemberAdd', member => {
   member.guild.fetchInvites().then(guildInvites => {
     const ei = invites[member.guild.id];
