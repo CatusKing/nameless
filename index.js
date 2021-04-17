@@ -473,6 +473,9 @@ client.on('guildMemberAdd', member => {
     const inviter = client.users.cache.get(invite.inviter.id);
     log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
   });
+  var embed = new Discord.MessageEmbed().setTitle(`${member.user} just joinned!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
+  const channel = client.channels.cache.get('830505212463546408');
+  channel.send(embed);
 });
 
 client.login(token.main);
