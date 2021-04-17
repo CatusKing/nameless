@@ -474,7 +474,7 @@ client.on('guildMemberAdd', member => {
   member.guild.fetchInvites().then(guildInvites => {
     const ei = invites[member.guild.id];
     invites[member.guild.id] = guildInvites;
-    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
+    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses || ei.get(i.code).uses == null && i.uses == 1);
     const inviter = client.users.cache.get(invite.inviter.id);
     log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
   });
