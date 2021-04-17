@@ -466,6 +466,11 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberAdd', member => {
+  client.guilds.cache.forEach(g => {
+    g.fetchInvites().then(guildInvites => {
+      invites[g.id] = guildInvites;
+    });
+  });
   member.guild.fetchInvites().then(guildInvites => {
     const ei = invites[member.guild.id];
     invites[member.guild.id] = guildInvites;
