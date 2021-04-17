@@ -465,12 +465,23 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
   }
 });
 
-client.on('guildMemberAdd', member => {
+client.on('inviteCreate', () => {
   client.guilds.cache.forEach(g => {
     g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
     });
   });
+});
+
+client.on('inviteDelete', () => {
+  client.guilds.cache.forEach(g => {
+    g.fetchInvites().then(guildInvites => {
+      invites[g.id] = guildInvites;
+    });
+  });
+});
+
+client.on('guildMemberAdd', member => {
   member.guild.fetchInvites().then(guildInvites => {
     const ei = invites[member.guild.id];
     invites[member.guild.id] = guildInvites;
