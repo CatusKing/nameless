@@ -114,6 +114,23 @@ function round(balance = Number) {
   else return bal;
 }
 
+function updateLeaderboard() {
+  client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
+    .then(message => {
+      let description = '';
+      currency.sort((a, b) => b.balance - a.balance)
+        .filter(user => client.users.cache.has(user.user_id))
+        .first(config.leaderboard_count)
+        .forEach((user, position) => {
+          let balance = round(user.balance);
+          description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
+        });
+      var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
+      message.edit(embed);
+    })
+    .catch(console.error);
+}
+
 const invites = {};
 
 const wait = require('util').promisify(setTimeout);
@@ -167,23 +184,7 @@ client.once('ready', async () => {
       .replace('%top%', top)
     );
   }, 300000);
-  setInterval(() => {
-    client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
-      .then(message => {
-
-        let description = '';
-        currency.sort((a, b) => b.balance - a.balance)
-          .filter(user => client.users.cache.has(user.user_id))
-          .first(config.leaderboard_count)
-          .forEach((user, position) => {
-            let balance = round(user.balance);
-            description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
-          });
-        var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
-        message.edit(embed);
-      })
-      .catch(console.error);
-  }, 120000);
+  setInterval(updateLeaderboard, 120000);
 
   await wait(1000);
 
@@ -441,6 +442,9 @@ client.on('message', async msg => {
       else result = `${result} hours`;
       reply(msg.channel.id, `${msg.author} you have already claimed for the day\nYou can claim again in ${result}`, '#9e9d9d');
     }
+  } else if (command == 'lb') {
+    if (msg.member.roles.cache.has('830496065366130709')) updateLeaderboard();
+    else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
   }
