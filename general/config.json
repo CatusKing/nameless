@@ -22,7 +22,7 @@
   "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"],
   "shop": [
     ["**DJ** - 5K🍰 - Allows you to play music", "dj", 5000, "830507721987194920"],
-    ["**Filters** - 5K🍰 - Allows you to use filters on the music(requires dj)**NOT WORKING YET! BUY AT YOUR OWN RISK**", "filers", 5000, "833401201093509120"]
+    ["**Filters** - 5K🍰 - Allows you to use filters on the music(requires dj)**NOT IMPLEMENTED YET! BUY AT YOUR OWN RISK**", "filers", 5000, "833401201093509120"]
   ],
   "badges": [
     ["~5K🍰~", "830673940300824576", 5000],
