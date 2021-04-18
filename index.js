@@ -398,6 +398,7 @@ client.on('message', async msg => {
         msg.member.roles.add(role);
         currency.addBalance(msg.author.id, -config.shop[i][2]);
         currency.addBalance('bank', config.shop[i][2]);
+        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
         reply(msg.channel.id, `${msg.author} you now have ${role}`, '#ffffba');
         bought = true;
         break;
