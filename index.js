@@ -443,8 +443,10 @@ client.on('message', async msg => {
       reply(msg.channel.id, `${msg.author} you have already claimed for the day\nYou can claim again in ${result}`, '#9e9d9d');
     }
   } else if (command == 'lb') {
-    if (msg.member.roles.cache.has('830496065366130709')) updateLeaderboard();
-    else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
+    if (msg.member.roles.cache.has('830496065366130709')) {
+      updateLeaderboard();
+      reply(msg.channel.id, `Updated the leaderboard`, '#ffffba');
+    } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
   }
