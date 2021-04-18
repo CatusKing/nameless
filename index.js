@@ -474,14 +474,14 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
 //Updates the cache of invites
 client.on('inviteCreate', async () => {
-  client.guilds.cache.forEach(g => {
+  client.guilds.cache.forEach(async g => {
     await g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
     });
   });
 });
 client.on('inviteDelete', async () => {
-  client.guilds.cache.forEach(g => {
+  client.guilds.cache.forEach(async g => {
     await g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
     });
