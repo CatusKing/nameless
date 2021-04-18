@@ -383,19 +383,27 @@ client.on('message', async msg => {
     
     if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
 
-    if (args[0].toLowerCase() == 'dj') {
-      const role = msg.guild.roles.cache.get('830507721987194920');
+    var bought = false;
 
-      if (balance < 10000) return reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need 10K🍰\nYou have ${balance}🍰`, '#9e9d9d');
-
-      if (msg.member.roles.cache.has('830507721987194920')) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
-      msg.member.roles.add(role);
-      currency.addBalance(msg.author.id, -10000);
-      currency.addBalance('bank', 10000);
-      reply(msg.channel.id, `${msg.author} you are now a ${role}`, '#9e9d9d');
-    } else {
-      reply(msg.channel.id, 'That is not a valid item in the shop', '#9e9d9d');
+    for(let i = 0; i < config.shop.length; ++i) {
+      if (args[0].toLowerCase() == config.shop[i][1]) {
+        const role = msg.guild.roles.cache.get(config.shop[i][3]);
+        
+        if (balance < config.shop[i][2]) {
+          reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
+          bought = true;
+          break;
+        }
+        if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+        msg.member.roles.add(role);
+        currency.addBalance(msg.author.id, -config.shop[i][2]);
+        currency.addBalance('bank', config.shop[i][2]);
+        reply(msg.channel.id, `${msg.author} you now have ${role}`, '#9e9d9d');
+        bought = true;
+        break;
+      }
     }
+    if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
   } else if (command == 'badges') {
     const balance = await currency.getBalance(msg.author.id);
     let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
