@@ -408,12 +408,12 @@ client.on('message', async msg => {
     const balance = await currency.getBalance(msg.author.id);
     let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
     for(let i = 0; i < config.badges.length; ++i) {
-      const role = msg.guild.roles.cache.get(config.badges.ids[i][1]);
+      const role = msg.guild.roles.cache.get(config.badges[i][1]);
 
-      if (config.badges.amounts[i][2] <= balance) {
+      if (config.badges[i][2] <= balance) {
 
-        if (!msg.member.roles.cache.has(config.badges.ids[i][1])) msg.member.roles.add(role);
-        description += `\n✅ ${config.badges.names[i][0]}`;
+        if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role);
+        description += `\n✅ ${config.badges[i][0]}`;
       }
     }
     reply(msg.channel.id, description, '#ffffba');
