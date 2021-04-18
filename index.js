@@ -300,7 +300,7 @@ client.on('message', async msg => {
       description += `\n${prefix}${config.help[i]}`;
     }
     var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
-    var yes = true
+    let yes = true
     msg.author.send(embed)
       .catch(() => {
         reply(msg.channel.id, description, '#ffffba');
