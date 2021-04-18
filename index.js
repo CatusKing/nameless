@@ -299,16 +299,14 @@ client.on('message', async msg => {
     for(let i = 0; i < config.help.length; ++i) {
       description += `\n${prefix}${config.help[i]}`;
     }
-    var yes = true;
-    try {
-      var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
-      msg.author.send(embed);
-      reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d');
-      yes = false;
-    } catch (err) {}
-    finally {
-      if (!yes) reply(msg.channel.id, description, '#ffffba');
-    }
+    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
+    var yes = true
+    msg.author.send(embed)
+      .catch(() => {
+        reply(msg.channel.id, description, '#ffffba');
+        yes = false;
+      });
+    if (!yes) reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d'); 
   } else if (command == 'income') {
     reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 points per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain.\n2. Spending 1 minute in vc will give you +2🍰 points. If you are not muted you will instead get a total of +5🍰 points. If you are not muted and use camera you will get a total +8🍰 points. If you can not use your camera you can instead screenshare while unmuted to get a total of +6🍰 points.\n3. also events may give points :D`, '#ffffba')
   } else if (command == 'balance' || command == 'bal') {
