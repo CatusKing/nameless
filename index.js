@@ -473,16 +473,16 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 });
 
 //Updates the cache of invites
-client.on('inviteCreate', () => {
+client.on('inviteCreate', async () => {
   client.guilds.cache.forEach(g => {
-    g.fetchInvites().then(guildInvites => {
+    await g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
     });
   });
 });
-client.on('inviteDelete', () => {
+client.on('inviteDelete', async () => {
   client.guilds.cache.forEach(g => {
-    g.fetchInvites().then(guildInvites => {
+    await g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
     });
   });
