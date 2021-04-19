@@ -131,6 +131,10 @@ function updateLeaderboard() {
     .catch(console.error);
 }
 
+function hours(miliseconds = Number) {
+  return Math.floor(((miliseconds / 1000) / 60) / 60) + 1;
+}
+
 const invites = {};
 
 const wait = require('util').promisify(setTimeout);
@@ -437,14 +441,14 @@ client.on('message', async msg => {
   } else if (command == 'weekly') {
     const weekly = await currency.getWeekly(msg.author.id);
 
-    if (weekly <= Date.now()) {
+    if (weekly <= hours(Date.now())) {
       await currency.addBalance(msg.author.id, 2000);
       currency.addBalance('bank', -2000);
       currency.setWeekly(msg.author.id, Date.now() + 604800000);
       reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
       log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
     } else {
-      let result = Math.floor(((weekly - Date.now()) / 60000) / 60) + 1;
+      let result = weekly - hours(Date.now());
 
       if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
       else if (result == 1) `${result} hour`;
