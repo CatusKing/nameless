@@ -399,14 +399,25 @@ client.on('message', async msg => {
           bought = true;
           break;
         }
-        if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
-        msg.member.roles.add(role);
-        currency.addBalance(msg.author.id, -config.shop[i][2]);
-        currency.addBalance('bank', config.shop[i][2]);
-        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
-        reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
-        bought = true;
-        break;
+        if (config.shop[i][4] == 0) {
+          if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+          msg.member.roles.add(role);
+          currency.addBalance(msg.author.id, -config.shop[i][2]);
+          currency.addBalance('bank', config.shop[i][2]);
+          log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
+          reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
+          bought = true;
+          break;
+        } else {
+          if (!msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
+          msg.member.roles.remove(role);
+          currency.addBalance(msg.author.id, -config.shop[i][2]);
+          currency.addBalance('bank', config.shop[i][2]);
+          log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
+          reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have removed ${role}`, '#ffffba');
+          bought = true;
+          break;
+        }
       }
     }
     if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
