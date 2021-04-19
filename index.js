@@ -503,6 +503,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
 //Updates the cache of invites
 client.on('inviteCreate', () => {
+  invites = {};
   client.guilds.cache.forEach(g => {
     g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
@@ -510,6 +511,7 @@ client.on('inviteCreate', () => {
   });
 });
 client.on('inviteDelete', () => {
+  invites = {};
   client.guilds.cache.forEach(g => {
     g.fetchInvites().then(guildInvites => {
       invites[g.id] = guildInvites;
@@ -525,6 +527,12 @@ client.on('guildMemberAdd', member => {
     const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
     const inviter = client.users.cache.get(invite.inviter.id);
     log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
+  });
+  invites = {};
+  client.guilds.cache.forEach(g => {
+    g.fetchInvites().then(guildInvites => {
+      invites[g.id] = guildInvites;
+    });
   });
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
