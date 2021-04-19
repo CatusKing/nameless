@@ -444,7 +444,7 @@ client.on('message', async msg => {
     if (weekly <= hours(Date.now())) {
       await currency.addBalance(msg.author.id, 2000);
       currency.addBalance('bank', -2000);
-      currency.setWeekly(msg.author.id, hours(Date.now()) + 168);
+      currency.setWeekly(msg.author.id, hours(Date.now()) + 167);
       reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
       log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
     } else {
