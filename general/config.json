@@ -24,7 +24,7 @@
     ["**DJ** - 5k🍰 - Allows you to play music", "dj", 5000, "830507721987194920", 0],
     ["**Filters** - 5k🍰 - Allows you to use filters on the music(requires dj)", "filters", 5000, "833401201093509120", 0],
     ["**MyList** - 5k🍰 - Use m*listhelp for more information(requires dj)", "mylist", 5000, "833436399747072030", 0],
-    ["**Mathematics** - 2k🍰 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2000, "830904166007701504", 0]
+    ["**Mathematics** - 2k🍰 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2000, "830904166007701504", 1]
   ],
   "badges": [
     ["~5k🍰~", "830673940300824576", 5000],
