@@ -131,8 +131,8 @@ function updateLeaderboard() {
     .catch(console.error);
 }
 
-function hours(miliseconds = Number) {
-  return Math.floor(((miliseconds / 1000) / 60) / 60) + 1;
+function hours(milliseconds = Number) {
+  return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
 }
 
 const invites = {};
@@ -293,7 +293,7 @@ client.on('message', async msg => {
       });
   }
   
-  //Curency Stuff
+  //Currency Stuff
   if (!msg.content.startsWith(prefix) || msg.channel.type != 'text') return;
   const args = msg.content.slice(prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
@@ -316,7 +316,7 @@ client.on('message', async msg => {
     return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
   } else if (command == 'gamble' || command == 'g') {
 
-    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMiminal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
+    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMinimal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
     const balance = await currency.getBalance(msg.author.id);
     const bank = await currency.getBalance('bank');
     var bet = 0;
@@ -477,7 +477,7 @@ client.on('message', async msg => {
       reply(msg.channel.id, `Updated the leaderboard`, '#ffffba');
     } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
   } else {
-    reply(msg.channel.id, `You can use ${prefix}help to see the avalible commands`, '#9e9d9d');
+    reply(msg.channel.id, `You can use ${prefix}help to see the available commands`, '#9e9d9d');
   }
 });
 
@@ -517,7 +517,7 @@ client.on('inviteDelete', () => {
   });
 });
 
-//Sends welcome message plus who ivited them
+//Sends welcome message plus who invited them
 client.on('guildMemberAdd', member => {
   member.guild.fetchInvites().then(guildInvites => {
     const ei = invites[member.guild.id];
@@ -526,7 +526,7 @@ client.on('guildMemberAdd', member => {
     const inviter = client.users.cache.get(invite.inviter.id);
     log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
   });
-  var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joinned!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
+  var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
 });
