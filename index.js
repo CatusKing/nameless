@@ -206,7 +206,7 @@ client.once('ready', async () => {
         updateInvite(invite.code, invite.uses)
       });
     });
-    console.log(invites);
+    console.log('new' + invites);
   }, 4000);
   console.log(invites);
   console.log(`Logged in as ${client.user.tag}`);
