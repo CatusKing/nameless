@@ -283,7 +283,7 @@ client.on('message', async msg => {
     } else if (warn > 1) {
       var description = '';
       for(let i of reason) {
-        description += `${i.toLowerCase()}: ${scores[i]}`;
+        description += `${i.toLowerCase()}: ${scores[i]}\n`;
       }
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       msg.member.roles.add(role);
