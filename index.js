@@ -199,6 +199,7 @@ client.once('ready', async () => {
           if (invites[i][0] == invite.code) yes = false;
         }
         if (yes) invites.push([invite.code, invite.uses]);
+        console.log(invites);
       });
     });
     console.log(invites);
