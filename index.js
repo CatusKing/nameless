@@ -210,9 +210,7 @@ client.once('ready', async () => {
 
   setTimeout(() => {
     updateInvites();
-    console.log(invites);
   }, 4000);
-  console.log(invites);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -538,9 +536,8 @@ client.on('guildMemberAdd', member => {
         }
       }
     });
-    
   });
-  updateInvites();
+  setTimeout(updateInvites, 4000);
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
