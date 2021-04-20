@@ -137,6 +137,15 @@ function hours(milliseconds = Number) {
 
 const invites = [];
 
+function updateInvite(code = String, uses = String) {
+  let yes = true;
+  for(let i = 0; i < invites.length; ++i) {
+    if (invites[i][0] == code) yes = false;
+  }
+  if (yes) invites.push([code, uses]);
+  console.log(invites);
+}
+
 const wait = require('util').promisify(setTimeout);
 
 client.once('ready', async () => {
@@ -194,12 +203,7 @@ client.once('ready', async () => {
     const guild = client.guilds.cache.get('830495072876494879');
     guild.fetchInvites().then(guildInvites => {
       guildInvites.forEach(invite => {
-        let yes = true;
-        for(let i = 0; i < invites.length; ++i) {
-          if (invites[i][0] == invite.code) yes = false;
-        }
-        if (yes) invites.push([invite.code, invite.uses]);
-        console.log(invites);
+        updateInvite(invite.code, invite.uses)
       });
     });
     console.log(invites);
