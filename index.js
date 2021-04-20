@@ -264,9 +264,9 @@ client.on('message', async msg => {
   } else if (command == 'bank' || command == 'b') {
     commands.bank(msg, reply, currency);
   } else if (command == 'add') {
-    commands.add(msg, reply, log, currency);
+    commands.add(msg, args, reply, log, currency);
   } else if (command == 'remove') {
-    commands.remove(msg, reply, log, currency);
+    commands.remove(msg, args, reply, log, currency);
   } else if (command == 'shop') {
     var description = '';
     for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;

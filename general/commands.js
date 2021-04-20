@@ -149,7 +149,7 @@ const bank = async (msg = Discord.Message, reply, currency = Discord.Collection)
   reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
 }
 
-const add = (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
     const target = msg.mentions.users.first() || msg.author;
 
@@ -163,7 +163,7 @@ const add = (msg = Discord.Message, reply, log, currency = Discord.Collection) =
   } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
 }
 
-const remove = (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
     const target = msg.mentions.users.first() || msg.author;
 
