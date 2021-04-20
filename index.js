@@ -135,7 +135,7 @@ function hours(milliseconds = Number) {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
 }
 
-const invites = [];
+var invites = [];
 
 function updateInvite(code = String, uses = String) {
   let yes = true;
