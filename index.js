@@ -273,8 +273,8 @@ client.on('message', async msg => {
     console.log(scores[i]);
   }
   if (warn == 1) {
-    reply(msg.channel.id, `This is a warning. You have been flagged for ${reason[0].toLowerCase()}. You had a score of ${scores[reason[0]]}`, '#ff0000');
-    log('834179033289719839', `Warned\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\nContent:\n${msg.content}\n${msg.url}`, '#9e9d9d');
+    reply(msg.channel.id, `This is a warning. You have been flagged for the following reason: ${reason[0].toLowerCase()}\nYou had a score of ${scores[reason[0]]}. This has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+    log('834179033289719839', `Warned\n\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
   } else if (warn > 1) {
     var description = '';
     for(let i of reason) {
@@ -282,8 +282,8 @@ client.on('message', async msg => {
     }
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     msg.member.roles.add(role);
-    reply(msg.channel.id, `You have been muted for the following reasons:\n${description}\nYour mute will be lifted after further mod actions.`, '#ff0000');
-    log('834179033289719839', `**Muted**\nReasons:\n${description}\nContent:\n${msg.content}\n${msg.url}`, '#9e9d9d');
+    reply(msg.channel.id, `You have been muted for the following reasons:\n${description}\nYour mute will dealt with after further mod actions.`, '#ff0000');
+    log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
   }
 
   //Points
