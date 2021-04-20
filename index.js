@@ -135,6 +135,16 @@ function hours(milliseconds = Number) {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
 }
 
+function updateMemberCount() {
+  const playersCh = client.channels.cache.get('834038553632702505');
+  const guild = client.guilds.cache.get('830495072876494879');
+  if (playersCh.name != `「Players」⇢ ${guild.memberCount}`) {
+    playersCh.setName(`「Players」⇢ ${guild.memberCount}`);
+    return true;
+  }
+  return false;
+}
+
 var invites = [];
 
 function updateInvites() {
@@ -211,6 +221,8 @@ client.once('ready', async () => {
   setTimeout(() => {
     updateInvites();
   }, 4000);
+
+  setInterval(updateMemberCount, 900000);
   console.log(`Logged in as ${client.user.tag}`);
 });
 
