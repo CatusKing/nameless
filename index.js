@@ -272,14 +272,14 @@ client.on('message', async msg => {
         reason.push(i);
       }
     }
-    if (warn == 1) {
-      reply(msg.channel.id, `This is a warning. You have been flagged for the following reason: ${reason[0].toLowerCase()}: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-      log('834179033289719839', `Warned\n\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-    } else if (warn == 1 && scores[reason[0]] > 0.90) {
+    if (warn == 1 && scores[reason[0]] > 0.90) {
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       msg.member.roles.add(role);
-      reply(msg.channel.id, `You have been muted for the following reason:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+      reply(msg.channel.id, `You have been muted for the following reason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
       log('834179033289719839', `**Muted**\n\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+    } else if (warn == 1) {
+      reply(msg.channel.id, `This is a warning. You have been flagged for the following reason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+      log('834179033289719839', `Warned\n\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
     } else if (warn > 1) {
       var description = '';
       for(let i of reason) {
