@@ -191,16 +191,16 @@ client.once('ready', async () => {
   setInterval(updateLeaderboard, 120000);
 
   setTimeout(() => {
-    client.guilds.cache.forEach(g => {
-      g.fetchInvites().then(guildInvites => {
-        guildInvites.forEach(invite => {
-          let yes = true;
-          for(let i = 0; i < invites.length; ++i) {
-            if (invites[i][1] == invite.code) yes = false;
-          }
-          if (yes) invites.push([g.id, invite.code, invite.uses]);
-        });
+    const guild = client.guilds.cache.get('830495072876494879');
+    guild.fetchInvites().then(guildInvites => {
+      guildInvites.forEach(invite => {
+        let yes = true;
+        for(let i = 0; i < invites.length; ++i) {
+          if (invites[i][1] == invite.code) yes = false;
+        }
+        if (yes) invites.push([g.id, invite.code, invite.uses]);
       });
+      console.log(guildInvites)
     });
     console.log(invites);
   }, 4000);
