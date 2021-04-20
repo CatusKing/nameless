@@ -527,17 +527,14 @@ client.on('inviteDelete', () => {
 client.on('guildMemberAdd', member => {
   member.guild.fetchInvites().then(guildInvites => {
     guildInvites.forEach(invite => {
-      for(let i = 0; i < guildInvites.length; ++i) {
-        let j = findInvite(invite.code);
-        if (j == -1) continue;
-        if (invite.uses > invites[j][1]) {
-          const inviter = client.users.cache.get(invites[j][2]);
-          log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
-        }
+      let j = findInvite(invite.code);
+      if (j == -1) return;
+      if (invite.uses > invites[j][1]) {
+        const inviter = client.users.cache.get(invites[j][2]);
+        log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
       }
     });
   });
-  setTimeout(updateInvites, 4000);
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
