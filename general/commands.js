@@ -16,7 +16,7 @@ const dmCommands = (client = Discord.Client, msg = Discord.Message) => {
   }
 };
 
-const announcements = (client = Discord.Client,msg = Discord.Message) => {
+const announcements = (client = Discord.Client, msg = Discord.Message) => {
   const announcementChannel = client.channels.cache.get('830506698908893235');
   const eventChannel = client.channels.cache.get('830506718164287498');
   if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
@@ -103,7 +103,7 @@ const balance = (msg = Discord.Message, reply, currency = Discord.Collection) =>
   return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
 };
 
-const gamble = async (client = Discord.Client, msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+const gamble = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMinimal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
   const balance = await currency.getBalance(msg.author.id);
   const bank = await currency.getBalance('bank');
@@ -143,11 +143,11 @@ const gamble = async (client = Discord.Client, msg = Discord.Message, args = [],
     log('830503210951245865', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}🍰`, '#ff7784');
   }
   msg.channel.send(embed);
-}
+};
 
 const bank = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
   reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
-}
+};
 
 const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
@@ -161,7 +161,7 @@ const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Co
     reply(msg.channel.id, `Given ${amount}🍰 to ${target}\nThey now have ${balance + amount}🍰`, '#baffc9');
     log('830503210951245865', `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
   } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-}
+};
 
 const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
@@ -175,7 +175,112 @@ const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord
     reply(msg.channel.id, `Taken ${amount}🍰 from ${target}\nThey now have ${balance - amount}🍰`, '#ff7784');
     log('830503210951245865', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
   } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-}
+};
+
+const shop = (msg = Discord.Message, reply) => {
+  var description = '';
+  for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
+  reply(msg.channel.id, description, '#9e9d9d');
+};
+
+const buy = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+  const balance = await currency.getBalance(msg.author.id);
+  
+  if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
+
+  var bought = false;
+
+  for(let i = 0; i < config.shop.length; ++i) {
+    if (args[0].toLowerCase() == config.shop[i][1]) {
+      const role = msg.guild.roles.cache.get(config.shop[i][3]);
+      
+      if (balance < config.shop[i][2]) {
+        reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
+        bought = true;
+        break;
+      }
+      if (config.shop[i][4] == 0) {
+        if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+        msg.member.roles.add(role);
+        currency.addBalance(msg.author.id, -config.shop[i][2]);
+        currency.addBalance('bank', config.shop[i][2]);
+        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
+        reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
+        bought = true;
+        break;
+      } else {
+        if (!msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
+        msg.member.roles.remove(role);
+        currency.addBalance(msg.author.id, -config.shop[i][2]);
+        currency.addBalance('bank', config.shop[i][2]);
+        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
+        reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have removed ${role}`, '#ffffba');
+        bought = true;
+        break;
+      }
+    }
+  }
+  if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
+};
+
+const badges = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+  const balance = await currency.getBalance(msg.author.id);
+  let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
+  for(let i = 0; i < config.badges.length; ++i) {
+    const role = msg.guild.roles.cache.get(config.badges[i][1]);
+
+    if (config.badges[i][2] <= balance) {
+
+      if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role);
+      description += `\n✅ ${config.badges[i][0]}`;
+    }
+  }
+  reply(msg.channel.id, description, '#ffffba');
+};
+
+const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+  const weekly = await currency.getWeekly(msg.author.id);
+
+  if (weekly <= hours(Date.now())) {
+    await currency.addBalance(msg.author.id, 2000);
+    currency.addBalance('bank', -2000);
+    currency.setWeekly(msg.author.id, hours(Date.now()) + 167);
+    reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
+    log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
+  } else {
+    let result = weekly - hours(Date.now());
+
+    if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
+    else if (result == 1) `${result} hour`;
+    else result = `${result} hours`;
+    reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
+  }
+};
+
+const daily = async (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+  var date = new Date();
+
+  if (await currency.getDaily(msg.author.id) != date.getDate()) {
+    currency.addBalance(msg.author.id, 200);
+    currency.addBalance('bank', -200);
+    currency.setDaily(msg.author.id, date.getDate());
+    reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
+    log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
+  } else {
+    let result = 24 - date.getHours();
+
+    if (result == 1) result = `${result} hour`;
+    else result = `${result} hours`;
+    reply(msg.channel.id, `${msg.author} you have already claimed for the day\nYou can claim again in ${result}`, '#9e9d9d');
+  }
+};
+
+const lb = (msg = Discord.Message, reply, updateLeaderboard) => {
+  if (msg.member.roles.cache.has('830496065366130709')) {
+    updateLeaderboard();
+    reply(msg.channel.id, `Updated the leaderboard`, '#ffffba');
+  } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
+};
 
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
@@ -186,3 +291,9 @@ exports.gamble = gamble;
 exports.bank = bank;
 exports.add = add;
 exports.remove = remove;
+exports.shop = shop;
+exports.buy = buy;
+exports.badges = badges;
+exports.weekly = weekly;
+exports.daily = daily;
+exports.lb = lb;

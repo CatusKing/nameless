@@ -260,7 +260,7 @@ client.on('message', async msg => {
   } else if (['balance', 'bal'].includes(command)) {
     commands.balance(msg, reply, currency);
   } else if (['gamble', 'g'].includes(command)) {
-    commands.gamble(client, msg, args, reply, log, currency);
+    commands.gamble(msg, args, reply, log, currency);
   } else if (command == 'bank' || command == 'b') {
     commands.bank(msg, reply, currency);
   } else if (command == 'add') {
@@ -268,98 +268,17 @@ client.on('message', async msg => {
   } else if (command == 'remove') {
     commands.remove(msg, args, reply, log, currency);
   } else if (command == 'shop') {
-    var description = '';
-    for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
-    reply(msg.channel.id, description, '#9e9d9d');
+    commands.shop(msg, reply);
   } else if (command == 'buy') {
-    const balance = await currency.getBalance(msg.author.id);
-    
-    if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
-
-    var bought = false;
-
-    for(let i = 0; i < config.shop.length; ++i) {
-      if (args[0].toLowerCase() == config.shop[i][1]) {
-        const role = msg.guild.roles.cache.get(config.shop[i][3]);
-        
-        if (balance < config.shop[i][2]) {
-          reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
-          bought = true;
-          break;
-        }
-        if (config.shop[i][4] == 0) {
-          if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
-          msg.member.roles.add(role);
-          currency.addBalance(msg.author.id, -config.shop[i][2]);
-          currency.addBalance('bank', config.shop[i][2]);
-          log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
-          reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
-          bought = true;
-          break;
-        } else {
-          if (!msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
-          msg.member.roles.remove(role);
-          currency.addBalance(msg.author.id, -config.shop[i][2]);
-          currency.addBalance('bank', config.shop[i][2]);
-          log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
-          reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have removed ${role}`, '#ffffba');
-          bought = true;
-          break;
-        }
-      }
-    }
-    if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
+    commands.buy(msg, args, reply, log, currency);
   } else if (command == 'badges') {
-    const balance = await currency.getBalance(msg.author.id);
-    let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
-    for(let i = 0; i < config.badges.length; ++i) {
-      const role = msg.guild.roles.cache.get(config.badges[i][1]);
-
-      if (config.badges[i][2] <= balance) {
-
-        if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role);
-        description += `\n✅ ${config.badges[i][0]}`;
-      }
-    }
-    reply(msg.channel.id, description, '#ffffba');
+    commands.badges(msg, reply, currency);
   } else if (command == 'weekly') {
-    const weekly = await currency.getWeekly(msg.author.id);
-
-    if (weekly <= hours(Date.now())) {
-      await currency.addBalance(msg.author.id, 2000);
-      currency.addBalance('bank', -2000);
-      currency.setWeekly(msg.author.id, hours(Date.now()) + 167);
-      reply(msg.channel.id, `${msg.author} just claimed 2k🍰 for the week`, '#baffc9');
-      log('830503210951245865', `+2000🍰 to ${msg.author} for their weekly claim`, '#baffc9');
-    } else {
-      let result = weekly - hours(Date.now());
-
-      if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
-      else if (result == 1) `${result} hour`;
-      else result = `${result} hours`;
-      reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
-    }
+    commands.weekly(msg, reply, log, currency);
   } else if (command == 'daily') {
-    var date = new Date();
-
-    if (await currency.getDaily(msg.author.id) != date.getDate()) {
-      currency.addBalance(msg.author.id, 200);
-      currency.addBalance('bank', -200);
-      currency.setDaily(msg.author.id, date.getDate());
-      reply(msg.channel.id, `${msg.author} just claimed 200🍰 for the day`, '#baffc9');
-      log('830503210951245865', `+200🍰 to ${msg.author} for their daily claim`, '#baffc9');
-    } else {
-      let result = 24 - date.getHours();
-
-      if (result == 1) result = `${result} hour`;
-      else result = `${result} hours`;
-      reply(msg.channel.id, `${msg.author} you have already claimed for the day\nYou can claim again in ${result}`, '#9e9d9d');
-    }
+    commands.daily(msg, reply, log, currency);
   } else if (command == 'lb') {
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      updateLeaderboard();
-      reply(msg.channel.id, `Updated the leaderboard`, '#ffffba');
-    } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
+    commands.lb(msg, reply, updateLeaderboard);
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the available commands`, '#9e9d9d');
   }
