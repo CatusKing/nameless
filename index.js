@@ -329,4 +329,9 @@ client.on('guildMemberAdd', member => {
   channel.send(embed);
 });
 
+client.on('error', error => {
+  const cactus = client.users.cache.get('473110112844644372')
+  cactus.send(`${cactus} hey error:\n${error}`);
+});
+
 client.login(token.main);
