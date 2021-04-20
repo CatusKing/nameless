@@ -137,7 +137,7 @@ function hours(milliseconds = Number) {
 
 var invites = [];
 
-function updateInvite() {
+function updateInvites() {
   const guild = client.guilds.cache.get('830495072876494879');
   guild.fetchInvites().then(guildInvites => {
     guildInvites.forEach(invite => {
@@ -145,12 +145,17 @@ function updateInvite() {
       for(let i = 0; i < invites.length; ++i) {
         if (invites[i][0] == invite.code) yes = false;
       }
-      if (yes) invites.push([invite.code, invite.uses]);
+      if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
   });
 }
 
-const wait = require('util').promisify(setTimeout);
+function findInvite(code = String) {
+  for(let i = 0; i < invites.length; ++i) {
+    if (invites[i][0] == code) return i;
+  }
+  return -1;
+}
 
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
@@ -204,7 +209,7 @@ client.once('ready', async () => {
   setInterval(updateLeaderboard, 120000);
 
   setTimeout(() => {
-
+    updateInvites();
     console.log(invites);
   }, 4000);
   console.log(invites);
@@ -514,34 +519,28 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
 //Updates the cache of invites
 client.on('inviteCreate', () => {
-  // client.guilds.cache.forEach(g => {
-  //   g.fetchInvites().then(guildInvites => {
-  //     invites[g.id] = guildInvites;
-  //   });
-  // });
+  updateInvites();
 });
 client.on('inviteDelete', () => {
-  // client.guilds.cache.forEach(g => {
-  //   g.fetchInvites().then(guildInvites => {
-  //     invites[g.id] = guildInvites;
-  //   });
-  // });
+  updateInvites();
 });
 
 //Sends welcome message plus who invited them
 client.on('guildMemberAdd', member => {
-  // member.guild.fetchInvites().then(guildInvites => {
-  //   const ei = invites[member.guild.id];
-  //   invites[member.guild.id] = guildInvites;
-  //   const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
-  //   const inviter = client.users.cache.get(invite.inviter.id);
-  //   log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
-  // });
-  // client.guilds.cache.forEach(g => {
-  //   g.fetchInvites().then(guildInvites => {
-  //     invites[g.id] = guildInvites;
-  //   });
-  // });
+  member.guild.fetchInvites().then(guildInvites => {
+    guildInvites.forEach(invite => {
+      for(let i = 0; i < guildInvites.length; ++i) {
+        let j = findInvite(invite.code);
+        if (j == -1) continue;
+        if (invite.uses > invites[j][1]) {
+          const inviter = client.users.cache.get(invites[j][2]);
+          log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
+        }
+      }
+    });
+    
+  });
+  updateInvites();
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
