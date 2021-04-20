@@ -196,9 +196,9 @@ client.once('ready', async () => {
       guildInvites.forEach(invite => {
         let yes = true;
         for(let i = 0; i < invites.length; ++i) {
-          if (invites[i][1] == invite.code) yes = false;
+          if (invites[i][0] == invite.code) yes = false;
         }
-        if (yes) invites.push([g.id, invite.code, invite.uses]);
+        if (yes) invites.push([invite.code, invite.uses]);
       });
       console.log(guildInvites)
     });
