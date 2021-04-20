@@ -3,6 +3,7 @@ const token = require('./general/token.json');
 const config = require('./general/config.json');
 const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
+const commands = require('./general/commands');
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
@@ -235,17 +236,7 @@ client.on('message', async msg => {
   if (msg.author.bot || msg.webhookID) return;
 
   //Dm commands
-  if (msg.channel.type == 'dm') {
-    const guild = client.guilds.cache.get('830495072876494879');
-    const member = guild.members.cache.get(msg.author.id);
-
-    if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
-
-    if (msg.content == '!update') {
-      client.user.setAvatar(guild.iconURL());
-      msg.channel.send('Ran the following updates\nPfP');
-    }
-  }
+  commands.dmCommands(client, msg);
 
   if (msg.channel.type != 'text') return;
 
