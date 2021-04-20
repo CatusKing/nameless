@@ -195,7 +195,7 @@ client.once('ready', async () => {
       g.fetchInvites().then(guildInvites => {
         guildInvites.forEach(invite => {
           let yes = true;
-          for(let i = 0; i < invite.length; ++i) {
+          for(let i = 0; i < invites.length; ++i) {
             if (invites[i][1] == invite.code) yes = false;
           }
           if (yes) invites.push([g.id, invite.code, invite.uses]);
