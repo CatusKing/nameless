@@ -260,7 +260,7 @@ client.on('message', async msg => {
   } else if (['balance', 'bal'].includes(command)) {
     commands.balance(msg, reply, currency);
   } else if (['gamble', 'g'].includes(command)) {
-    commands.gamble(client, msg, reply, log, currency);
+    commands.gamble(client, msg, args, reply, log, currency);
   } else if (command == 'bank' || command == 'b') {
     commands.bank(msg, reply, currency);
   } else if (command == 'add') {

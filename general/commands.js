@@ -103,7 +103,7 @@ const balance = (msg = Discord.Message, reply, currency = Discord.Collection) =>
   return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
 };
 
-const gamble = async (client = Discord.Client, msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+const gamble = async (client = Discord.Client, msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMinimal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
   const balance = await currency.getBalance(msg.author.id);
   const bank = await currency.getBalance('bank');
