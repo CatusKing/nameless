@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('./general/config.json');
+const config = require('./config.json');
 
 const dmCommands = (client = Discord.Client, msg = Discord.Message) => {
   if (msg.channel.type == 'dm') {
