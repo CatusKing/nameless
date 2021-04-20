@@ -270,7 +270,6 @@ client.on('message', async msg => {
       ++warn;
       reason.push(i);
     }
-    console.log(scores[i]);
   }
   if (warn == 1) {
     reply(msg.channel.id, `This is a warning. You have been flagged for the following reason: ${reason[0].toLowerCase()}\nYou had a score of ${scores[reason[0]]}. This has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
