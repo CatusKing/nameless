@@ -238,7 +238,7 @@ const badges = async (msg = Discord.Message, reply, currency = Discord.Collectio
   reply(msg.channel.id, description, '#ffffba');
 };
 
-const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Collection, hours) => {
   const weekly = await currency.getWeekly(msg.author.id);
 
   if (weekly <= hours(Date.now())) {

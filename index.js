@@ -274,7 +274,7 @@ client.on('message', async msg => {
   } else if (command == 'badges') {
     commands.badges(msg, reply, currency);
   } else if (command == 'weekly') {
-    commands.weekly(msg, reply, log, currency);
+    commands.weekly(msg, reply, log, currency, hours);
   } else if (command == 'daily') {
     commands.daily(msg, reply, log, currency);
   } else if (command == 'lb') {
