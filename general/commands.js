@@ -94,6 +94,17 @@ const help = (msg = Discord.Message, reply) => {
   reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d'); 
 };
 
+const income = (reply) => {
+  reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 points per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain.\n2. Spending 1 minute in vc will give you +2🍰 points. If you are not muted you will instead get a total of +5🍰 points. If you are not muted and use camera you will get a total +8🍰 points. If you can not use your camera you can instead screenshare while unmuted to get a total of +6🍰 points.\n3. also events may give points :D`, '#ffffba');
+};
+
+const balance = (msg = Discord.Message, reply, currency = Discord.Collector) => {
+  const target = msg.mentions.users.first() || msg.author;
+  return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
+};
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
+exports.income = income;
+exports.balance = balance;
