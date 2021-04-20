@@ -1,16 +1,13 @@
 const Discord = require('discord.js');
 const token = require('./general/token.json');
 const config = require('./general/config.json');
-const data = require('./general/invites.json')
 const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
-const fs = require('fs');
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
-var invites = data.invites;
 
 function start() {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -138,6 +135,8 @@ function hours(milliseconds = Number) {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
 }
 
+var invites = [];
+
 function updateInvite() {
   const guild = client.guilds.cache.get('830495072876494879');
   guild.fetchInvites().then(guildInvites => {
@@ -147,11 +146,6 @@ function updateInvite() {
         if (invites[i][0] == invite.code) yes = false;
       }
       if (yes) invites.push([invite.code, invite.uses]);
-      var tempData = {
-        invites: invites
-      };
-      let json = JSON.stringify(tempData);
-      fs.writeFileSync('general/invites.json', json);
     });
   });
 }
