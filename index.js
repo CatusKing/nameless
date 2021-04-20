@@ -260,74 +260,13 @@ client.on('message', async msg => {
   } else if (['balance', 'bal'].includes(command)) {
     commands.balance(msg, reply, currency);
   } else if (['gamble', 'g'].includes(command)) {
-
-    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMinimal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
-    const balance = await currency.getBalance(msg.author.id);
-    const bank = await currency.getBalance('bank');
-    var bet = 0;
-
-    if (args[0] == 'all') bet = balance;
-    else if (!isNaN(args[0]) && Math.floor(args[0]) >= 500) bet = Math.floor(args[0]);
-    else return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🍰`, '#9e9d9d');
-    
-    if (bet > balance || bet < 500) return reply(msg.channel.id, `Not enough funds! Your balance is ${balance}🍰 You need at least 500🍰`, '#9e9d9d');
-    var slot1 = Math.floor(Math.random() * config.emojis.length);
-    var slot2 = Math.floor(Math.random() * config.emojis.length);
-    var slot3 = Math.floor(Math.random() * config.emojis.length);
-    const diamond = config.emojis.length - 1;
-    let total = 0;
-    
-    if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
-    else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
-    else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
-    else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) total = bet * 2;
-    
-    if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
-    let outcome = total - bet;
-    await currency.addBalance(msg.author.id, outcome);
-    await currency.addBalance('bank', -outcome);
-    var embed = new Discord.MessageEmbed()
-      .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
-      .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
-    
-    if (total > 0) {
-      embed.setColor('#baffc9')
-        .setDescription(`You Spent: ${bet}🍰\nYou made: ${total}🍰 (${balance + outcome}🍰)\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
-      log('830503210951245865', `+${outcome}🍰 to ${msg.author} from gambling ${bet}🍰`, '#baffc9');
-    } else {
-      embed.setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}🍰\nYou Made: ${total}🍰 (${balance + outcome}🍰)\n${-outcome}🍰 points added to the bank(${bank + -outcome}🍰)`);
-      log('830503210951245865', `-${-outcome}🍰 to ${msg.author} from gambling ${bet}🍰`, '#ff7784');
-    }
-    msg.channel.send(embed);
+    commands.gamble(client, msg, reply, log, currency);
   } else if (command == 'bank' || command == 'b') {
-    reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
+    commands.bank(msg, reply, currency);
   } else if (command == 'add') {
-
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      const target = msg.mentions.users.first() || msg.author;
-
-      if (isNaN(args[0])) return reply(msg.channel.id, `Sorry you need to use the command like this ${prefix}add <amount> [@User]`, '#9e9d9d');
-      const amount = Math.floor(args[0]);
-      const balance = currency.getBalance(target.id);
-      currency.addBalance(target.id, amount);
-      currency.addBalance('bank', -amount);
-      reply(msg.channel.id, `Given ${amount}🍰 to ${target}\nThey now have ${balance + amount}🍰`, '#baffc9');
-      log('830503210951245865', `+${amount}🍰 to ${target} given by ${msg.author}`, '#baffc9');
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+    commands.add(msg, reply, log, currency);
   } else if (command == 'remove') {
-    
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      const target = msg.mentions.users.first() || msg.author;
-
-      if (isNaN(args[0])) return reply(msg.channel.id, `Sorry you need to use the command like this ${prefix}remove <amount> [@User]`, '#9e9d9d');
-      const amount = Math.floor(args[0]);
-      const balance = currency.getBalance(target.id);
-      currency.addBalance(target.id, -amount);
-      currency.addBalance('bank', amount);
-      reply(msg.channel.id, `Taken ${amount}🍰 from ${target}\nThey now have ${balance - amount}🍰`, '#ff7784');
-      log('830503210951245865', `-${amount}🍰 to ${target} taken by ${msg.author}`, '#ff7784');
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+    commands.remove(msg, reply, log, currency);
   } else if (command == 'shop') {
     var description = '';
     for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
