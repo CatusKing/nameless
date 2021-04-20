@@ -3,12 +3,26 @@ const token = require('./general/token.json');
 const config = require('./general/config.json');
 const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
+const {google} = require('googleapis');
 const commands = require('./general/commands');
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
+var invites = [];
+const ATTRIBUTES = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
+const analyzeRequest = {
+  comment: {
+    text: '',
+  },
+  requestedAttributes: {
+    SEVERE_TOXICITY: {},
+    IDENTITY_ATTACK: {},
+    THREAT: {},
+    SEXUALLY_EXPLICIT: {},
+  },
+};
 
 function start() {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -146,8 +160,6 @@ function updateMemberCount() {
   return false;
 }
 
-var invites = [];
-
 function updateInvites() {
   const guild = client.guilds.cache.get('830495072876494879');
   guild.fetchInvites().then(guildInvites => {
@@ -167,6 +179,18 @@ function findInvite(code = String) {
   }
   return -1;
 }
+
+async function get_attrs (text) {
+  const app = await google.discoverAPI(config.url);
+  analyzeRequest.comment.text = text;
+  const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
+  const attrs = {};
+  for (let attr of ATTRIBUTES) {
+    const prediction = response.data["attributeScores"][attr]["summaryScore"]["value"];
+    attrs[attr] = prediction;
+  }
+  return attrs;
+};
 
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
@@ -236,6 +260,31 @@ client.on('message', async msg => {
   commands.dmCommands(client, msg);
 
   if (msg.channel.type != 'text') return;
+
+  //Hate Speech detection
+  var warn = 0;
+  var reason = [];
+  const scores = await get_attrs(msg.content)
+  for(let i of ATTRIBUTES) {
+    if (scores[i] >= 0.85) {
+      ++warn;
+      reason.push(i);
+    }
+    console.log(scores[i]);
+  }
+  if (warn == 1) {
+    reply(msg.channel.id, `This is a warning. You have been flagged for ${reason[0].toLowerCase()}. You had a score of ${scores[reason[0]]}`, '#ff0000');
+    log('834179033289719839', `Warned\nReason:\n${reason[0].toLowerCase()}: ${scores[reason[0]]}\nContent:\n${msg.content}\n${msg.url}`, '#9e9d9d');
+  } else if (warn > 1) {
+    var description = '';
+    for(let i of reason) {
+      description += `${i.toLowerCase()}: ${scores[i]}`;
+    }
+    const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+    msg.member.roles.add(role);
+    reply(msg.channel.id, `You have been muted for the following reasons:\n${description}\nYour mute will be lifted after further mod actions.`, '#ff0000');
+    log('834179033289719839', `**Muted**\nReasons:\n${description}\nContent:\n${msg.content}\n${msg.url}`, '#9e9d9d');
+  }
 
   //Points
   const cooldown = currency.getCooldown(msg.author.id);
