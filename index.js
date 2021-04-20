@@ -200,7 +200,6 @@ client.once('ready', async () => {
         }
         if (yes) invites.push([invite.code, invite.uses]);
       });
-      console.log(guildInvites)
     });
     console.log(invites);
   }, 4000);
