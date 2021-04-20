@@ -143,7 +143,7 @@ function updateInvite(code = String, uses = String) {
     if (invites[i][0] == code) yes = false;
   }
   if (yes) invites.push([code, uses]);
-  console.log(invites);
+  return invites;
 }
 
 const wait = require('util').promisify(setTimeout);
@@ -203,7 +203,7 @@ client.once('ready', async () => {
     const guild = client.guilds.cache.get('830495072876494879');
     guild.fetchInvites().then(guildInvites => {
       guildInvites.forEach(invite => {
-        updateInvite(invite.code, invite.uses)
+        invites = updateInvite(invite.code, invite.uses);
       });
     });
     console.log('new' + invites);
