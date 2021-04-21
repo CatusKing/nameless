@@ -13,7 +13,7 @@ const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
-const ATTRIBUTES = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
+const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = {
   comment: {
     text: '',
@@ -279,7 +279,7 @@ client.on('message', async msg => {
     var warn = 0;
     var reason = [];
     const scores = await get_attrs(msg.content)
-    for(let i of ATTRIBUTES) {
+    for(let i of attributes) {
       if (scores[i] >= 0.75) {
         ++warn;
         reason.push(i);
