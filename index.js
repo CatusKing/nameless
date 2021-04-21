@@ -329,7 +329,7 @@ client.on('message', async msg => {
     commands.balance(msg, reply, currency);
   } else if (['gamble', 'g'].includes(command)) {
     commands.gamble(msg, args, reply, log, currency);
-  } else if (command == 'bank' || command == 'b') {
+  } else if (['bank', 'b'].includes(command)) {
     commands.bank(msg, reply, currency);
   } else if (command == 'add') {
     commands.add(msg, args, reply, log, currency);
@@ -348,22 +348,31 @@ client.on('message', async msg => {
   } else if (command == 'lb') {
     commands.lb(msg, reply, updateLeaderboard);
   } else if (command == 'ignore') {
-    
-    if (tempData.ignoredCh.includes(msg.channel.id)) {
-      for(var i = 0; i < tempData.ignoredCh.length; i++) {
-
-        if (tempData.ignoredCh[i] == msg.channel.id) {
-          tempData.ignoredCh.splice(i, 1);
-          reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
-          break;
+    if (msg.member.roles.cache.has('830496065366130709')) {
+      if (tempData.ignoredCh.includes(msg.channel.id)) {
+        for(var i = 0; i < tempData.ignoredCh.length; i++) {
+  
+          if (tempData.ignoredCh[i] == msg.channel.id) {
+            tempData.ignoredCh.splice(i, 1);
+            reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
+            break;
+          }
         }
+      } else {
+        tempData.ignoredCh.push(msg.channel.id);
+        reply(msg.channel.id, `Ignoring this channel from auto mod\nid: ${msg.channel.id}`, '#9e9d9d');
       }
-    } else {
-      tempData.ignoredCh.push(msg.channel.id);
-      reply(msg.channel.id, `Ignoring this channel from auto mod\nid: ${msg.channel.id}`, '#9e9d9d');
-    }
-    let json = JSON.stringify(tempData);
-    fs.writeFileSync('general/data.json', json);
+      let json = JSON.stringify(tempData);
+      fs.writeFileSync('general/data.json', json);
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'ignores') {
+    if (msg.member.roles.cache.has('830496065366130709')) {
+      var description = '';
+      for(let i of tempData.ignoredCh) {
+        description += `${client.channels.cache.get(i).name} - ${i}\n`
+      }
+      reply(msg.channel.id, description, '#9e9d9d');
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the available commands`, '#9e9d9d');
   }
