@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 const {google} = require('googleapis');
 const commands = require('./general/commands');
 const data = require('./general/data.json');
-
+const fs = require('fs');
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
