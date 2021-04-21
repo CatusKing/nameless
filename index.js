@@ -270,7 +270,7 @@ client.on('message', async msg => {
   const characters = msg.content.split('');
   var letters = false;
   for(let i of characters) {
-    if (config.abc.includes[i.toLowerCase()]) {
+    if (config.abc.includes(i.toLowerCase())) {
       letters = true;
       break;
     }
