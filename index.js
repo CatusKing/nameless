@@ -347,18 +347,20 @@ client.on('message', async msg => {
     commands.daily(msg, reply, log, currency);
   } else if (command == 'lb') {
     commands.lb(msg, reply, updateLeaderboard);
-  } else if (command == 'mute') {
+  } else if (command == 'ignore') {
     
     if (tempData.ignoredCh.includes(msg.channel.id)) {
       for(var i = 0; i < tempData.ignoredCh.length; i++) {
 
         if (tempData.ignoredCh[i] == msg.channel.id) {
           tempData.ignoredCh.splice(i, 1);
+          reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
           break;
         }
       }
     } else {
       tempData.ignoredCh.push(msg.channel.id);
+      reply(msg.channel.id, `Ignoring this channel from auto mod\nid: ${msg.channel.id}`, '#9e9d9d');
     }
     let json = JSON.stringify(tempData);
     fs.writeFileSync('general/data.json', json);
