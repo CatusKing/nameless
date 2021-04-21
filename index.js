@@ -5,6 +5,8 @@ const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
 const {google} = require('googleapis');
 const commands = require('./general/commands');
+const data = require('./general/data.json');
+
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const currency = new Discord.Collection();
@@ -23,6 +25,9 @@ const analyzeRequest = {
     SEXUALLY_EXPLICIT: {},
   },
 };
+const tempData = {
+  ignoredCh: data.ignoredCh,
+}
 
 function start() {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -262,7 +267,15 @@ client.on('message', async msg => {
   if (msg.channel.type != 'text') return;
 
   //Hate Speech detection
-  if (msg.content.length > 1) {
+  const characters = msg.content.split('');
+  var letters = false;
+  for(let i of characters) {
+    if (config.abc.includes[i.toLowerCase()]) {
+      letters = true;
+      break;
+    }
+  }
+  if (letters && !tempData.ignoredCh.includes(msg.channel.id)) {
     var warn = 0;
     var reason = [];
     const scores = await get_attrs(msg.content)
@@ -334,6 +347,21 @@ client.on('message', async msg => {
     commands.daily(msg, reply, log, currency);
   } else if (command == 'lb') {
     commands.lb(msg, reply, updateLeaderboard);
+  } else if (command == 'mute') {
+    
+    if (tempData.ignoredCh.includes(msg.channel.id)) {
+      for(var i = 0; i < tempData.ignoredCh.length; i++) {
+
+        if (tempData.ignoredCh[i] == msg.channel.id) {
+          tempData.ignoredCh.splice(i, 1);
+          break;
+        }
+      }
+    } else {
+      tempData.ignoredCh.push(msg.channel.id);
+    }
+    let json = JSON.stringify(tempData);
+    fs.writeFileSync('general/data.json', json);
   } else {
     reply(msg.channel.id, `You can use ${prefix}help to see the available commands`, '#9e9d9d');
   }

@@ -2,3 +2,4 @@ node_modules
 general/token.json
 database.sqlite
 .vscode
+data.json
