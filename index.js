@@ -190,7 +190,7 @@ async function get_attrs (text) {
   analyzeRequest.comment.text = text;
   const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
   const attrs = {};
-  for (let attr of ATTRIBUTES) {
+  for (let attr of attributes) {
     const prediction = response.data["attributeScores"][attr]["summaryScore"]["value"];
     attrs[attr] = prediction;
   }
