@@ -188,9 +188,7 @@ function findInvite(code = String) {
 async function get_attrs (text) {
   const app = await google.discoverAPI(config.url);
   analyzeRequest.comment.text = text;
-  try {
-    const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
-  } catch (error) { }
+  const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
   const attrs = {};
   for (let attr of attributes) {
     const prediction = response.data["attributeScores"][attr]["summaryScore"]["value"];
