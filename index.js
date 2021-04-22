@@ -27,6 +27,7 @@ const analyzeRequest = {
 };
 const tempData = {
   ignoredCh: data.ignoredCh,
+  admins: data.admins,
 }
 
 function start() {
@@ -276,7 +277,7 @@ client.on('message', async msg => {
         break;
       }
     }
-    if (letters && !tempData.ignoredCh.includes(msg.channel.id)) {
+    if (letters && !tempData.ignoredCh.includes(msg.channel.id) && !tempData.admins.includes(msg.author.id)) {
       var warn = 0;
       var reason = [];
       const scores = await get_attrs(msg.content)
@@ -351,6 +352,30 @@ client.on('message', async msg => {
     commands.lb(msg, reply, updateLeaderboard);
   } else if (command == 'ping') {
     commands.ping(client, msg, reply);
+  } else if (command == 'admin') {
+    if (msg.member.roles.cache.has('830496065366130709')) {
+      if (tempData.admins.includes(msg.author.id)) {
+        for(var i = 0; i < tempData.admins.length; i++) {
+  
+          if (tempData.admins[i] == msg.author.id) {
+            tempData.admins.splice(i, 1);
+            reply(msg.channel.id, `No longer ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
+            break;
+          }
+        }
+      } else {
+        tempData.admins.push(msg.author.id);
+        reply(msg.channel.id, `Ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
+      }
+      let json = JSON.stringify(tempData);
+      fs.writeFileSync('general/data.json', json);
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'admins') {
+    var description = '';
+    for(let i of tempData.admins) {
+      description += `${client.users.cache.get(i).tag} - ${i}\n`
+    }
+    reply(msg.channel.id, description, '#9e9d9d');
   } else if (command == 'ignore') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.ignoredCh.includes(msg.channel.id)) {
