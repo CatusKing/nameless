@@ -257,7 +257,7 @@ client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on('message', msg => {
+client.on('message', async msg => {
   if (msg.author.bot || msg.webhookID || msg.channel.type != 'text' || msg.content.toLowerCase().startsWith(prefix)) return;
 
   //Hate Speech detection
