@@ -257,15 +257,8 @@ client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-//Non-currency stuff
-client.on('message', async msg => {
-
-  if (msg.author.bot || msg.webhookID) return;
-
-  //Dm commands
-  commands.dmCommands(client, msg);
-
-  if (msg.channel.type != 'text') return;
+client.on('message', msg => {
+  if (msg.author.bot || msg.webhookID || msg.channel.type != 'text' || msg.content.toLowerCase().startsWith(prefix)) return;
 
   //Hate Speech detection
   try {
@@ -307,6 +300,16 @@ client.on('message', async msg => {
       }
     }
   } catch (error) { }
+});
+
+client.on('message', async msg => {
+
+  if (msg.author.bot || msg.webhookID) return;
+
+  //Dm commands
+  commands.dmCommands(client, msg);
+
+  if (msg.channel.type != 'text') return;
 
   //Points
   const cooldown = currency.getCooldown(msg.author.id);
@@ -320,7 +323,7 @@ client.on('message', async msg => {
   commands.announcements(client, msg);
   
   //Currency Stuff
-  if (!msg.content.startsWith(prefix) || msg.channel.type != 'text') return;
+  if (!msg.content.toLowerCase().startsWith(prefix)) return;
   const args = msg.content.slice(prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
 
