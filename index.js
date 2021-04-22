@@ -371,7 +371,7 @@ client.on('message', async msg => {
       fs.writeFileSync('general/data.json', json);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'admins') {
-    var description = '';
+    var description = 'Admins\n';
     for(let i of tempData.admins) {
       description += `${client.users.cache.get(i).tag} - ${i}\n`
     }
@@ -396,7 +396,7 @@ client.on('message', async msg => {
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'ignores') {
     if (msg.member.roles.cache.has('830496065366130709')) {
-      var description = '';
+      var description = 'Ignored channels\n';
       for(let i of tempData.ignoredCh) {
         description += `${client.channels.cache.get(i).name} - ${i}\n`
       }
