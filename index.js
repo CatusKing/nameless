@@ -349,6 +349,8 @@ client.on('message', async msg => {
     commands.daily(msg, reply, log, currency);
   } else if (command == 'lb') {
     commands.lb(msg, reply, updateLeaderboard);
+  } else if (command == 'ping') {
+    commands.ping(client, msg, reply);
   } else if (command == 'ignore') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.ignoredCh.includes(msg.channel.id)) {

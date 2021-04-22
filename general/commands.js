@@ -282,6 +282,17 @@ const lb = (msg = Discord.Message, reply, updateLeaderboard) => {
   } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
 };
 
+const ping = (client = Discord.Client, msg = Discord.Message, reply) => {
+  msg.channel.send('Pinging...').then((message) => {
+    const ping = new Discord.MessageEmbed()
+      .setColor('#9e9d9d')
+      .setTitle('Pong!')
+      .setDescription(`Roundtrip latency is ${Math.floor(message.createdTimestamp - msg.createdTimestamp)}ms \nAPI Latency is ${Math.round(client.ws.ping)}ms`);
+    message.edit(ping);
+    message.edit("\u200B");
+  });
+}
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
@@ -297,3 +308,4 @@ exports.badges = badges;
 exports.weekly = weekly;
 exports.daily = daily;
 exports.lb = lb;
+exports.ping = ping;
