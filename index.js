@@ -265,7 +265,7 @@ client.once('ready', async () => {
 
   setInterval(updateMemberCount, 900000);
 
-  setInterval(checkCh, 60000);
+  setInterval(checkCh, 30000);
 
   console.log(`Logged in as ${client.user.tag}`);
 });
