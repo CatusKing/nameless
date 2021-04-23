@@ -3,7 +3,7 @@ const token = require('./general/token.json');
 const config = require('./general/config.json');
 const { Users } = require('./dbObjects');
 const { Op } = require('sequelize');
-const {google} = require('googleapis');
+const { google } = require('googleapis');
 const commands = require('./general/commands');
 const data = require('./general/data.json');
 const fs = require('fs');
@@ -28,7 +28,7 @@ const analyzeRequest = {
 const tempData = {
   ignoredCh: data.ignoredCh,
   admins: data.admins,
-}
+};
 
 function start() {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -43,7 +43,7 @@ function start() {
       return newUser;
     },
   });
-  
+
   Reflect.defineProperty(currency, 'setCooldown', {
     value: async function setCooldown(id, amount) {
       const user = currency.get(id);
@@ -82,14 +82,14 @@ function start() {
       return newUser;
     },
   });
-  
+
   Reflect.defineProperty(currency, 'getCooldown', {
     value: function getCooldown(id) {
       const user = currency.get(id);
       return user ? user.cooldown : 0;
     },
   });
-  
+
   Reflect.defineProperty(currency, 'getBalance', {
     value: function getBalance(id) {
       const user = currency.get(id);
@@ -110,7 +110,7 @@ function start() {
       return user ? user.daily : 0;
     },
   });
-}
+};
 
 start();
 
@@ -118,13 +118,13 @@ function log(channelId = String, content = String, color = String) {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
   channel.send(embed);
-}
+};
 
 function reply(channelId = String, content = String, color = String) {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
   channel.send(embed);
-}
+};
 
 function round(balance = Number) {
   let bal = balance + '';
@@ -133,7 +133,7 @@ function round(balance = Number) {
   else if (bal.length > 6 && bal.length < 10) return `${Math.round(bal / 10000) / 100}m`;
   else if (bal.length > 9 && bal.length < 13) return `${Math.round(bal / 10000000) / 100}b`;
   else return bal;
-}
+};
 
 function updateLeaderboard() {
   client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
@@ -150,11 +150,11 @@ function updateLeaderboard() {
       message.edit(embed);
     })
     .catch(console.error);
-}
+};
 
 function hours(milliseconds = Number) {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
-}
+};
 
 function updateMemberCount() {
   const playersCh = client.channels.cache.get('834038553632702505');
@@ -164,29 +164,29 @@ function updateMemberCount() {
     return true;
   }
   return false;
-}
+};
 
 function updateInvites() {
   const guild = client.guilds.cache.get('830495072876494879');
   guild.fetchInvites().then(guildInvites => {
     guildInvites.forEach(invite => {
       let yes = true;
-      for(let i = 0; i < invites.length; ++i) {
+      for (let i = 0; i < invites.length; ++i) {
         if (invites[i][0] == invite.code) yes = false;
       }
       if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
   });
-}
+};
 
 function findInvite(code = String) {
-  for(let i = 0; i < invites.length; ++i) {
+  for (let i = 0; i < invites.length; ++i) {
     if (invites[i][0] == code) return i;
   }
   return -1;
-}
+};
 
-async function get_attrs (text) {
+async function get_attrs(text) {
   const app = await google.discoverAPI(config.url);
   analyzeRequest.comment.text = text;
   const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
@@ -198,6 +198,16 @@ async function get_attrs (text) {
   return attrs;
 };
 
+function checkCh() {
+  const videoOnlyCh = client.channels.cache.get('831347288710316032');
+  const generalCh = client.channels.cache.get('830495073430929472');
+  videoOnlyCh.members.forEach(m => {
+    if (!m.voice.selfVideo) {
+      m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
+    }
+  });
+}
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
@@ -205,7 +215,7 @@ client.once('ready', async () => {
     const guild = client.guilds.cache.get('830495072876494879');
     var description = '';
     guild.channels.cache.forEach(ch => {
-      
+
       if (ch.type == 'voice' && ch.id != '830505700269883412') {
         ch.members.forEach(m => {
 
@@ -239,7 +249,7 @@ client.once('ready', async () => {
       .first(1)
       .forEach((user, position) => {
         top = client.users.cache.get(user.user_id).tag;
-    });
+      });
     let bank = round(await currency.getBalance('bank'));
     client.user.setActivity(config.status[status]
       .replace('%bank%', bank)
@@ -254,6 +264,9 @@ client.once('ready', async () => {
   }, 4000);
 
   setInterval(updateMemberCount, 900000);
+
+  setInterval(checkCh, 60000);
+
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -265,7 +278,7 @@ client.on('message', async msg => {
   try {
     const characters = msg.content.split('');
     var letters = false;
-    for(let i of characters) {
+    for (let i of characters) {
       if (config.abc.includes(i.toLowerCase())) {
         letters = true;
         break;
@@ -275,7 +288,7 @@ client.on('message', async msg => {
       var warn = 0;
       var reason = [];
       const scores = await get_attrs(msg.content)
-      for(let i of attributes) {
+      for (let i of attributes) {
         if (scores[i] >= 0.75) {
           ++warn;
           reason.push(i);
@@ -291,7 +304,7 @@ client.on('message', async msg => {
         log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
       } else if (warn > 1) {
         var description = '';
-        for(let i of reason) {
+        for (let i of reason) {
           description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
         }
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
@@ -320,9 +333,9 @@ client.on('message', async msg => {
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
-  
+
   commands.announcements(client, msg);
-  
+
   //Currency Stuff
   if (!msg.content.toLowerCase().startsWith(prefix)) return;
   const args = msg.content.slice(prefix.length).trim().split(' ');
@@ -359,8 +372,8 @@ client.on('message', async msg => {
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {
-        for(var i = 0; i < tempData.admins.length; i++) {
-  
+        for (var i = 0; i < tempData.admins.length; i++) {
+
           if (tempData.admins[i] == msg.author.id) {
             tempData.admins.splice(i, 1);
             reply(msg.channel.id, `No longer ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
@@ -376,15 +389,15 @@ client.on('message', async msg => {
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'admins') {
     var description = 'Admins\n';
-    for(let i of tempData.admins) {
+    for (let i of tempData.admins) {
       description += `${client.users.cache.get(i).tag} - ${i}\n`
     }
     reply(msg.channel.id, description, '#9e9d9d');
   } else if (command == 'ignore') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.ignoredCh.includes(msg.channel.id)) {
-        for(var i = 0; i < tempData.ignoredCh.length; i++) {
-  
+        for (var i = 0; i < tempData.ignoredCh.length; i++) {
+
           if (tempData.ignoredCh[i] == msg.channel.id) {
             tempData.ignoredCh.splice(i, 1);
             reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
@@ -401,7 +414,7 @@ client.on('message', async msg => {
   } else if (command == 'ignores') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       var description = 'Ignored channels\n';
-      for(let i of tempData.ignoredCh) {
+      for (let i of tempData.ignoredCh) {
         description += `${client.channels.cache.get(i).name} - ${i}\n`
       }
       reply(msg.channel.id, description, '#9e9d9d');
