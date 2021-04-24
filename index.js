@@ -7,9 +7,8 @@ const { google } = require('googleapis');
 const commands = require('./general/commands');
 const data = require('./general/data.json');
 const fs = require('fs');
-const Constants = require('discord.js/src/util/Constants.js');
 
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } } });
 const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
@@ -30,7 +29,6 @@ const tempData = {
   ignoredCh: data.ignoredCh,
   admins: data.admins,
 };
-Constants.DefaultOptions.ws.properties.$browser = `Discord iOS`;
 
 function start() {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -256,8 +254,7 @@ client.once('ready', async () => {
     client.user.setActivity(config.status[status]
       .replace('%bank%', bank)
       .replace('%prefix%', prefix)
-      .replace('%top%', top),
-      { type: 3, browser: "DISCORD IOS"  }
+      .replace('%top%', top)
     );
   }, 300000);
   setInterval(updateLeaderboard, 120000);
