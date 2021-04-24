@@ -24,19 +24,23 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
     msg.channel.send(`Is this announcement ok? (Respond yes or no)\n${msg.content.replace('!announce!', '')}`)
       .then(async () => {
         const filter = m => m.author.id == msg.author.id;
-        msg.channel.awaitMessages(filter, {max: 1, time: 15000, errors: ['time']})
+        msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
           .then(async collected => {
-            
+
             if (collected.first().content.toLowerCase().includes('yes')) {
               try {
                 const webhooks = await announcementChannel.fetchWebhooks();
                 const webhook = webhooks.first();
-                
+
                 if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
-                await webhook.send(msg.content.replace('!announce!',''), {
+                var embeds = [];
+                for (let i of msg.attachments) {
+                  embeds.push(new Discord.MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
+                }
+                await webhook.send(msg.content.replace('!announce!', ''), {
                   username: msg.guild.name,
                   avatarURL: msg.guild.iconURL(),
-                  embeds: [],
+                  embeds: embeds,
                 });
               } catch (error) {
                 console.warn(error);
@@ -54,19 +58,23 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
     msg.channel.send(`Is this event ok? (Respond yes or no)\n${msg.content.replace('!event!', '')}`)
       .then(async () => {
         const filter = m => m.author.id == msg.author.id;
-        msg.channel.awaitMessages(filter, {max: 1, time: 15000, errors: ['time']})
+        msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
           .then(async collected => {
-            
+
             if (collected.first().content.toLowerCase().includes('yes')) {
               try {
                 const webhooks = await eventChannel.fetchWebhooks();
                 const webhook = webhooks.first();
-                
+
                 if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
-                await webhook.send(msg.content.replace('!event!',''), {
+                var embeds = [];
+                for (let i of msg.attachments) {
+                  embeds.push(new Discord.MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
+                }
+                await webhook.send(msg.content.replace('!event!', ''), {
                   username: msg.guild.name,
                   avatarURL: msg.guild.iconURL(),
-                  embeds: [],
+                  embeds: embeds,
                 });
               } catch (error) {
                 console.warn(error);
@@ -83,7 +91,7 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
 
 const help = (msg = Discord.Message, reply) => {
   let description = '';
-  for(let i = 0; i < config.help.length; ++i) {
+  for (let i = 0; i < config.help.length; ++i) {
     description += `\n${prefix}${config.help[i]}`;
   }
   var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
@@ -91,7 +99,7 @@ const help = (msg = Discord.Message, reply) => {
     .catch(() => {
       reply(msg.channel.id, description, '#ffffba')
     });
-  reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d'); 
+  reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d');
 };
 
 const income = (reply) => {
@@ -112,19 +120,19 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   if (args[0] == 'all') bet = balance;
   else if (!isNaN(args[0]) && Math.floor(args[0]) >= 500) bet = Math.floor(args[0]);
   else return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🍰`, '#9e9d9d');
-  
+
   if (bet > balance || bet < 500) return reply(msg.channel.id, `Not enough funds! Your balance is ${balance}🍰 You need at least 500🍰`, '#9e9d9d');
   var slot1 = Math.floor(Math.random() * config.emojis.length);
   var slot2 = Math.floor(Math.random() * config.emojis.length);
   var slot3 = Math.floor(Math.random() * config.emojis.length);
   const diamond = config.emojis.length - 1;
   let total = 0;
-  
+
   if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
   else if (slot1 == diamond && slot2 == diamond || slot1 == diamond && slot3 == diamond || slot2 == diamond && slot3 == diamond) total = bet * 5;
   else if (slot1 == slot2 && slot2 == slot3) total = bet * 10;
   else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) total = bet * 2;
-  
+
   if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
   let outcome = total - bet;
   await currency.addBalance(msg.author.id, outcome);
@@ -132,7 +140,7 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   var embed = new Discord.MessageEmbed()
     .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
     .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
-  
+
   if (total > 0) {
     embed.setColor('#baffc9')
       .setDescription(`You Spent: ${bet}🍰\nYou made: ${total}🍰 (${balance + outcome}🍰)\n${outcome}🍰 points taken from the bank(${bank + -outcome}🍰)`);
@@ -179,21 +187,21 @@ const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord
 
 const shop = (msg = Discord.Message, reply) => {
   var description = '';
-  for(let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
+  for (let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
   reply(msg.channel.id, description, '#9e9d9d');
 };
 
 const buy = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
   const balance = await currency.getBalance(msg.author.id);
-  
+
   if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
 
   var bought = false;
 
-  for(let i = 0; i < config.shop.length; ++i) {
+  for (let i = 0; i < config.shop.length; ++i) {
     if (args[0].toLowerCase() == config.shop[i][1]) {
       const role = msg.guild.roles.cache.get(config.shop[i][3]);
-      
+
       if (balance < config.shop[i][2]) {
         reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
         bought = true;
@@ -226,7 +234,7 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
 const badges = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
   const balance = await currency.getBalance(msg.author.id);
   let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
-  for(let i = 0; i < config.badges.length; ++i) {
+  for (let i = 0; i < config.badges.length; ++i) {
     const role = msg.guild.roles.cache.get(config.badges[i][1]);
 
     if (config.badges[i][2] <= balance) {
@@ -251,7 +259,7 @@ const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Coll
     let result = weekly - hours(Date.now());
 
     if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
-    else if (result == 1) `${result} hour`;
+    else if (result == 1)`${result} hour`;
     else result = `${result} hours`;
     reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
   }
