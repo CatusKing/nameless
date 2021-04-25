@@ -14,11 +14,16 @@ const prefix = config.prefix;
 var status = 0;
 var invites = [];
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
-const attrs2 = ["IDENTITY_ATTACK", "THREAT"];
 const tempData = { ignoredCh: data.ignoredCh, admins: data.admins };
-const analyzeRequest1 = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {} } };
-const analyzeRequest2 = { comment: { text: '' }, requestedAttributes: { IDENTITY_ATTACK: {}, THREAT: {} } };
-const analyzeRequest3 = { comment: { text: '' }, requestedAttributes: { SEXUALLY_EXPLICIT: {} } };
+const analyzeRequest = {
+  comment: { text: '' },
+  requestedAttributes: {
+    SEVERE_TOXICITY: {},
+    IDENTITY_ATTACK: {},
+    THREAT: {},
+    SEXUALLY_EXPLICIT: {},
+  },
+};
 
 const start = () => {
   Reflect.defineProperty(currency, 'addBalance', {
@@ -178,21 +183,13 @@ const findInvite = (code = String) => {
 
 const get_attrs = async (text) => {
   const app = await google.discoverAPI(config.url);
-  analyzeRequest1.comment.text = text;
-  analyzeRequest2.comment.text = text;
-  analyzeRequest3.comment.text = text;
-  const response1 = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest1 });
-  const response2 = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest2 });
-  const response3 = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest3 });
+  analyzeRequest.comment.text = text;
+  const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
   const attrs = {};
-  var prediction = response1.data["attributeScores"]["SEVERE_TOXICITY"]["summaryScore"]["value"];
-  attrs["SEVERE_TOXICITY"] = prediction;
-  for (let attr of attrs2) {
-    const prediction = response2.data["attributeScores"][attr]["summaryScore"]["value"];
+  for (let attr of attributes) {
+    const prediction = response.data["attributeScores"][attr]["summaryScore"]["value"];
     attrs[attr] = prediction;
   }
-  prediction = response3.data["attributeScores"]["SEXUALLY_EXPLICIT"]["summaryScore"]["value"];
-  attrs["SEXUALLY_EXPLICIT"] = prediction;
   return attrs;
 };
 
