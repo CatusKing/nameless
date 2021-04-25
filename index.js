@@ -474,7 +474,7 @@ client.on('messageDelete', msg => {
   if (msg.partial) {
     try {
       msg.fetch().then(fullMessage => {
-        log('830856984579670086', `${fullMessage.author} just deleted a past message\n\n${fullMessage.content}`, '#9e9d9d');
+        log('830856984579670086', `${fullMessage.author}'s past message was just deleted\n\n${fullMessage.content}`, '#9e9d9d');
       });
     } catch (error) {
       console.error(error);
@@ -483,7 +483,7 @@ client.on('messageDelete', msg => {
 
     if (msg.author.bot) return;
 
-    if (msg.content) log('830856984579670086', `${msg.author} just deleted a message\n\n${msg.content}`, '#9e9d9d');
+    if (msg.content) log('830856984579670086', `${msg.author}'s message was just deleted\n\n${msg.content}`, '#9e9d9d');
   }
 });
 
