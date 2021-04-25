@@ -13,11 +13,9 @@ const currency = new Discord.Collection();
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
-const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
+const attributes = [ "SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT" ];
 const analyzeRequest = {
-  comment: {
-    text: '',
-  },
+  comment: { text: '' },
   requestedAttributes: {
     SEVERE_TOXICITY: {},
     IDENTITY_ATTACK: {},
@@ -206,6 +204,46 @@ function checkCh() {
       m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
     }
   });
+};
+
+async function punish(msg = Discord.Message) {
+  const characters = msg.content.split('');
+  var letters = false;
+  for (let i of characters) {
+    if (config.abc.includes(i.toLowerCase())) {
+      letters = true;
+      break;
+    }
+  }
+  if (letters && !tempData.ignoredCh.includes(msg.channel.id) && !tempData.admins.includes(msg.author.id)) {
+    var warn = 0;
+    var reason = [];
+    const scores = await get_attrs(msg.content)
+    for (let i of attributes) {
+      if (scores[i] >= 0.75) {
+        ++warn;
+        reason.push(i);
+      }
+    }
+    if (warn == 1 && scores[reason[0]] > 0.90) {
+      const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+      msg.member.roles.add(role);
+      reply(msg.channel.id, `You have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+      log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+    } else if (warn == 1) {
+      reply(msg.channel.id, `This is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
+      log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+    } else if (warn > 1) {
+      var description = '';
+      for (let i of reason) {
+        description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
+      }
+      const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+      msg.member.roles.add(role);
+      reply(msg.channel.id, `You have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+      log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nAuthor: ${msg.author}\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+    }
+  }
 }
 
 client.once('ready', async () => {
@@ -276,44 +314,10 @@ client.on('message', async msg => {
 
   //Hate Speech detection
   try {
-    const characters = msg.content.split('');
-    var letters = false;
-    for (let i of characters) {
-      if (config.abc.includes(i.toLowerCase())) {
-        letters = true;
-        break;
-      }
-    }
-    if (letters && !tempData.ignoredCh.includes(msg.channel.id) && !tempData.admins.includes(msg.author.id)) {
-      var warn = 0;
-      var reason = [];
-      const scores = await get_attrs(msg.content)
-      for (let i of attributes) {
-        if (scores[i] >= 0.75) {
-          ++warn;
-          reason.push(i);
-        }
-      }
-      if (warn == 1 && scores[reason[0]] > 0.90) {
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-        msg.member.roles.add(role);
-        reply(msg.channel.id, `You have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-      } else if (warn == 1) {
-        reply(msg.channel.id, `This is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
-        log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-      } else if (warn > 1) {
-        var description = '';
-        for (let i of reason) {
-          description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
-        }
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-        msg.member.roles.add(role);
-        reply(msg.channel.id, `You have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-      }
-    }
-  } catch (error) { }
+    punish(msg);
+  } catch (error) {
+    console.log(error);
+  }
 });
 //Currency and commands
 client.on('message', async msg => {
@@ -431,6 +435,11 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     try {
       oldMsg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
+        try {
+          punish(msg);
+        } catch (error) {
+          console.log(error);
+        }
       });
     } catch (error) {
       console.error(error);
@@ -439,18 +448,28 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
     if (newMsg.author.bot || oldMsg.content == newMsg.content) return;
 
-    if (oldMsg.content) log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
-    else log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
+    if (oldMsg.content) {
+      log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
+      try {
+        punish(newMsg);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else {
+      log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
+      try {
+        punish(newMsg);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 });
 
 //Updates the cache of invites
-client.on('inviteCreate', () => {
-  updateInvites();
-});
-client.on('inviteDelete', () => {
-  updateInvites();
-});
+client.on('inviteCreate', () => { updateInvites(); });
+client.on('inviteDelete', () => { updateInvites(); });
 
 //Sends welcome message plus who invited them
 client.on('guildMemberAdd', member => {
@@ -470,7 +489,7 @@ client.on('guildMemberAdd', member => {
 });
 
 client.on('messageDelete', msg => {
-  
+
   if (msg.partial) {
     try {
       msg.fetch().then(fullMessage => {
