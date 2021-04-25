@@ -186,13 +186,13 @@ const get_attrs = async (text) => {
   const response3 = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest3 });
   const attrs = {};
   var prediction = response1.data["attributeScores"]["SEVERE_TOXICITY"]["summaryScore"]["value"];
-  attrs[attr] = prediction;
+  attrs["SEVERE_TOXICITY"] = prediction;
   for (let attr of attrs2) {
     const prediction = response2.data["attributeScores"][attr]["summaryScore"]["value"];
     attrs[attr] = prediction;
   }
   prediction = response3.data["attributeScores"]["SEXUALLY_EXPLICIT"]["summaryScore"]["value"];
-  attrs[attr] = prediction;
+  attrs["SEXUALLY_EXPLICIT"] = prediction;
   return attrs;
 };
 
