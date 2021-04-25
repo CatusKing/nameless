@@ -209,7 +209,7 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
       }
       if (config.shop[i][4] == 0) {
         if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
-        msg.member.roles.add(role);
+        msg.member.roles.add(role, `Bought a role`);
         currency.addBalance(msg.author.id, -config.shop[i][2]);
         currency.addBalance('bank', config.shop[i][2]);
         log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
@@ -218,7 +218,7 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
         break;
       } else {
         if (!msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
-        msg.member.roles.remove(role);
+        msg.member.roles.remove(role, `Paid to remove a role`);
         currency.addBalance(msg.author.id, -config.shop[i][2]);
         currency.addBalance('bank', config.shop[i][2]);
         log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
@@ -239,7 +239,7 @@ const badges = async (msg = Discord.Message, reply, currency = Discord.Collectio
 
     if (config.badges[i][2] <= balance) {
 
-      if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role);
+      if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role, 'Added badges');
       description += `\n✅ ${config.badges[i][0]}`;
     }
   }
