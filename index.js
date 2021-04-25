@@ -14,6 +14,7 @@ const prefix = config.prefix;
 var status = 0;
 var invites = [];
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
+const tempData = { ignoredCh: data.ignoredCh, admins: data.admins };
 const analyzeRequest = {
   comment: { text: '' },
   requestedAttributes: {
@@ -23,12 +24,8 @@ const analyzeRequest = {
     SEXUALLY_EXPLICIT: {},
   },
 };
-const tempData = {
-  ignoredCh: data.ignoredCh,
-  admins: data.admins,
-};
 
-function start() {
+const start = () => {
   Reflect.defineProperty(currency, 'addBalance', {
     value: async function addBalance(id, amount) {
       const user = currency.get(id);
@@ -112,19 +109,19 @@ function start() {
 
 start();
 
-function log(channelId = String, content = String, color = String) {
+const log = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
   channel.send(embed);
 };
 
-function reply(channelId = String, content = String, color = String) {
+const reply = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
   channel.send(embed);
 };
 
-function round(balance = Number) {
+const round = (balance = Number) => {
   let bal = balance + '';
 
   if (bal.length > 3 && bal.length < 7) return `${Math.round(bal / 100) / 10}k`;
@@ -133,7 +130,7 @@ function round(balance = Number) {
   else return bal;
 };
 
-function updateLeaderboard() {
+const updateLeaderboard = () => {
   client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
     .then(message => {
       let description = '';
@@ -150,11 +147,11 @@ function updateLeaderboard() {
     .catch(console.error);
 };
 
-function hours(milliseconds = Number) {
+const hours = (milliseconds = Number) => {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
 };
 
-function updateMemberCount() {
+const updateMemberCount = () => {
   const playersCh = client.channels.cache.get('834038553632702505');
   const guild = client.guilds.cache.get('830495072876494879');
   if (playersCh.name != `「Players」⇢ ${guild.memberCount}`) {
@@ -164,7 +161,7 @@ function updateMemberCount() {
   return false;
 };
 
-function updateInvites() {
+const updateInvites = () => {
   const guild = client.guilds.cache.get('830495072876494879');
   guild.fetchInvites().then(guildInvites => {
     guildInvites.forEach(invite => {
@@ -177,14 +174,14 @@ function updateInvites() {
   });
 };
 
-function findInvite(code = String) {
+const findInvite = (code = String) => {
   for (let i = 0; i < invites.length; ++i) {
     if (invites[i][0] == code) return i;
   }
   return -1;
 };
 
-async function get_attrs(text) {
+const get_attrs = async (text) => {
   const app = await google.discoverAPI(config.url);
   analyzeRequest.comment.text = text;
   const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
@@ -196,7 +193,7 @@ async function get_attrs(text) {
   return attrs;
 };
 
-function checkCh() {
+const checkCh = () => {
   const videoOnlyCh = client.channels.cache.get('831347288710316032');
   const generalCh = client.channels.cache.get('830495073430929472');
   videoOnlyCh.members.forEach(m => {
@@ -206,7 +203,7 @@ function checkCh() {
   });
 };
 
-async function punish(msg = Discord.Message) {
+const punish = async (msg = Discord.Message) => {
   const cactus = client.users.cache.get('473110112844644372');
   try {
     const characters = msg.content.split('');

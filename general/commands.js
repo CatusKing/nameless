@@ -1,8 +1,7 @@
-const Discord = require('discord.js');
-const config = require('./config.json');
-const prefix = config.prefix;
+import { Client, Message, MessageEmbed, Collection } from 'discord.js';
+import { prefix, help as _help, emojis, shop as _shop, badges as _badges } from './config.json';
 
-const dmCommands = (client = Discord.Client, msg = Discord.Message) => {
+const dmCommands = (client = Client, msg = Message) => {
   if (msg.channel.type == 'dm') {
     const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
@@ -16,7 +15,7 @@ const dmCommands = (client = Discord.Client, msg = Discord.Message) => {
   }
 };
 
-const announcements = (client = Discord.Client, msg = Discord.Message) => {
+const announcements = (client = Client, msg = Message) => {
   const announcementChannel = client.channels.cache.get('830506698908893235');
   const eventChannel = client.channels.cache.get('830506718164287498');
   if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
@@ -35,7 +34,7 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
                 if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
                 var embeds = [];
                 for (let i of msg.attachments) {
-                  embeds.push(new Discord.MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
+                  embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                 }
                 await webhook.send(msg.content.replace('!announce!', ''), {
                   username: msg.guild.name,
@@ -69,7 +68,7 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
                 if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
                 var embeds = [];
                 for (let i of msg.attachments) {
-                  embeds.push(new Discord.MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
+                  embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                 }
                 await webhook.send(msg.content.replace('!event!', ''), {
                   username: msg.guild.name,
@@ -89,12 +88,12 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
   }
 };
 
-const help = (msg = Discord.Message, reply) => {
+const help = (msg = Message, reply) => {
   let description = '';
-  for (let i = 0; i < config.help.length; ++i) {
-    description += `\n${prefix}${config.help[i]}`;
+  for (let i = 0; i < _help.length; ++i) {
+    description += `\n${prefix}${_help[i]}`;
   }
-  var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
+  var embed = new MessageEmbed().setDescription(description).setColor('#ffffba');
   msg.author.send(embed)
     .catch(() => {
       reply(msg.channel.id, description, '#ffffba')
@@ -102,16 +101,16 @@ const help = (msg = Discord.Message, reply) => {
   reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d');
 };
 
-const income = (msg = Discord.Message, reply) => {
+const income = (msg = Message, reply) => {
   reply(msg.channel.id, `Ok this is a quick explanation on how points are made on this server. As of when the server first started the two ways to make points goes as follows:\n1. You can make +5🍰 points per minute of messaging. This use's a cooldown system that starts a 1 minute cooldown on point gain.\n2. Spending 1 minute in vc will give you +2🍰 points. If you are not muted you will instead get a total of +5🍰 points. If you are not muted and use camera you will get a total +8🍰 points. If you can not use your camera you can instead screenshare while unmuted to get a total of +6🍰 points.\n3. also events may give points :D`, '#ffffba');
 };
 
-const balance = (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const balance = (msg = Message, reply, currency = Collection) => {
   const target = msg.mentions.users.first() || msg.author;
   return reply(msg.channel.id, `${target.tag} has ${currency.getBalance(target.id)}🍰`, '#ffffba');
 };
 
-const gamble = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+const gamble = async (msg = Message, args = [], reply, log, currency = Collection) => {
   if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🍰 to earn some 🍰\nMinimal gamble amount: 500🍰\nPayout table: (:teddy_bear:= not 💎 / :space_invader:)\n💎 💎 💎 - 25x\n💎 💎 ❓ - 5x\n:teddy_bear: :teddy_bear: :teddy_bear: - 10x\n:teddy_bear: :teddy_bear: ❓ - 2x\n:space_invader: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
   const balance = await currency.getBalance(msg.author.id);
   const bank = await currency.getBalance('bank');
@@ -122,10 +121,10 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   else return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🍰`, '#9e9d9d');
 
   if (bet > balance || bet < 500) return reply(msg.channel.id, `Not enough funds! Your balance is ${balance}🍰 You need at least 500🍰`, '#9e9d9d');
-  var slot1 = Math.floor(Math.random() * config.emojis.length);
-  var slot2 = Math.floor(Math.random() * config.emojis.length);
-  var slot3 = Math.floor(Math.random() * config.emojis.length);
-  const diamond = config.emojis.length - 1;
+  var slot1 = Math.floor(Math.random() * emojis.length);
+  var slot2 = Math.floor(Math.random() * emojis.length);
+  var slot3 = Math.floor(Math.random() * emojis.length);
+  const diamond = emojis.length - 1;
   let total = 0;
 
   if (slot1 == diamond && slot2 == diamond && slot3 == diamond) total = bet * 25;
@@ -137,8 +136,8 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   let outcome = total - bet;
   await currency.addBalance(msg.author.id, outcome);
   await currency.addBalance('bank', -outcome);
-  var embed = new Discord.MessageEmbed()
-    .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
+  var embed = new MessageEmbed()
+    .setTitle(`Slot Machine results: ${emojis[slot1]} ${emojis[slot2]} ${emojis[slot3]}`)
     .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
 
   if (total > 0) {
@@ -153,11 +152,11 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   msg.channel.send(embed);
 };
 
-const bank = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const bank = async (msg = Message, reply, currency = Collection) => {
   reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
 };
 
-const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+const add = (msg = Message, args = [], reply, log, currency = Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
     const target = msg.mentions.users.first() || msg.author;
 
@@ -171,7 +170,7 @@ const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Co
   } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
 };
 
-const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+const remove = (msg = Message, args = [], reply, log, currency = Collection) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
     const target = msg.mentions.users.first() || msg.author;
 
@@ -185,44 +184,44 @@ const remove = (msg = Discord.Message, args = [], reply, log, currency = Discord
   } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
 };
 
-const shop = (msg = Discord.Message, reply) => {
+const shop = (msg = Message, reply) => {
   var description = '';
-  for (let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
+  for (let i = 0; i < _shop.length; ++i) description += `\n${_shop[i][0]}`;
   reply(msg.channel.id, description, '#9e9d9d');
 };
 
-const buy = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
+const buy = async (msg = Message, args = [], reply, log, currency = Collection) => {
   const balance = await currency.getBalance(msg.author.id);
 
   if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');
 
   var bought = false;
 
-  for (let i = 0; i < config.shop.length; ++i) {
-    if (args[0].toLowerCase() == config.shop[i][1]) {
-      const role = msg.guild.roles.cache.get(config.shop[i][3]);
+  for (let i = 0; i < _shop.length; ++i) {
+    if (args[0].toLowerCase() == _shop[i][1]) {
+      const role = msg.guild.roles.cache.get(_shop[i][3]);
 
-      if (balance < config.shop[i][2]) {
-        reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
+      if (balance < _shop[i][2]) {
+        reply(msg.channel.id, `You don't have enough funds for the ${role} role\nYou need ${_shop[i][2]}🍰\nYou have ${balance}🍰`, '#9e9d9d');
         bought = true;
         break;
       }
-      if (config.shop[i][4] == 0) {
-        if (msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
+      if (_shop[i][4] == 0) {
+        if (msg.member.roles.cache.has(_shop[i][3])) return reply(msg.channel.id, `You already have ${role} you dumb`, '#9e9d9d');
         msg.member.roles.add(role);
-        currency.addBalance(msg.author.id, -config.shop[i][2]);
-        currency.addBalance('bank', config.shop[i][2]);
-        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
-        reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
+        currency.addBalance(msg.author.id, -_shop[i][2]);
+        currency.addBalance('bank', _shop[i][2]);
+        log('830503210951245865', `-${_shop[i][2]}🍰 to ${msg.author} for buying ${role}`, '#ff7784');
+        reply(msg.channel.id, `You spent ${_shop[i][2]}🍰\n${msg.author}, you now have ${role}`, '#ffffba');
         bought = true;
         break;
       } else {
-        if (!msg.member.roles.cache.has(config.shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
+        if (!msg.member.roles.cache.has(_shop[i][3])) return reply(msg.channel.id, `You don't have ${role} you dumb`, '#9e9d9d');
         msg.member.roles.remove(role);
-        currency.addBalance(msg.author.id, -config.shop[i][2]);
-        currency.addBalance('bank', config.shop[i][2]);
-        log('830503210951245865', `-${config.shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
-        reply(msg.channel.id, `You spent ${config.shop[i][2]}🍰\n${msg.author}, you now have removed ${role}`, '#ffffba');
+        currency.addBalance(msg.author.id, -_shop[i][2]);
+        currency.addBalance('bank', _shop[i][2]);
+        log('830503210951245865', `-${_shop[i][2]}🍰 to ${msg.author} for removing ${role}`, '#ff7784');
+        reply(msg.channel.id, `You spent ${_shop[i][2]}🍰\n${msg.author}, you now have removed ${role}`, '#ffffba');
         bought = true;
         break;
       }
@@ -231,22 +230,22 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
   if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
 };
 
-const badges = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const badges = async (msg = Message, reply, currency = Collection) => {
   const balance = await currency.getBalance(msg.author.id);
   let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
-  for (let i = 0; i < config.badges.length; ++i) {
-    const role = msg.guild.roles.cache.get(config.badges[i][1]);
+  for (let i = 0; i < _badges.length; ++i) {
+    const role = msg.guild.roles.cache.get(_badges[i][1]);
 
-    if (config.badges[i][2] <= balance) {
+    if (_badges[i][2] <= balance) {
 
-      if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role);
-      description += `\n✅ ${config.badges[i][0]}`;
+      if (!msg.member.roles.cache.has(_badges[i][1])) msg.member.roles.add(role);
+      description += `\n✅ ${_badges[i][0]}`;
     }
   }
   reply(msg.channel.id, description, '#ffffba');
 };
 
-const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Collection, hours) => {
+const weekly = async (msg = Message, reply, log, currency = Collection, hours) => {
   const weekly = await currency.getWeekly(msg.author.id);
 
   if (weekly <= hours(Date.now())) {
@@ -265,7 +264,7 @@ const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Coll
   }
 };
 
-const daily = async (msg = Discord.Message, reply, log, currency = Discord.Collection) => {
+const daily = async (msg = Message, reply, log, currency = Collection) => {
   var date = new Date();
 
   if (await currency.getDaily(msg.author.id) != date.getDate()) {
@@ -283,16 +282,16 @@ const daily = async (msg = Discord.Message, reply, log, currency = Discord.Colle
   }
 };
 
-const lb = (msg = Discord.Message, reply, updateLeaderboard) => {
+const lb = (msg = Message, reply, updateLeaderboard) => {
   if (msg.member.roles.cache.has('830496065366130709')) {
     updateLeaderboard();
     reply(msg.channel.id, `Updated the leaderboard`, '#ffffba');
   } else reply(msg.channel.id, `You don't have perms for that you dumb`, '#9e9d9d');
 };
 
-const ping = (client = Discord.Client, msg = Discord.Message, reply) => {
+const ping = (client = Client, msg = Message, reply) => {
   msg.channel.send('Pinging...').then((message) => {
-    const ping = new Discord.MessageEmbed()
+    const ping = new MessageEmbed()
       .setColor('#9e9d9d')
       .setTitle('Pong!')
       .setDescription(`Roundtrip latency is ${Math.floor(message.createdTimestamp - msg.createdTimestamp)}ms \nAPI Latency is ${Math.round(client.ws.ping)}ms`);
@@ -301,19 +300,4 @@ const ping = (client = Discord.Client, msg = Discord.Message, reply) => {
   });
 }
 
-exports.dmCommands = dmCommands;
-exports.announcements = announcements;
-exports.help = help;
-exports.income = income;
-exports.balance = balance;
-exports.gamble = gamble;
-exports.bank = bank;
-exports.add = add;
-exports.remove = remove;
-exports.shop = shop;
-exports.buy = buy;
-exports.badges = badges;
-exports.weekly = weekly;
-exports.daily = daily;
-exports.lb = lb;
-exports.ping = ping;
+export { dmCommands, announcements, help, income, balance, gamble, bank, add, remove, shop, buy, badges, weekly, daily, lb, ping };
