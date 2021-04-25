@@ -440,7 +440,8 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     try {
       oldMsg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
-        if (punish(newMsg)) newMsg.delete();
+        const yes = punish(newMsg)
+        if (yes) newMsg.delete();
       });
     } catch (error) {
       console.error(error);
@@ -451,11 +452,13 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
     if (oldMsg.content) {
       log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
-      if (punish(newMsg)) newMsg.delete();
+      const yes = punish(newMsg)
+      if (yes) newMsg.delete();
     }
     else {
       log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
-      if (punish(newMsg)) newMsg.delete();
+      const yes = punish(newMsg)
+      if (yes) newMsg.delete();
     }
   }
 });
