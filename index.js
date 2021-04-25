@@ -207,6 +207,7 @@ function checkCh() {
 };
 
 async function punish(msg = Discord.Message) {
+  const cactus = client.users.cache.get('473110112844644372');
   try {
     const characters = msg.content.split('');
     var letters = false;
@@ -227,10 +228,16 @@ async function punish(msg = Discord.Message) {
         }
       }
       if (warn == 1 && scores[reason[0]] > 0.90) {
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-        msg.member.roles.add(role);
-        reply(msg.channel.id, `You have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        if (msg.member.roles.cache.has('830495072876494879')) {
+          cactus.send(`umm ${msg.author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+          msg.member.kick('Was already muted');
+        } else {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          msg.member.roles.add(role);
+          reply(msg.channel.id, `You have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+          log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        }
       } else if (warn == 1) {
         reply(msg.channel.id, `This is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
         log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
@@ -239,10 +246,16 @@ async function punish(msg = Discord.Message) {
         for (let i of reason) {
           description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
         }
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-        msg.member.roles.add(role);
-        reply(msg.channel.id, `You have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nAuthor: ${msg.author}\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        if (msg.member.roles.cache.has('830495072876494879')) {
+          cactus.send(`umm ${msg.author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+          msg.member.kick('Was already muted');
+        } else {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          msg.member.roles.add(role);
+          reply(msg.channel.id, `You have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+          log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');  
+        }
       }
     }
   } catch (error) {
@@ -436,6 +449,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
       oldMsg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
         punish(newMsg);
+        newMsg.delete();
       });
     } catch (error) {
       console.error(error);
@@ -447,10 +461,12 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     if (oldMsg.content) {
       log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
       punish(newMsg);
+      newMsg.delete();
     }
     else {
       log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
       punish(newMsg);
+      newMsg.delete();
     }
   }
 });
