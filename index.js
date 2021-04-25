@@ -361,7 +361,7 @@ client.on('message', async msg => {
   if (command == 'help') {
     commands.help(msg, reply);
   } else if (command == 'income') {
-    commands.income(reply);
+    commands.income(msg, reply);
   } else if (['balance', 'bal'].includes(command)) {
     commands.balance(msg, reply, currency);
   } else if (['gamble', 'g'].includes(command)) {
