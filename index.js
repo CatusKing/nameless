@@ -250,6 +250,7 @@ const punish = async (msg = Discord.Message) => {
         return true;
       }
     }
+    return false;
   } catch (error) {
     console.log(error)
   }
