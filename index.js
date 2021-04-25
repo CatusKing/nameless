@@ -227,9 +227,11 @@ const punish = async (msg = Discord.Message) => {
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         }
+        return true;
       } else if (warn == 1) {
         reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
         log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        return true;
       } else if (warn > 1) {
         var description = '';
         for (let i of reason) {
@@ -245,6 +247,7 @@ const punish = async (msg = Discord.Message) => {
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReasons:\n${description}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');  
         }
+        return true;
       }
     }
   } catch (error) {
@@ -437,8 +440,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     try {
       oldMsg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
-        punish(newMsg);
-        newMsg.delete();
+        if (punish(newMsg)) newMsg.delete();
       });
     } catch (error) {
       console.error(error);
@@ -449,13 +451,11 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 
     if (oldMsg.content) {
       log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
-      punish(newMsg);
-      newMsg.delete();
+      if (punish(newMsg)) newMsg.delete();
     }
     else {
       log('830856984579670086', `${newMsg.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
-      punish(newMsg);
-      newMsg.delete();
+      if (punish(newMsg)) newMsg.delete();
     }
   }
 });
