@@ -469,6 +469,24 @@ client.on('guildMemberAdd', member => {
   channel.send(embed);
 });
 
+client.on('messageDelete', msg => {
+  
+  if (msg.partial) {
+    try {
+      msg.fetch().then(fullMessage => {
+        log('830856984579670086', `${fullMessage.author} just deleted a past message\n\n${fullMessage.content}`, '#9e9d9d');
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+
+    if (msg.author.bot) return;
+
+    if (msg.content) log('830856984579670086', `${msg.author} just deleted a message\n\n${msg.content}`, '#9e9d9d');
+  }
+});
+
 client.on('error', error => {
   const cactus = client.users.cache.get('473110112844644372')
   cactus.send(`${cactus} hey error:\n${error}`);
