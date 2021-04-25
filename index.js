@@ -208,7 +208,6 @@ function checkCh() {
 
 async function punish(msg = Discord.Message) {
   try {
-    console.log(1)
     const characters = msg.content.split('');
     var letters = false;
     for (let i of characters) {
@@ -218,7 +217,6 @@ async function punish(msg = Discord.Message) {
       }
     }
     if (letters && !tempData.ignoredCh.includes(msg.channel.id) && !tempData.admins.includes(msg.author.id)) {
-      console.log(2)
       var warn = 0;
       var reason = [];
       const scores = await get_attrs(msg.content)
