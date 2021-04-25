@@ -434,9 +434,9 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
   if (oldMsg.partial) {
     try {
       oldMsg.fetch().then(fullMessage => {
-        log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
+        log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${fullMessage.content}`, '#9e9d9d');
         try {
-          punish(msg);
+          punish(fullMessage);
         } catch (error) {
           console.log(error);
         }
