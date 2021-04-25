@@ -15,15 +15,7 @@ var status = 0;
 var invites = [];
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const tempData = { ignoredCh: data.ignoredCh, admins: data.admins };
-const analyzeRequest = {
-  comment: { text: '' },
-  requestedAttributes: {
-    SEVERE_TOXICITY: {},
-    IDENTITY_ATTACK: {},
-    THREAT: {},
-    SEXUALLY_EXPLICIT: {},
-  },
-};
+const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
 const start = () => {
   Reflect.defineProperty(currency, 'addBalance', {
