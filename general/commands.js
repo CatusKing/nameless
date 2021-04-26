@@ -243,7 +243,8 @@ const badges = async (msg = Discord.Message, reply, currency = Discord.Collectio
       if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role, `Added badge ${role.name}`);
       description += `\n✅ ${config.badges[i][0]}`;
     } else {
-      description += `\n❌ ${config.badges[i][0]}\n${createBar(config.badges[i][2], balance, 30)[0]}`;
+      if (i == 0) description += `\n❌ ${config.badges[i][0]}\n${createBar(config.badges[i][2], balance, 30)[0]}`;
+      else description += `\n❌ ${config.badges[i][0]}\n${(config.badges[i][2] - config.badges[i - 1][2]) / 100}k🍰${createBar(config.badges[i][2] - config.badges[i - 1][2], balance, 25)[0]}${config.badges[i][2] / 100}k🍰`;
       break;
     }
   }
