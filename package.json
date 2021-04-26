@@ -20,6 +20,7 @@
     "discord.js": "^12.5.3",
     "googleapis": "^71.0.0",
     "sequelize": "^6.6.2",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "string-progressbar": "^1.0.3"
   }
 }

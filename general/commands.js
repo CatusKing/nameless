@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
+const createBar = require('string-progressbar');
 const prefix = config.prefix;
 
 const dmCommands = (client = Discord.Client, msg = Discord.Message) => {
@@ -241,6 +242,8 @@ const badges = async (msg = Discord.Message, reply, currency = Discord.Collectio
 
       if (!msg.member.roles.cache.has(config.badges[i][1])) msg.member.roles.add(role, `Added badge ${role.name}`);
       description += `\n✅ ${config.badges[i][0]}`;
+    } else {
+      description += `\n➖ ${config.badges[i][0]}\n${createBar(config.badges[i][2], balance)}`
     }
   }
   reply(msg.channel.id, description, '#ffffba');
