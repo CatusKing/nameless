@@ -219,7 +219,9 @@ const punish = async (msg = Discord.Message) => {
       const author = msg.author;
       if (warn == 1 && scores[reason[0]] > 0.90) {
         if (msg.member.roles.cache.has('830495536582361128')) {
-          msg.member.kick('Was already muted');
+          msg.member.kick('Was already muted').catch(error => {
+            cactus.send(error);
+          });
           cactus.send(`umm ${author} was just kicked`);
           log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         } else {
@@ -239,7 +241,9 @@ const punish = async (msg = Discord.Message) => {
           description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
         }
         if (msg.member.roles.cache.has('830495536582361128')) {
-          msg.member.kick('Was already muted');
+          msg.member.kick('Was already muted').catch(error => {
+            cactus.send(error);
+          });
           cactus.send(`umm ${author} was just kicked`);
           log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         } else {
