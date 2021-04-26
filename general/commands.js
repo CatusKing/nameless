@@ -234,7 +234,7 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
 
 const badges = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
   const balance = await currency.getBalance(msg.author.id);
-  let description = `Your balance: ${balance}🍰\n(Smallest badge is worth 5k🍰)`;
+  let description = `Your balance: ${balance}🍰`;
   for (let i = 0; i < config.badges.length; ++i) {
     const role = msg.guild.roles.cache.get(config.badges[i][1]);
 
