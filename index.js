@@ -216,11 +216,12 @@ const punish = async (msg = Discord.Message) => {
           reason.push(i);
         }
       }
+      const author = msg.author;
       if (warn == 1 && scores[reason[0]] > 0.90) {
         if (msg.member.roles.cache.has('830495536582361128')) {
-          cactus.send(`umm ${msg.author} was just kicked`);
-          log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
           msg.member.kick('Was already muted');
+          cactus.send(`umm ${author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
@@ -238,9 +239,9 @@ const punish = async (msg = Discord.Message) => {
           description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
         }
         if (msg.member.roles.cache.has('830495536582361128')) {
-          cactus.send(`umm ${msg.author} was just kicked`);
-          log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
           msg.member.kick('Was already muted');
+          cactus.send(`umm ${author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
