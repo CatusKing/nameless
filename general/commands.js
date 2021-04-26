@@ -244,7 +244,7 @@ const badges = async (msg = Discord.Message, reply, currency = Discord.Collectio
       description += `\n✅ ${config.badges[i][0]}`;
     } else {
       if (i == 0) description += `\n❌ ${config.badges[i][0]}\n${createBar(config.badges[i][2], balance, 30)[0]}`;
-      else description += `\n❌ ${config.badges[i][0]}\n${(config.badges[i - 1][2] - config.badges[i][2]) / 1000}k🍰${createBar(config.badges[i - 1][2] - config.badges[i][2], balance - config.badges[i - 1][2], 25)[0]}${config.badges[i][2] / 1000}k🍰`;
+      else description += `\n❌ ${config.badges[i][0]}\n${config.badges[i][2] / 1000}k🍰${createBar(config.badges[i][2] - config.badges[i - 1][2], balance - config.badges[i - 1][2], 25)[0]}${config.badges[i][2] / 1000}k🍰`;
       break;
     }
   }
