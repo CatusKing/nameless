@@ -425,8 +425,6 @@ client.on('message', async msg => {
       }
       reply(msg.channel.id, description, '#9e9d9d');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-  } else {
-    reply(msg.channel.id, `You can use ${prefix}help to see the available commands`, '#9e9d9d');
   }
 });
 
