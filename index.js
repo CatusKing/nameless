@@ -371,7 +371,7 @@ client.on('message', async msg => {
   } else if (command == 'buy') {
     commands.buy(msg, args, reply, log, currency);
   } else if (command == 'badges') {
-    commands.badges(msg, reply, currency);
+    commands.badges(msg, reply, round, currency);
   } else if (command == 'weekly') {
     commands.weekly(msg, reply, log, currency, hours);
   } else if (command == 'daily') {

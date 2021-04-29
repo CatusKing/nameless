@@ -232,9 +232,9 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
   if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
 };
 
-const badges = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const badges = async (msg = Discord.Message, reply, round, currency = Discord.Collection) => {
   const balance = await currency.getBalance(msg.author.id);
-  let description = `Your balance: ${balance}🍰`;
+  let description = `Your balance: ${round(balance)}🍰`;
   for (let i = 0; i < config.badges.length; ++i) {
     const role = msg.guild.roles.cache.get(config.badges[i][1]);
 
