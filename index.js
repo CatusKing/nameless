@@ -98,8 +98,8 @@ const start = () => {
     },
   });
 
-  Reflect.defineProperty(currency, 'getMute', {
-    value: function getMute(id) {
+  Reflect.defineProperty(currency, 'getMuted', {
+    value: function getMuted(id) {
       const user = currency.get(id);
       return user ? user.muted : 0;
     },
