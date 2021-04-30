@@ -404,7 +404,7 @@ client.on('message', async msg => {
     commands.ping(client, msg, reply);
   } else if (command == 'mute') {
     commands.mute(msg, reply, currency);
-  } else if (command = 'unmute') {
+  } else if (command == 'unmute') {
     commands.unmute(msg, reply, currency);
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
