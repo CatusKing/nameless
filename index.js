@@ -101,7 +101,7 @@ const start = () => {
   Reflect.defineProperty(currency, 'getMute', {
     value: function getMute(id) {
       const user = currency.get(id);
-      return user ? user.muted : false;
+      return user ? user.muted : 0;
     },
   });
 
@@ -109,7 +109,7 @@ const start = () => {
     value: async function setMuted(id, amount) {
       const user = currency.get(id);
       if (user) {
-        user.muted = Boolean(amount);
+        user.muted = Number(amount);
         return user.save();
       }
       const newUser = await Users.create({ user_id: id, daily: amount });
@@ -507,7 +507,7 @@ client.on('guildMemberAdd', member => {
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
   const muted = currency.getMuted(member.id);
-  if (muted) {
+  if (muted == 1) {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     member.roles.add(role, `Auto muted on rejoin`);
   }

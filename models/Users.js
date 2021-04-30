@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		muted: {
-			type: DataTypes.BOOLEAN,
+			type: DataTypes.INTEGER,
 			defaultValue: 0,
 			allowNull: false,
 		},
