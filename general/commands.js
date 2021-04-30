@@ -314,7 +314,7 @@ const mute = async (client = Discord.Client, msg = Discord.Message, reply, curre
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       target.roles.add(role, `Muted by ${msg.author}`);
       currency.setMuted(msg.author.id, 1);
-      reply(msg.channel.id, `Muted ${target}\nAction by ${msg.author}`);
+      reply(msg.channel.id, `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d');
     } else reply(msg.channel.id, 'This user is already muted', '#9e9d9d');
   } else {
     reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
@@ -329,7 +329,7 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       target.roles.remove(role, `Muted removed by ${msg.author}`);
       currency.setMuted(msg.author.id, 0);
-      reply(msg.channel.id, `Unmuted ${target}\nAction by ${msg.author}`);
+      reply(msg.channel.id, `Unmuted ${target}\nAction by ${msg.author}`, '#9e9d9d');
     } else reply(msg.channel.id, 'This user isn\'t muted', '#9e9d9d');
   } else {
     reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
