@@ -306,7 +306,7 @@ const ping = (client = Discord.Client, msg = Discord.Message, reply) => {
   });
 }
 
-const mute = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const mute = async (client = Discord.Client, msg = Discord.Message, reply, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
     const target = msg.mentions.members.first() || msg.member;
     const muted = await currency.getMuted(target.id);
@@ -321,7 +321,7 @@ const mute = async (msg = Discord.Message, reply, currency = Discord.Collection)
   }
 };
 
-const unmute = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const unmute = async (client = Discord.Client, msg = Discord.Message, reply, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
     const target = msg.mentions.members.first() || msg.member;
     const muted = await currency.getMuted(target.id);

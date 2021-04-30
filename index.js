@@ -403,9 +403,9 @@ client.on('message', async msg => {
   } else if (command == 'ping') {
     commands.ping(client, msg, reply);
   } else if (command == 'mute') {
-    commands.mute(msg, reply, currency);
+    commands.mute(client, msg, reply, currency);
   } else if (command == 'unmute') {
-    commands.unmute(msg, reply, currency);
+    commands.unmute(client, msg, reply, currency);
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {
