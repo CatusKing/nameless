@@ -23,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			defaultValue: 0,
 			allowNull: false,
-		}
+		},
+		muted: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: 0,
+			allowNull: false,
+		},
 	}, {
 		timestamps: false,
 	});

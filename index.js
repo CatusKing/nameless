@@ -97,6 +97,26 @@ const start = () => {
       return user ? user.daily : 0;
     },
   });
+
+  Reflect.defineProperty(currency, 'getMute', {
+    value: function getMute(id) {
+      const user = currency.get(id);
+      return user ? user.muted : false;
+    },
+  });
+
+  Reflect.defineProperty(currency, 'setMuted', {
+    value: async function setMuted(id, amount) {
+      const user = currency.get(id);
+      if (user) {
+        user.muted = Boolean(amount);
+        return user.save();
+      }
+      const newUser = await Users.create({ user_id: id, daily: amount });
+      currency.set(id, newUser);
+      return newUser;
+    },
+  });
 };
 
 start();
@@ -227,6 +247,7 @@ const punish = async (msg = Discord.Message) => {
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
+          currency.setMuted(msg.author.id, true);
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         }
@@ -249,6 +270,7 @@ const punish = async (msg = Discord.Message) => {
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
+          currency.setMuted(msg.author.id, true);
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         }
@@ -256,7 +278,7 @@ const punish = async (msg = Discord.Message) => {
       }
     } else return false;
   } catch (error) { }
-}
+};
 
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
@@ -380,6 +402,8 @@ client.on('message', async msg => {
     commands.lb(msg, reply, updateLeaderboard);
   } else if (command == 'ping') {
     commands.ping(client, msg, reply);
+  } else if (command = 'unmute') {
+    commands.unmute(msg, reply, currency);
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {
@@ -482,6 +506,16 @@ client.on('guildMemberAdd', member => {
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
+  const muted = currency.getMuted(member.id);
+  if (muted) {
+    const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+    member.roles.add(role, `Auto muted on rejoin`);
+  }
+  log('837513841389862932', `${member}(${member.tag}) just joined the server`, '#9e9d9d');
+});
+
+client.on('guildMemberRemove', member => {
+  log('837513841389862932', `${member}(${member.tag}) just left the server`, '#9e9d9d');
 });
 
 client.on('messageDelete', msg => {
