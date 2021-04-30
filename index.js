@@ -514,11 +514,11 @@ client.on('guildMemberAdd', member => {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     member.roles.add(role, `Auto muted on rejoin`);
   }
-  log('837513841389862932', `${member}(${member.tag}) just joined the server`, '#9e9d9d');
+  log('837513841389862932', `${member}(${member.user.tag}) just joined the server`, '#9e9d9d');
 });
 
 client.on('guildMemberRemove', member => {
-  log('837513841389862932', `${member}(${member.tag}) just left the server`, '#9e9d9d');
+  log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d');
 });
 
 client.on('messageDelete', msg => {
