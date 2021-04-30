@@ -313,7 +313,7 @@ const mute = async (client = Discord.Client, msg = Discord.Message, reply, curre
     if (muted == 0) {
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       target.roles.add(role, `Muted by ${msg.author}`);
-      currency.setMuted(msg.author.id, 1);
+      currency.setMuted(target.id, 1);
       reply(msg.channel.id, `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d');
     } else reply(msg.channel.id, 'This user is already muted', '#9e9d9d');
   } else {
@@ -328,7 +328,7 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
     if (muted == 1) {
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
       target.roles.remove(role, `Muted removed by ${msg.author}`);
-      currency.setMuted(msg.author.id, 0);
+      currency.setMuted(target.id, 0);
       reply(msg.channel.id, `Unmuted ${target}\nAction by ${msg.author}`, '#9e9d9d');
     } else reply(msg.channel.id, 'This user isn\'t muted', '#9e9d9d');
   } else {
