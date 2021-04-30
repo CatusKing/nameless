@@ -505,6 +505,7 @@ client.on('guildMemberAdd', member => {
       }
     });
   });
+  updateInvites();
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
