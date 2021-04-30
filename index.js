@@ -508,7 +508,7 @@ client.on('guildMemberAdd', member => {
   var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
-  const muted = currency.getMuted(member.id);
+  const muted = currency.getMuted(member.user.id);
   if (muted == 1) {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     member.roles.add(role, `Auto muted on rejoin`);
