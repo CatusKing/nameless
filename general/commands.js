@@ -306,7 +306,7 @@ const ping = (client = Discord.Client, msg = Discord.Message, reply) => {
   });
 }
 
-const mute = (msg = Discord.Message, reply, currency = Discord.Collection) => {
+const mute = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
   if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
     const target = msg.mentions.members.first() || msg.member;
     const muted = await currency.getMuted(target.id);
@@ -352,3 +352,5 @@ exports.weekly = weekly;
 exports.daily = daily;
 exports.lb = lb;
 exports.ping = ping;
+exports.mute = mute;
+exports.unmute = unmute;

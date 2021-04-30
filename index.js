@@ -402,6 +402,8 @@ client.on('message', async msg => {
     commands.lb(msg, reply, updateLeaderboard);
   } else if (command == 'ping') {
     commands.ping(client, msg, reply);
+  } else if (command == 'mute') {
+    commands.mute(msg, reply, currency);
   } else if (command = 'unmute') {
     commands.unmute(msg, reply, currency);
   } else if (command == 'admin') {
