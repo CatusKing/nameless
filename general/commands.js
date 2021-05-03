@@ -334,7 +334,7 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
   } else {
     reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
   }
-}
+};
 
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;

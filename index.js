@@ -14,7 +14,7 @@ const prefix = config.prefix;
 var status = 0;
 var invites = [];
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
-const tempData = { ignoredCh: data.ignoredCh, admins: data.admins };
+const tempData = { ignoredCh: data.ignoredCh, admins: data.admins, creepyMode: data.creepyMode };
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
 const start = () => {
@@ -345,13 +345,6 @@ client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-//Hate speech
-client.on('message', async msg => {
-  if (msg.author.bot || msg.webhookID || msg.channel.type != 'text') return;
-
-  //Hate Speech detection
-  punish(msg);
-});
 //Currency and commands
 client.on('message', async msg => {
 
@@ -361,6 +354,9 @@ client.on('message', async msg => {
   commands.dmCommands(client, msg);
 
   if (msg.channel.type != 'text') return;
+
+  //Hate Speech
+  punish(msg);
 
   //Points
   const cooldown = currency.getCooldown(msg.author.id);
@@ -460,6 +456,19 @@ client.on('message', async msg => {
       }
       reply(msg.channel.id, description, '#9e9d9d');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'creepy') {
+    if (msg.member.roles.cache.has('830496065366130709')) {
+      if (tempData.creepyMode) {
+        reply(msg.channel.id, `Creepy mode is now off`, '#9e9d9d')
+        tempData.creepyMode = false;
+      } else {
+        reply(msg.channel.id, `Creepy mode is now on`, '#9e9d9d')
+        tempData.creepyMode = true;
+      }
+      let json = JSON.stringify(tempData);
+      fs.writeFileSync('general/data.json', json);
+    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'ignores') {
   }
 });
 
@@ -572,10 +581,10 @@ client.on('warn', warning => {
   cactus.send(`The bot was just warned :(\n${warning}`);
 });
 
-client.on('typingStart', (ch, user) => { if (!user.bot) log('838774906719043584', `${user} just started typing in ${ch}`, '#9e9d9d'); });
+client.on('typingStart', (ch, user) => { if (!user.bot && tempData.creepyMode) log('838774906719043584', `${user} just started typing in ${ch}`, '#9e9d9d'); });
 
 client.on('presenceUpdate', (presence1, presence2) => {
-  if (presence2.user.bot) return;
+  if (presence2.user.bot || !tempData.creepyMode) return;
   var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
   let description = '';
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
