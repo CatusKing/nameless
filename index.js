@@ -308,7 +308,7 @@ client.once('ready', async () => {
             }
             for (let i of m.presence.activities) {
               if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
-                amount = amount * 2;
+                amount += 3;
                 break;
               }
             }
@@ -368,9 +368,16 @@ client.on('message', async msg => {
   const cooldown = currency.getCooldown(msg.author.id);
 
   if (cooldown < Date.now()) {
-    await currency.addBalance(msg.author.id, 5);
+    let amount = 5;
+    for (let i of msg.author.presence.activities) {
+      if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
+        amount += 3;
+        break;
+      }
+    }
+    await currency.addBalance(msg.author.id, amount);
     await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    log('830503210951245865', `+5🍰 to ${msg.author} for sending a message`, '#baffc9');
+    log('830503210951245865', `+${amount}🍰 to ${msg.author} for sending a message`, '#baffc9');
   }
 
   commands.announcements(client, msg);
