@@ -601,6 +601,10 @@ client.on('presenceUpdate', (presence1, presence2) => {
   logCh.send(embed);
 });
 
+client.on('guildMemberSpeaking', (member, speaking) => {
+  log('838774906719043584', `${member} just started speaking\n\n${speaking}`)
+});
+
 client.on('error', error => {
   const cactus = client.users.cache.get('473110112844644372')
   cactus.send(`${cactus} hey error:\n${error}`);
