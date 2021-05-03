@@ -522,13 +522,13 @@ client.on('guildMemberRemove', member => {
 });
 
 client.on('presenceUpdate', (presence1, presence2) => {
-  var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.user}'s Presence`);
+  var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.user}'s Presence`).setDescription(`Non bold is old and **bold** is new`);
   let description = '';
   for(let i = 0; i < presence1.activities.length; ++i) {
     description = '';
     if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
     if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
-    embed.addField(`**${presence1.activities[i].name}**`, description, true);
+    embed.addField(`${presence1.activities[i].name}`, description, true);
   }
   for(let i = 0; i < presence2.activities.length; ++i) {
     description = '';
