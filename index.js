@@ -419,6 +419,10 @@ client.on('message', async msg => {
     commands.mute(client, msg, reply, currency);
   } else if (command == 'unmute') {
     commands.unmute(client, msg, reply, currency);
+  } else if (command == 'join') {
+    commands.join(client, msg, reply);
+  } else if (command == 'leave') {
+    commands.leave(client, msg, reply);
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {
@@ -476,10 +480,6 @@ client.on('message', async msg => {
       let json = JSON.stringify(tempData);
       fs.writeFileSync('general/data.json', json);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-  } else if (command == 'join') {
-    commands.join(client, msg, reply);
-  } else if (command == 'leave') {
-    commands.leave(client, msg, reply);
   }
 });
 
