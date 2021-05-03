@@ -522,6 +522,7 @@ client.on('guildMemberRemove', member => {
 });
 
 client.on('presenceUpdate', (presence1, presence2) => {
+  if (presence2.user.bot) return;
   var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
   let description = '';
   if (presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
