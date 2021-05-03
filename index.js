@@ -523,13 +523,20 @@ client.on('guildMemberRemove', member => {
 
 client.on('presenceUpdate', (presence1, presence2) => {
   var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.user}'s Presence`);
+  for(let i = 0; i < presence1.activities.length; ++i) {
+    let description = '';
+    if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
+    if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
+    embed.addField(`**${presence1.activities[i].name}**`, description, true);
+  }
   for(let i = 0; i < presence2.activities.length; ++i) {
     let description = '';
     if (presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
     if (presence2.activities[i].details) description += `${presence2.activities[i].details}`;
     embed.addField(`**${presence2.activities[i].name}**`, description, true);
   }
-  log('838745441919172668', `IDK WHAT IM DOING H E L P\n\n1:\n${presence1.activities}\n${presence1.status}\n${presence1.user}\n\n2:\n${description}\n${presence2.status}\n${presence2.user}`, '#9e9d9d');
+  const logCh = client.channels.cache.get('838745441919172668');
+  logCh.send(embed);
 });
 
 client.on('messageDelete', msg => {
