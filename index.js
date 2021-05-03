@@ -306,8 +306,13 @@ client.once('ready', async () => {
               if (m.voice.selfVideo) amount += 3;
               else if (m.voice.streaming) amount += 1;
             }
-            console.log(m.presence.activities)
-            // if (m.presence.activities) amount *= 2;
+            for(let i of m.presence.activities) {
+              
+              if (i.type == 'CUSTOM_STATUS' && i.state.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
+                amount *= 2;
+                break;
+              }
+            }
             currency.addBalance(m.id, amount);
             description += `\n+${amount}🍰 to ${m} for sitting in vc`;
           }
