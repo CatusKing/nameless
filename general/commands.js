@@ -109,7 +109,7 @@ const income = (reply) => {
 
 const balance = (msg = Discord.Message, reply, round, currency = Discord.Collection) => {
   const target = msg.mentions.users.first() || msg.author;
-  return reply(msg.channel.id, `${target.tag} has ${round(currency.getBalance(target.id))}🍰(${currency.getBalance(target.id)}🍰)`, '#ffffba');
+  return reply(msg.channel.id, `${target} has ${round(currency.getBalance(target.id))}🍰(${currency.getBalance(target.id)}🍰)`, '#ffffba');
 };
 
 const gamble = async (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
@@ -264,7 +264,7 @@ const weekly = async (msg = Discord.Message, reply, log, currency = Discord.Coll
     let result = weekly - hours(Date.now());
 
     if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
-    else if (result == 1)`${result} hour`;
+    else if (result == 1) result = `${result} hour`;
     else result = `${result} hours`;
     reply(msg.channel.id, `${msg.author} you have already claimed for this week\nYou can claim again in ${result}`, '#9e9d9d');
   }
