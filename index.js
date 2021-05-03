@@ -604,7 +604,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
       if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
       embed.addField(`${presence1.activities[i].name}`, description, true);
     }
-    embed.addField('========================================', '========================================', false);
+    embed.addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '\u200B', false);
   }
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
   if (presence1 && presence2 && presence2.clientStatus) embed.addField('~Client Status~', `Desktop: ${presence2.clientStatus.desktop}\nMobile: ${presence2.clientStatus.mobile}\nWeb: ${presence2.clientStatus.web}\n`, true)
