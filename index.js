@@ -306,6 +306,8 @@ client.once('ready', async () => {
               if (m.voice.selfVideo) amount += 3;
               else if (m.voice.streaming) amount += 1;
             }
+            console.log(m.presence.activities)
+            // if (m.presence.activities) amount *= 2;
             currency.addBalance(m.id, amount);
             description += `\n+${amount}🍰 to ${m} for sitting in vc`;
           }
