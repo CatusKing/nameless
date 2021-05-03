@@ -338,7 +338,7 @@ client.once('ready', async () => {
       .replace('%prefix%', prefix)
       .replace('%top%', top)
     );
-  }, 300000);
+  }, 15000);
 
   setInterval(updateLeaderboard, 120000);
 
