@@ -338,7 +338,7 @@ client.once('ready', async () => {
       .replace('%prefix%', prefix)
       .replace('%top%', top)
     );
-  }, 15000);
+  }, 300000);
 
   setInterval(updateLeaderboard, 120000);
 
@@ -346,7 +346,7 @@ client.once('ready', async () => {
 
   setInterval(updateMemberCount, 900000);
 
-  setInterval(checkCh, 30000);
+  setInterval(checkCh, 15000);
 
   console.log(`Logged in as ${client.user.tag}`);
 });
