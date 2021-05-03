@@ -590,7 +590,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
     embed.addField('\u200B', '\u200B', false);
   }
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
-  if (presence1 && presence2 && presence2.clientStatus) embed.addField('~Client Status~', `Desktop: ${presence1.clientStatus.desktop}\nMobile: ${presence1.clientStatus.mobile}\nWeb: ${presence1.clientStatus.web}\n`, true)
+  if (presence1 && presence2 && presence2.clientStatus) embed.addField('~Client Status~', `Desktop: ${presence2.clientStatus.desktop}\nMobile: ${presence2.clientStatus.mobile}\nWeb: ${presence2.clientStatus.web}\n`, true)
   if (presence2) {
     for(let i = 0; i < presence2.activities.length; ++i) {
       description = '\u200B';
