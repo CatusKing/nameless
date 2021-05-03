@@ -579,6 +579,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
   let description = '';
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
+  if (presence1 && presence2 && presence1.clientStatus) embed.addField('Client Status', `Desktop: ${presence1.clientStatus.desktop}\nMobile: ${presence1.clientStatus.mobile}\nWeb: ${presence1.clientStatus.web}\n`, true)
   if (presence1 && presence1.activities) {
     for(let i = 0; i < presence1.activities.length; ++i) {
       description = '\u200B';
@@ -589,6 +590,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
     embed.addField('\u200B', '\u200B', false);
   }
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
+  if (presence1 && presence2 && presence2.clientStatus) embed.addField('~Client Status~', `Desktop: ${presence1.clientStatus.desktop}\nMobile: ${presence1.clientStatus.mobile}\nWeb: ${presence1.clientStatus.web}\n`, true)
   if (presence2) {
     for(let i = 0; i < presence2.activities.length; ++i) {
       description = '\u200B';
@@ -599,10 +601,6 @@ client.on('presenceUpdate', (presence1, presence2) => {
   }
   const logCh = client.channels.cache.get('838774906719043584');
   logCh.send(embed);
-});
-
-client.on('guildMemberSpeaking', (member, speaking) => {
-  log('838774906719043584', `${member} just started speaking\n\n${speaking}`)
 });
 
 client.on('error', error => {
