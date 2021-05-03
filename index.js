@@ -130,9 +130,10 @@ const log = (channelId = String, content = String, color = String) => {
 const reply = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
-  channel.startTyping()
+  channel.startTyping();
   setTimeout(() => {
     channel.send(embed);
+    channel.stopTyping();
   }, 1000);
 };
 
