@@ -458,13 +458,8 @@ client.on('message', async msg => {
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'creepy') {
     if (msg.member.roles.cache.has('830496065366130709')) {
-      if (tempData.creepyMode) {
-        reply(msg.channel.id, `Creepy mode is now off`, '#9e9d9d')
-        tempData.creepyMode = false;
-      } else {
-        reply(msg.channel.id, `Creepy mode is now on`, '#9e9d9d')
-        tempData.creepyMode = true;
-      }
+      tempData.creepyMode = !tempData.creepyMode;
+      reply(msg.channel.id, `Creepy mode is now ${tempData.creepyMode}`.replace('true', 'on').replace('false', 'off'), '#9e9d9d')
       let json = JSON.stringify(tempData);
       fs.writeFileSync('general/data.json', json);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
