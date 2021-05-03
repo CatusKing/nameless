@@ -577,7 +577,7 @@ client.on('channelCreate', ch => {
 
 client.on('channelDelete', ch => {
   const channel = client.channels.cache.get(ch.id);
-  log('838774906719043584', `${ch.startTyping} was just created`, '#9e9d9d');
+  log('838774906719043584', `${channel.name} was just deleted`, '#9e9d9d');
 });
 
 client.on('error', error => {
