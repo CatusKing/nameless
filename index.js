@@ -525,7 +525,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence2.user.bot) return;
   var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
   let description = '';
-  if (presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
+  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
   if (presence1.activities) {
     for(let i = 0; i < presence1.activities.length; ++i) {
       description = '\u200B';
@@ -535,7 +535,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
     }
     embed.addField('\u200B', '\u200B', false);
   }
-  if (presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
+  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
   if (presence2) {
     for(let i = 0; i < presence2.activities.length; ++i) {
       description = '\u200B';
