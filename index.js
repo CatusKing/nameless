@@ -306,10 +306,10 @@ client.once('ready', async () => {
               if (m.voice.selfVideo) amount += 3;
               else if (m.voice.streaming) amount += 1;
             }
-            for(let i of m.presence.activities) {
-              
+            for (let i of m.presence.activities) {
+
               if (i.type == 'CUSTOM_STATUS' && i.state.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
-                amount *= 2;
+                amount = amount * 2;
                 break;
               }
             }
@@ -592,7 +592,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
   if (presence1 && presence2 && presence1.clientStatus) embed.addField('Client Status', `Desktop: ${presence1.clientStatus.desktop}\nMobile: ${presence1.clientStatus.mobile}\nWeb: ${presence1.clientStatus.web}\n`, true)
   if (presence1 && presence1.activities) {
-    for(let i = 0; i < presence1.activities.length; ++i) {
+    for (let i = 0; i < presence1.activities.length; ++i) {
       description = '\u200B';
       if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
       if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
@@ -603,7 +603,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
   if (presence1 && presence2 && presence2.clientStatus) embed.addField('~Client Status~', `Desktop: ${presence2.clientStatus.desktop}\nMobile: ${presence2.clientStatus.mobile}\nWeb: ${presence2.clientStatus.web}\n`, true)
   if (presence2) {
-    for(let i = 0; i < presence2.activities.length; ++i) {
+    for (let i = 0; i < presence2.activities.length; ++i) {
       description = '\u200B';
       if (presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
       if (presence2.activities[i].details) description += `${presence2.activities[i].details}`;
