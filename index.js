@@ -494,7 +494,12 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
 });
 
 //Updates the cache of invites
-client.on('inviteCreate', () => { updateInvites(); });
+client.on('inviteCreate', invite => {
+  updateInvites();
+  let description = '';
+  if (invite.targetUser) description += `\nIt was targeted towards ${invite.targetUser.tag}`;
+  log('837513841389862932', `${invite.inviter} just created a invite(${invite.code})${description}`, ' #9e9d9d');
+});
 client.on('inviteDelete', () => { updateInvites(); });
 
 //Sends welcome message plus who invited them
@@ -525,33 +530,6 @@ client.on('guildMemberRemove', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d');
 });
 
-client.on('presenceUpdate', (presence1, presence2) => {
-  if (presence2.user.bot) return;
-  var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
-  let description = '';
-  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
-  if (presence1.activities) {
-    for(let i = 0; i < presence1.activities.length; ++i) {
-      description = '\u200B';
-      if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
-      if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
-      embed.addField(`${presence1.activities[i].name}`, description, true);
-    }
-    embed.addField('\u200B', '\u200B', false);
-  }
-  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
-  if (presence2) {
-    for(let i = 0; i < presence2.activities.length; ++i) {
-      description = '\u200B';
-      if (presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
-      if (presence2.activities[i].details) description += `${presence2.activities[i].details}`;
-      embed.addField(`~${presence2.activities[i].name}~`, description, true);
-    }
-  }
-  const logCh = client.channels.cache.get('838745441919172668');
-  logCh.send(embed);
-});
-
 client.on('messageDelete', msg => {
 
   if (msg.partial) {
@@ -579,6 +557,22 @@ client.on('channelDelete', ch => {
   const channel = client.channels.cache.get(ch.id);
   log('838774906719043584', `${channel.name} was just deleted`, '#9e9d9d');
 });
+
+client.on('guildBanAdd', (guild, user) => { log('834179033289719839', `${user} was just banned`, '#9e9d9d'); });
+
+client.on('guildBanRemove', (guild, user) => { log('834179033289719839', `${user} was unbanned`, '#9e9d9d'); });
+
+client.on('rateLimit', rl => {
+  const cactus = client.users.cache.get('473110112844644372');
+  cactus.send(`Hey um i was just rate limited :(\nLimit: ${rl.limit}\nMethod: ${rl.method}\nPath: ${rl.path}\nRoute: ${rl.route}\nTime Difference: ${rl.timeDifference}\nTimeout: ${rl.timeout}`);
+});
+
+client.on('warn', warning => {
+  const cactus = client.users.cache.get('473110112844644372');
+  cactus.send(`The bot was just warned :(\n${warning}`);
+});
+
+client.on('typingStart', (ch, user))
 
 client.on('error', error => {
   const cactus = client.users.cache.get('473110112844644372')
