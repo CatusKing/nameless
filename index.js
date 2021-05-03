@@ -527,7 +527,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`);
   if (presence1.activities) {
     for(let i = 0; i < presence1.activities.length; ++i) {
-      description = '';
+      description = '\u200B';
       if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
       if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
       embed.addField(`${presence1.activities[i].name}`, description, true);
@@ -537,7 +537,7 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`);
   if (presence2) {
     for(let i = 0; i < presence2.activities.length; ++i) {
-      description = '';
+      description = '\u200B';
       if (presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
       if (presence2.activities[i].details) description += `${presence2.activities[i].details}`;
       embed.addField(`~${presence2.activities[i].name}~`, description, true);
