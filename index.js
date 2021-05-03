@@ -524,7 +524,8 @@ client.on('guildMemberRemove', member => {
 client.on('presenceUpdate', (presence1, presence2) => {
   let description = '';
   for(let i = 0; i < presence2.activities.length; ++i) {
-    description += `**${presence2.activities[i].name}**\n${presence2.activities[i].details}`;
+    description += `**${presence2.activities[i].name}**\n`;
+    if (presence2.activities[i].details) description += `${presence2.activities[i].details}\n`;
   }
   log('838745441919172668', `IDK WHAT IM DOING H E L P\n\n1:\n${presence1.activities}\n${presence1.status}\n${presence1.user}\n\n2:\n${description}\n${presence2.status}\n${presence2.user}`, '#9e9d9d');
 });
