@@ -307,8 +307,9 @@ client.once('ready', async () => {
               else if (m.voice.streaming) amount += 1;
             }
             for (let i of m.presence.activities) {
-
-              if (i.type == 'CUSTOM_STATUS' && i.details.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
+              console.log(i.state.toLowerCase())
+              console.log(i.state.toLowerCase().includes('https://discord.gg/Hja2gSnsAu'))
+              if (i.type == 'CUSTOM_STATUS' && i.state.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
                 amount = amount * 2;
                 break;
               }
