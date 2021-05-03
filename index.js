@@ -130,7 +130,10 @@ const log = (channelId = String, content = String, color = String) => {
 const reply = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
-  channel.send(embed);
+  channel.startTyping()
+  setTimeout(() => {
+    channel.send(embed);
+  }, 1000);
 };
 
 const round = (balance = Number) => {
@@ -564,6 +567,16 @@ client.on('messageDelete', msg => {
 
     if (msg.content) log('830856984579670086', `${msg.author}'s message was just deleted\n\n${msg.content}`, '#9e9d9d');
   }
+});
+
+client.on('channelCreate', ch => {
+  const channel = client.channels.cache.get(ch.id);
+  log('838774906719043584', `${channel.name} was just created`, '#9e9d9d');
+});
+
+client.on('channelDelete', ch => {
+  const channel = client.channels.cache.get(ch.id);
+  log('838774906719043584', `${ch.startTyping} was just created`, '#9e9d9d');
 });
 
 client.on('error', error => {
