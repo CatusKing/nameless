@@ -213,7 +213,7 @@ const checkCh = () => {
   const videoOnlyCh = client.channels.cache.get('831347288710316032');
   const generalCh = client.channels.cache.get('830495073430929472');
   videoOnlyCh.members.forEach(m => {
-    if (!m.voice.selfVideo) {
+    if (!m.voice.selfVideo && ~m.user.bot) {
       m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
     }
   });
@@ -476,7 +476,10 @@ client.on('message', async msg => {
       let json = JSON.stringify(tempData);
       fs.writeFileSync('general/data.json', json);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-  } else if (command == 'ignores') {
+  } else if (command == 'join') {
+    commands.join(client, msg, reply);
+  } else if (command == 'leave') {
+    commands.leave(client, msg, reply);
   }
 });
 
@@ -563,16 +566,6 @@ client.on('messageDelete', msg => {
 
     if (msg.content) log('830856984579670086', `${msg.author}'s message was just deleted\n\n${msg.content}`, '#9e9d9d');
   }
-});
-
-client.on('channelCreate', ch => {
-  const channel = client.channels.cache.get(ch.id);
-  log('838774906719043584', `${channel.name} was just created`, '#9e9d9d');
-});
-
-client.on('channelDelete', ch => {
-  const channel = client.channels.cache.get(ch.id);
-  log('838774906719043584', `${channel.name} was just deleted`, '#9e9d9d');
 });
 
 client.on('guildBanAdd', (guild, user) => { log('834179033289719839', `${user} was just banned`, '#9e9d9d'); });

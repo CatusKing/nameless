@@ -336,6 +336,22 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
   }
 };
 
+const join = (client = Discord.Client, msg = Discord.Message, reply) => {
+  const ch = msg.member.voice.channel || client.channels.cache.get('830495073430929472');
+  if (!ch.members.has(client.user.id)) {
+    reply(msg.channel.id, `Joining ${ch.name}`, '#9e9d9d');
+    ch.join();
+  } else reply(msg.channel.id, `I'm already in vc`, '#9e9d9d');
+};
+
+const leave = (client = Discord.Client, msg = Discord.Message, reply) => {
+  const ch = msg.member.voice.channel || client.channels.cache.get('830495073430929472');
+  if (ch.members.has(client.user.id)) {
+    reply(msg.channel.id, `Leaving ${ch.name}`, '#9e9d9d');
+    ch.leave();
+  } else reply(msg.channel.id, `I'm not in vc`, '#9e9d9d');
+}
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
@@ -354,3 +370,5 @@ exports.lb = lb;
 exports.ping = ping;
 exports.mute = mute;
 exports.unmute = unmute;
+exports.join = join;
+exports.leave = leave;
