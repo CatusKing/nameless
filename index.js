@@ -213,7 +213,7 @@ const checkCh = () => {
   const videoOnlyCh = client.channels.cache.get('831347288710316032');
   const generalCh = client.channels.cache.get('830495073430929472');
   videoOnlyCh.members.forEach(m => {
-    if (!m.voice.selfVideo && ~m.user.bot) {
+    if (!m.voice.selfVideo && m.user.bot) {
       m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
     }
   });
