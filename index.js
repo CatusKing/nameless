@@ -521,6 +521,10 @@ client.on('guildMemberRemove', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d');
 });
 
+client.on('presenceUpdate', (presence1, presence2) => {
+  log('838745441919172668', `IDK WHAT IM DOING H E L P\n\n1:\n${presence1.activities}\n${presence1.clientStatus}\n${presence1.status}\n${presence1.user}\n\n2:\n${presence2.activities}\n${presence2.clientStatus}\n${presence2.status}\n${presence2.user}`, '#9e9d9d');
+});
+
 client.on('messageDelete', msg => {
 
   if (msg.partial) {
