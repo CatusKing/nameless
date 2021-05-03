@@ -308,7 +308,7 @@ client.once('ready', async () => {
             }
             for (let i of m.presence.activities) {
 
-              if (i.type == 'CUSTOM_STATUS' && i.state.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
+              if (i.type == 'CUSTOM_STATUS' && i.details.toLowerCase().includes('https://discord.gg/Hja2gSnsAu')) {
                 amount = amount * 2;
                 break;
               }
