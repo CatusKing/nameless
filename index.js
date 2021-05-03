@@ -572,7 +572,7 @@ client.on('warn', warning => {
   cactus.send(`The bot was just warned :(\n${warning}`);
 });
 
-client.on('typingStart', (ch, user) => { log('838774906719043584', `${user} just started typing in ${ch}`, '#9e9d9d'); });
+client.on('typingStart', (ch, user) => { if (!user.bot) log('838774906719043584', `${user} just started typing in ${ch}`, '#9e9d9d'); });
 
 client.on('presenceUpdate', (presence1, presence2) => {
   if (presence2.user.bot) return;
