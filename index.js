@@ -420,6 +420,7 @@ client.on('message', async msg => {
   } else if (command == 'unmute') {
     commands.unmute(client, msg, reply, currency);
   } else if (command == 'spy') {
+    if (msg.member.roles.cache.has())
     reply(msg.channel.id, 'Hey check where you were just pinged!', '#9e9d9d')
     msg.guild.channels.create(`${msg.author.tag}-is-spying`, {
       type: 'text',
@@ -437,17 +438,21 @@ client.on('message', async msg => {
         {
           id: `830495072876494879`,
           deny: 'VIEW_CHANNEL'
+        },
+        {
+          id: `830495908336369694`,
+          allow: 'VIEW_CHANNEL'
         }
       ]
     }).then(ch => {
-      ch.send(`${msg.author} ping who you want to spy on by sending a mention. You can do this by doing <@target discord id>`)
+      ch.send(`${msg.author} ping who you want to spy on by sending a mention. You can do this by doing \`\`<@target discord id>\`\``)
         .then(() => {
           const filter = m => m.author.id == msg.author.id;
           ch.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
             .then(collected => {
               const target = collected.first().mentions.members.first() || msg.member;
               var embed = new Discord.MessageEmbed()
-                .setTitle(`All the information I could get on ${target}`)
+                .setTitle(`All the information I could get on ${target.user.tag}`)
                 .setFooter('If you abuse this you are subject to a server ban!')
                 .setDescription(`User: ${target}\nTag: ${target.user.tag}\nDisplay name: ${target.displayName}\nDisplay Color: ${target.displayColor}\nId: ${target.id}`)
                 .setImage(target.user.displayAvatarURL())
