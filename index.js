@@ -419,6 +419,59 @@ client.on('message', async msg => {
     commands.mute(client, msg, reply, currency);
   } else if (command == 'unmute') {
     commands.unmute(client, msg, reply, currency);
+  } else if (command == 'spy') {
+    msg.guild.channels.create(`${msg.author.tag}-is-spying`, {
+      type: 'text',
+      parent: '838954294094856242',
+      reason: `${msg.author} wanted to spy on someone`,
+      permissionOverwrites: [
+        {
+          id: `${msg.author.id}`,
+          allow: 'SEND_MESSAGES'
+        },
+        {
+          id: `${msg.author.id}`,
+          allow: 'VIEW_CHANNEL'
+        }
+      ]
+    }).then(ch => {
+      ch.send(`${msg.author} ping who you want to spy on by sending a mention. You can do this by doing <@target discord id>`)
+        .then(() => {
+          const filter = m => m.author.id == msg.author.id;
+          ch.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
+            .then(collected => {
+              const target = collected.first().mentions.members.first() || msg.member;
+              var embed = new Discord.MessageEmbed()
+                .setTitle(`All the information I could get on ${target}`)
+                .setFooter('If you abuse this you are subject to a server ban!')
+                .setDescription(`User: ${target} Tag: ${target.user.tag}\nDisplay name: ${target.displayName} Display Color: ${target.displayColor}\nId: ${target.id}`)
+                .setImage(target.user.displayAvatarURL());
+              let roles = '';
+              for (let i of target.roles.cache) {
+                roles += `${i[1].name}\n`;
+              }
+              embed
+                .addField('Roles', roles, false)
+                .addField('Account created on', target.user.createdAt.toISOString(), true)
+                .addField('Joined this server on', target.joinedAt.toISOString(), true)
+                .addField('Last message', `${target.user.lastMessage}`, true)
+                .addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', 'Presence Data', false)
+                .addField('Status', `${target.presence.status}`, true)
+                .addField('Client Status', `Desktop: ${target.presence.clientStatus.desktop}\nMobile: ${target.presence.clientStatus.mobile}\nWeb: ${target.presence.clientStatus.web}\n`, true)
+              for (let i of target.presence.activities) {
+                let description = '\u200B';
+                if (i.state) description += `${i.state}\n`;
+                if (i.details) description += `${i.details}`;
+                embed.addField(`${i.name}`, description, true);
+              }
+            }).catch(() => {
+              ch.send('No response :(\nDeleting channel...');
+              setTimeout(() => {
+                ch.delete(`No target input`);
+              }, 10000);
+            });
+        });
+    });
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {

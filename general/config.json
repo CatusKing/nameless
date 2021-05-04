@@ -10,9 +10,11 @@
     "remove <amount> [@User] - Gives money to the bank and takes it from the target",
     "shop - Displays what you can use your points for",
     "buy <item> - Allows you to buy items from the shop",
-    "badges - gives you a badge that lasts forever and costs nothing",
-    "daily - claim your daily reward",
-    "weekly - clain your weekly reward"
+    "badges - Gives you a badge that lasts forever and costs nothing",
+    "daily - Claim your daily reward",
+    "weekly - Clain your weekly reward",
+    "ping - Gets the bot's response time",
+    "spy - B)"
   ],
   "status": [
     "Bank: %bank%🍰",
