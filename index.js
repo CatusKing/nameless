@@ -420,6 +420,7 @@ client.on('message', async msg => {
   } else if (command == 'unmute') {
     commands.unmute(client, msg, reply, currency);
   } else if (command == 'spy') {
+    reply(msg.channel.id, 'Hey check where you were just pinged!', '#9e9d9d')
     msg.guild.channels.create(`${msg.author.tag}-is-spying`, {
       type: 'text',
       parent: '838954294094856242',
@@ -449,7 +450,8 @@ client.on('message', async msg => {
                 .setTitle(`All the information I could get on ${target}`)
                 .setFooter('If you abuse this you are subject to a server ban!')
                 .setDescription(`User: ${target}\nTag: ${target.user.tag}\nDisplay name: ${target.displayName}\nDisplay Color: ${target.displayColor}\nId: ${target.id}`)
-                .setImage(target.user.displayAvatarURL());
+                .setImage(target.user.displayAvatarURL())
+                .setColor('#9e9d9d');
               let roles = '';
               for (let i of target.roles.cache) {
                 roles += `${i[1].name}\n`;
@@ -459,7 +461,7 @@ client.on('message', async msg => {
                 .addField('Account created on', target.user.createdAt.toISOString(), true)
                 .addField('Joined this server on', target.joinedAt.toISOString(), true)
                 .addField('Last message', `${target.user.lastMessage}`, true)
-                .addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '__**Presence Data**__', false)
+                .addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '\u200B\n\n\n__**Presence Data**__', false)
                 .addField('Status', `${target.presence.status}`, true)
               if (target.presence.status != 'offline') embed.addField('Client Status', `Desktop: ${target.user.presence.clientStatus.desktop}\nMobile: ${target.user.presence.clientStatus.mobile}\nWeb: ${target.user.presence.clientStatus.web}\n`, true)
               for (let i of target.presence.activities) {
