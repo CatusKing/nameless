@@ -458,8 +458,8 @@ client.on('message', async msg => {
               }
               embed
                 .addField('Roles', roles, false)
-                .addField('Account created on', target.user.createdAt.toISOString(), true)
-                .addField('Joined this server on', target.joinedAt.toISOString(), true)
+                .addField('Account created on', target.user.createdAt.toUTCString(), true)
+                .addField('Joined this server on', target.joinedAt.toUTCString(), true)
                 .addField('Last message', `${target.user.lastMessage}`, true)
                 .addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '\u200B\n\n\n__**Presence Data**__', false)
                 .addField('Status', `${target.presence.status}`, true)
