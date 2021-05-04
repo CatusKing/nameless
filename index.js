@@ -660,9 +660,9 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence1 && presence1.activities) {
     for (let i = 0; i < presence1.activities.length; ++i) {
       description = '\u200B';
-      if (presence1.activities[i].state) description += `${presence1.activities[i].state}\n`;
-      if (presence1.activities[i].details) description += `${presence1.activities[i].details}`;
-      embed.addField(`${presence1.activities[i].name}`, description, true);
+      if (presence1.activities[i].state && presence1.activities[i].state != presence2.activities[i].state) description += `${presence1.activities[i].state}\n`;
+      if (presence1.activities[i].details && presence1.activities[i].details != presence2.activities[i].details) description += `${presence1.activities[i].details}`;
+      if (description != '\u200B') embed.addField(`${presence1.activities[i].name}`, description, true);
     }
     embed.addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '\u200B', false);
   }
@@ -671,9 +671,9 @@ client.on('presenceUpdate', (presence1, presence2) => {
   if (presence2) {
     for (let i = 0; i < presence2.activities.length; ++i) {
       description = '\u200B';
-      if (presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
-      if (presence2.activities[i].details) description += `${presence2.activities[i].details}`;
-      embed.addField(`~${presence2.activities[i].name}~`, description, true);
+      if (presence2.activities[i].state && presence1.activities[i].state != presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
+      if (presence2.activities[i].details && presence1.activities[i].details != presence2.activities[i].details) description += `${presence2.activities[i].details}`;
+      if (description != '\u200B') embed.addField(`~${presence2.activities[i].name}~`, description, true);
     }
   }
   const logCh = client.channels.cache.get('838774906719043584');
