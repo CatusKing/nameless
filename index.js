@@ -432,6 +432,10 @@ client.on('message', async msg => {
         {
           id: `${msg.author.id}`,
           allow: 'VIEW_CHANNEL'
+        },
+        {
+          id: `830495072876494879`,
+          deny: 'VIEW_CHANNEL'
         }
       ]
     }).then(ch => {
