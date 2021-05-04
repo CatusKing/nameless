@@ -471,6 +471,10 @@ client.on('message', async msg => {
                 embed.addField(`${i.name}`, description, true);
               }
               ch.send(embed);
+              reply(ch.id, 'Deleting channel in 10 minutes', '#9e9d9d')
+              setTimeout(() => {
+                ch.delete(`10 minutes has passed`)
+              }, 600000)
             }).catch(error => {
               console.log(error);
               ch.send('No response :(\nDeleting channel...');
