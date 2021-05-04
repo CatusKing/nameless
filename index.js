@@ -461,7 +461,7 @@ client.on('message', async msg => {
                 .addField('Last message', `${target.user.lastMessage}`, true)
                 .addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', 'Presence Data', false)
                 .addField('Status', `${target.presence.status}`, true)
-                .addField('Client Status', `Desktop: ${target.presence.clientStatus.desktop}\nMobile: ${target.presence.clientStatus.mobile}\nWeb: ${target.presence.clientStatus.web}\n`, true)
+                .addField('Client Status', `Desktop: ${target.user.presence.clientStatus.desktop}\nMobile: ${target.user.presence.clientStatus.mobile}\nWeb: ${target.user.presence.clientStatus.web}\n`, true)
               for (let i of target.presence.activities) {
                 let description = '\u200B';
                 if (i.state) description += `${i.state}\n`;
