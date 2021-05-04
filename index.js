@@ -464,7 +464,9 @@ client.on('message', async msg => {
                 if (i.details) description += `${i.details}`;
                 embed.addField(`${i.name}`, description, true);
               }
-            }).catch(() => {
+              ch.send(embed);
+            }).catch(error => {
+              console.log(error);
               ch.send('No response :(\nDeleting channel...');
               setTimeout(() => {
                 ch.delete(`No target input`);
