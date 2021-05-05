@@ -146,6 +146,15 @@ const round = (balance = Number) => {
   else return bal;
 };
 
+const floor = (balance = Number) => {
+  let bal = balance + '';
+
+  if (bal.length > 3 && bal.length < 7) return `${Math.floor(bal / 100) / 10}k`;
+  else if (bal.length > 6 && bal.length < 10) return `${Math.floor(bal / 10000) / 100}m`;
+  else if (bal.length > 9 && bal.length < 13) return `${Math.floor(bal / 10000000) / 100}b`;
+  else return bal;
+};
+
 const updateLeaderboard = () => {
   client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
     .then(message => {
@@ -392,7 +401,7 @@ client.on('message', async msg => {
   } else if (command == 'income') {
     commands.income(msg, reply);
   } else if (['balance', 'bal'].includes(command)) {
-    commands.balance(msg, reply, round, currency);
+    commands.balance(msg, reply, floor, currency);
   } else if (['gamble', 'g'].includes(command)) {
     commands.gamble(msg, args, reply, log, currency);
   } else if (['bank', 'b'].includes(command)) {
