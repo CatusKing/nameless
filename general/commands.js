@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const request = require('request')
 const config = require('./config.json');
 const createBar = require('string-progressbar');
 const prefix = config.prefix;
@@ -336,6 +337,13 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
   }
 };
 
+const advice = (msg, reply) => {
+  request(`https://api.adviceslip.com/advice`, { json: true }, (err, res, body) => {
+    if (err) return console.log(err);
+    reply(msg.channel.id, body.advice, '#9e9d9d');
+  });
+};
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
@@ -354,3 +362,4 @@ exports.lb = lb;
 exports.ping = ping;
 exports.mute = mute;
 exports.unmute = unmute;
+exports.advice = advice;

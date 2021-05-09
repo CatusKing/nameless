@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const request = require('request')
 const token = require('./general/token.json');
 const config = require('./general/config.json');
 const { Users } = require('./dbObjects');
@@ -428,6 +429,8 @@ client.on('message', async msg => {
     commands.mute(client, msg, reply, currency);
   } else if (command == 'unmute') {
     commands.unmute(client, msg, reply, currency);
+  } else if (command == 'advice') {
+    commands.advice(msg, reply);
   } else if (command == 'spy') {
     if (msg.member.roles.cache.has('838963152988274689')) {
       reply(msg.channel.id, 'Hey check where you were just pinged!', '#9e9d9d')
