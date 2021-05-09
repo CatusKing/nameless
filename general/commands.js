@@ -344,6 +344,13 @@ const advice = (msg, reply) => {
   });
 };
 
+const trump = (msg, reply) => {
+  request(`https://www.tronalddump.io/random/quote`, { json: true }, (err, res, body) => {
+    if (err) return console.log(err);
+    reply(msg.channel.id, `Trump:\n${body.value}`, '#9e9d9d');
+  });
+};
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
@@ -363,3 +370,4 @@ exports.ping = ping;
 exports.mute = mute;
 exports.unmute = unmute;
 exports.advice = advice;
+exports.trump = trump;
