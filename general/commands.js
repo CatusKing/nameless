@@ -340,7 +340,7 @@ const unmute = async (client = Discord.Client, msg = Discord.Message, reply, cur
 const advice = (msg, reply) => {
   request(`https://api.adviceslip.com/advice`, { json: true }, (err, res, body) => {
     if (err) return console.log(err);
-    reply(msg.channel.id, body.advice, '#9e9d9d');
+    reply(msg.channel.id, body.slip.advice, '#9e9d9d');
   });
 };
 
