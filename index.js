@@ -493,7 +493,7 @@ client.on('message', async msg => {
 
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
-
+  if (newMsg.author.bot) return
   if (oldMsg.partial) {
     try {
       oldMsg.fetch().then(fullMessage => {
