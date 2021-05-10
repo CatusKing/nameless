@@ -155,8 +155,8 @@ const gamble = async (msg = Discord.Message, args = [], reply, log, currency = D
   msg.channel.send(embed);
 };
 
-const bank = async (msg = Discord.Message, reply, currency = Discord.Collection) => {
-  reply(msg.channel.id, `The bank currently has ${await currency.getBalance('bank')}🍰`, '#ffffba');
+const bank = async (msg = Discord.Message, reply, floor, currency = Discord.Collection) => {
+  reply(msg.channel.id, `The bank currently has ${floor(await currency.getBalance('bank'))}🍰(${await currency.getBalance('bank')}🍰)`, '#ffffba');
 };
 
 const add = (msg = Discord.Message, args = [], reply, log, currency = Discord.Collection) => {
@@ -233,9 +233,9 @@ const buy = async (msg = Discord.Message, args = [], reply, log, currency = Disc
   if (!bought) reply(msg.channel.id, `You need to enter a valid item\nThey can be found using ${prefix}shop`, '#9e9d9d');
 };
 
-const badges = async (msg = Discord.Message, reply, round, currency = Discord.Collection) => {
+const badges = async (msg = Discord.Message, reply, floor, currency = Discord.Collection) => {
   const balance = await currency.getBalance(msg.author.id);
-  let description = `Your balance: ${round(balance)}🍰`;
+  let description = `Your balance: ${floor(balance)}🍰`;
   for (let i = 0; i < config.badges.length; ++i) {
     const role = msg.guild.roles.cache.get(config.badges[i][1]);
 

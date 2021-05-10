@@ -406,7 +406,7 @@ client.on('message', async msg => {
   } else if (['gamble', 'g'].includes(command)) {
     commands.gamble(msg, args, reply, log, currency);
   } else if (['bank', 'b'].includes(command)) {
-    commands.bank(msg, reply, currency);
+    commands.bank(msg, reply, floor, currency);
   } else if (command == 'add') {
     commands.add(msg, args, reply, log, currency);
   } else if (command == 'remove') {
@@ -416,7 +416,7 @@ client.on('message', async msg => {
   } else if (command == 'buy') {
     commands.buy(msg, args, reply, log, currency);
   } else if (command == 'badges') {
-    commands.badges(msg, reply, round, currency);
+    commands.badges(msg, reply, floor, currency);
   } else if (command == 'weekly') {
     commands.weekly(msg, reply, log, currency, hours);
   } else if (command == 'daily') {
