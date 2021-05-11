@@ -493,10 +493,10 @@ client.on('message', async msg => {
 
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
-  if (newMsg.author.bot) return
   if (oldMsg.partial) {
     try {
       oldMsg.fetch().then(fullMessage => {
+        if (fullMessage.author.bot) return
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
         const yes = punish(newMsg)
         if (yes[0]) newMsg.delete();
