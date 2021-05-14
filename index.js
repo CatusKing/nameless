@@ -135,7 +135,7 @@ const reply = (channelId = String, content = String, color = String) => {
   setTimeout(() => {
     channel.send(embed);
     channel.stopTyping();
-  }, 1000);
+  }, 500);
 };
 
 const round = (balance = Number) => {
