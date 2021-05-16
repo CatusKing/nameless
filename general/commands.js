@@ -344,6 +344,13 @@ const advice = (msg, reply) => {
   });
 };
 
+const status = (msg, reply, updateStatus) => {
+  if (msg.member.roles.cache.has('830496065366130709')) {
+    updateStatus();
+    reply(msg.channel.id, `Updated the status`, `#9e9d9d`);
+  } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+};
+
 exports.dmCommands = dmCommands;
 exports.announcements = announcements;
 exports.help = help;
@@ -363,3 +370,4 @@ exports.ping = ping;
 exports.mute = mute;
 exports.unmute = unmute;
 exports.advice = advice;
+exports.status = status;

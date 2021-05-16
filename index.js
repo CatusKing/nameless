@@ -294,6 +294,25 @@ const punish = async (msg = Discord.Message) => {
   } catch (error) { }
 };
 
+const updateStatus = async () => {
+  ++status;
+
+  if (status == config.status.length) status = 0;
+  let top;
+  currency.sort((a, b) => b.balance - a.balance)
+    .filter(user => client.users.cache.has(user.user_id))
+    .first(1)
+    .forEach((user, position) => {
+      top = client.users.cache.get(user.user_id).tag;
+    });
+  let bank = round(await currency.getBalance('bank'));
+  client.user.setActivity(config.status[status]
+    .replace('%bank%', bank)
+    .replace('%prefix%', prefix)
+    .replace('%top%', top)
+  );
+};
+
 client.once('ready', async () => {
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
@@ -331,24 +350,8 @@ client.once('ready', async () => {
 
     if (description != '') log('830503210951245865', description, '#baffc9');
   }, 60000);
-  setInterval(async () => {
-    ++status;
 
-    if (status == config.status.length) status = 0;
-    let top;
-    currency.sort((a, b) => b.balance - a.balance)
-      .filter(user => client.users.cache.has(user.user_id))
-      .first(1)
-      .forEach((user, position) => {
-        top = client.users.cache.get(user.user_id).tag;
-      });
-    let bank = round(await currency.getBalance('bank'));
-    client.user.setActivity(config.status[status]
-      .replace('%bank%', bank)
-      .replace('%prefix%', prefix)
-      .replace('%top%', top)
-    );
-  }, 300000);
+  setInterval(updateStatus, 300000);
 
   setInterval(updateLeaderboard, 120000);
 
@@ -431,6 +434,8 @@ client.on('message', async msg => {
     commands.unmute(client, msg, reply, currency);
   } else if (command == 'advice') {
     commands.advice(msg, reply);
+  } else if (command == 'status') {
+    commands.status(msg, reply, updateStatus);
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (tempData.admins.includes(msg.author.id)) {
