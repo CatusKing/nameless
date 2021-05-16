@@ -380,7 +380,7 @@ client.on('message', async msg => {
   if (cooldown < Date.now()) {
     let amount = 5;
     for (let i of msg.author.presence.activities) {
-      if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
+      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
         amount = Math.floor(amount * 1.5);
         break;
       }
