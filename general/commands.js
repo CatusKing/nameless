@@ -108,7 +108,7 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
                 for (let i of msg.attachments) {
                   embeds.push(new Discord.MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                 }
-                await webhook.send(msg.content.replace('!partner!', ''), {
+                await webhook.send(`||<@&830554664373714994>||\n${msg.content.replace('!partner!', '')}`, {
                   username: msg.guild.name,
                   avatarURL: msg.guild.iconURL(),
                   embeds: embeds,
