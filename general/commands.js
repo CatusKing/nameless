@@ -24,7 +24,7 @@ const announcements = (client = Discord.Client, msg = Discord.Message) => {
   const partnerChannel = client.channels.cache.get('846376197163581490');
   if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
     if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
-    msg.channel.send(`\`Is this announcement ok?\nRespond yes or no\nImage will be included\`\n${msg.content.replace('!announce!', '')}`)
+    msg.channel.send(`\`Is this announcement ok?\nRespond yes or no\nImage will be included\`\n\n${msg.content.replace('!announce!', '')}`)
       .then(async () => {
         const filter = m => m.author.id == msg.author.id;
         msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
