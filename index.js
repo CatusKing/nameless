@@ -1,136 +1,37 @@
-const Discord = require('discord.js');
-const request = require('request')
+const { Client, Collection, MessageEmbed } = require('discord.js');
 const token = require('./general/token.json');
 const config = require('./general/config.json');
-const { Users } = require('./dbObjects');
-const { Op } = require('sequelize');
+const db = require('quick.db');
 const { google } = require('googleapis');
-const commands = require('./general/commands');
-const data = require('./general/data.json');
 const fs = require('fs');
 
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } } });
-const currency = new Discord.Collection();
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } } });
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
-const tempData = { ignoredCh: data.ignoredCh, admins: data.admins, creepyMode: data.creepyMode };
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
-const start = () => {
-  Reflect.defineProperty(currency, 'addBalance', {
-    value: async function addBalance(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.balance += Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, balance: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
+client.commands = new Collection();
 
-  Reflect.defineProperty(currency, 'setCooldown', {
-    value: async function setCooldown(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.cooldown = Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, cooldown: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-  Reflect.defineProperty(currency, 'setDaily', {
-    value: async function setDaily(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.daily = Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, daily: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'setWeekly', {
-    value: async function setWeekly(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.weekly = Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, weekly: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'getCooldown', {
-    value: function getCooldown(id) {
-      const user = currency.get(id);
-      return user ? user.cooldown : 0;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'getBalance', {
-    value: function getBalance(id) {
-      const user = currency.get(id);
-      return user ? user.balance : 0;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'getWeekly', {
-    value: function getWeekly(id) {
-      const user = currency.get(id);
-      return user ? user.weekly : 0;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'getDaily', {
-    value: function getDaily(id) {
-      const user = currency.get(id);
-      return user ? user.daily : 0;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'getMuted', {
-    value: function getMuted(id) {
-      const user = currency.get(id);
-      return user ? user.muted : 0;
-    },
-  });
-
-  Reflect.defineProperty(currency, 'setMuted', {
-    value: async function setMuted(id, amount) {
-      const user = currency.get(id);
-      if (user) {
-        user.muted = Number(amount);
-        return user.save();
-      }
-      const newUser = await Users.create({ user_id: id, daily: amount });
-      currency.set(id, newUser);
-      return newUser;
-    },
-  });
-};
-
-start();
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  // Set a new item in the Collection
+  // With the key as the command name and the value as the exported module
+  client.commands.set(command.name, command);
+}
 
 const log = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
-  const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
+  const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.send(embed);
 };
 
 const reply = (channelId = String, content = String, color = String) => {
   const channel = client.channels.cache.get(channelId);
-  const embed = new Discord.MessageEmbed().setDescription(content).setColor(color);
+  const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.startTyping();
   setTimeout(() => {
     channel.send(embed);
@@ -157,20 +58,30 @@ const floor = (balance = Number) => {
 };
 
 const updateLeaderboard = () => {
+  const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
+  const lb = db.get(`discord.server.leaderboard`) || [];
+  const leaderboard = new Collection();
+  for (let i = 0; i < lb.length; ++i) {
+    if (guildMembers.has(lb[i][0])) {
+      leaderboard.set(lb[i][0], lb[i][1]);
+    }
+  }
   client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
     .then(message => {
-      let description = '';
-      currency.sort((a, b) => b.balance - a.balance)
-        .filter(user => client.users.cache.has(user.user_id))
-        .first(config.leaderboard_count)
-        .forEach((user, position) => {
-          let balance = round(user.balance);
-          description += `\n(${position + 1}) ${balance}🍰 ${(client.users.cache.get(user.user_id))}`
+      let description = '```';
+      let num = 1;
+      leaderboard.sort((a, b) => b - a)
+        .filter((value, key) => client.users.cache.has(key))
+        .forEach((value, key) => {
+          if (num <= config.leaderboard_count) {
+            description += `\n< ${num} > ${round(value)}🦴 ${client.users.cache.get(key).tag}`;
+          }
+          ++num;
         });
-      var embed = new Discord.MessageEmbed().setColor('#ffffba').setDescription(description);
+      description += '```';
+      var embed = new MessageEmbed().setColor('#ffffba').setDescription(description);
       message.edit(embed);
-    })
-    .catch(console.error);
+    });
 };
 
 const hours = (milliseconds = Number) => {
@@ -229,7 +140,7 @@ const checkCh = () => {
   });
 };
 
-const punish = async (msg = Discord.Message) => {
+const punish = async (msg) => {
   const cactus = client.users.cache.get('473110112844644372');
   try {
     const characters = msg.content.split('');
@@ -261,7 +172,7 @@ const punish = async (msg = Discord.Message) => {
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
-          currency.setMuted(msg.author.id, 1);
+          setUserMuted(msg.author.id, 1);
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         }
@@ -284,7 +195,7 @@ const punish = async (msg = Discord.Message) => {
         } else {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
-          currency.setMuted(msg.author.id, 1);
+          setUserMuted(msg.author.id, 1);
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
         }
@@ -298,14 +209,23 @@ const updateStatus = async () => {
   ++status;
 
   if (status == config.status.length) status = 0;
+  const lb = db.get(`discord.server.leaderboard`) || [];
+  const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
+  const leaderboard = new Collection();
+  for (let i = 0; i < lb.length; ++i) {
+    if (guildMembers.has(lb[i][0])) {
+      leaderboard.set(lb[i][0], lb[i][1]);
+    }
+  }
+  let num = 1;
   let top;
-  currency.sort((a, b) => b.balance - a.balance)
-    .filter(user => client.users.cache.has(user.user_id))
-    .first(1)
-    .forEach((user, position) => {
-      top = client.users.cache.get(user.user_id).tag;
+  leaderboard.sort((a, b) => b - a)
+    .filter((value, key) => client.users.cache.has(key))
+    .forEach((value, key) => {
+      if (num == 1) top = client.users.cache.get(key).tag;
+      ++num;
     });
-  let bank = round(await currency.getBalance('bank'));
+  let bank = round(getUserBalance('bank'));
   client.user.setActivity(config.status[status]
     .replace('%bank%', bank)
     .replace('%prefix%', prefix)
@@ -313,43 +233,156 @@ const updateStatus = async () => {
   );
 };
 
-client.once('ready', async () => {
-  const storedBalances = await Users.findAll();
-  storedBalances.forEach(b => currency.set(b.user_id, b));
-  setInterval(() => {
-    const guild = client.guilds.cache.get('830495072876494879');
-    var description = '';
-    guild.channels.cache.forEach(ch => {
-
-      if (ch.type == 'voice' && ch.id != '830505700269883412') {
-        ch.members.forEach(m => {
-
-          if (!m.voice.deaf) {
-
-            if (m.user.bot) return;
-            let amount = 2;
-
-            if (!m.voice.mute) {
-              amount += 3;
-
-              if (m.voice.selfVideo) amount += 3;
-              else if (m.voice.streaming) amount += 1;
-            }
-            for (let i of m.presence.activities) {
-              if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
-                amount = Math.floor(amount * 1.5);
-                break;
-              }
-            }
-            currency.addBalance(m.id, amount);
-            description += `\n+${amount}🍰 to ${m} for sitting in vc`;
+const givePoints = () => {
+  const guild = client.guilds.cache.get('830495072876494879');
+  var description = '';
+  guild.channels.cache.forEach(ch => {
+    
+    if (ch.type == 'voice' && ch.id != '830505700269883412') {
+      ch.members.forEach(m => {
+        
+        if (!m.voice.deaf) {
+          
+          if (m.user.bot) return;
+          let amount = 2;
+          
+          if (!m.voice.mute) {
+            amount += 3;
+            
+            if (m.voice.selfVideo) amount += 3;
+            else if (m.voice.streaming) amount += 1;
           }
-        })
-      }
-    });
+          for (let i of m.presence.activities) {
+            if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
+              amount = Math.floor(amount * 1.5);
+              break;
+            }
+          }
+          addUserBalance(m.id, amount);
+          description += `\n+${amount}🦴 to ${m} for sitting in vc`;
+        }
+      });
+    }
+  });
+  
+  if (description != '') log('830503210951245865', description, '#baffc9');
+};
 
-    if (description != '') log('830503210951245865', description, '#baffc9');
-  }, 60000);
+const checkMuted = () => {
+  const users = db.get(`discord.users`) || {};
+  client.guilds.cache.get('830495072876494879').members.cache.forEach((member, id) => {
+    if (users[id] != null) {
+      const muted = users[id].muted || 0;
+      if (muted > 0 || muted == -1) {
+        if (!member.roles.cache.has('830495536582361128')) {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          member.roles.add(role, `${member.user.username} is still muted`);
+        }
+        if (muted != -1) users[id].muted = muted - 1;
+      } else if (muted == 0) {
+        if (member.roles.cache.has('830495536582361128')) {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          member.roles.remove(role, `${member.user.username} is not muted`);
+        }
+      }
+    }
+  });
+  db.set(`discord.users`, users);
+};
+
+const getUserBalance = (id = '') => {
+  const user = db.get(`discord.users.${id}`) || {};
+  return user.balance || 0;
+};
+
+const addUserBalance = (id = '', num = 0) => {
+  const user = db.get(`discord.users.${id}`) || {};
+  const lb = db.get(`discord.server.leaderboard`) || [];
+  user.balance = user.balance + num || 0 + num;
+  let included = false
+  for (let i = 0; i < lb.length; ++i) {
+    if (lb[i][0] == id) {
+      lb[i][1] = user.balance;
+      included = true;
+      break;
+    }
+  }
+  if (!included) lb.push([id, user.balance]);
+  db.set(`discord.server.leaderboard`, lb);
+  db.set(`discord.users.${id}`, user);
+  return user.balance;
+};
+
+const getUserWeekly = (id = '') => {
+  const user = db.get(`discord.users.${id}`) || {};
+  return user.weekly || 0;
+};
+
+const setUserWeekly = (id = '', num = 0) => {
+  const user = db.get(`discord.users.${id}`) || {};
+  user.weekly = num;
+  db.set(`discord.users.${id}`, user);
+  return user.weekly;
+};
+
+const getUserDaily = (id = '') => {
+  const user = db.get(`discord.users.${id}`) || {};
+  return user.daily || 0;
+};
+
+const setUserDaily = (id = '', num = 0) => {
+  const user = db.get(`discord.users.${id}`) || {};
+  user.daily = num;
+  db.set(`discord.users.${id}`, user);
+  return user.daily;
+};
+
+const getUserMuted = (id = '') => {
+  const user = db.get(`discord.users.${id}`) || {};
+  return user.muted || 0;
+};
+
+const setUserMuted = (id = '', num = 0) => {
+  const user = db.get(`discord.users.${id}`) || {};
+  user.muted = num;
+  db.set(`discord.users.${id}`, user);
+  return user.muted;
+};
+
+const getServerAdmins = () => {
+  return db.get(`discord.server.admins`) || [];
+};
+
+const setServerAdmins = (admins = []) => {
+  db.set(`discord.server.admins`, admins);
+};
+
+const getServerIgnoredCh = () => {
+  return db.get(`discord.server.ignoredCh`) || [];
+};
+
+const setServerIgnoredCh = (ignoredCh = []) => {
+  db.set(`discord.server.ignoredCh`, ignoredCh);
+};
+
+const getUserCooldown = (id = '') => {
+  const user = db.get(`discord.users.${id}`) || {};
+  return user.cooldown || 0;
+};
+
+const setUserCooldown = (id = '', num = 0) => {
+  const user = db.get(`discord.users.${id}`) || {};
+  user.cooldown = num;
+  db.set(`discord.users.${id}`, user);
+  return user.cooldown;
+};
+
+
+var admins = getServerAdmins();
+var ignoredCh = getServerIgnoredCh();
+
+client.once('ready', async () => {
+  setInterval(givePoints, 60000);
 
   setInterval(updateStatus, 300000);
 
@@ -361,6 +394,8 @@ client.once('ready', async () => {
 
   setInterval(checkCh, 15000);
 
+  setInterval(checkMuted, 30000);
+
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -369,17 +404,26 @@ client.on('message', async msg => {
 
   if (msg.author.bot || msg.webhookID) return;
 
-  //Dm commands
-  commands.dmCommands(client, msg);
+  // //Dm commands
+  if (msg.channel.type == 'dm') {
+    const guild = client.guilds.cache.get('830495072876494879');
+    const member = guild.members.cache.get(msg.author.id);
+
+    if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
+
+    if (msg.content == '!update') {
+      client.user.setAvatar(guild.iconURL());
+      msg.channel.send('Ran the following updates\nPfP');
+    }
+  }
 
   if (msg.channel.type != 'text') return;
 
-  //Hate Speech
+  // //Hate Speech
   punish(msg);
 
-  //Points
-  const cooldown = currency.getCooldown(msg.author.id);
-
+  // //Points
+  const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     let amount = 5;
     for (let i of msg.author.presence.activities) {
@@ -388,12 +432,18 @@ client.on('message', async msg => {
         break;
       }
     }
-    await currency.addBalance(msg.author.id, amount);
-    await currency.setCooldown(msg.author.id, Date.now() + 60000);
-    log('830503210951245865', `+${amount}🍰 to ${msg.author} for sending a message`, '#baffc9');
+    addUserBalance(msg.author.id, amount);
+    setUserCooldown(msg.author.id, Date.now() + 60000);
+    log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
 
-  commands.announcements(client, msg);
+  //Announcements commands
+  try {
+    client.commands.get('announcements').execute(client, msg);
+  } catch (error) {
+    console.error(error);
+    msg.reply('there was an error trying to execute that command!');
+  }
 
   //Currency Stuff
   if (!msg.content.toLowerCase().startsWith(prefix)) return;
@@ -401,97 +451,171 @@ client.on('message', async msg => {
   const command = args.shift().toLowerCase();
 
   if (command == 'help') {
-    commands.help(msg, reply);
+    try {
+      client.commands.get(command).execute(msg, reply);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (command == 'income') {
-    commands.income(msg, reply);
+    try {
+      client.commands.get(command).execute(msg, reply);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (['balance', 'bal'].includes(command)) {
-    commands.balance(msg, reply, floor, currency);
+    try {
+      client.commands.get('balance').execute(msg, reply, getUserBalance, floor);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (['gamble', 'g'].includes(command)) {
-    commands.gamble(msg, args, reply, log, currency);
+    try {
+      client.commands.get('gamble').execute(msg, args, reply, log, addUserBalance, getUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (['bank', 'b'].includes(command)) {
-    commands.bank(msg, reply, floor, currency);
+    try {
+      client.commands.get('bank').execute(msg, reply, floor, getUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (command == 'add') {
-    commands.add(msg, args, reply, log, currency);
+    try {
+      client.commands.get(command).execute(msg, args, reply, log, addUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (command == 'remove') {
-    commands.remove(msg, args, reply, log, currency);
+    try {
+      client.commands.get(command).execute(msg, args, reply, log, addUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (command == 'shop') {
-    commands.shop(msg, reply);
+    try {
+      client.commands.get(command).execute(msg, reply);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    };
   } else if (command == 'buy') {
-    commands.buy(msg, args, reply, log, currency);
-  } else if (command == 'badges') {
-    commands.badges(msg, reply, floor, currency);
+    try {
+      client.commands.get(command).execute(msg, args, reply, log, getUserBalance, addUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'weekly') {
-    commands.weekly(msg, reply, log, currency, hours);
+    try {
+      client.commands.get(command).execute(msg, reply, log, hours, getUserWeekly, setUserWeekly, addUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'daily') {
-    commands.daily(msg, reply, log, currency);
-  } else if (command == 'lb') {
-    commands.lb(msg, reply, updateLeaderboard);
+    try {
+      client.commands.get(command).execute(msg, reply, log, getUserDaily, setUserDaily, addUserBalance);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
+  } else if (['leaderboard', 'lb'].includes(command)) {
+    try {
+      client.commands.get('leaderboard').execute(msg, reply, updateLeaderboard);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'ping') {
-    commands.ping(client, msg, reply);
+    try {
+      client.commands.get(command).execute(client, msg);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'mute') {
-    commands.mute(client, msg, reply, currency);
+    try {
+      client.commands.get(command).execute(client, msg, args, reply, getUserMuted, setUserMuted);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'unmute') {
-    commands.unmute(client, msg, reply, currency);
+    try {
+      client.commands.get(command).execute(client, msg, reply, getUserMuted, setUserMuted);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'advice') {
-    commands.advice(msg, reply);
+    try {
+      client.commands.get(command).execute(msg, reply);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'status') {
-    commands.status(msg, reply, updateStatus);
+    try {
+      client.commands.get(command).execute(msg, reply, updateStatus);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
-      if (tempData.admins.includes(msg.author.id)) {
-        for (var i = 0; i < tempData.admins.length; i++) {
+      if (admins.includes(msg.author.id)) {
+        for (var i = 0; i < admins.length; i++) {
 
-          if (tempData.admins[i] == msg.author.id) {
-            tempData.admins.splice(i, 1);
+          if (admins[i] == msg.author.id) {
+            admins.splice(i, 1);
             reply(msg.channel.id, `No longer ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
             break;
           }
         }
       } else {
-        tempData.admins.push(msg.author.id);
+        admins.push(msg.author.id);
         reply(msg.channel.id, `Ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
       }
-      let json = JSON.stringify(tempData);
-      fs.writeFileSync('general/data.json', json);
+      setServerAdmins(admins);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'admins') {
     var description = 'Admins\n';
-    for (let i of tempData.admins) {
+    for (let i of admins) {
       description += `${client.users.cache.get(i).tag} - ${i}\n`
     }
     reply(msg.channel.id, description, '#9e9d9d');
   } else if (command == 'ignore') {
     if (msg.member.roles.cache.has('830496065366130709')) {
-      if (tempData.ignoredCh.includes(msg.channel.id)) {
-        for (var i = 0; i < tempData.ignoredCh.length; i++) {
+      if (ignoredCh.includes(msg.channel.id)) {
+        for (var i = 0; i < ignoredCh.length; i++) {
 
-          if (tempData.ignoredCh[i] == msg.channel.id) {
-            tempData.ignoredCh.splice(i, 1);
+          if (ignoredCh[i] == msg.channel.id) {
+            ignoredCh.splice(i, 1);
             reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
             break;
           }
         }
       } else {
-        tempData.ignoredCh.push(msg.channel.id);
+        ignoredCh.push(msg.channel.id);
         reply(msg.channel.id, `Ignoring this channel from auto mod\nid: ${msg.channel.id}`, '#9e9d9d');
       }
-      let json = JSON.stringify(tempData);
-      fs.writeFileSync('general/data.json', json);
+      setServerIgnoredCh(ignoredCh);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   } else if (command == 'ignores') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       var description = 'Ignored channels\n';
-      for (let i of tempData.ignoredCh) {
+      for (let i of ignoredCh) {
         description += `${client.channels.cache.get(i).name} - ${i}\n`
       }
       reply(msg.channel.id, description, '#9e9d9d');
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-  } else if (command == 'creepy') {
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      tempData.creepyMode = !tempData.creepyMode;
-      reply(msg.channel.id, `Creepy mode is now ${tempData.creepyMode}`.replace('true', 'on').replace('false', 'off'), '#9e9d9d')
-      let json = JSON.stringify(tempData);
-      fs.writeFileSync('general/data.json', json);
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   }
 });
@@ -548,10 +672,10 @@ client.on('guildMemberAdd', member => {
     });
   });
   updateInvites();
-  var embed = new Discord.MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
+  var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
-  const muted = currency.getMuted(member.user.id);
+  const muted = getUserMuted(member.user.id);
   if (muted == 1) {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     member.roles.add(role, `Auto muted on rejoin`);
@@ -593,37 +717,6 @@ client.on('rateLimit', rl => {
 client.on('warn', warning => {
   const cactus = client.users.cache.get('473110112844644372');
   cactus.send(`The bot was just warned :(\n${warning}`);
-});
-
-client.on('typingStart', (ch, user) => { if (!user.bot && tempData.creepyMode) log('838774906719043584', `${user} just started typing in ${ch}`, '#9e9d9d'); });
-
-client.on('presenceUpdate', (presence1, presence2) => {
-  if (presence2.user.bot || !tempData.creepyMode) return;
-  var embed = new Discord.MessageEmbed().setColor('#9e9d9d').setTitle(`${presence2.member.displayName}'s Presence`).setDescription(`~ is new`);
-  let description = '';
-  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('Status', `${presence1.status}`, true);
-  if (presence1 && presence2 && presence1.clientStatus && presence1.clientStatus.desktop != presence2.clientStatus.desktop || presence1.clientStatus.mobile != presence2.clientStatus.mobile || presence1.clientStatus.web != presence2.clientStatus.web) embed.addField('Client Status', `Desktop: ${presence1.clientStatus.desktop}\nMobile: ${presence1.clientStatus.mobile}\nWeb: ${presence1.clientStatus.web}\n`, true);
-  if (presence1 && presence1.activities) {
-    for (let i = 0; i < presence1.activities.length; ++i) {
-      description = '\u200B';
-      if (presence1.activities[i].state && presence1.activities[i].state != presence2.activities[i].state) description += `${presence1.activities[i].state}\n`;
-      if (presence1.activities[i].details && presence1.activities[i].details != presence2.activities[i].details) description += `${presence1.activities[i].details}`;
-      if (description != '\u200B') embed.addField(`${presence1.activities[i].name}`, description, true);
-    }
-    embed.addField('!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!i!', '\u200B', false);
-  }
-  if (presence1 && presence2 && presence1.status != presence2.status) embed.addField('~Status~', `${presence2.status}`, true);
-  if (presence1 && presence2 && presence2.clientStatus && presence1.clientStatus.desktop != presence2.clientStatus.desktop || presence1.clientStatus.mobile != presence2.clientStatus.mobile || presence1.clientStatus.web != presence2.clientStatus.web) embed.addField('~Client Status~', `Desktop: ${presence2.clientStatus.desktop}\nMobile: ${presence2.clientStatus.mobile}\nWeb: ${presence2.clientStatus.web}\n`, true);
-  if (presence2) {
-    for (let i = 0; i < presence2.activities.length; ++i) {
-      description = '\u200B';
-      if (presence2.activities[i].state && presence1.activities[i].state != presence2.activities[i].state) description += `${presence2.activities[i].state}\n`;
-      if (presence2.activities[i].details && presence1.activities[i].details != presence2.activities[i].details) description += `${presence2.activities[i].details}`;
-      if (description != '\u200B') embed.addField(`~${presence2.activities[i].name}~`, description, true);
-    }
-  }
-  const logCh = client.channels.cache.get('838774906719043584');
-  logCh.send(embed);
 });
 
 client.on('error', error => {

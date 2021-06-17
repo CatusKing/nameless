@@ -1,6 +1,6 @@
 {
   "prefix": "!",
-  "leaderboard_count": 25,
+  "leaderboard_count": 5,
   "help": [
     "income - Explains how you make points",
     "balance [@User] - Allows you to look at your or another users balance",
@@ -10,39 +10,25 @@
     "remove <amount> [@User] - Gives money to the bank and takes it from the target",
     "shop - Displays what you can use your points for",
     "buy <item> - Allows you to buy items from the shop",
-    "badges - Gives you a badge that lasts forever and costs nothing",
     "daily - Claim your daily reward",
     "weekly - Clain your weekly reward",
     "ping - Gets the bot's response time",
     "advice - Gives funky advice"
   ],
   "status": [
-    "Bank: %bank%🍰",
+    "Bank: %bank%🦴",
     "%prefix%help",
     "%top% is #1"
   ],
-  "emojis": [":space_invader:", "🎂", ":teddy_bear:", "♥", "🍓", "🌸", "💎"],
+  "emojis": [":skull:", ":yellow_circle:", ":red_circle:", ":green_circle:", ":blue_circle:", ":brown_circle:", ":gem:"],
   "shop": [
-    ["**DJ** - 5k🍰 - Allows you to play music", "dj", 5000, "830507721987194920", 0],
-    ["**Filters** - 5k🍰 - Allows you to use filters on the music(requires dj)", "filters", 5000, "833401201093509120", 0],
-    ["**MyList** - 5k🍰 - Use m*listhelp for more information(requires dj)", "mylist", 5000, "833436399747072030", 0],
-    ["**Mathematics** - 2k🍰 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2000, "830904166007701504", 1],
-    ["**Hue** - 15K🍰 - Allows you to control the lights in Thomas's room", "hue", 15000, "845764951481122869", 0]
-  ],
-  "badges": [
-    ["~5k🍰~", "830673940300824576", 5000],
-    ["~10k🍰~", "830673979206926377", 10000],
-    ["~15k🍰~", "830674006033694741", 15000],
-    ["~25k🍰~", "830674024936898562", 25000],
-    ["~40k🍰~", "830674065835425903", 40000],
-    ["~60k🍰~", "830674092364791818", 60000],
-    ["~80k🍰~", "830674123716952114", 80000],
-    ["~100k🍰~", "830674154616913921", 100000],
-    ["~125k🍰~", "833493546165600307", 125000],
-    ["~150k🍰~", "836100060857106433", 150000],
-    ["~175k🍰~", "836100276196474921", 175000],
-    ["~200k🍰~", "836100274484936744", 200000]
+    ["**DJ** - 5k🦴 - Allows you to play music", "dj", 5000, "830507721987194920", 0],
+    ["**MyList** - 5k🦴 - Use m*listhelp for more information(requires dj)", "mylist", 5000, "833436399747072030", 0],
+    ["**Mathematics** - 2k🦴 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2000, "830904166007701504", 1],
+    ["**Hue** - 15K🦴 - Allows you to control the lights in Thomas's room", "hue", 15000, "845764951481122869", 0]
   ],
   "url": "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1",
-  "abc": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+  "abc": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+  "dailyAmount": 100,
+  "weeklyAmount": 1000
 }
