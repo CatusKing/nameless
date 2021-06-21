@@ -11,9 +11,10 @@ module.exports = {
     var bet = 0;
 
     if (args[0] == 'all') bet = balance;
-    else if (!isNaN(args[0]) && Math.floor(args[0]) >= 500) bet = Math.floor(args[0]);
+    else if (!isNaN(args[0])) bet = Math.floor(args[0]);
     else return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`, '#9e9d9d');
 
+    if (bet < 500) return reply(msg.channel.id, `Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`, '#9e9d9d');
     if (bet > balance) return reply(msg.channel.id, `Not enough funds! Your balance is ${balance}🦴 You need at least 500🦴`, '#9e9d9d');
     var slot1 = Math.floor(Math.random() * config.emojis.length);
     var slot2 = Math.floor(Math.random() * config.emojis.length);
