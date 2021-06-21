@@ -1,6 +1,6 @@
 {
   "prefix": "!",
-  "leaderboard_count": 5,
+  "leaderboard_count": 10,
   "help": [
     "income - Explains how you make points",
     "balance [@User] - Allows you to look at your or another users balance",
