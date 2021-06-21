@@ -140,71 +140,6 @@ const checkCh = () => {
   });
 };
 
-const punish = async (msg) => {
-  const cactus = client.users.cache.get('473110112844644372');
-  try {
-    const characters = msg.content.split('');
-    var letters = false;
-    for (let i of characters) {
-      if (config.abc.includes(i.toLowerCase())) {
-        letters = true;
-        break;
-      }
-    }
-    if (letters && !tempData.ignoredCh.includes(msg.channel.id) && !tempData.admins.includes(msg.author.id)) {
-      var warn = 0;
-      var reason = [];
-      const scores = await get_attrs(msg.content)
-      for (let i of attributes) {
-        if (scores[i] >= 0.75) {
-          ++warn;
-          reason.push(i);
-        }
-      }
-      const author = msg.author;
-      if (warn == 1 && scores[reason[0]] > 0.90) {
-        if (msg.member.roles.cache.has('830495536582361128')) {
-          msg.member.kick('Was already muted').catch(error => {
-            cactus.send(error);
-          });
-          cactus.send(`umm ${author} was just kicked`);
-          log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#ff0000');
-        } else {
-          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-          msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
-          setUserMuted(msg.author.id, 1);
-          reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-          log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-        }
-        return true;
-      } else if (warn == 1) {
-        reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
-        log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-        return true;
-      } else if (warn > 1) {
-        var description = '';
-        for (let i of reason) {
-          description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
-        }
-        if (msg.member.roles.cache.has('830495536582361128')) {
-          msg.member.kick('Was already muted').catch(error => {
-            cactus.send(error);
-          });
-          cactus.send(`umm ${author} was just kicked`);
-          log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#ff0000');
-        } else {
-          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-          msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
-          setUserMuted(msg.author.id, 1);
-          reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-          log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
-        }
-        return true;
-      }
-    } else return false;
-  } catch (error) { }
-};
-
 const updateStatus = async () => {
   ++status;
 
@@ -377,9 +312,73 @@ const setUserCooldown = (id = '', num = 0) => {
   return user.cooldown;
 };
 
-
 var admins = getServerAdmins();
 var ignoredCh = getServerIgnoredCh();
+
+const punish = async (msg) => {
+  const cactus = client.users.cache.get('473110112844644372');
+  try {
+    const characters = msg.content.split('');
+    var letters = false;
+    for (let i of characters) {
+      if (config.abc.includes(i.toLowerCase())) {
+        letters = true;
+        break;
+      }
+    }
+    if (letters && !ignoredCh.includes(msg.channel.id) && !admins.includes(msg.author.id)) {
+      var warn = 0;
+      var reason = [];
+      const scores = await get_attrs(msg.content)
+      for (let i of attributes) {
+        if (scores[i] >= 0.75) {
+          ++warn;
+          reason.push(i);
+        }
+      }
+      const author = msg.author;
+      if (warn == 1 && scores[reason[0]] > 0.90) {
+        if (msg.member.roles.cache.has('830495536582361128')) {
+          msg.member.kick('Was already muted').catch(error => {
+            cactus.send(error);
+          });
+          cactus.send(`umm ${author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\nWas **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#ff0000');
+        } else {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
+          setUserMuted(msg.author.id, 1);
+          reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+          log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        }
+        return true;
+      } else if (warn == 1) {
+        reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
+        log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        return true;
+      } else if (warn > 1) {
+        var description = '';
+        for (let i of reason) {
+          description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
+        }
+        if (msg.member.roles.cache.has('830495536582361128')) {
+          msg.member.kick('Was already muted').catch(error => {
+            cactus.send(error);
+          });
+          cactus.send(`umm ${author} was just kicked`);
+          log('834179033289719839', `**Kicked**\n\nReasons:\n${description}\nMember was **already** muted\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#ff0000');
+        } else {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
+          msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
+          setUserMuted(msg.author.id, 1);
+          reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
+          log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        }
+        return true;
+      }
+    } else return false;
+  } catch (error) { }
+};
 
 client.once('ready', async () => {
   setInterval(givePoints, 60000);
