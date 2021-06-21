@@ -10,8 +10,13 @@ module.exports = {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
         target.roles.add(role, `Muted by ${msg.author}`);
         setUserMuted(target.id, duration);
-        if (duration >= 1) reply(msg.channel.id, `Muted ${target} for ${duration / 120} hour(s)\nAction by ${msg.author}`, '#9e9d9d');
-        else reply(msg.channel.id, `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d');
+        if (duration >= 1) {
+          reply(msg.channel.id, `Muted ${target} for ${duration / 120} hour(s)\nAction by ${msg.author}`, '#9e9d9d');
+          log('834179033289719839', `Muted ${target} for ${duration / 120} hour(s)\nAction by ${msg.author}`, '#9e9d9d')
+        } else {
+          reply(msg.channel.id, `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d');
+          log('834179033289719839', `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d')
+        }
       } else reply(msg.channel.id, 'This user is already muted', '#9e9d9d');
     } else reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
   }

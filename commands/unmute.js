@@ -11,8 +11,6 @@ module.exports = {
         setUserMuted(target.id, 0);
         reply(msg.channel.id, `Unmuted ${target}\nAction by ${msg.author}`, '#9e9d9d');
       } else reply(msg.channel.id, 'This user isn\'t muted', '#9e9d9d');
-    } else {
-      reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
-    }
+    } else reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
   }
 };
