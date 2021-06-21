@@ -231,7 +231,7 @@ const checkBanned = () => {
     const banned = users[i][1];
       if (banned > 0 || banned == -1) {
         if (client.guilds.cache.get('830495072876494879').members.cache.has(users[i][0])) {
-          const member = client.guilds.cache.get('830495072876494879').members.cache.get(users[i][0])
+          const member = client.guilds.cache.get('830495072876494879').members.cache.get(users[i][0]);
           member.ban({reason: `Temp banned`, days: 1});
         }
         if (banned != -1) users[i][1] = banned - 1;
