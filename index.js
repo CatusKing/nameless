@@ -236,9 +236,10 @@ const checkBanned = () => {
         }
         if (banned != -1) users[i][1] = banned - 1;
       } else if (banned == 0) {
-        const bans = client.guilds.cache.get('830495072876494879').fetchBans();
-        const banned = bans.has(users[i][0]);
-        if (banned) banned.unban('Temp ban over');
+        const bans = client.guilds.cache.get('830495072876494879').fetchBans().then(bannedMembers => {
+          const banned = bannedMembers.find(user => user.id === users[i][0]);
+          if (banned) banned.unban('Temp ban over');
+        });
       }
   }
   db.set(`discord.server.banned`, users);
