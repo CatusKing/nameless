@@ -228,7 +228,7 @@ const checkMuted = () => {
 const checkBanned = () => {
   const users = db.get(`discord.server.banned`) || [];
   for(let i = 0; i < users.length; i++) {
-    const banned = users[id].banned || 0;
+    const banned = users[i][1] || 0;
       if (banned > 0 || banned == -1) {
         if (client.guilds.cache.get('830495072876494879').members.cache.has(users[i][0])) {
           const member = client.guilds.cache.get('830495072876494879').members.cache.get(users[i][0])
