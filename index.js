@@ -334,11 +334,15 @@ const setUserCooldown = (id = '', num = 0) => {
 
 const setUserBanned = (id = '', num = 0) => {
   const bans = db.get(`discord.server.banned`) || [];
+  let contains = false;
   for(let i = 0; i < bans.length; ++i) {
     if (bans[i][0] == id) {
       bans[i][1] = num;
+      contains = true;
+      break;
     }
   }
+  if (!contains) bans.push([Number(id), num]);
   db.set(`discord.server.banned`, bans);
   return;
 };
