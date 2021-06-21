@@ -1,8 +1,7 @@
-const Discord = require('discord.js');
 module.exports = {
 	name: 'punish',
 	description: 'Punishes a user',
-	execute(msg, args, reply, log, setUserMuted, ) {
+	execute(client, msg, args, reply, log, setUserMuted, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
       const target = msg.mentions.members.first();
       if (target == null || target.id == msg.author.id) return reply(msg.channel.id, `You must mention a user that is not yourself`, '#9e9d9d');

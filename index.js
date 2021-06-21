@@ -629,6 +629,13 @@ client.on('message', async msg => {
       }
       reply(msg.channel.id, description, '#9e9d9d');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  } else if (command == 'punish') {
+    try {
+      client.commands.get(command).execute(client, msg, args, reply, log, setUserMuted, setUserBanned);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   }
 });
 
