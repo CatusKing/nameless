@@ -333,10 +333,14 @@ const setUserCooldown = (id = '', num = 0) => {
 };
 
 const setUserBanned = (id = '', num = 0) => {
-  const user = db.get(`discord.users.${id}`) || {};
-  user.banned = num;
-  db.set(`discord.users.${id}`, user);
-  return user.banned;
+  const bans = db.get(`discord.server.banned`) || [];
+  for(let i = 0; i < bans.length; ++i) {
+    if (bans[i][0] == id) {
+      bans[i][1] = num;
+    }
+  }
+  db.set(`discord.server.banned`, bans);
+  return;
 };
 
 var admins = getServerAdmins();
