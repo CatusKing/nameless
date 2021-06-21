@@ -255,8 +255,9 @@ const getUserBalance = (id = '') => {
 const addUserBalance = (id = '', num = 0) => {
   const user = db.get(`discord.users.${id}`) || {};
   const lb = db.get(`discord.server.leaderboard`) || [];
-  user.balance = user.balance + num || 0 + num;
-  let included = false
+  Number(user.balance);
+  user.balance = user.balance + num;
+  let included = false;
   for (let i = 0; i < lb.length; ++i) {
     if (lb[i][0] == id) {
       lb[i][1] = user.balance;
