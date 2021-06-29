@@ -1,3 +1,4 @@
+const { prefix } = require('../general/config.json');
 module.exports = {
 	name: 'poll',
 	description: 'Starts a poll',
