@@ -15,9 +15,10 @@ module.exports = {
           break;
         }
         for(let j = i; i > -1; --j) {
+          console.log(j);
           question = `${arguments[j]} ${question}`;
         }
-        choices = arguments.splice(0, i + 1);
+        choices = arguments.splice(0, i);
         console.log(choices);
         break;
       }
