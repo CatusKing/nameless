@@ -601,6 +601,13 @@ client.on('message', async msg => {
       console.error(error);
       msg.reply('there was an error trying to execute that command!');
     }
+  } else if (command == 'poll') {
+    try {
+      client.commands.get(command).execute(msg, args, reply);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'admin') {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (admins.includes(msg.author.id)) {
