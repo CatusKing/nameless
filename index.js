@@ -139,7 +139,7 @@ const checkCh = () => {
     }
   });
   client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
-    if (member.voice != null) {
+    if (member.voice.channel != null) {
       if (!member.roles.cache.has('859270541713211422')) {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
         member.roles.add(role);
