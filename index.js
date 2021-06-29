@@ -138,6 +138,17 @@ const checkCh = () => {
       m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
     }
   });
+  client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
+    if (member.voice.channel.id != null) {
+      if (!member.roles.cache.has('859270541713211422')) {
+        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
+        member.roles.add(role);
+      }
+    } else if (member.roles.cache.has('859270541713211422')) {
+      const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
+      member.roles.remove(role);
+    }
+  });
 };
 
 const updateStatus = async () => {
