@@ -14,7 +14,7 @@ module.exports = {
           question = false;
           break;
         }
-        for(let j = i; i > -1; --j) {
+        for(let j = i; j > -1; --j) {
           console.log(j);
           question = `${arguments[j]} ${question}`;
         }
