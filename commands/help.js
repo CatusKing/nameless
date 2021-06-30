@@ -1,16 +1,20 @@
+const { Collection, MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'help',
 	description: 'Sends the current commands',
-	execute(msg, reply) {
-    let description = '';
-    for (let i = 0; i < config.help.length; ++i) {
-      description += `\n${prefix}${config.help[i]}`;
-    }
-    var embed = new Discord.MessageEmbed().setDescription(description).setColor('#ffffba');
-    msg.author.send(embed)
-      .catch(() => {
-        reply(msg.channel.id, description, '#ffffba');
+	execute(msg, args, commands = new Collection()) {
+    var embed = new MessageEmbed().setColor('#9e9d9d')
+    if (commands.has(args[i])) {
+      embed.setTitle(commands.get(args[0]).name)
+        .setDescription(`\`\`\`${commands.get(args[0]).description}\n\`\`\``);
+    } else {
+      let description = '\`\`\`';
+      commands.forEach((value, key) => {
+        description += `${value.name} - ${values.description}\n`;
       });
-    reply(msg.channel.id, 'You got mail! :mailbox_with_mail:', '#9e9d9d');
+      description += `\`\`\``;
+      embed.setTitle('Commands:').setDescription(description);
+    }
+    msg.channel.send(embed);
 	},
 };
