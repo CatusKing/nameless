@@ -617,7 +617,7 @@ client.on('message', async msg => {
     }
   } else if (command == 'admins') {
     try {
-      client.commands.get(command).execute(msg, reply, admins);
+      client.commands.get(command).execute(client, msg, reply, admins);
     } catch (error) {
       console.error(error);
       msg.reply('there was an error trying to execute that command!');
@@ -631,7 +631,7 @@ client.on('message', async msg => {
     }
   } else if (command == 'ignores') {
     try {
-      client.commands.get(command).execute(msg, reply, ignoredCh);
+      client.commands.get(command).execute(client, msg, reply, ignoredCh);
     } catch (error) {
       console.error(error);
       msg.reply('there was an error trying to execute that command!');

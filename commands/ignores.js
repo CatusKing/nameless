@@ -2,8 +2,8 @@ module.exports = {
 	name: 'ignores',
 	description: 'Displays the current channels ignored from auto-mod',
   usage: `ignores`,
-	execute(msg, reply, ignoredCh) {
-    if (msg.member.roles.cache.has('830496065366130709')) {
+	execute(client, msg, reply, ignoredCh) {
+    if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759')) {
       var description = 'Ignored channels\n';
       for (let i of ignoredCh) {
         description += `${client.channels.cache.get(i).name} - ${i}\n`
