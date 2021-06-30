@@ -28,6 +28,6 @@ module.exports = {
     TODO:
     - If the choices are <= 1 then questions = false
     */
-    if (question == false) return reply(msg.channel.id, `You need a question and multiple options split with dashes`, '#9e9d9d');
+    if (question == false || choices == false) return reply(msg.channel.id, `You need a question and multiple options split with dashes`, '#9e9d9d');
   }
 };
