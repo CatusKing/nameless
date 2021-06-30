@@ -16,7 +16,8 @@ module.exports = {
           break;
         }
         for(let j = i; j > -1; --j) {
-          question = `${arguments[j]} ${question}`;
+          if (question == false) question = `${arguments[j]}`;
+          else question = `${arguments[j]} ${question}`;
         }
         arguments.splice(0, i + 1)
         choices = arguments.join(' ');
