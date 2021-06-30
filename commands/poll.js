@@ -1,4 +1,5 @@
-const { prefix } = require('../general/config.json');
+const { prefix, choicesEmojis } = require('../general/config.json');
+const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'poll',
 	description: 'Starts a poll',
@@ -24,10 +25,19 @@ module.exports = {
         break;
       }
     }
-    /*
-    TODO:
-    - If the choices are <= 1 then questions = false
-    */
-    if (question == false || choices == false) return reply(msg.channel.id, `You need a question and multiple options split with dashes`, '#9e9d9d');
+    if (question == false || choices == false) return reply(msg.channel.id, `You need a question and multiple options split with dashes\n(Max of 10 choices)`, '#9e9d9d');
+    var embed = new MessageEmbed().setTitle(question).setColor('#9e9d9d');
+    let description = '\`\`\`';
+    var emojis = [];
+    for(let i = 0; i < choices.length; ++i) {
+      description += `${choicesEmojis[i]} - ${choices[i]}\n`;
+      emojis.push(choicesEmojis[i]);
+    }
+    description += `\`\`\``
+    msg.channel.send(embed.setDescription(description)).then((message) => {
+      message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name), { max: 500, time: 60000 }).then(collected => {
+        console.log(collected);
+      }).catch((error) => console.log(error));
+    });
   }
 };
