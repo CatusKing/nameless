@@ -15,11 +15,12 @@ module.exports = {
           break;
         }
         for(let j = i; j > -1; --j) {
-          console.log(j);
           question = `${arguments[j]} ${question}`;
         }
         arguments.splice(0, i + 1)
-        console.log(arguments.join(' '));
+        choices = arguments.join(' ');
+        choices = choices.split('-');
+        if (choices.length < 2) choices = false;
         break;
       }
     }
