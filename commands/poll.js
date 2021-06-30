@@ -41,7 +41,7 @@ module.exports = {
       }
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
         console.log(collected);
-        msg.channel.send(collected);
+        msg.channel.send(collected.toString());
       }).catch((error) => console.log(error));
     });
   }
