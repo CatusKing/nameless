@@ -603,7 +603,7 @@ client.on('message', async msg => {
     }
   } else if (command == 'poll') {
     try {
-      client.commands.get(command).execute(client, msg, args, reply);
+      client.commands.get(command).execute(msg, args, reply);
     } catch (error) {
       console.error(error);
       msg.reply('there was an error trying to execute that command!');
