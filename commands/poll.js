@@ -50,8 +50,9 @@ module.exports = {
             first = [key, value];
           }
         });
-        embed.setTitle(`${embed.title}\n${key} is the winning choice with ${value - 1} votes!`)
+        embed.setTitle(`${embed.title}\n${first[0]} is the winning choice with ${first[1] - 1} votes!`)
         message.edit(embed);
+        message.reactions.removeAll();
       }).catch((error) => console.log(error));
     });
   }
