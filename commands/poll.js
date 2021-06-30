@@ -42,7 +42,7 @@ module.exports = {
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
         const collectedEmojis = new Collection();
         for(let i = 0; i < emojis.length; ++i) {
-          collectedEmojis.set(emojis[i], collected.get(emojis[i]).count);
+          collectedEmojis.set(emojis[i], collected[emojis[i]].count);
         }
         let first = true;
         collectedEmojis.sort((a, b) => b - a).forEach((value, key) => {
