@@ -484,7 +484,7 @@ client.on('message', async msg => {
 
   if (command == 'help') {
     try {
-      client.commands.get(command).execute(msg, reply);
+      client.commands.get(command).execute(msg, args, commands);
     } catch (error) {
       console.error(error);
       msg.reply('there was an error trying to execute that command!');
