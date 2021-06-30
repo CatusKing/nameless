@@ -40,8 +40,9 @@ module.exports = {
         message.react(emojis[i]).then(() => {});
       }
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
-        console.log(1);
-      }).catch((error) => console.log(2));
+        console.log(collected);
+        msg.channel.send(collected);
+      }).catch((error) => console.log(error));
     });
   }
 };
