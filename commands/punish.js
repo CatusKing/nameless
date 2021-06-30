@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'punish',
 	description: 'Punishes a user',
+  usage: `punish <2-5> <@User>`,
 	execute(client, msg, args, reply, log, setUserMuted, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
       const target = msg.mentions.members.first();

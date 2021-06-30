@@ -4,6 +4,7 @@ const prefix = config.prefix;
 module.exports = {
 	name: 'gamble',
 	description: 'Allows you to gamble for more points',
+  usage: `gamble <amount>`,
 	execute(msg, args, reply, log, addUserBalance, getUserBalance) {
     if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🦴 to earn some 🦴\nMinimal gamble amount: 500🦴\nPayout table: (:white_circle:= not 💎 or :skull:)\n💎 💎 💎 - 25x\n💎 💎 :white_circle: - 5x\n:white_circle: :white_circle: :white_circle: - 10x\n:white_circle: :white_circle: ❓ - 2x\n:skull: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
     const balance = getUserBalance(msg.author.id);

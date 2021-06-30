@@ -2,6 +2,7 @@ const { dailyAmount } = require('../general/config.json');
 module.exports = {
 	name: 'daily',
 	description: 'Claim your daily reward',
+  usage: `daily`,
 	execute(msg, reply, log, getUserDaily, setUserDaily, addUserBalance) {
     var date = new Date();
 

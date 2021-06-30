@@ -2,6 +2,7 @@ const { prefix } = require('../general/config.json');
 module.exports = {
 	name: 'add',
 	description: 'Adds to the users balance',
+  usage: `add <amount> [@User]`,
 	execute(msg, args, reply, log, addUserBalance) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;

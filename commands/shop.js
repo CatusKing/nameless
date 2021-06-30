@@ -2,6 +2,7 @@ const config = require('../general/config.json');
 module.exports = {
 	name: 'shop',
 	description: 'Displays what you can use your points for',
+	usage: `shop`,
 	execute(msg, reply) {
 		var description = '';
 		for (let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;

@@ -3,6 +3,7 @@ const prefix = config.prefix;
 module.exports = {
 	name: 'buy',
 	description: 'Allows you to buy items from the shop',
+	usage: `buy <item>`,
 	execute(msg, args, reply, log, getUserBalance, addUserBalance) {
     const balance = getUserBalance(msg.author.id);
 

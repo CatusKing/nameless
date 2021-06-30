@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'leaderboard',
 	description: 'Updates the leaderboard',
+  usage: `leaderboard`,
 	execute(msg, reply, updateLeaderboard) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       updateLeaderboard();

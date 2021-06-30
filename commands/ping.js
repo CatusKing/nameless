@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'ping',
 	description: 'Sends the bot\'s ping',
+  usage: `ping`,
 	execute(client, msg) {
     msg.channel.send('Pinging...').then((message) => {
       message.edit("\u200B");

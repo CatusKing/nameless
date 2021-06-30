@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'status',
 	description: 'Updates the bots status',
+  usage: `status`,
 	execute(msg, reply, updateStatus) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       updateStatus();

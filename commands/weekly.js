@@ -2,6 +2,7 @@ const { weeklyAmount } = require('../general/config.json');
 module.exports = {
 	name: 'weekly',
 	description: 'Claim your weekly reward',
+  usage: `weekly`,
 	execute(msg, reply, log, hours, getUserWeekly, setUserWeekly, addUserBalance) {
     const weekly = getUserWeekly(msg.author.id);
 
