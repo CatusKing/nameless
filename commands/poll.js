@@ -1,5 +1,5 @@
 const { prefix, choicesEmojis } = require('../general/config.json');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js');
 module.exports = {
 	name: 'poll',
 	description: 'Starts a poll',
@@ -40,8 +40,18 @@ module.exports = {
         message.react(emojis[i]).then(() => {});
       }
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
-        console.log(collected);
-        msg.channel.send(collected.toString());
+        const collectedEmojis = new Collection()
+        for(let i = 0; i < emojis.size; ++i) {
+          collectedEmojis.set(emojis[i], collected[emojis[i]].count);
+        }
+        let first = true;
+        collectedEmojis.sort((a, b) => b - a).forEach((value, key) => {
+          if (first == true) {
+            first = [key, value];
+          }
+        });
+        embed.setTitle(`${embed.title}\n${key} is the winning choice with ${value - 1} votes!`)
+        message.edit(embed);
       }).catch((error) => console.log(error));
     });
   }
