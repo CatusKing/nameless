@@ -3,7 +3,7 @@ const { MessageEmbed, Collection } = require('discord.js');
 module.exports = {
 	name: 'poll',
 	description: 'Starts a poll',
-	execute(client, msg, args, reply) {
+	execute(msg, args, reply) {
     if (!args) return reply(msg.channel.id, `Can't start a poll with no arguments`, '#9e9d9d');
     const arguments = msg.content.slice(prefix.length).trim().split(' ');
     arguments.shift();
@@ -39,10 +39,10 @@ module.exports = {
       for(let i = 0; i < emojis.length; ++i) {
         message.react(emojis[i]).then(() => {});
       }
-      message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
+      message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name), { max: 500, time: 60000 }).then(collected => {
         const collectedEmojis = new Collection();
         for(let i = 0; i < emojis.length; ++i) {
-          collectedEmojis.set(emojis[i], collected[emojis[i]].count);
+          collectedEmojis.set(emojis[i], collected.get(emojis[i]).count);
         }
         let first = true;
         collectedEmojis.sort((a, b) => b - a).forEach((value, key) => {
