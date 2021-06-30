@@ -18,7 +18,8 @@ module.exports = {
           console.log(j);
           question = `${arguments[j]} ${question}`;
         }
-        console.log(arguments.splice(0, i + 1).join(' '));
+        arguments.splice(0, i + 1)
+        console.log(arguments.join(' '));
         break;
       }
     }
