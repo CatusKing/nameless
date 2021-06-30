@@ -43,14 +43,18 @@ module.exports = {
         const collectedEmojis = new Collection()
         for(let i = 0; i < emojis.size; ++i) {
           collectedEmojis.set(emojis[i], collected.get(emojis[i]).count);
+          console.log(emojis[i]);
+          console.log(collected.get(emojis[i]).count);
         }
         let first = true;
         collectedEmojis.sort((a, b) => b - a).forEach((value, key) => {
           if (first == true) {
+            console.log(key);
+            console.log(value);
             first = [key, value];
           }
         });
-        embed.setTitle(`${embed.title}\n${first[0]} is the winning choice with ${first[1] - 1} votes!`)
+        embed.setTitle(`${embed.title}\n${first[0]} is the winning choice with ${first[1] - 1} votes!`).setColor('#baffc9');
         message.edit(embed);
         message.reactions.removeAll();
       }).catch((error) => console.log(error));
