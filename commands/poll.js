@@ -36,6 +36,9 @@ module.exports = {
     }
     description += `\`\`\``
     msg.channel.send(embed.setDescription(description)).then((message) => {
+      for(let i = 0; i < emojis.length; ++i) {
+        message.react(emojis[i]);
+      }
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name), { max: 500, time: 60000 }).then(collected => {
         console.log(collected);
       }).catch((error) => console.log(error));
