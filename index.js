@@ -609,53 +609,33 @@ client.on('message', async msg => {
       msg.reply('there was an error trying to execute that command!');
     }
   } else if (command == 'admin') {
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      if (admins.includes(msg.author.id)) {
-        for (var i = 0; i < admins.length; i++) {
-
-          if (admins[i] == msg.author.id) {
-            admins.splice(i, 1);
-            reply(msg.channel.id, `No longer ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
-            break;
-          }
-        }
-      } else {
-        admins.push(msg.author.id);
-        reply(msg.channel.id, `Ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
-      }
-      setServerAdmins(admins);
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
-  } else if (command == 'admins') {
-    var description = 'Admins\n';
-    for (let i of admins) {
-      description += `${client.users.cache.get(i).tag} - ${i}\n`
+    try {
+      admins = client.commands.get(command).execute(msg, reply, setServerAdmins, admins);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
     }
-    reply(msg.channel.id, description, '#9e9d9d');
+  } else if (command == 'admins') {
+    try {
+      client.commands.get(command).execute(msg, reply, admins);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'ignore') {
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      if (ignoredCh.includes(msg.channel.id)) {
-        for (var i = 0; i < ignoredCh.length; i++) {
-
-          if (ignoredCh[i] == msg.channel.id) {
-            ignoredCh.splice(i, 1);
-            reply(msg.channel.id, `No longer ignoring this channel\nid: ${msg.channel.id}`, '#9e9d9d');
-            break;
-          }
-        }
-      } else {
-        ignoredCh.push(msg.channel.id);
-        reply(msg.channel.id, `Ignoring this channel from auto mod\nid: ${msg.channel.id}`, '#9e9d9d');
-      }
-      setServerIgnoredCh(ignoredCh);
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+    try {
+      ignoredCh = client.commands.get(command).execute(msg, reply, setServerIgnoredCh, ignoredCh);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'ignores') {
-    if (msg.member.roles.cache.has('830496065366130709')) {
-      var description = 'Ignored channels\n';
-      for (let i of ignoredCh) {
-        description += `${client.channels.cache.get(i).name} - ${i}\n`
-      }
-      reply(msg.channel.id, description, '#9e9d9d');
-    } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+    try {
+      client.commands.get(command).execute(msg, reply, ignoredCh);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   } else if (command == 'punish') {
     try {
       client.commands.get(command).execute(client, msg, args, reply, log, setUserMuted, setUserBanned);
