@@ -40,17 +40,13 @@ module.exports = {
         message.react(emojis[i]).then(() => {});
       }
       message.awaitReactions((reaction, user) => emojis.includes(reaction.emoji.name) && user.id != client.user.id, { max: 500, time: 60000 }).then(collected => {
-        const collectedEmojis = new Collection()
-        for(let i = 0; i < emojis.size; ++i) {
+        const collectedEmojis = new Collection();
+        for(let i = 0; i < emojis.length; ++i) {
           collectedEmojis.set(emojis[i], collected.get(emojis[i]).count);
-          console.log(emojis[i]);
-          console.log(collected.get(emojis[i]).count);
         }
         let first = true;
         collectedEmojis.sort((a, b) => b - a).forEach((value, key) => {
           if (first == true) {
-            console.log(key);
-            console.log(value);
             first = [key, value];
           }
         });
