@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Sends the current commands',
 	execute(msg, args, commands = new Collection()) {
     var embed = new MessageEmbed().setColor('#9e9d9d')
-    if (commands.has(args[i])) {
+    if (commands.has(args[0])) {
       embed.setTitle(commands.get(args[0]).name)
         .setDescription(`\`\`\`${commands.get(args[0]).description}\n\`\`\``);
     } else {
