@@ -2,7 +2,9 @@ module.exports = {
 	name: 'status',
 	description: 'Updates the bots status',
   usage: `status`,
-	execute(msg, reply, updateStatus) {
+  command: true,
+  aliases: ['status'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       updateStatus();
       reply(msg.channel.id, `Updated the status`, `#9e9d9d`);

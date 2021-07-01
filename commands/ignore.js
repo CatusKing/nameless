@@ -2,7 +2,9 @@ module.exports = {
 	name: 'ignore',
 	description: 'Toggles ignore mode for the current channel',
   usage: `ignore`,
-	execute(msg, reply, setServerIgnoredCh, ignoredCh) {
+  command: true,
+  aliases: ['ignore'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       if (ignoredCh.includes(msg.channel.id)) {
         for (var i = 0; i < ignoredCh.length; i++) {

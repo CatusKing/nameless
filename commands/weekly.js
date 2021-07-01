@@ -3,7 +3,9 @@ module.exports = {
 	name: 'weekly',
 	description: 'Claim your weekly reward',
   usage: `weekly`,
-	execute(msg, reply, log, hours, getUserWeekly, setUserWeekly, addUserBalance) {
+  command: true,
+  aliases: ['weekly'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     const weekly = getUserWeekly(msg.author.id);
 
     if (weekly <= hours(Date.now())) {

@@ -2,7 +2,9 @@ module.exports = {
 	name: 'unmute',
 	description: 'Unmute another user',
   usage: `unmute [@User]`,
-	execute(client, msg, reply, getUserMuted, setUserMuted) {
+  command: true,
+  aliases: ['unmute'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
       const target = msg.mentions.members.first() || msg.member;
       const muted = getUserMuted(target.id);

@@ -3,7 +3,9 @@ module.exports = {
 	name: 'daily',
 	description: 'Claim your daily reward',
   usage: `daily`,
-	execute(msg, reply, log, getUserDaily, setUserDaily, addUserBalance) {
+  command: true,
+  aliases: ['daily'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     var date = new Date();
 
     if (getUserDaily(msg.author.id) != date.getDate()) {

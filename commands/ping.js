@@ -3,7 +3,9 @@ module.exports = {
 	name: 'ping',
 	description: 'Sends the bot\'s ping',
   usage: `ping`,
-	execute(client, msg) {
+  command: true,
+  aliases: ['ping'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     msg.channel.send('Pinging...').then((message) => {
       message.edit("\u200B");
       const ping = new MessageEmbed()

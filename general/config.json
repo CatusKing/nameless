@@ -1,20 +1,6 @@
 {
   "prefix": "!",
   "leaderboard_count": 10,
-  "help": [
-    "income - Explains how you make points",
-    "balance [@User] - Allows you to look at your or another users balance",
-    "gamble <all \\|\\| number \\|\\| help> - Allows you to gamble for more points",
-    "bank - Display's the bank's balance",
-    "add <amount> [@User] - Takes money from the bank and gives it to the target",
-    "remove <amount> [@User] - Gives money to the bank and takes it from the target",
-    "shop - Displays what you can use your points for",
-    "buy <item> - Allows you to buy items from the shop",
-    "daily - Claim your daily reward",
-    "weekly - Clain your weekly reward",
-    "ping - Gets the bot's response time",
-    "advice - Gives funky advice"
-  ],
   "status": [
     "Bank: %bank%🦴",
     "%prefix%help",
@@ -30,5 +16,5 @@
   "abc": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
   "dailyAmount": 100,
   "weeklyAmount": 1000,
-  "choicesEmojis": ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
+  "choicesEmojis": ["🔴", "📙", "🟨", "🍏", "🔷", "💜", "🔳", "🔲", "💗", "🟫"]
 }

@@ -2,7 +2,9 @@ module.exports = {
 	name: 'admins',
 	description: 'Displays the current members with admin mode',
   usage: `admins`,
-	execute(client, msg, reply, admins) {
+  command: true,
+  aliases: ['admins'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     var description = 'Admins\n';
     for (let i of admins) {
       description += `${client.users.cache.get(i).tag} - ${i}\n`

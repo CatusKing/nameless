@@ -2,7 +2,9 @@ module.exports = {
 	name: 'admin',
 	description: 'Toggles admin mode',
   usage: `admin`,
-	execute(msg, reply, setServerAdmins, admins) {
+  command: true,
+  aliases: ['admin'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
 		if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759')) {
       if (admins.includes(msg.author.id)) {
         for (var i = 0; i < admins.length; i++) {

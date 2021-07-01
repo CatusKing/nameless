@@ -4,7 +4,9 @@ module.exports = {
 	name: 'buy',
 	description: 'Allows you to buy items from the shop',
 	usage: `buy <item>`,
-	execute(msg, args, reply, log, getUserBalance, addUserBalance) {
+	command: true,
+	aliases: ['buy'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     const balance = getUserBalance(msg.author.id);
 
 		if (!args[0]) return reply(msg.channel.id, `You can use ${prefix}shop to see what you can buy`, '#9e9d9d');

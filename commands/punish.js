@@ -2,7 +2,9 @@ module.exports = {
 	name: 'punish',
 	description: 'Punishes a user',
   usage: `punish <2-5> <@User>`,
-	execute(client, msg, args, reply, log, setUserMuted, setUserBanned) {
+  command: true,
+  aliases: ['punish'],
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
     if (msg.member.roles.cache.has('830496065366130709') || msg.member.roles.cache.has('830495937301577759') || msg.member.roles.cache.has('830495908336369694')) {
       const target = msg.mentions.members.first();
       if (target == null || target.id == msg.author.id) return reply(msg.channel.id, `You must mention a user that is not yourself`, '#9e9d9d');
