@@ -13,14 +13,23 @@ const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EX
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
 client.commands = new Collection();
+client.functions = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const functionFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   // Set a new item in the Collection
   // With the key as the command name and the value as the exported module
   client.commands.set(command.name, command);
+}
+
+for (const file of functionFiles) {
+  const functions = require(`./functions/${file}`);
+  // Set a new item in the Collection
+  // With the key as the command name and the value as the exported module
+  client.functions.set(file.replace('.js', ''), functions);
 }
 
 const log = (channelId = String, content = String, color = String) => {
@@ -57,45 +66,8 @@ const floor = (balance = Number) => {
   else return bal;
 };
 
-const updateLeaderboard = () => {
-  const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
-  const lb = db.get(`discord.server.leaderboard`) || [];
-  const leaderboard = new Collection();
-  for (let i = 0; i < lb.length; ++i) {
-    if (guildMembers.has(lb[i][0])) {
-      leaderboard.set(lb[i][0], lb[i][1]);
-    }
-  }
-  client.channels.cache.get('830506017304477726').messages.fetch('830507916812353556')
-    .then(message => {
-      let description = '```';
-      let num = 1;
-      leaderboard.sort((a, b) => b - a)
-        .filter((value, key) => client.users.cache.has(key))
-        .forEach((value, key) => {
-          if (num <= config.leaderboard_count) {
-            description += `\n< ${num} > ${round(value)}🦴 ${client.users.cache.get(key).tag}`;
-          }
-          ++num;
-        });
-      description += '```';
-      var embed = new MessageEmbed().setColor('#ffffba').setDescription(description);
-      message.edit(embed);
-    });
-};
-
 const hours = (milliseconds = Number) => {
   return Math.floor(((milliseconds / 1000) / 60) / 60) + 1;
-};
-
-const updateMemberCount = () => {
-  const playersCh = client.channels.cache.get('834038553632702505');
-  const guild = client.guilds.cache.get('830495072876494879');
-  if (playersCh.name != `「Players」⇢ ${guild.memberCount}`) {
-    playersCh.setName(`「Players」⇢ ${guild.memberCount}`, `They're now ${guild.memberCount} members in the guild`);
-    return true;
-  }
-  return false;
 };
 
 const updateInvites = () => {
@@ -416,11 +388,11 @@ client.once('ready', async () => {
 
   setInterval(updateStatus, 300000);
 
-  setInterval(updateLeaderboard, 120000);
+  setInterval(client.functions.get('updateLeaderboard').execute(client, db), 120000);
 
   setTimeout(updateInvites, 4000);
 
-  setInterval(updateMemberCount, 900000);
+  setInterval(client.functions.get('updateMemberCount').execute(client), 900000);
 
   setInterval(checkCh, 15000);
 
