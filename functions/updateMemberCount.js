@@ -4,7 +4,7 @@ module.exports = {
     const botsCh = client.channels.cache.get('834038738756567071');
     const rolesCh = client.channels.cache.get('862174910678958080');
     const channelsCh = client.channels.cache.get('862175116325421056');
-    var players, bots, roles, channels = 0;
+    var { players, bots, roles, channels } = 0;
     client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
       if (member.user.bot) ++bots;
       else ++players;
