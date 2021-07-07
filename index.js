@@ -325,17 +325,17 @@ client.once('ready', async () => {
 
   setInterval(updateStatus, 300000);
 
-  setInterval(client.functions.get('updateLeaderboard').execute(client, db, round), 120000);
+  setInterval(() => client.functions.get('updateLeaderboard').execute(client, db, round), 120000);
 
   setTimeout(updateInvites, 4000);
 
-  setInterval(client.functions.get('updateMemberCount').execute(client), 900000);
+  setInterval(() => client.functions.get('updateMemberCount').execute(client), 900000);
 
-  setInterval(client.functions.get('checkCh').execute(client), 15000);
+  setInterval(() => client.functions.get('checkCh').execute(client), 15000);
 
-  setInterval(client.functions.get('checkMuted').execute(client, db), 30000);
+  setInterval(() => client.functions.get('checkMuted').execute(client, db), 30000);
 
-  setInterval(client.functions.get('checkBanned').execute(client, db), 30000);
+  setInterval(() => client.functions.get('checkBanned').execute(client, db), 30000);
 
   console.log(`Logged in as ${client.user.tag}`);
 });
