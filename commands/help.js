@@ -6,7 +6,7 @@ module.exports = {
   usage: `help [command]`,
   command: true,
   aliases: ['help'],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands) {
     var embed = new MessageEmbed().setColor('#9e9d9d')
     if (commands.has(args[0]) && commands.get(args[0]).command) {
       embed.setTitle(commands.get(args[0]).name)
