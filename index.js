@@ -483,7 +483,7 @@ client.on('message', async msg => {
   const command = args.shift().toLowerCase();
 
   client.commands.forEach((value, key) => {
-    if (value.aliases.has(command) && value.command) {
+    if (value.aliases.includes(command) && value.command) {
       value.execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned);
     }
   });
