@@ -1,4 +1,5 @@
 const { MessageEmbed, Collection } = require('discord.js');
+const { leaderboard_count } = require('../general/config.json');
 module.exports = {
 	execute(client, db) {
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
@@ -16,7 +17,7 @@ module.exports = {
         leaderboard.sort((a, b) => b - a)
           .filter((value, key) => client.users.cache.has(key))
           .forEach((value, key) => {
-            if (num <= config.leaderboard_count) {
+            if (num <= leaderboard_count) {
               description += `\n< ${num} > ${round(value)}🦴 ${client.users.cache.get(key).tag}`;
             }
             ++num;
