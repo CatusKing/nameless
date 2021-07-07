@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js');
 module.exports = {
 	execute(client, db) {
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
