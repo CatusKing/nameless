@@ -16,7 +16,7 @@ client.commands = new Collection();
 client.functions = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const functionFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const functionFiles = fs.readdirSync('./functions').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
@@ -102,27 +102,6 @@ const get_attrs = async (text) => {
   return attrs;
 };
 
-const checkCh = () => {
-  const videoOnlyCh = client.channels.cache.get('831347288710316032');
-  const generalCh = client.channels.cache.get('830495073430929472');
-  videoOnlyCh.members.forEach(m => {
-    if (!m.voice.selfVideo && !m.user.bot) {
-      m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
-    }
-  });
-  client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
-    if (member.voice.channel != null) {
-      if (!member.roles.cache.has('859270541713211422')) {
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
-        member.roles.add(role);
-      }
-    } else if (member.roles.cache.has('859270541713211422')) {
-      const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
-      member.roles.remove(role);
-    }
-  });
-};
-
 const updateStatus = async () => {
   ++status;
 
@@ -157,75 +136,33 @@ const givePoints = () => {
   guild.channels.cache.forEach(ch => {
     
     if (ch.type == 'voice' && ch.id != '830505700269883412') {
-      ch.members.forEach(m => {
+      ch.members.forEach(member => {
         
-        if (!m.voice.deaf) {
+        if (!member.voice.deaf) {
           
-          if (m.user.bot) return;
+          if (member.user.bot) return;
           let amount = 2;
           
-          if (!m.voice.mute) {
+          if (!member.voice.mute) {
             amount += 3;
             
-            if (m.voice.selfVideo) amount += 3;
-            else if (m.voice.streaming) amount += 1;
+            if (member.voice.selfVideo) amount += 3;
+            else if (member.voice.streaming) amount += 1;
           }
-          for (let i of m.presence.activities) {
+          for (let i of member.presence.activities) {
             if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
               amount = Math.floor(amount * 1.5);
               break;
             }
           }
-          addUserBalance(m.id, amount);
-          description += `\n+${amount}🦴 to ${m} for sitting in vc`;
+          addUserBalance(member.id, amount);
+          description += `\n+${amount}🦴 to ${member} for sitting in vc`;
         }
       });
     }
   });
   
   if (description != '') log('830503210951245865', description, '#baffc9');
-};
-
-const checkMuted = () => {
-  const users = db.get(`discord.users`) || {};
-  client.guilds.cache.get('830495072876494879').members.cache.forEach((member, id) => {
-    if (users[id] != null) {
-      const muted = users[id].muted || 0;
-      if (muted > 0 || muted == -1) {
-        if (!member.roles.cache.has('830495536582361128')) {
-          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-          member.roles.add(role, `${member.user.username} is still muted`);
-        }
-        if (muted != -1) users[id].muted = muted - 1;
-      } else if (muted == 0) {
-        if (member.roles.cache.has('830495536582361128')) {
-          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-          member.roles.remove(role, `${member.user.username} is not muted`);
-        }
-      }
-    }
-  });
-  db.set(`discord.users`, users);
-};
-
-const checkBanned = () => {
-  const users = db.get(`discord.server.banned`) || [];
-  for(let i = 0; i < users.length; i++) {
-    const banned = users[i][1];
-      if (banned > 0 || banned == -1) {
-        if (client.guilds.cache.get('830495072876494879').members.cache.has(users[i][0])) {
-          const member = client.guilds.cache.get('830495072876494879').members.cache.get(users[i][0]);
-          member.ban({reason: `Temp banned`, days: 1});
-        }
-        if (banned != -1) users[i][1] = banned - 1;
-      } else if (banned == 0) {
-        client.guilds.cache.get('830495072876494879').fetchBans().then(bannedMembers => {
-          const banned = bannedMembers.find(user => user.user.id == users[i][0]);
-          if (banned) client.guilds.cache.get('830495072876494879').members.unban(banned.user, 'Temp ban over')
-        });
-      }
-  }
-  db.set(`discord.server.banned`, users);
 };
 
 const getUserBalance = (id = '') => {
@@ -394,11 +331,11 @@ client.once('ready', async () => {
 
   setInterval(client.functions.get('updateMemberCount').execute(client), 900000);
 
-  setInterval(checkCh, 15000);
+  setInterval(client.functions.get('checkCh').execute(client), 15000);
 
-  setInterval(checkMuted, 30000);
+  setInterval(client.functions.get('checkMuted').execute(client, db), 30000);
 
-  setInterval(checkBanned, 30000);
+  setInterval(client.functions.get('checkBanned').execute(client, db), 30000);
 
   console.log(`Logged in as ${client.user.tag}`);
 });
