@@ -325,7 +325,7 @@ client.once('ready', async () => {
 
   setInterval(updateStatus, 300000);
 
-  setInterval(client.functions.get('updateLeaderboard').execute(client, db), 120000);
+  setInterval(client.functions.get('updateLeaderboard').execute(client, db, round), 120000);
 
   setTimeout(updateInvites, 4000);
 
