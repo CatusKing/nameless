@@ -5,7 +5,7 @@ module.exports = {
   usage: `ping`,
   command: true,
   aliases: ['ping'],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg) {
     msg.channel.send('Pinging...').then((message) => {
       message.edit("\u200B");
       const ping = new MessageEmbed()

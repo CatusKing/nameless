@@ -6,7 +6,7 @@ module.exports = {
   usage: `poll <question with a question mark at the end> <options separated by dashes>`,
   command: true,
   aliases: ['poll'],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg, args, reply) {
     if (!args) return reply(msg.channel.id, `Can't start a poll with no arguments`, '#9e9d9d');
     const arguments = msg.content.slice(prefix.length).trim().split(' ');
     arguments.shift();

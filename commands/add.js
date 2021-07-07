@@ -5,7 +5,7 @@ module.exports = {
   usage: `add <amount> [@User]`,
   command: true,
   aliases: ['add'],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance) {
     if (msg.member.roles.cache.has('830496065366130709')) {
       const target = msg.mentions.users.first() || msg.author;
   

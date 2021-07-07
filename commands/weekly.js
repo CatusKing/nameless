@@ -5,7 +5,7 @@ module.exports = {
   usage: `weekly`,
   command: true,
   aliases: ['weekly'],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance) {
     const weekly = getUserWeekly(msg.author.id);
 
     if (weekly <= hours(Date.now())) {

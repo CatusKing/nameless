@@ -5,7 +5,7 @@ module.exports = {
   usage: ``,
   command: false,
   aliases: [],
-	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned) {
+	execute(client, msg) {
     const announcementChannel = client.channels.cache.get('830506698908893235');
     const eventChannel = client.channels.cache.get('830506718164287498');
     const partnerChannel = client.channels.cache.get('846376197163581490');
