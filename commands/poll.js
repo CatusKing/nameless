@@ -37,8 +37,8 @@ module.exports = {
       description += `${choicesEmojis[i]} - ${choices[i]}\n`;
       emojis.push(choicesEmojis[i]);
     }
-    description += `\`\`\``
-    msg.channel.send(embed.setDescription(description)).then((message) => {
+    msg.delete();
+    msg.channel.send(embed.setDescription(`${description}\`\`\``)).then((message) => {
       for(let i = 0; i < emojis.length; ++i) {
         message.react(emojis[i]).then(() => {});
       }
