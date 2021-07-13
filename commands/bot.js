@@ -23,7 +23,7 @@ module.exports = {
         `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms`,
         `**❯ ${hdd_emoji}:** ${os.platform()},${os.release()}`,
         `**❯ ${cpu_emoji}:**`,
-        `\u3000 ${core.model}`,
+        `\u3000 ${os.cups()[0].model}`,
         `\u3000 ${os.cpus().length} x ${core.speed}MHz`,
         `**❯ ${ram_emoji}:** ${Math.floor(((os.freemem()) / 10000000)) / 100}GiB/${Math.floor(((os.totalmem()) / 10000000)) / 100}GiB`,
         `**❯ Bot:**`,
