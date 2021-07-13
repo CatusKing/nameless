@@ -13,6 +13,7 @@ module.exports = {
     const ram_emoji = client.emojis.cache.get("864314342450397204");
     const ping_emoji = client.emojis.cache.get("864314397529866261");
     const nameless_emoji = client.emojis.cache.get("864319487746113557");
+    const core = os.cpus()[0];
     const embed = new MessageEmbed().setColor('#ffffba')
       .addField('General', [
         `**❯ ${nameless_emoji}** ${client.user.tag} (${client.user.id})`,
@@ -23,7 +24,7 @@ module.exports = {
         `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms`,
         `**❯ ${hdd_emoji}:** ${os.platform()},${os.release()}`,
         `**❯ ${cpu_emoji}:**`,
-        `\u3000 ${os.cups()[0].model}`,
+        `\u3000 ${core.model}`,
         `\u3000 ${os.cpus().length} x ${core.speed}MHz`,
         `**❯ ${ram_emoji}:** ${Math.floor(((os.freemem()) / 10000000)) / 100}GiB/${Math.floor(((os.totalmem()) / 10000000)) / 100}GiB`,
         `**❯ Bot:**`,
