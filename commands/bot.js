@@ -20,7 +20,7 @@ module.exports = {
         '\u200b'
       ])
       .addField('System', [
-        `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms`
+        `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms`,
         `**❯ ${hdd_emoji}:** ${os.platform()},${os.release()}`,
         `**❯ ${cpu_emoji}:**`,
         `\u3000 ${core.model}`,
