@@ -292,7 +292,6 @@ const punish = async (msg) => {
           reason.push(i);
         }
       }
-      const author = msg.author;
       if (warn == 1 && scores[reason[0]] > 0.90) {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
         msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
