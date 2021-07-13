@@ -1,5 +1,6 @@
 const os = require('os');
 const { MessageEmbed, version } = require('discord.js');
+const { apis } = require('../general/config.json');
 module.exports = {
 	name: 'bot',
 	description: 'Displays information on the bot',
@@ -30,7 +31,9 @@ module.exports = {
         `**❯ Bot:**`,
         `\u3000 Node.js: ${process.version}`,
         `\u3000 Discord.js: v${version}`,
+        '\u200b'
       ])
+      .addField('Current Apis', apis)
       .setTimestamp();
     msg.channel.send(embed);
   }
