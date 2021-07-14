@@ -10,7 +10,7 @@ module.exports = {
     var embed = new MessageEmbed().setColor('#9e9d9d')
     if (commands.has(args[0]) && commands.get(args[0].toLowerCase()).command) {
       embed.setTitle(commands.get(args[0].toLowerCase()).name)
-        .setDescription(`\`\`\`\n${commands.get(args[0].toLowerCase()).description}\n\`\`\`\`\`\`\n${commands.get(args[0].toLowerCase()).aliases}\`\`\`\`\`\`\n${prefix}${commands.get(args[0].toLowerCase()).usage}\n\`\`\``);
+        .setDescription(`Description:\`\`\`\n${commands.get(args[0].toLowerCase()).description}\n\`\`\`Aliases:\`\`\`\n${commands.get(args[0].toLowerCase()).aliases}\`\`\`Usage:\`\`\`\n${prefix}${commands.get(args[0].toLowerCase()).usage}\n\`\`\``);
     } else {
       let description = '\`\`\`';
       commands.forEach((value, key) => {
