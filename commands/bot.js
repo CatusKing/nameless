@@ -1,5 +1,6 @@
 const os = require('os');
-const { MessageEmbed, version } = require('discord.js');
+const { version: version2 } = require('quick.db');
+const { MessageEmbed, version: version1 } = require('discord.js');
 const { apis } = require('../general/config.json');
 module.exports = {
 	name: 'bot',
@@ -28,9 +29,13 @@ module.exports = {
         `\u3000 ${core.model}`,
         `\u3000 ${os.cpus().length} x ${core.speed}MHz`,
         `**❯ ${ram_emoji}:** ${Math.floor(((os.freemem()) / 10000000)) / 100}GiB/${Math.floor(((os.totalmem()) / 10000000)) / 100}GiB`,
-        `**❯ Bot:**`,
+        `**❯ Dependencies:**`,
         `\u3000 Node.js: ${process.version}`,
-        `\u3000 Discord.js: v${version}`,
+        `\u3000 Discord.js: v${version1}`,
+        `\u3000 os: v0.1.1`,
+        `\u3000 quick.db: v${version2}`,
+        `\u3000 Request: v2.88.2`,
+        `\u3000 googleapis: v71.0.0`,
         '\u200b'
       ])
       .addField('Current Apis', apis)
