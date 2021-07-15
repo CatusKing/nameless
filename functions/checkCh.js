@@ -21,7 +21,7 @@ module.exports = {
       }
     });
     var limit = 3;
-    smallRoomCh.members.forEach(m => {
+    smallRoomCh.members.forEach((idk, m) => {
       let yes = true;
       m.roles.forEach(r => {
         if (adminRoles.includes(r.id) && yes) {
