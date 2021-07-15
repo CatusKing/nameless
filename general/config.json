@@ -17,5 +17,6 @@
   "dailyAmount": 100,
   "weeklyAmount": 1000,
   "choicesEmojis": ["🔴", "📙", "🟨", "🍏", "🔷", "💜", "🔳", "🔲", "💗", "🟫"],
-  "apis": ["[Discord.js](https://discord.js.org/)", "[Perspective Api](https://www.perspectiveapi.com/)", "[Advice Slip Api](https://api.adviceslip.com/)"]
+  "apis": ["[Discord.js](https://discord.js.org/)", "[Perspective Api](https://www.perspectiveapi.com/)", "[Advice Slip Api](https://api.adviceslip.com/)"],
+  "adminRoles": ["830496065366130709", "830495937301577759"]
 }
