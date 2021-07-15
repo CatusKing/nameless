@@ -8,7 +8,7 @@ module.exports = {
   command: true,
   aliases: ['gamble', 'g'],
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance) {
-    if (args[0] == 'help') return reply(msg.channel.id, 'Spend some 🦴 to earn some 🦴\nMinimal gamble amount: 500🦴\nPayout table: (:white_circle:= not 💎 or :skull:)\n💎 💎 💎 - 25x\n💎 💎 :white_circle: - 5x\n:white_circle: :white_circle: :white_circle: - 10x\n:white_circle: :white_circle: ❓ - 2x\n:skull: ❓ ❓ - 0x (cancels any winning)\n❓ ❓ ❓ - 0x', '#9e9d9d');
+    if (args[0] == 'help') return reply(msg.channel.id, `Spend some :bone: to earn some :bone:\nMinimal gamble amount: 500:bone:\n\n:gem:: Only :gem:\n:white_circle:: Anything\nthat's not :gem: or :skull:\n:skull:: Only :skull:\n:question:: Anything that's not matching\n\nPayout Table:\n=====================\n:gem: :gem: :gem: - 25x\n:gem: :gem: :white_circle: - 5x\n:white_circle: :white_circle:\n:white_circle: - 10x\n:white_circle: :white_circle: :question: - 2x\n:skull: :question: :question: - 0x (cancels any winning)\n:question: :question: :question: - 0x\n=====================`, '#9e9d9d');
     const balance = getUserBalance(msg.author.id);
     const bank = getUserBalance('bank');
     var bet = 0;
