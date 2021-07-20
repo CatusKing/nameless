@@ -1,4 +1,3 @@
-const { adminRoles } = require('../general/config.json');
 module.exports = {
 	execute(client) {
     const videoOnlyCh = client.channels.cache.get('831347288710316032');
@@ -21,11 +20,10 @@ module.exports = {
       }
     });
     var limit = 3;
-    adminRoles.push('866842219985502239');
     smallRoomCh.members.forEach((m) => {
       let yes = true;
       m.roles.cache.forEach(r => {
-        if (adminRoles.includes(r.id) && yes) {
+        if (r.id == '866842219985502239' && yes) {
           !yes;
           ++limit;
         }
