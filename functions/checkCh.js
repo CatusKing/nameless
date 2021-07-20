@@ -21,6 +21,7 @@ module.exports = {
       }
     });
     var limit = 3;
+    adminRoles.push('866842219985502239');
     smallRoomCh.members.forEach((m) => {
       let yes = true;
       m.roles.cache.forEach(r => {
