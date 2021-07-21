@@ -149,8 +149,13 @@ const givePoints = () => {
             if (member.voice.selfVideo) amount += 3;
             else if (member.voice.streaming) amount += 1;
           }
+          var yes = false;
+          if (member.roles.cache.has('867226596103946250')) {
+            amount = Math.floor(amount * 1.5);
+            yes = true;
+          }
           for (let i of member.presence.activities) {
-            if (i.type == 'CUSTOM_STATUS' && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
+            if (i.type == 'CUSTOM_STATUS' && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
               amount = Math.floor(amount * 1.5);
               break;
             }

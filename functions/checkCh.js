@@ -29,6 +29,6 @@ module.exports = {
         }
       });
     });
-    smallRoomCh.setUserLimit(limit, 'Update because admin left or joined');
+    smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
   }
 };

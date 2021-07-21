@@ -8,10 +8,11 @@
   ],
   "emojis": [":skull:", ":yellow_circle:", ":red_circle:", ":green_circle:", ":blue_circle:", ":brown_circle:", ":gem:"],
   "shop": [
+    ["**Vip** - 30k🦴 - Gives a constant 1.5x multiplier on bones and gives access to vip only text and voice channels", "vip", 30000, "867226596103946250", 0],
     ["**DJ** - 5k🦴 - Allows you to play music", "dj", 5000, "830507721987194920", 0],
+    ["**Keycard** - 15K🦴 - Allows you to add one slot to the smoll room for yourself", "keycard", 15000, "866842219985502239", 0],
     ["**Mathematics** - 2k🦴 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2000, "830904166007701504", 1],
-    ["**Hue** - 15K🦴 - Allows you to control the lights in Thomas's room", "hue", 15000, "845764951481122869", 0],
-    ["**Keycard** - 15K🦴 - Allows you to add one slot to the smoll room for yourself", "keycard", 15000, "866842219985502239", 0]
+    ["**Hue** - 15K🦴 - Allows you to control the lights in Thomas's room", "hue", 15000, "845764951481122869", 0]
   ],
   "url": "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1",
   "abc": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
@@ -19,6 +20,5 @@
   "weeklyAmount": 1000,
   "choicesEmojis": ["🔴", "📙", "🟨", "🍏", "🔷", "💜", "🔳", "🔲", "💗", "🟫"],
   "apis": ["[Discord.js](https://discord.js.org/)", "[Perspective Api](https://www.perspectiveapi.com/)", "[Advice Slip Api](https://api.adviceslip.com/)"],
-  "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"],
-  "secrets": [""]
+  "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"]
 }
