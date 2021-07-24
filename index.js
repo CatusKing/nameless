@@ -277,7 +277,6 @@ var admins = getServerAdmins();
 var ignoredCh = getServerIgnoredCh();
 
 const punish = async (msg) => {
-  const cactus = client.users.cache.get('473110112844644372');
   try {
     const characters = msg.content.split('');
     var letters = false;
