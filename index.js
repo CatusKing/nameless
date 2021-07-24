@@ -302,11 +302,11 @@ const punish = async (msg) => {
         msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
         setUserMuted(msg.author.id, -1);
         reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        log('834179033289719839', `**Muted**\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n(Jump to!)[${msg.url}]`, '#9e9d9d');
         return true;
       } else if (warn == 1) {
         reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
-        log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        log('834179033289719839', `Warned\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n(Jump to!)[${msg.url}]`, '#9e9d9d');
         return true;
       } else if (warn > 1) {
         var description = '';
@@ -317,7 +317,7 @@ const punish = async (msg) => {
         msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
         setUserMuted(msg.author.id, -1);
         reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n${msg.url}`, '#9e9d9d');
+        log('834179033289719839', `**Muted**\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n(Jump to!)[${msg.url}]`, '#9e9d9d');
         return true;
       }
     } else return false;
