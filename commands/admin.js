@@ -6,7 +6,7 @@ module.exports = {
   command: true,
   aliases: ['admin'],
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins) {
-    let yes = true;
+    var yes = true;
     msg.member.roles.cache.forEach(r => {
       if (adminRoles.includes(r.id) && yes) {
 
