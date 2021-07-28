@@ -25,8 +25,10 @@ module.exports = {
         }
         setServerAdmins(admins);
         !yes;
+        console.log(yes)
       }
     });
+    console.log(yes)
     if (yes) reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   },
 };
