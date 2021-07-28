@@ -24,10 +24,10 @@ module.exports = {
           reply(msg.channel.id, `Ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
         }
         setServerAdmins(admins);
-        !yes;
+        yes = !yes;
         return admins;
       }
+      if (yes) reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
     });
-    if (yes) reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
 	},
 };
