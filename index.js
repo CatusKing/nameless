@@ -274,9 +274,6 @@ const setUserBanned = (id = '', num = 0) => {
   return;
 };
 
-var admins = getServerAdmins();
-var ignoredCh = getServerIgnoredCh();
-
 const punish = async (msg) => {
   try {
     const characters = msg.content.split('');
@@ -350,6 +347,9 @@ client.on('message', async msg => {
 
   if (msg.author.bot || msg.webhookID) return;
 
+  var admins = getServerAdmins();
+  var ignoredCh = getServerIgnoredCh();
+  
   // //Dm commands
   if (msg.channel.type == 'dm') {
     const guild = client.guilds.cache.get('830495072876494879');
