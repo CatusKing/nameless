@@ -6,7 +6,7 @@ module.exports = {
   command: true,
   aliases: ['admin'],
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins) {
-		let yes = true;
+    let yes = true;
     msg.member.roles.cache.forEach(r => {
       if (adminRoles.includes(r.id) && yes) {
 
@@ -24,10 +24,10 @@ module.exports = {
           reply(msg.channel.id, `Ignoring you from auto mod\nid: ${msg.author.id}`, '#9e9d9d');
         }
         setServerAdmins(admins);
-        yes = !yes;
+        !yes;
         return admins;
       }
-      if (yes) reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
     });
-	},
+    if (yes) reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
+  },
 };
