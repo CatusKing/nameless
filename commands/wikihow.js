@@ -11,7 +11,7 @@ module.exports = {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
-      reply(msg.channel.id, dom.window.document.querySelector("title").textContent);
+      reply(msg.channel.id, dom.window.document.querySelector("title").textContent, '#9e9d9d');
       console.log(dom.window.document.querySelector("img").textContent);
     });
   }
