@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js");
 const jsdom = require("jsdom");
 const request = require('request');
 module.exports = {
@@ -11,6 +12,8 @@ module.exports = {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
       console.log(dom.window.document.querySelector("title").textContent);
+      msg.channel.send(dom.window.document.querySelector("title").textContent);
+      msg.channel.send(new MessageEmbed().setImage(`https://www.wikihow.com/images/thumb/b/b2/${dom.window.document.querySelector("title").textContent.replace(/[# ]/g, '-')}-2.jpg/v4-460px-${dom.window.document.querySelector("title").textContent.replace(/[# ]/g, '-')}-2.jpg`))
     });
   }
 };
