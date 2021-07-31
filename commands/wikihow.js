@@ -10,7 +10,7 @@ module.exports = {
       if (err) console.warn(err);
       var parser = new DOMParser();
       var doc = parser.parseFromString(body, 'text/html');
-      console.log(doc);
+      console.log(doc.querySelector('title'));
     });
   }
 };
