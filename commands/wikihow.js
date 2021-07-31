@@ -54,7 +54,7 @@ module.exports = {
 
         return (json) ? JSON.stringify(treeObject) : treeObject;
       }
-      console.log(mapDOM(data, true));
+      console.log(mapDOM(body, true));
     });
   }
 };
