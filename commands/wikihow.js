@@ -8,40 +8,9 @@ module.exports = {
   execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
-      function mapDOM(element, json) {
-        var treeObject = {};
-
-        //Recursively loop through DOM elements and assign properties to object
-        function treeHTML(element, object) {
-          object["type"] = element.nodeName;
-          var nodeList = element.childNodes;
-          if (nodeList != null) {
-            if (nodeList.length) {
-              object["content"] = [];
-              for (var i = 0; i < nodeList.length; i++) {
-                if (nodeList[i].nodeType == 3) {
-                  object["content"].push(nodeList[i].nodeValue);
-                } else {
-                  object["content"].push({});
-                  treeHTML(nodeList[i], object["content"][object["content"].length - 1]);
-                }
-              }
-            }
-          }
-          if (element.attributes != null) {
-            if (element.attributes.length) {
-              object["attributes"] = {};
-              for (var i = 0; i < element.attributes.length; i++) {
-                object["attributes"][element.attributes[i].nodeName] = element.attributes[i].nodeValue;
-              }
-            }
-          }
-        }
-        treeHTML(element, treeObject);
-
-        return (json) ? JSON.stringify(treeObject) : treeObject;
-      }
-      console.log(mapDOM(body, true));
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(body, 'text/html');
+      console.log(doc);
     });
   }
 };
