@@ -6,7 +6,7 @@ module.exports = {
   description: 'Retrieves a random WikiHow image',
   usage: `wikihow`,
   command: true,
-  aliases: ['wikihow'],
+  aliases: ['wikihow', 'wh'],
   execute(client, msg, args, reply) {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
