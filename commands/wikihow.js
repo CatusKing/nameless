@@ -1,4 +1,5 @@
 const jsdom = require("jsdom");
+const request = require('request');
 module.exports = {
   name: 'wikihow',
   description: 'Retrieves a random WikiHow image',
