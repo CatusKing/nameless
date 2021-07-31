@@ -11,19 +11,6 @@ module.exports = {
       function mapDOM(element, json) {
         var treeObject = {};
 
-        // If string convert to document Node
-        if (typeof element === "string") {
-          if (window.DOMParser) {
-            parser = new DOMParser();
-            docNode = parser.parseFromString(element, "text/xml");
-          } else { // Microsoft strikes again
-            docNode = new ActiveXObject("Microsoft.XMLDOM");
-            docNode.async = false;
-            docNode.loadXML(element);
-          }
-          element = docNode.firstChild;
-        }
-
         //Recursively loop through DOM elements and assign properties to object
         function treeHTML(element, object) {
           object["type"] = element.nodeName;
