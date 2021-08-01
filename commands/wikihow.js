@@ -17,7 +17,7 @@ module.exports = {
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
           yes = false;
-          embed.setImage(value.src);
+          embed.setImage(value.src).setDescription(`[link](${value.src})`);
         }
       });
       msg.channel.send(embed);
