@@ -11,7 +11,7 @@ module.exports = {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
       reply(msg.channel.id, dom.window.document.querySelector("title").textContent, '#9e9d9d');
-      console.log(dom.window.document.querySelectorAll('img')[1].textContent);
+      console.log(dom.window.document.querySelectorAll('img')[1].src);
     });
   }
 };
