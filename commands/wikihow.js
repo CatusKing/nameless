@@ -20,7 +20,6 @@ module.exports = {
         }
       });
       if (embed.description == null) {
-        console.log(embed);
         reply(msg.channel.id, `idk dude the code is scuffed(error)`);
       } else {
         msg.channel.send(embed);
