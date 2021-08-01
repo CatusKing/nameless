@@ -19,10 +19,10 @@ module.exports = {
           embed.setImage(value.src).setDescription(`${dom.window.document.querySelector("title").textContent}\n[image](${value.src})`);
         }
       });
-      try {
+      if (embed.description == null) {
+        reply(msg.channel.id, `idk dude the code is scuffed(error)`);
+      } else {
         msg.channel.send(embed);
-      } catch (err) {
-        reply(msg.channel.id, `idk dude the code is scuffed(error)`)
       }
     });
   }
