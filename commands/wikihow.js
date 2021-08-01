@@ -13,7 +13,7 @@ module.exports = {
       console.log(res.socket._httpMessage.path);
       const dom = new jsdom.JSDOM(body);
       var yes = true;
-      const embed = new MessageEmbed().setDescription(`${dom.window.document.querySelector("title").textContent}`).setColor('#9e9d9d');
+      const embed = new MessageEmbed().setDescription(`[link](https://www.wikihow.com${res.socket._httpMessage.path}) ${dom.window.document.querySelector("title").textContent}`).setColor('#9e9d9d');
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
           yes = false;
