@@ -11,13 +11,12 @@ module.exports = {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
-      reply(msg.channel.id, dom.window.document.querySelector("title").textContent, '#9e9d9d');
       var yes = true;
       const embed = new MessageEmbed()
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
           yes = false;
-          embed.setImage(value.src).setDescription(`[link](${value.src})`);
+          embed.setImage(value.src).setDescription(`${dom.window.document.querySelector("title").textContent}\n[image](${value.src})`);
         }
       });
       msg.channel.send(embed);
