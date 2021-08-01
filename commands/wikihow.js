@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js");
 const jsdom = require("jsdom");
 const request = require('request');
 module.exports = {
@@ -11,9 +12,15 @@ module.exports = {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
       reply(msg.channel.id, dom.window.document.querySelector("title").textContent, '#9e9d9d');
+      var yes = true;
+      const embed = new MessageEmbed()
       dom.window.document.querySelectorAll('img').forEach((value) => {
-        console.log(value.src)
+        if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
+          yes = false;
+          embed.setImage(value.src);
+        }
       });
+      msg.channel.send(embed);
     });
   }
 };
