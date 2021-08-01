@@ -10,7 +10,7 @@ module.exports = {
   execute(client, msg, args, reply) {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
-      console.log(res.socket.readableObjectMode);
+      console.log(res.socket);
       const dom = new jsdom.JSDOM(body);
       var yes = true;
       const embed = new MessageEmbed().setDescription(`${dom.window.document.querySelector("title").textContent}`).setColor('#9e9d9d');
