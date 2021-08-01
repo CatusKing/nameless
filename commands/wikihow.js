@@ -3,7 +3,7 @@ const jsdom = require("jsdom");
 const request = require('request');
 module.exports = {
   name: 'wikihow',
-  description: 'Retrieves a random WikiHow image',
+  description: 'Retrieves a random WikiHow article',
   usage: `wikihow`,
   command: true,
   aliases: ['wikihow', 'wh'],
