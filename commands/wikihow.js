@@ -12,14 +12,15 @@ module.exports = {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
       var yes = true;
-      const embed = new MessageEmbed()
+      const embed = new MessageEmbed().setDescription(`${dom.window.document.querySelector("title").textContent}`).setColor('#9e9d9d');
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
           yes = false;
-          embed.setImage(value.src).setDescription(`${dom.window.document.querySelector("title").textContent}\n[image](${value.src})`).setColor('#9e9d9d');
+          embed.setImage(value.src).setDescription(`${embed.description}\n[image](${value.src})`);
         }
       });
       if (embed.description == null) {
+        console.log(embed);
         reply(msg.channel.id, `idk dude the code is scuffed(error)`);
       } else {
         msg.channel.send(embed);
