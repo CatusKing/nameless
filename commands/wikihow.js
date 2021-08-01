@@ -16,7 +16,7 @@ module.exports = {
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {
           yes = false;
-          embed.setImage(value.src).setDescription(`${dom.window.document.querySelector("title").textContent}\n[image](${value.src})`);
+          embed.setImage(value.src).setDescription(`${dom.window.document.querySelector("title").textContent}\n[image](${value.src})`).setColor('#9e9d9d');
         }
       });
       if (embed.description == null) {
