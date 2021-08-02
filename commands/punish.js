@@ -26,15 +26,23 @@ module.exports = {
           log('834179033289719839', `Muted ${target} for 1 day\nAction by ${msg.author}\n${target} was muted for 1h due to a level 3 infraction`, '#9e9d9d');
         } else if (args[0] == 4) {
           const duration = 2880;
-          target.send('Temp banned for a day. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
-          target.ban({reason: `Temp banned`, days: 1});
+          try {
+            target.send('Temp banned for a day. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
+          } catch (err) {}
+          try {
+            target.ban({reason: `Temp banned`, days: 1});
+          } catch (err) {}
           setUserBanned(target.id, duration);
           reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
           log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
         } else if (args[0] == 5) {
           const duration = -1;
-          target.send('Perm banned. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
-          target.ban({reason: `Perm banned`, days: 1});
+          try {
+            target.send('Perm banned. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
+          } catch (err) {}
+          try {
+            target.ban({reason: `Perm banned`, days: 1});
+          } catch (err) {}
           setUserBanned(target.id, duration);
           reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
           log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
