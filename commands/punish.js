@@ -29,15 +29,15 @@ module.exports = {
           target.send('Temp banned for a day. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
           target.ban({reason: `Temp banned`, days: 1});
           setUserBanned(target.id, duration);
-          reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}\n${target} was muted for 1h due to a level 4 infraction`, '#9e9d9d');
-          log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}\n${target} was muted for 1h due to a level 4 infraction`, '#9e9d9d');
+          reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
+          log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
         } else if (args[0] == 5) {
           const duration = -1;
           target.send('Perm banned. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
           target.ban({reason: `Perm banned`, days: 1});
           setUserBanned(target.id, duration);
-          reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}\n${target} was muted for 1h due to a level 4 infraction`, '#9e9d9d');
-          log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}\n${target} was muted for 1h due to a level 4 infraction`, '#9e9d9d');
+          reply(msg.channel.id, `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
+          log('834179033289719839', `Banned ${target} for 1 day\nAction by ${msg.author}`, '#9e9d9d');
         }
       }
     } else reply(msg.channel.id, `You don't have perms for this`, `#9e9d9d`);
