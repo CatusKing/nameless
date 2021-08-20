@@ -284,6 +284,7 @@ const punish = async (msg) => {
         break;
       }
     }
+    var ignoredCh = getServerIgnoredCh();
     if (letters && !ignoredCh.includes(msg.channel.id) && !admins.includes(msg.author.id)) {
       var warn = 0;
       var reason = [];
@@ -319,7 +320,7 @@ const punish = async (msg) => {
         return true;
       }
     } else return false;
-  } catch (error) { console.log(error); }
+  } catch (error) { console.warn(error); }
 };
 
 client.once('ready', async () => {
