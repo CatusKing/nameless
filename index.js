@@ -319,7 +319,7 @@ const punish = async (msg) => {
         return true;
       }
     } else return false;
-  } catch (error) { }
+  } catch (error) { console.log(error); }
 };
 
 client.once('ready', async () => {
