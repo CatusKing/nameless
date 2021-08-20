@@ -284,6 +284,7 @@ const punish = async (msg) => {
         break;
       }
     }
+    var admins = getServerAdmins();
     var ignoredCh = getServerIgnoredCh();
     if (letters && !ignoredCh.includes(msg.channel.id) && !admins.includes(msg.author.id)) {
       var warn = 0;
