@@ -320,7 +320,7 @@ const punish = async (msg) => {
         return true;
       }
     } else return false;
-  } catch (error) { console.warn(error); }
+  } catch (error) { console.debug(error); }
 };
 
 client.once('ready', async () => {
