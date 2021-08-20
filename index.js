@@ -10,8 +10,8 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { 
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
-const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
-const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
+const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT"];
+const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {} } };
 
 client.commands = new Collection();
 client.functions = new Collection();
@@ -288,27 +288,22 @@ const punish = async (msg) => {
     var ignoredCh = getServerIgnoredCh();
     if (letters && !ignoredCh.includes(msg.channel.id) && !admins.includes(msg.author.id)) {
       var warn = 0;
+      var severity = 0;
       var reason = [];
       const scores = await get_attrs(msg.content)
       for (let i of attributes) {
         if (scores[i] >= 0.75) {
           ++warn;
+          severity += scores[i];
           reason.push(i);
         }
       }
       var date = new Date();
-      if (warn == 1 && scores[reason[0]] > 0.90) {
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-        msg.member.roles.add(role, `Muted for getting 1 warning over .90`);
-        setUserMuted(msg.author.id, -1);
-        reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
-        log('834179033289719839', `**Muted** <t:${Math.floor(date.getTime() / 1000)}:R>\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n[Jump to!](${msg.url})`, '#9e9d9d');
-        return true;
-      } else if (warn == 1) {
+      if (warn == 1 && severity >= .9 || warn > 1 && severity <= 1.65) {
         reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
         log('834179033289719839', `Warned <t:${Math.floor(date.getTime() / 1000)}:R>\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n[Jump to!](${msg.url})`, '#9e9d9d');
         return true;
-      } else if (warn > 1) {
+      } else if (warn > 1 && severity > 1.65) {
         var description = '';
         for (let i of reason) {
           description += `**${i.toLowerCase()}**: ${scores[i]}\n`;
