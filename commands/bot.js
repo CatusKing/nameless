@@ -40,7 +40,7 @@ module.exports = {
       ])
       .addField('Current Apis', apis)
       .setTimestamp();
-    interaction.replay({ embeds: [embed] });
+    interaction.reply({ embeds: [embed] });
   },
 	execute(client, msg) {
     const cpu_emoji = client.emojis.cache.get("864314312028979250");
