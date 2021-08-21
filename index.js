@@ -377,7 +377,7 @@ client.on('messageCreate', async (msg) => {
     }
   }
   console.log(1)
-  if (msg.channel.type != 'text') return;
+  if (msg.channel.type != 'GUILD_TEXT') return;
 
   // //Hate Speech
   punish(msg);
