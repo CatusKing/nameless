@@ -36,7 +36,7 @@ for (const file of functionFiles) {
 const log = (channelId = new String, content = new String, color = new String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
-  channel.send(embed);
+  channel.send({ embeds: [embed] });
 };
 
 const reply = (channelId = new String(), content = new String(), color = '#9e9d9d') => {
@@ -45,7 +45,7 @@ const reply = (channelId = new String(), content = new String(), color = '#9e9d9
   channel.sendTyping();
   setTimeout(() => {
     console.log(embed)
-    channel.send(embed);
+    channel.send({ embeds: [embed] });
   }, 500);
 };
 
