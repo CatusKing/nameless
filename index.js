@@ -386,12 +386,12 @@ client.on('messageCreate', async (msg) => {
   const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     let amount = 5;
-    for (let i of msg.author.presence.activities) {
-      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
-        amount = Math.floor(amount * 1.5);
-        break;
-      }
-    }
+    // for (let i of msg.author.presence.activities) {
+    //   if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
+    //     amount = Math.floor(amount * 1.5);
+    //     break;
+    //   }
+    // }
     addUserBalance(msg.author.id, amount);
     setUserCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
