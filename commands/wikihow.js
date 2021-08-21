@@ -22,7 +22,7 @@ module.exports = {
       if (embed.description == null) {
         reply(msg.channel.id, `idk dude the code is scuffed(error)`);
       } else {
-        msg.channel.send(embed);
+        msg.channel.send({ embeds: [embed] });
       }
     });
   }
