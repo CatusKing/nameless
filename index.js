@@ -357,7 +357,7 @@ client.once('ready', async () => {
 });
 
 //Currency and commands
-client.on('message', async msg => {
+client.on('messageCreate', async msg => {
 
   if (msg.author.bot || msg.webhookID) return;
 
@@ -424,7 +424,7 @@ client.on('message', async msg => {
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
-  
+
   var admins = getServerAdmins();
   var ignoredCh = getServerIgnoredCh();
 
