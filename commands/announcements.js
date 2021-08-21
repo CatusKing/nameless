@@ -12,20 +12,18 @@ module.exports = {
     const eventChannel = client.channels.cache.get('830506718164287498');
     const partnerChannel = client.channels.cache.get('846376197163581490');
     if (msg.channel.id == '830503569622827069' && msg.content.includes('!announce!')) {
-      console.log(1)
       if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
       msg.channel.send(`\`Is this announcement ok?\nRespond yes or no\nImage will be included\`\n\n${msg.content.replace('!announce!', '')}`)
         .then(async () => {
-          console.log(2)
           const filter = m => m.author.id == msg.author.id;
           msg.channel.awaitMessages({filter, max: 1, time: 15000, errors: ['time'] })
             .then(async collected => {
-              console.log(3)
+
               if (collected.first().content.toLowerCase().includes('yes')) {
                 try {
                   const webhooks = await announcementChannel.fetchWebhooks();
                   const webhook = webhooks.first();
-                  console.log(4)
+                  
                   if (webhook == null) return msg.channel.send('Error:\nNo webhooks found!');
                   var embeds = [];
                   for (let i of msg.attachments) {
