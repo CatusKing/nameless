@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/CactusKing101/nameless",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "googleapis": "^71.0.0",
     "jsdom": "^16.6.0",
     "os": "^0.1.1",
