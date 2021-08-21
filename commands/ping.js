@@ -12,7 +12,7 @@ module.exports = {
         .setColor('#9e9d9d')
         .setTitle('Pong!')
         .setDescription(`Roundtrip latency is ${Math.floor(message.createdTimestamp - msg.createdTimestamp)}ms \nAPI Latency is ${Math.round(client.ws.ping)}ms`);
-      message.edit(ping);
+      message.edit({ embeds: [ping]});
     });
   }
 };
