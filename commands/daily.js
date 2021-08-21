@@ -9,7 +9,6 @@ module.exports = {
     var date = new Date();
 
     if (getUserDaily(msg.author.id) != date.getDate()) {
-      reply(msg.channel.id, `hi`, '#9e9d9d');
       console.log(1)
       addUserBalance(msg.author.id, dailyAmount);
       addUserBalance('bank', -dailyAmount);
@@ -17,7 +16,6 @@ module.exports = {
       reply(msg.channel.id, `${msg.author} just claimed ${dailyAmount}🦴 for the day`, '#baffc9');
       log('830503210951245865', `+${dailyAmount}🦴 to ${msg.author} for their daily claim`, '#baffc9');
     } else {
-      reply(msg.channel.id, `hi`, '#9e9d9d');
       let result = 24 - date.getHours();
   
       if (result == 1) result = `${result} hour`;
