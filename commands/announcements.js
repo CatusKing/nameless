@@ -5,6 +5,8 @@ module.exports = {
   usage: ``,
   command: false,
   aliases: [],
+  slash: false,
+  options: [],
 	execute(client, msg) {
     const announcementChannel = client.channels.cache.get('830506698908893235');
     const eventChannel = client.channels.cache.get('830506718164287498');
