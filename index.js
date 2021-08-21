@@ -5,8 +5,8 @@ const db = require('quick.db');
 const { google } = require('googleapis');
 const fs = require('fs');
 const request = require('request');
-
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" }, intents: new Intents(32767) } });
+const intents = new Intents(32767);
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" }, intents: intents } });
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
