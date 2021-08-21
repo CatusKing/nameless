@@ -19,6 +19,6 @@ module.exports = {
       description += `\`\`\``;
       embed.setTitle('Commands:').setDescription(description);
     }
-    msg.channel.send(embed);
+    msg.channel.send({ embeds : [embed] });
 	},
 };
