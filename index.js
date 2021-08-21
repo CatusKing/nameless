@@ -41,6 +41,7 @@ const log = (channelId = String, content = String, color = String) => {
 
 const reply = (channelId = new String(), content = new String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
+  if (content = '') return console.warn('uhm why')
   const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.sendTyping();
   setTimeout(() => {
