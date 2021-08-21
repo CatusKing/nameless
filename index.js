@@ -357,8 +357,9 @@ client.once('ready', async () => {
 });
 
 //Currency and commands
-client.on('messageCreate', async msg => {
-  console.log(msg)
+client.on('messageCreate', async (msg) => {
+  console.log(webhookID)
+  console.log(msg.author.bot)
   if (msg.author.bot || msg.webhookID) return;
 
   var admins = getServerAdmins();
