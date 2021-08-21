@@ -27,11 +27,8 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send(msg.content.replace('!announce!', ''), {
-                    username: msg.guild.name,
-                    avatarURL: msg.guild.iconURL(),
-                    embeds: embeds,
-                  });
+                  await webhook.edit({ name: msg.guild.name, avatar: msg.guild.iconURL() })
+                  await webhook.send(msg.content.replace('!announce!', ''));
                 } catch (error) {
                   console.warn(error);
                 }
@@ -61,11 +58,8 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send(msg.content.replace('!event!', ''), {
-                    username: msg.guild.name,
-                    avatarURL: msg.guild.iconURL(),
-                    embeds: embeds,
-                  });
+                  await webhook.edit({ name: msg.guild.name, avatar: msg.guild.iconURL() });
+                  await webhook.send(msg.content.replace('!event!', ''));
                 } catch (error) {
                   console.warn(error);
                 }
@@ -95,11 +89,9 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send(`||<@&830554664373714994>||\n${msg.content.replace('!partner!', '')}`, {
-                    username: msg.guild.name,
-                    avatarURL: msg.guild.iconURL(),
-                    embeds: embeds,
-                  });
+                  await webhook.edit({ name: msg.guild.name, avatar: msg.guild.iconURL() })
+                  await webhook.send(`||<@&830554664373714994>||\n${msg.content.replace('!partner!', '')}`);
+
                 } catch (error) {
                   console.warn(error);
                 }
