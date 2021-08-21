@@ -22,6 +22,7 @@ module.exports = {
       .addField('General', [
         `**❯ ${nameless_emoji}** ${client.user.tag} (${client.user.id})`,
         `**❯ ${pc_emoji}** ${Math.floor(client.uptime / 86400000)}d ${Math.floor(client.uptime / 3600000) % 24}hr ${Math.floor(client.uptime / 60000) % 60}min ${Math.floor(client.uptime / 1000) % 60}sec`,
+        '\u200b'
       ])
       .addField('System', [
         `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms ws ping`,
@@ -37,10 +38,11 @@ module.exports = {
         `\u3000 quick.db: v${version2}`,
         `\u3000 Request: v2.88.2`,
         `\u3000 googleapis: v71.0.0`,
+        '\u200b'
       ])
       .addField('Current Apis', apis)
       .setTimestamp();
-    interaction.replay({ embeds: embed });
+    interaction.replay({ embeds: [embed] });
   },
 	execute(client, msg) {
     const cpu_emoji = client.emojis.cache.get("864314312028979250");
@@ -74,6 +76,6 @@ module.exports = {
       ])
       .addField('Current Apis', apis)
       .setTimestamp();
-    msg.channel.send(embed);
+    msg.channel.send({ embeds: [embed] });
   }
 };
