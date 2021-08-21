@@ -13,8 +13,8 @@ module.exports = {
       const amount = Math.floor(args[0]);
       const balance = addUserBalance(target.id, -amount);
       addUserBalance('bank', amount);
-      reply(msg.channel.id, `Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`, '#baffc9');
-      log('830503210951245865', `+${amount}🦴 to ${target} given by ${msg.author}`, '#baffc9');
+      reply(msg.channel.id, `Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`, '#ff7784');
+      log('830503210951245865', `+${amount}🦴 to ${target} given by ${msg.author}`, '#ff7784');
     } else return reply(msg.channel.id, `Sorry you don't have perms for this`, '#9e9d9d');
   }
 };
