@@ -376,7 +376,7 @@ client.on('messageCreate', async (msg) => {
       msg.channel.send('Ran the following updates\nPfP');
     }
   }
-
+  console.log(1)
   if (msg.channel.type != 'text') return;
 
   // //Hate Speech
@@ -396,9 +396,10 @@ client.on('messageCreate', async (msg) => {
     setUserCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
-
+  console.log(2)
   //Announcements commands
   try {
+    console.log(3)
     client.commands.get('announcements').execute(client, msg);
   } catch (error) {
     console.error(error);
@@ -411,6 +412,7 @@ client.on('messageCreate', async (msg) => {
   const command = args.shift().toLowerCase();
 
   client.commands.forEach((value, key) => {
+    console.log(4)
     if (value.aliases.includes(command) && value.command) {
       try {
         value.execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is leaderboard*/);
