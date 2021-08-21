@@ -45,6 +45,7 @@ const reply = (channelId = new String(), content = new String(), color = '#9e9d9
   const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.sendTyping();
   setTimeout(() => {
+    console.log(embed)
     channel.send(embed);
   }, 500);
 };
