@@ -18,7 +18,7 @@ module.exports = {
         .then(async () => {
           console.log(2)
           const filter = m => m.author.id == msg.author.id;
-          msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
+          msg.channel.awaitMessages({filter, max: 1, time: 15000, errors: ['time'] })
             .then(async collected => {
               console.log(3)
               if (collected.first().content.toLowerCase().includes('yes')) {
