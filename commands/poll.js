@@ -38,7 +38,7 @@ module.exports = {
       emojis.push(choicesEmojis[i]);
     }
     msg.delete();
-    msg.channel.send(embed.setDescription(`${description}\`\`\``)).then((message) => {
+    msg.channel.send({ embeds: [embed.setDescription(`${description}\`\`\``)] }).then((message) => {
       for(let i = 0; i < emojis.length; ++i) {
         message.react(emojis[i]).then(() => {});
       }
@@ -54,7 +54,7 @@ module.exports = {
           }
         });
         embed.setTitle(`${embed.title}\n${first[0]} is the winning choice with ${first[1] - 1} votes!`).setColor('#baffc9');
-        message.edit(embed);
+        message.edit({ embeds: [embed] });
         message.reactions.removeAll();
       }).catch((error) => console.log(error));
     });
