@@ -10,8 +10,8 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { 
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
-const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT"];
-const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {} } };
+const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
+const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
 client.commands = new Collection();
 client.functions = new Collection();
