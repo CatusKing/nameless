@@ -20,5 +20,6 @@
   "weeklyAmount": 1000,
   "choicesEmojis": ["🔴", "📙", "🟨", "🍏", "🔷", "💜", "🔳", "🔲", "💗", "🟫"],
   "apis": ["[Discord.js](https://discord.js.org/)", "[Perspective Api](https://www.perspectiveapi.com/)", "[Advice Slip Api](https://api.adviceslip.com/)", "[PronounDB](https://pronoundb.org/)"],
-  "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"]
+  "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"],
+  "guildId": "830495072876494879"
 }

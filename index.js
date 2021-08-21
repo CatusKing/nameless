@@ -335,6 +335,23 @@ client.once('ready', async () => {
   setInterval(() => client.functions.get('checkMuted').execute(client, db), 30000);
 
   setInterval(() => client.functions.get('checkBanned').execute(client, db), 30000);
+  
+  console.log('Setting up slash commands');
+  client.commands.forEach((value, key) => {
+    if (value.slash) {
+      try {
+        client.api.applications(client.user.id).guilds(config.guildId).commands.post({data: {
+          name: value.name,
+          description: value.description,
+          options: value.options
+        }});
+      } catch (err) {
+        console.warn(`There was an error trying to load ${value.name} command!`);
+        console.error(err);
+      }
+    }
+  });
+  console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
 });
@@ -399,6 +416,21 @@ client.on('message', async msg => {
         value.execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is leaderboard*/);
       } catch (err) {
         msg.reply('there was an error trying to execute that command!');
+        console.error(err);
+      }
+    }
+  });
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+
+  client.commands.forEach((value, key) => {
+    if (value.name == interaction.commandName && value.slash) {
+      try {
+        value.execute(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is leaderboard*/);
+      } catch (err) {
+        interaction.reply('there was an error trying to execute that command!');
         console.error(err);
       }
     }
