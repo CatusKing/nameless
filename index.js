@@ -73,7 +73,7 @@ const hours = (milliseconds = Number) => {
 
 const updateInvites = () => {
   const guild = client.guilds.cache.get('830495072876494879');
-  guild.fetchInvites().then(guildInvites => {
+  guild.invites.fetch().then(guildInvites => {
     guildInvites.forEach(invite => {
       let yes = true;
       for (let i = 0; i < invites.length; ++i) {
@@ -478,7 +478,7 @@ client.on('inviteDelete', () => { updateInvites(); });
 
 //Sends welcome message plus who invited them
 client.on('guildMemberAdd', member => {
-  member.guild.fetchInvites().then(guildInvites => {
+member.invites.fetch().then(guildInvites => {
     guildInvites.forEach(invite => {
       let j = findInvite(invite.code);
       if (j == -1) return;
