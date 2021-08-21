@@ -294,7 +294,7 @@ const punish = async (msg) => {
       for (let i of attributes) {
         if (scores[i] >= 0.75) {
           ++warn;
-          severity += scores[i];
+          severity = severity + scores[i];
           reason.push(i);
         }
       }
