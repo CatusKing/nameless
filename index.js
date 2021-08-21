@@ -1,4 +1,4 @@
-const { Client, Collection, MessageEmbed } = require('discord.js');
+const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
 const token = require('./general/token.json');
 const config = require('./general/config.json');
 const db = require('quick.db');
@@ -6,7 +6,7 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const request = require('request');
 
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } } });
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" }, intents: [Intents.FLAGS.GUILDS] } });
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
