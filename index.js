@@ -357,7 +357,7 @@ client.once('ready', async () => {
 });
 
 //Currency and commands
-client.on('messageCreate', async msg => {
+client.on('message', async msg => {
 
   if (msg.author.bot || msg.webhookID) return;
 
