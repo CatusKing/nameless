@@ -424,6 +424,9 @@ client.on('message', async msg => {
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
+  
+  var admins = getServerAdmins();
+  var ignoredCh = getServerIgnoredCh();
 
   client.commands.forEach((value, key) => {
     if (value.name == interaction.commandName && value.slash) {
