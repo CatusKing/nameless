@@ -9,6 +9,7 @@ module.exports = {
     var date = new Date();
 
     if (getUserDaily(msg.author.id) != date.getDate()) {
+      reply(msg.channel.id, `hi`, '#9e9d9d');
       console.log(1)
       addUserBalance(msg.author.id, dailyAmount);
       addUserBalance('bank', -dailyAmount);
