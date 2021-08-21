@@ -47,6 +47,6 @@ module.exports = {
         .setDescription(`You Spent: ${bet}🦴\nYou Made: ${total}🦴 (${balance + outcome}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)`);
       log('830503210951245865', `-${-outcome}🦴 to ${msg.author} from gambling ${bet}🦴`, '#ff7784');
     }
-    msg.channel.send(embed);
+    msg.channel.send({ embeds: embed });
   }
 };
