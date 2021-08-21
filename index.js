@@ -42,10 +42,9 @@ const log = (channelId = String, content = String, color = String) => {
 const reply = (channelId = new String(), content = new String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
-  channel.startTyping();
+  channel.sendTyping();
   setTimeout(() => {
     channel.send(embed);
-    channel.stopTyping();
   }, 500);
 };
 
@@ -358,7 +357,7 @@ client.once('ready', async () => {
 
 //Currency and commands
 client.on('messageCreate', async (msg) => {
-  console.log(msg.webhookId);
+
   if (msg.author.bot || msg.webhookId) return;
 
   var admins = getServerAdmins();
