@@ -30,7 +30,7 @@ module.exports = {
       }
     }
     if (question == false || choices == false) return reply(msg.channel.id, `You need a question and multiple options split with dashes\n(Max of 10 choices)`, '#9e9d9d');
-    var embed = new MessageEmbed().setTitle(question).setColor('#9e9d9d');
+    var embed = new MessageEmbed().setTitle(`${question}\n========================`).setColor('#9e9d9d');
     let description = '\`\`\`';
     var emojis = [];
     for(let i = 0; i < choices.length; ++i) {
