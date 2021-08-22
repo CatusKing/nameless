@@ -336,30 +336,17 @@ client.once('ready', async () => {
   setInterval(() => client.functions.get('checkBanned').execute(client, db), 30000);
   
   console.log('Setting up slash commands');
-  var time = 1000;
-  // client.commands.forEach((value, key) => {
-  //   if (value.slash) {
-  //     try {
-  //       setTimeout(() => {
-  //         client.api.applications(client.user.id).guilds(config.guildId).commands.post({data: {
-  //           name: value.name,
-  //           description: value.description,
-  //           options: value.options
-  //         }});
-  //       }, time);
-  //       time += 1000;
-  //     } catch (err) {
-  //       console.warn(`There was an error trying to load ${value.name} command!`);
-  //       console.error(err);
-  //     }
-  //   }
-  // });
-  client.application.commands.set([
-    {
-      name: 'test',
-      description: 'A test command',
-    },
-  ], '830495072876494879')
+  var commands = [];
+  client.commands.forEach((value, key) => {
+    if (value.slash) {
+      commands.push({
+        name: value.name,
+        description: value.description,
+        options: value.options
+      });
+    }
+  });
+  client.application.commands.set(commands, config.guildId)
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
