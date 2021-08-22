@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const { adminRoles } = require('../general/config.json');
 module.exports = {
 	name: 'admin',
@@ -5,6 +6,32 @@ module.exports = {
   usage: `admin`,
   command: true,
   aliases: ['admin'],
+  slash: true,
+  options: [],
+  executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    var yes = true;
+    interaction.member.roles.cache.forEach(r => {
+      if (adminRoles.includes(r.id) && yes) {
+
+        if (admins.includes(msg.author.id)) {
+          for (var i = 0; i < admins.length; i++) {
+  
+            if (admins[i] == msg.author.id) {
+              admins.splice(i, 1);
+              interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring you from auto mod\nid: ${msg.author.id}`).setColor('#9e9d9d') ] });
+              break;
+            }
+          }
+        } else {
+          admins.push(msg.author.id);
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring you from auto mod\nid: ${msg.author.id}`).setColor('#9e9d9d') ] });
+        }
+        setServerAdmins(admins);
+        yes = false;
+      }
+    });
+    if (yes) interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
+  },
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins) {
     var yes = true;
     msg.member.roles.cache.forEach(r => {
