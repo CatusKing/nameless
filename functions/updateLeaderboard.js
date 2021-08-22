@@ -24,7 +24,7 @@ module.exports = {
           });
         description += '```';
         var embed = new MessageEmbed().setColor('#ffffba').setDescription(description);
-        message.edit(embed);
+        message.edit({ embeds: [embed] });
       });
   }
 };
