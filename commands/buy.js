@@ -45,14 +45,13 @@ module.exports = {
 			if (interaction.options.getString('items') == config.shop[i][1]) {
 				const role = interaction.guild.roles.cache.get(config.shop[i][3]);
 
-				if (balance < config.shop[i][2]) {
-					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🦴\nYou have ${balance}🦴`).setColor('#9e9d9d') ] });
-					break;
-				}
-
 				if (config.shop[i][4] == 0) {
 					if (interaction.member.roles.cache.has(config.shop[i][3])) {
 						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You already have ${role} you dumb`).setColor('#9e9d9d') ] });
+						break;
+					}
+					if (balance < config.shop[i][2]) {
+						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🦴\nYou have ${balance}🦴`).setColor('#9e9d9d') ] });
 						break;
 					}
 					interaction.member.roles.add(role, `Bought ${role.name}`);
@@ -61,6 +60,10 @@ module.exports = {
 				} else {
 					if (!interaction.member.roles.cache.has(config.shop[i][3])) {
 						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have ${role} you dumb`).setColor('#9e9d9d') ] });
+						break;
+					}
+					if (balance < config.shop[i][2]) {
+						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have enough funds for the ${role} role\nYou need ${config.shop[i][2]}🦴\nYou have ${balance}🦴`).setColor('#9e9d9d') ] });
 						break;
 					}
 					interaction.member.roles.remove(role, `Paid to remove ${role.name}`);
