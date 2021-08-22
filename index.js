@@ -359,7 +359,7 @@ client.once('ready', async () => {
       name: 'test',
       description: 'A test command',
     },
-  ])
+  ], '830495072876494879')
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
