@@ -28,7 +28,7 @@ module.exports = {
       const balance = addUserBalance(target.id, amount);
       addUserBalance('bank', -amount);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Given ${amount}🦴 to ${target}\nThey now have ${balance}🦴`).setColor('#baffc9') ] });
-      log('830503210951245865', `+${amount}🦴 to ${target} given by ${msg.author}`, '#baffc9');
+      log('830503210951245865', `+${amount}🦴 to ${target} given by ${interaction.user}`, '#baffc9');
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
   },
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance) {
