@@ -7,7 +7,7 @@ module.exports = {
   command: true,
   aliases: ['help'],
   slash: true,
-  option: [
+  options: [
     {
       type: 'STRING',
       name: 'command',
