@@ -16,7 +16,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    const target = interation.options.getUser('user') || interaction.user;
+    const target = interaction.options.getUser('user') || interaction.user;
     interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${target} has ${floor(getUserBalance(target.id))}🦴(${getUserBalance(target.id)}🦴)`).setColor('#ffffba') ] });
   },
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor) {
