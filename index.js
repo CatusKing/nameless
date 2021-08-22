@@ -337,23 +337,29 @@ client.once('ready', async () => {
   
   console.log('Setting up slash commands');
   var time = 1000;
-  client.commands.forEach((value, key) => {
-    if (value.slash) {
-      try {
-        setTimeout(() => {
-          client.api.applications(client.user.id).guilds(config.guildId).commands.post({data: {
-            name: value.name,
-            description: value.description,
-            options: value.options
-          }});
-        }, time);
-        time += 1000;
-      } catch (err) {
-        console.warn(`There was an error trying to load ${value.name} command!`);
-        console.error(err);
-      }
-    }
-  });
+  // client.commands.forEach((value, key) => {
+  //   if (value.slash) {
+  //     try {
+  //       setTimeout(() => {
+  //         client.api.applications(client.user.id).guilds(config.guildId).commands.post({data: {
+  //           name: value.name,
+  //           description: value.description,
+  //           options: value.options
+  //         }});
+  //       }, time);
+  //       time += 1000;
+  //     } catch (err) {
+  //       console.warn(`There was an error trying to load ${value.name} command!`);
+  //       console.error(err);
+  //     }
+  //   }
+  // });
+  client.application.commands.set([
+    {
+      name: 'test',
+      description: 'A test command',
+    },
+  ])
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
