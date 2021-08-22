@@ -346,7 +346,7 @@ client.once('ready', async () => {
       });
     }
   });
-  client.application.commands.set(commands, config.guildId)
+  client.application.commands.set(commands, config.guildId);
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
