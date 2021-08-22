@@ -135,7 +135,7 @@ const givePoints = () => {
   var description = '';
   guild.channels.cache.forEach(ch => {
     
-    if (ch.type == 'voice' && ch.id != '830505700269883412') {
+    if (ch.type == 'GUILD_VOICE' && ch.id != '830505700269883412') {
       ch.members.forEach(member => {
         
         if (!member.voice.deaf) {
@@ -368,7 +368,7 @@ client.on('messageCreate', async (msg) => {
   var ignoredCh = getServerIgnoredCh();
   
   // //Dm commands
-  if (msg.channel.type == 'dm') {
+  if (msg.channel.type == 'DM') {
     const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
 
@@ -389,12 +389,12 @@ client.on('messageCreate', async (msg) => {
   const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     let amount = 5;
-    // for (let i of msg.author.presence.activities) {
-    //   if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('https://discord.gg/Hja2gSnsAu')) {
-    //     amount = Math.floor(amount * 1.5);
-    //     break;
-    //   }
-    // }
+    for (let i of msg.member.presence.activities) {
+      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('discord.gg/Hja2gSnsAu')) {
+        amount = Math.floor(amount * 1.5);
+        break;
+      }
+    }
     addUserBalance(msg.author.id, amount);
     setUserCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
