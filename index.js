@@ -346,8 +346,8 @@ client.once('ready', () => {
       });
     }
   });
-  client.application.commands.set(commands, config.guildId);
-  client.application.commands.delete('879148282675347466')
+  client.application.commands.set([], config.guildId);
+  client.application.commands.set([])
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
