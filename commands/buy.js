@@ -12,7 +12,7 @@ module.exports = {
 		{
 			name: 'items',
 			description: 'What you want to buy',
-			require: true,
+			required: true,
 			type: 'STRING',
 			choices: [
 				{
