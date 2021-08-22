@@ -20,6 +20,7 @@ module.exports = {
     const bank = getUserBalance('bank');
     var bet = 0;
 
+    console.log(interaction.options.get('amount'))
     if (interaction.options.get('amount') == 'all') bet = balance;
     else if (!isNaN(interaction.options.get('amount'))) bet = Math.floor(interaction.options.get('amount'));
     else return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
