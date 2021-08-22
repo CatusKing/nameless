@@ -13,18 +13,18 @@ module.exports = {
     interaction.member.roles.cache.forEach(r => {
       if (adminRoles.includes(r.id) && yes) {
 
-        if (admins.includes(msg.author.id)) {
+        if (admins.includes(interaction.user.id)) {
           for (var i = 0; i < admins.length; i++) {
   
-            if (admins[i] == msg.author.id) {
+            if (admins[i] == interaction.user.id) {
               admins.splice(i, 1);
-              interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring you from auto mod\nid: ${msg.author.id}`).setColor('#9e9d9d') ] });
+              interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring you from auto mod\nid: ${interaction.user.id}`).setColor('#9e9d9d') ] });
               break;
             }
           }
         } else {
-          admins.push(msg.author.id);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring you from auto mod\nid: ${msg.author.id}`).setColor('#9e9d9d') ] });
+          admins.push(interaction.user.id);
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring you from auto mod\nid: ${interaction.user.id}`).setColor('#9e9d9d') ] });
         }
         setServerAdmins(admins);
         yes = false;
