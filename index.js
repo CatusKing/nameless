@@ -379,7 +379,7 @@ client.on('messageCreate', async (msg) => {
     var time = 0;
     var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!']
     for(let i = 0; i < crazy.length * 3; ++i) {
-      time += 750;
+      time = time + 750;
       setTimeout(() => {
         msg.channel.send(crazy[i % crazy.length]);
       }, time);
