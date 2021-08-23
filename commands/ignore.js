@@ -20,7 +20,7 @@ module.exports = {
           }
         }
       } else {
-        ignoredCh.push(msg.channel.id);
+        ignoredCh.push(interaction.channel.id);
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring this channel from auto mod\nid: ${interaction.channel.id}`).setColor('#9e9d9d') ] });
       }
       setServerIgnoredCh(ignoredCh);
