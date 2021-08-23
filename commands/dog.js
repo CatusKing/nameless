@@ -2,11 +2,11 @@ const { MessageEmbed } = require("discord.js");
 const request = require("request");
 
 module.exports = {
-	name: 'fox',
-	description: 'Sends a random fox image',
-	usage: `fox`,
+	name: 'dog',
+	description: 'Sends a random dog image',
+	usage: `dog`,
 	command: true,
-	aliases: ['fox'],
+	aliases: ['dog'],
   slash: true,
   options: [],
   executeI(client, interaction) {
