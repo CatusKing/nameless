@@ -55,7 +55,7 @@ module.exports = {
     var input = interaction.options.getBoolean('grayscale') || false;
     if (input) var grayscale = '&grayscale';
     else var grayscale = '';
-    interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/500/300?${blur}${grayscale}`) ] })
+    interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/1920/1080?${blur}${grayscale}`) ] })
   },
 	execute(client, msg) {
     var seed = Math.floor(Math.random() * 5000);
