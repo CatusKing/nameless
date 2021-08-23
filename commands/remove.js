@@ -25,7 +25,7 @@ module.exports = {
     if (interaction.member.roles.cache.has('830496065366130709')) {
       const target = interaction.options.getUser('user') || interaction.user;
   
-      const amount = interaction.options.getUser('user');
+      const amount = interaction.options.getInteger('amount');
       const balance = addUserBalance(target.id, -amount);
       addUserBalance('bank', amount);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`).setColor('#9e9d9d') ] });
