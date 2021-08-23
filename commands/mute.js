@@ -25,7 +25,7 @@ module.exports = {
     if (interaction.member.roles.cache.has('830496065366130709') || interaction.member.roles.cache.has('830495937301577759') || interaction.member.roles.cache.has('830495908336369694')) {
       const target = interaction.options.getMember('target') || interaction.member;
       const muted = getUserMuted(target.id);
-      const duration = Math.floor(args[0] * 120) || -1;
+      const duration = Math.floor(Number(interaction.options.getString('duration')) * 120) || -1;
       if (muted == 0) {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
         target.roles.add(role, `Muted by ${interaction.user}`);
