@@ -23,7 +23,7 @@ module.exports = {
       if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
       else if (result == 1) result = `${result} hour`;
       else result = `${result} hours`;
-      interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${interaction.user} you have already claimed for this week\nYou can claim again in ${result}`).setColor('#baffc9') ] });
+      interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${interaction.user} you have already claimed for this week\nYou can claim again in ${result}`).setColor('#9e9d9d') ] });
     }
   },
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance) {
