@@ -375,6 +375,34 @@ client.on('messageCreate', async (msg) => {
 
   if (msg.channel.type != 'GUILD_TEXT') return;
 
+  if (msg.content.toLowerCase().includes('crazy')) {
+    var time = 0;
+    for(let i = 0; i < 3; ++i) {
+      setTimeout(() => {
+        time += 750;
+        setTimeout(() => {
+          msg.channel.send('Crazy?');
+        }, time);
+        time += 750;
+        setTimeout(() => {
+          msg.channel.send('I was crazy once.');
+        }, time);
+        time += 750;
+        setTimeout(() => {
+          msg.channel.send('They locked me in a rubber room.');
+        }, time);
+        time += 750;
+        setTimeout(() => {
+          msg.channel.send('A rubber room with rats!');
+        }, time);
+        time += 750;
+        setTimeout(() => {
+          msg.channel.send('The rats made me crazy.');
+        }, time);
+      }, time);
+    }
+  }
+
   // //Hate Speech
   punish(msg);
 
