@@ -420,7 +420,6 @@ client.on('messageCreate', async (msg) => {
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
-  console.log(interaction.commandId)
 
   var admins = getServerAdmins();
   var ignoredCh = getServerIgnoredCh();
