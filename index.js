@@ -10,6 +10,7 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { 
 const prefix = config.prefix;
 var status = 0;
 var invites = [];
+var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 
@@ -334,6 +335,10 @@ client.once('ready', () => {
   setInterval(() => client.functions.get('checkMuted').execute(client, db), 30000);
 
   setInterval(() => client.functions.get('checkBanned').execute(client, db), 30000);
+
+  setInterval(() => {
+    if (crazyTime > 0) crazyTime -= 1;
+  }, 1000)
   
   console.log('Setting up slash commands');
   var commands = [];
@@ -375,9 +380,10 @@ client.on('messageCreate', async (msg) => {
 
   if (msg.channel.type != 'GUILD_TEXT') return;
 
-  if (msg.content.toLowerCase().includes('crazy')) {
+  if (msg.content.toLowerCase().includes('crazy') && crazyTime == 0) {
     var time = 0;
-    var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!']
+    var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!'];
+    crazyTime = 60;
     for(let i = 0; i < crazy.length * 3; ++i) {
       time = time + 1350;
       setTimeout(() => {
