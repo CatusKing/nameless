@@ -12,7 +12,8 @@ module.exports = {
     {
       type: 'STRING',
       name: 'amount',
-      description: 'The amount you want to gamble'
+      description: 'The amount you want to gamble',
+      required: true
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
