@@ -315,7 +315,7 @@ const punish = async (msg) => {
         return true;
       }
     } else return false;
-  } catch (error) { console.debug(error); }
+  } catch (error) { }
 };
 
 client.once('ready', () => {
