@@ -377,28 +377,12 @@ client.on('messageCreate', async (msg) => {
 
   if (msg.content.toLowerCase().includes('crazy')) {
     var time = 0;
-    for(let i = 0; i < 3; ++i) {
+    var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!']
+    var pointOfCrazy = 0
+    for(let i = 0; i < crazy.length * 3; ++i) {
+      time += 750;
       setTimeout(() => {
-        time += 750;
-        setTimeout(() => {
-          msg.channel.send('Crazy?');
-        }, time);
-        time += 750;
-        setTimeout(() => {
-          msg.channel.send('I was crazy once.');
-        }, time);
-        time += 750;
-        setTimeout(() => {
-          msg.channel.send('They locked me in a rubber room.');
-        }, time);
-        time += 750;
-        setTimeout(() => {
-          msg.channel.send('A rubber room with rats!');
-        }, time);
-        time += 750;
-        setTimeout(() => {
-          msg.channel.send('The rats made me crazy.');
-        }, time);
+        msg.channel.send(crazy[i % crazy.length]);
       }, time);
     }
   }
