@@ -55,8 +55,8 @@ module.exports = {
 						break;
 					}
 					interaction.member.roles.add(role, `Bought ${role.name}`);
-					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${msg.author} for buying ${role}`, '#ff7784');
-					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${msg.author}, you now have ${role}`).setColor('#9e9d9d') ] });
+					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${interaction.user} for buying ${role}`, '#ff7784');
+					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${interaction.user}, you now have ${role}`).setColor('#9e9d9d') ] });
 				} else {
 					if (!interaction.member.roles.cache.has(config.shop[i][3])) {
 						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have ${role} you dumb`).setColor('#9e9d9d') ] });
@@ -67,8 +67,8 @@ module.exports = {
 						break;
 					}
 					interaction.member.roles.remove(role, `Paid to remove ${role.name}`);
-					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${msg.author} for removing ${role}`, '#ff7784');
-					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${msg.author}, you now have removed ${role}`).setColor('#9e9d9d') ] });
+					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${interaction.user} for removing ${role}`, '#ff7784');
+					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${interaction.user}, you now have removed ${role}`).setColor('#9e9d9d') ] });
 				}
 				addUserBalance(msg.author.id, -config.shop[i][2]);
 				addUserBalance('bank', config.shop[i][2]);
