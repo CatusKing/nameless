@@ -399,6 +399,7 @@ client.on('messageCreate', async (msg) => {
   const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     let amount = 5;
+    if (!msg.member.presence) return;
     for (let i of msg.member.presence.activities) {
       if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('discord.gg/Hja2gSnsAu')) {
         amount = Math.floor(amount * 1.5);
