@@ -49,12 +49,13 @@ module.exports = {
   ],
   executeI(client, interaction) {
     var seed = Math.floor(Math.random() * 5000);
-    var blur = interaction.options.getInteger('blur') || 0;
-    blur = blur * 2;
+    let blur = interaction.options.getInteger('blur') || 0;
+    if (blur != 0) blur = `blur=${(blur * 2)}`;
+    else blur = '';
     var input = interaction.options.getBoolean('grayscale') || false;
     if (input) var grayscale = '&grayscale';
     else var grayscale = '';
-    interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/500/300?blur=${blur}${grayscale}`) ] })
+    interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/500/300?${blur}${grayscale}`) ] })
   },
 	execute(client, msg) {
     var seed = Math.floor(Math.random() * 5000);
