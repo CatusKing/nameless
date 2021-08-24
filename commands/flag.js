@@ -20,18 +20,7 @@ module.exports = {
         new MessageSelectMenu()
           .setCustomId('flagSelect')
           .setPlaceholder('Nothing selected')
-          .addOptions([
-            {
-              label: 'Select me',
-              description: 'This is a description',
-              value: 'first_option',
-            },
-            {
-              label: 'You can select me too',
-              description: 'This is also a description',
-              value: 'second_option',
-            },
-          ]),
+          .addOptions(options)
       );
     interaction.reply({ 
       embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`)],
