@@ -1,15 +1,16 @@
 const { MessageEmbed } = require("discord.js");
-const { flags } = require('../general/config.json');
+const request = require("request");
 
 module.exports = {
-	name: 'flag',
-	description: 'WIP',
-	usage: `flag`,
-	command: true,
+  name: 'dog',
+  description: 'Sends a random dog image',
+  usage: `dog`,
+  command: true,
   slash: true,
   options: [],
   executeI(client, interaction) {
-    var random = Math.floor(flags.length * Math.random())
-    interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(flags[random][1]).setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`) ] });
+    request('https://dog.ceo/api/breeds/image/random', { json: true }, (err, res, body) => {
+      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(body.message) ] });
+    });
   }
 };
