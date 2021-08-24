@@ -70,7 +70,7 @@ module.exports = {
 					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${interaction.user} for removing ${role}`, '#ff7784');
 					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${interaction.user}, you now have removed ${role}`).setColor('#9e9d9d') ] });
 				}
-				addUserBalance(msg.author.id, -config.shop[i][2]);
+				addUserBalance(interaction.user.id, -config.shop[i][2]);
 				addUserBalance('bank', config.shop[i][2]);
 				break;
 			}
