@@ -155,10 +155,12 @@ const givePoints = () => {
             amount = Math.floor(amount * 1.5);
             yes = true;
           }
-          for (let i of member.presence.activities) {
-            if (i.type == 'CUSTOM_STATUS' && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
-              amount = Math.floor(amount * 1.5);
-              break;
+          if (member.presence) {
+            for (let i of member.presence.activities) {
+              if (i.type == 'CUSTOM_STATUS' && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
+                amount = Math.floor(amount * 1.5);
+                break;
+              }
             }
           }
           addUserBalance(member.id, amount);
