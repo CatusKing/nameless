@@ -427,7 +427,7 @@ client.on('messageCreate', async (msg) => {
   const command = args.shift().toLowerCase();
 
   client.commands.forEach((value, key) => {
-    if (value.aliases.includes(command) && value.command) {
+    if (value.command && value.aliases.includes(command)) {
       try {
         if (value.slash) msg.channel.send('Hey we now have slash commands! Eventually text commands will be removed so please use the slash version of this command next time.');
         value.execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is leaderboard*/);
