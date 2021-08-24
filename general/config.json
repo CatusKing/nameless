@@ -21,5 +21,21 @@
   "choicesEmojis": ["🔴", "📙", "🟨", "🍏", "🔷", "💜", "🔳", "🔲", "💗", "🟫"],
   "apis": ["[Discord.js](https://discord.js.org/)", "[Perspective Api](https://www.perspectiveapi.com/)", "[Advice Slip Api](https://api.adviceslip.com/)", "[PronounDB](https://pronoundb.org/)", "[Lorem Picsum](https://picsum.photos/)"],
   "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"],
-  "guildId": "830495072876494879"
+  "guildId": "830495072876494879",
+  "flags": [
+    ["AD", "Andorra"],
+    ["AE", "United Arab Emirates"],
+    ["AF", "Afghanistan"],
+    ["AG", "Antigua and Barbuda"],
+    ["AI", "Anguilla"],
+    ["AL", "Albania"],
+    ["AM", "Armenia"],
+    ["AN", "Antiles"],
+    ["AO", "Angola"],
+    ["AQ", "Antartica"],
+    ["AR", "Argentina"],
+    ["AS", "American Samoa"],
+    ["AT", "Austria"],
+    ["AU", "Australia"]
+  ]
 }
