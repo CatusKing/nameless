@@ -36,8 +36,8 @@ module.exports = {
 					value: 'hue'
 				},
 				{
-					name: 'Flags',
-					value: 'flags'
+					name: 'Flag',
+					value: 'flag'
 				}
 			]
 		}
