@@ -53,7 +53,7 @@ module.exports = {
       addUserBalance(interaction.user.id, 100);
       log('830503210951245865', `+100🦴 to ${interaction.user} for answering the flag correctly`, '#baffc9');
     } else {
-      interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**`)], components: [] });
+      interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**\nYou were banned from the \`/flag\` command for getting the flag wrong. Do \`/buy flag\` to pay the 500🦴 fee to be unbanned.`)], components: [] });
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
       interaction.member.roles.add(role);
     }
