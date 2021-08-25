@@ -21,7 +21,7 @@ module.exports = {
     const row = new MessageActionRow()
       .addComponents(
         new MessageSelectMenu()
-          .setCustomId('flagSelect')
+          .setCustomId('flag')
           .setPlaceholder('Nothing selected')
           .addOptions(options)
       );
