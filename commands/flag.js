@@ -40,7 +40,7 @@ module.exports = {
   executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     var guess = interaction.values[0].split('-')[0];
     var answer = interaction.values[0].split('-')[1];
-    console.log(flags.find(interaction.values[0].split('-')[1]))
+    console.log(flags.findIndex(interaction.values[0].split('-')[1]))
     if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right!`)], components: [] });
     else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :(`)], components: [] });
   }
