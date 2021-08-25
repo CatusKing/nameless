@@ -514,7 +514,7 @@ client.on('inviteDelete', () => { updateInvites(); });
 
 //Sends welcome message plus who invited them
 client.on('guildMemberAdd', member => {
-member.invites.fetch().then(guildInvites => {
+  client.guilds.cache.get(config.guildId).invites.fetch().then(guildInvites => {
     guildInvites.forEach(invite => {
       let j = findInvite(invite.code);
       if (j == -1) return;
