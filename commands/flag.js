@@ -31,9 +31,8 @@ module.exports = {
     })
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
-        if (msg.embeds[0].footer.text == 'You have 15 seconds') {
-          msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time')] })
-        }
+        if (msg.embeds[0].footer == null) return;
+        if (msg.embeds[0].footer.text == 'You have 15 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time')] });
       });
     }, 15000);
   },
