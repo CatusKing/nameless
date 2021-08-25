@@ -46,7 +46,7 @@ module.exports = {
       if (flags[i][0] == interaction.values[0].split('-')[1]) answerCountry = flags[i][1];
       if (flags[i][0] == interaction.values[0].split('-')[0]) guessCountry = flags[i][1];
     }
-    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was ${answerCountry}`)], components: [] });
-    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was ${answerCountry} not ${guessCountry}`)], components: [] });
+    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was **${answerCountry}**`)], components: [] });
+    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**`)], components: [] });
   }
 };
