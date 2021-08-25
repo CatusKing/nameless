@@ -402,8 +402,13 @@ client.on('messageCreate', async (msg) => {
   if (cooldown < Date.now()) {
     let amount = 5;
     if (msg.member.presence == null) return;
+    var yes = false;
+    if (msg.member.roles.cache.has('867226596103946250')) {
+      amount = Math.floor(amount * 1.5);
+      yes = true;
+    }
     for (let i of msg.member.presence.activities) {
-      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('discord.gg/Hja2gSnsAu')) {
+      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
         amount = Math.floor(amount * 1.5);
         break;
       }
