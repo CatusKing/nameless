@@ -29,7 +29,7 @@ module.exports = {
       randoms.push(random2);
       options.push({ label: flags[random2][1], value: `${flags[random2][0]}-${flags[random][0]}` });
     }
-    shuffleArray(randoms);
+    shuffleArray(options);
     const row = new MessageActionRow()
       .addComponents(
         new MessageSelectMenu()
