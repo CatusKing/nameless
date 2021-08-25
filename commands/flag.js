@@ -26,12 +26,12 @@ module.exports = {
           .addOptions(options)
       );
     interaction.reply({ 
-      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`)],
+      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 15 seconds')],
       components: [row]
     })
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
-        if (msg.components != []) {
+        if (msg.embeds[0].footer == 'You have 15 seconds') {
           msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time\n\n(rn you don\'t get money for this yet)')] })
         }
       });
