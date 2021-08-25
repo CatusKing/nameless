@@ -28,7 +28,14 @@ module.exports = {
     interaction.reply({ 
       embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`)],
       components: [row]
-    });
+    })
+    setTimeout(() => {
+      interaction.fetchReply().then((msg) => {
+        if (msg.components) {
+          msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time\n\n(rn you don\'t get money for this yet)')] })
+        }
+      });
+    }, 15000);
   },
   selectMenu: true,
   executeSM(client, interaction) {
