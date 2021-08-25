@@ -1,6 +1,15 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
 const { flags } = require('../general/config.json');
 
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
 module.exports = {
 	name: 'flag',
 	description: 'Sends a random country flag to guess but if you get it wrong you must pay a 500🦴 fee to try again',
@@ -20,6 +29,7 @@ module.exports = {
       randoms.push(random2);
       options.push({ label: flags[random2][1], value: `${flags[random2][0]}-${flags[random][0]}` });
     }
+    shuffleArray(randoms);
     const row = new MessageActionRow()
       .addComponents(
         new MessageSelectMenu()
