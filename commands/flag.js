@@ -34,8 +34,7 @@ module.exports = {
   executeSM(client, interaction) {
     var guess = interaction.values[0].split('-')[0];
     var answer = interaction.values[0].split('-')[1];
-    interaction.message.delete();
-    if (guess == answer) interaction.reply({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription('Pog you got it right!\n\n(rn you don\'t get money for this yet)')], components: [] });
-    else interaction.reply({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You got it wrong :(\n\n(rn you don\'t get money for this yet)')], components: [] });
+    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription('Pog you got it right!\n\n(rn you don\'t get money for this yet)')], components: [] });
+    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You got it wrong :(\n\n(rn you don\'t get money for this yet)')], components: [] });
   }
 };
