@@ -8,7 +8,7 @@ module.exports = {
 	command: true,
   slash: true,
   options: [],
-  executeI(client, interaction) {
+  executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     var random = Math.floor(flags.length * Math.random());
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     var randoms = [random];
@@ -32,16 +32,17 @@ module.exports = {
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
         if (msg.embeds[0].footer.text == 'You have 15 seconds') {
-          msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time\n\n(rn you don\'t get money for this yet)')] })
+          msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time')] })
         }
       });
     }, 15000);
   },
   selectMenu: true,
-  executeSM(client, interaction) {
+  executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     var guess = interaction.values[0].split('-')[0];
     var answer = interaction.values[0].split('-')[1];
-    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription('Pog you got it right!\n\n(rn you don\'t get money for this yet)')], components: [] });
-    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You got it wrong :(\n\n(rn you don\'t get money for this yet)')], components: [] });
+    flags.find(interaction.values[0].split('-')[1])
+    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right!`)], components: [] });
+    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :(`)], components: [] });
   }
 };
