@@ -31,7 +31,7 @@ module.exports = {
     })
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
-        if (msg.components) {
+        if (msg.components != []) {
           msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time\n\n(rn you don\'t get money for this yet)')] })
         }
       });
