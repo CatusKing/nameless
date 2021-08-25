@@ -27,17 +27,17 @@ module.exports = {
           .addOptions(options)
       );
     interaction.reply({ 
-      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 15 seconds')],
+      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 30 seconds')],
       components: [row]
     })
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
         if (msg.embeds[0].footer == null) return;
-        if (msg.embeds[0].footer.text == 'You have 15 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
+        if (msg.embeds[0].footer.text == 'You have 30 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nYou were banned from the \`/flag\` command for not answering within 30 seconds.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
         interaction.member.roles.add(role);
       });
-    }, 15000);
+    }, 30000);
   },
   selectMenu: true,
   executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
