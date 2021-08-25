@@ -31,8 +31,7 @@ module.exports = {
     })
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
-        console.log(msg.embeds[0].footer)
-        if (msg.embeds[0].footer == 'You have 15 seconds') {
+        if (msg.embeds[0].footer.text == 'You have 15 seconds') {
           msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time\n\n(rn you don\'t get money for this yet)')] })
         }
       });
