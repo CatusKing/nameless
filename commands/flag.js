@@ -32,7 +32,9 @@ module.exports = {
   },
   selectMenu: true,
   executeSM(client, interaction) {
-    console.log(interaction.values);
-    // interaction.editReply({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription('Pog you got it right!\n\n(rn you don\'t get money for this yet)')], components: [] });
+    var guess = interaction.values[0].split('-')[0];
+    var answer = interaction.values[0].split('-')[1];
+    if (guess == answer) interaction.editReply({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription('Pog you got it right!\n\n(rn you don\'t get money for this yet)')], components: [] });
+    else interaction.editReply({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You got it wrong :(\n\n(rn you don\'t get money for this yet)')], components: [] });
   }
 };
