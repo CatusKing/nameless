@@ -33,7 +33,9 @@ module.exports = {
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
         if (msg.embeds[0].footer == null) return;
-        if (msg.embeds[0].footer.text == 'You have 15 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time')] });
+        if (msg.embeds[0].footer.text == 'You have 15 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
+        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
+        interaction.member.roles.add(role);
       });
     }, 15000);
   },
