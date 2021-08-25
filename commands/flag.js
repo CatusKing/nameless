@@ -9,8 +9,7 @@ module.exports = {
   slash: true,
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
-    if (interaction.member.roles.cache.has(role)) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('Sorry you have been banned from using this command. Use `/buy flags` to pay the 500🦴 fee to be unbanned.')]});
+    if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('Sorry you have been banned from using this command. Use `/buy flags` to pay the 500🦴 fee to be unbanned.')]});
     var random = Math.floor(flags.length * Math.random());
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     var randoms = [random];
