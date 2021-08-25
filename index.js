@@ -440,21 +440,32 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
-
-  var admins = getServerAdmins();
-  var ignoredCh = getServerIgnoredCh();
-
-  client.commands.forEach((value, key) => {
-    if (value.name == interaction.commandName && value.slash) {
-      try {
-        value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
-      } catch (err) {
-        interaction.reply('there was an error trying to execute that command!');
-        console.error(err);
+  if (interaction.isCommand()) {
+    var admins = getServerAdmins();
+    var ignoredCh = getServerIgnoredCh();
+  
+    client.commands.forEach((value, key) => {
+      if (value.name == interaction.commandName && value.slash) {
+        try {
+          value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
+        } catch (err) {
+          interaction.reply('there was an error trying to execute that command!');
+          console.error(err);
+        }
       }
-    }
-  });
+    });
+  } else if (interaction.isSelectMenu()) {
+    client.commands.forEach((value, key) => {
+      if (value.name == interaction.customId && value.selectMenu) {
+        try {
+          value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
+        } catch (err) {
+          interaction.reply('there was an error trying to execute that command!');
+          console.error(err);
+        }
+      }
+    });
+  }
 });
 
 //Shows if a message is edited
