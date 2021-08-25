@@ -547,9 +547,7 @@ client.on('guildMemberAdd', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just joined the server`, '#9e9d9d');
 });
 
-client.on('guildMemberRemove', member => {
-  log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d');
-});
+client.on('guildMemberRemove', member => {log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d'); });
 
 client.on('messageDelete', msg => {
 
