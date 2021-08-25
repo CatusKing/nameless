@@ -455,8 +455,6 @@ client.on('interactionCreate', async interaction => {
       }
     });
   } else if (interaction.isSelectMenu()) {
-    console.log('yes')
-    console.log(interaction.customId)
     client.commands.forEach((value, key) => {
       if (value.name == interaction.customId && value.selectMenu) {
         try {
