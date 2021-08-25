@@ -13,7 +13,7 @@ module.exports = {
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     for(let i = 0; i < 4; ++i) {
       var random2 = Math.floor(flags.length * Math.random());
-      if (options.includes({ lable: flags[random2][1],value: `${flags[random2][0]}-${flags[random][0]}`})) continue;
+      if (options.includes({ label: flags[random2][1],value: `${flags[random2][0]}-${flags[random][0]}`})) continue;
       options.push({ label: flags[random2][1], value: `${flags[random2][0]}-${flags[random][0]}` });
     }
     const row = new MessageActionRow()
