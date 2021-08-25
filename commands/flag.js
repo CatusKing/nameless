@@ -3,7 +3,7 @@ const { flags } = require('../general/config.json');
 
 module.exports = {
 	name: 'flag',
-	description: 'WIP',
+	description: 'Sends a random country flag for you to guess but if you get it wrong you must pay a 500🦴 fee to try again',
 	usage: `flag`,
 	command: true,
   slash: true,
