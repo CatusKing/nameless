@@ -52,6 +52,7 @@ module.exports = {
   },
   selectMenu: true,
   executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    if (interaction.member.roles.cache.has('879961023191318568')) return;
     var guess = interaction.values[0].split('-')[0];
     var answer = interaction.values[0].split('-')[1];
     var answerCountry = '';
