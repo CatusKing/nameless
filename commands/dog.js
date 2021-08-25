@@ -5,7 +5,7 @@ module.exports = {
   name: 'dog',
   description: 'Sends a random dog image',
   usage: `dog`,
-  command: true,
+  command: false,
   slash: true,
   options: [],
   executeI(client, interaction) {

@@ -14,7 +14,7 @@ module.exports = {
 	name: 'flag',
 	description: 'Sends a random country flag to guess but if you get it wrong you must pay a 500🦴 fee to try again',
 	usage: `flag`,
-	command: true,
+	command: false,
   slash: true,
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {

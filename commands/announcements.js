@@ -4,7 +4,6 @@ module.exports = {
 	description: 'Run in the control panel',
   usage: ``,
   command: false,
-  aliases: [],
   slash: false,
   options: [],
 	execute(client, msg) {

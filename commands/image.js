@@ -4,8 +4,7 @@ module.exports = {
 	name: 'image',
 	description: 'Sends a random image',
 	usage: `image`,
-	command: true,
-	aliases: ['image'],
+	command: false,
   slash: true,
   options: [
     {
@@ -56,9 +55,5 @@ module.exports = {
     if (input) var grayscale = '&grayscale';
     else var grayscale = '';
     interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/1920/1080?${blur}${grayscale}`) ] })
-  },
-	execute(client, msg) {
-    var seed = Math.floor(Math.random() * 5000);
-    msg.channel.send({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/500/300`) ] })
   }
 };
