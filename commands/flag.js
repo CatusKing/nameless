@@ -46,7 +46,14 @@ module.exports = {
       if (flags[i][0] == interaction.values[0].split('-')[1]) answerCountry = flags[i][1];
       if (flags[i][0] == interaction.values[0].split('-')[0]) guessCountry = flags[i][1];
     }
-    if (guess == answer) interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was **${answerCountry}**`)], components: [] });
-    else interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**`)], components: [] });
+    if (guess == answer) {
+      interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was **${answerCountry}**\n+100🦴`)], components: [] });
+      addUserBalance(interaction.user.id, 100);
+      log('830503210951245865', `+100🦴 to ${interaction.user} for answering the flag correctly`, '#baffc9');
+    } else {
+      interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**`)], components: [] });
+      const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
+      interaction.member.roles.add(role);
+    }
   }
 };

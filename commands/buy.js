@@ -34,6 +34,10 @@ module.exports = {
 				{
 					name: 'Hue',
 					value: 'hue'
+				},
+				{
+					name: 'Flags',
+					value: 'flags'
 				}
 			]
 		}
