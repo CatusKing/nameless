@@ -12,7 +12,7 @@ module.exports = {
     var random = Math.floor(flags.length * Math.random());
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     var randoms = [random];
-    for(let i = 0; i < 9; ++i) {
+    for(let i = 0; i < 4; ++i) {
       var random2 = Math.floor(flags.length * Math.random());
       if (randoms.includes(random2)) continue;
       randoms.push(random2);
