@@ -391,13 +391,15 @@ const events = () => {
         .setImage(i.feature_image);
       embeds.push(embed);
     }
+    var time = 0;
     for (let j = 0; j < config.eventsMessages.length; ++j) {
       client.channels.cache.get('841334897825415199').messages.fetch(config.eventsMessages[j])
         .then(message => {
+          time = time + 5000;
           if (embeds[j] != null) {
-            message.edit({ embeds: [embeds[j]], content: '\u200B' });
+            setTimeout(() => message.edit({ embeds: [embeds[j]], content: '\u200B' }), time);
           } else {
-            message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: '\u200B' });
+            setTimeout(() => message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: '\u200B' }), time);
           }
         });
     }
@@ -410,7 +412,9 @@ client.once('ready', () => {
 
   setInterval(updateStatus, 300000);
 
-  setInterval(() => client.functions.get('updateLeaderboard').execute(client, db, round), 120000);
+  setTimeout(() => {
+    setInterval(() => client.functions.get('updateLeaderboard').execute(client, db, round), 300000);
+  }, 30000);
 
   setTimeout(updateInvites, 4000);
 
@@ -431,10 +435,10 @@ client.once('ready', () => {
     if (date.getHours() == 7 && date.getMinutes() == 0) APOD();
   }, 60000);
 
-  setInterval(nextLaunch, 900000);
+  setTimeout(() => setInterval(nextLaunch, 900000), 60000);
 
-  setInterval(events, 900000);
-  
+  setTimeout(() => setInterval(events, 900000), 90000);  
+
   console.log('Setting up slash commands');
   var commands = [];
   client.commands.forEach((value, key) => {
