@@ -370,7 +370,7 @@ const nextLaunch = () => {
             embed.addField(`Orbit`, body.results[id].mission.orbit.name);
           };
         }
-        message.edit({ content: '', embeds: [embed] });
+        message.edit({ content: '\u200B', embeds: [embed] });
       });
     });
 };
@@ -384,7 +384,7 @@ const events = () => {
     for (let i of body.results) {
       var launchTime = new Date(i.date);
       if (launchTime.getTime() - date.getTime() < 0) continue;
-      var embed = new Discord.MessageEmbed()
+      var embed = new MessageEmbed()
         .setColor('#0b3d91')
         .setAuthor(`Updated on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} EST`)
         .setTitle(i.name)
@@ -400,7 +400,7 @@ const events = () => {
           if (embeds[j] != null) {
             message.edit({ embeds: [embeds[j]] });
           } else {
-            message.edit({ embeds: [new Discord.MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: null });
+            message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: null });
           }
         });
     }
