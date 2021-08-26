@@ -48,17 +48,17 @@ module.exports = {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           target.roles.add(role, `Muted by ${interaction.user}`);
           setUserMuted(target.id, duration);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction`).setColor('#9e9d9d') ] }).then(message => {
-            log('834179033289719839', `Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction\n[Jump to!](${message.url})`, '#9e9d9d');
-          });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction`).setColor('#9e9d9d') ] });
+          interaction.fetchReply()
+            .then(reply => log('834179033289719839', `Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction\n[Jump to!](${reply.url})`, '#9e9d9d'))
         } else if (interaction.options.getInteger('level') == 3) {
           const duration = 2880;
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           target.roles.add(role, `Muted by ${interaction.user}`);
           setUserMuted(target.id, duration);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 3 infraction`).setColor('#9e9d9d') ] }).then(message => {
-            log('834179033289719839', `Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1 day due to a level 3 infraction\n[Jump to!](${message.url})`, '#9e9d9d');
-          });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 3 infraction`).setColor('#9e9d9d') ] })
+          interaction.fetchReply()
+            .then(reply => log('834179033289719839', `Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1 day due to a level 3 infraction\n[Jump to!](${reply.url})`, '#9e9d9d'))
         } else if (interaction.options.getInteger('level') == 4) {
           const duration = 2880;
           try {
@@ -68,9 +68,9 @@ module.exports = {
             target.ban({reason: `Temp banned`, days: 1});
           } catch (err) {}
           setUserBanned(target.id, duration);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}`).setColor('#9e9d9d') ] }).then(message => {
-            log('834179033289719839', `Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d');
-          });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
+          interaction.fetchReply()
+            .then(reply => log('834179033289719839', `Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
         } else if (args[0] == 5) {
           const duration = -1;
           try {
@@ -80,9 +80,9 @@ module.exports = {
             target.ban({reason: `Perm banned`, days: 1});
           } catch (err) {}
           setUserBanned(target.id, duration);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day\nAction by ${interaction.user}`).setColor('#9e9d9d') ] }).then(message => {
-            log('834179033289719839', `Banned ${target} for 1 day\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d');
-          });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
+          interaction.fetchReply()
+          .then(reply => log('834179033289719839', `Banned ${target} for 1 day\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d'));
         }
       }
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });
