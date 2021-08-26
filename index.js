@@ -322,7 +322,6 @@ const punish = async (msg) => {
 };
 
 const APOD = (id = config.APOD_chID) => {
-  console.log('apod')
   request(`https://api.nasa.gov/planetary/apod?api_key=${token.apiKey1}`, { json: true }, (err, res, body) => {
     if (err) return console.log(err);
     const ch = client.channels.cache.get(id);
@@ -339,7 +338,6 @@ const APOD = (id = config.APOD_chID) => {
 };
 
 const nextLaunch = () => {
-  console.log('next')
   client.channels.cache.get('841137170525716480').messages.fetch('880297426508972113')
     .then(message => {
       request(`https://ll.thespacedevs.com/2.0.0/launch/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
@@ -377,7 +375,6 @@ const nextLaunch = () => {
 
 const events = () => {
   var embeds = [];
-  console.log('events')
   request(`https://ll.thespacedevs.com/2.0.0/event/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
     if (err) return console.log(err);
     var date = new Date();
