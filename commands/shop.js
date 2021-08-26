@@ -4,7 +4,7 @@ module.exports = {
 	name: 'shop',
 	description: 'Displays what you can use your points for',
 	usage: `shop`,
-	command: true,
+	command: false,
 	aliases: ['shop'],
 	slash: true,
 	options: [],
@@ -12,10 +12,5 @@ module.exports = {
 		var description = '';
 		for (let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
 		interaction.reply({ embeds: [ new MessageEmbed().setDescription(description).setColor('#9e9d9d') ] });
-	},
-	execute(client, msg, args, reply) {
-		var description = '';
-		for (let i = 0; i < config.shop.length; ++i) description += `\n${config.shop[i][0]}`;
-		reply(msg.channel.id, description, '#9e9d9d');
 	}
 };
