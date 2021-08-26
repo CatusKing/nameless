@@ -39,7 +39,7 @@ module.exports = {
     interaction.reply({ 
       embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 20 seconds')],
       components: [row]
-    })
+    });
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
         if (msg.embeds[0].footer == null) return;
