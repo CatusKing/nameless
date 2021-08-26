@@ -398,9 +398,9 @@ const events = () => {
       client.channels.cache.get('841334897825415199').messages.fetch(config.eventsMessages[j])
         .then(message => {
           if (embeds[j] != null) {
-            message.edit({ embeds: [embeds[j]] });
+            message.edit({ embeds: [embeds[j]], content: '\u200B' });
           } else {
-            message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: null });
+            message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: '\u200B' });
           }
         });
     }
