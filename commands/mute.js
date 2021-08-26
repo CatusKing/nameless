@@ -31,10 +31,12 @@ module.exports = {
         setUserMuted(target.id, duration);
         if (duration >= 1) {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
-          log('834179033289719839', `Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}`, '#9e9d9d');
+          interaction.fetchReply()
+            .then(reply => log('834179033289719839', `Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
         } else {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
-          log('834179033289719839', `Muted ${target}\nAction by ${msg.author}`, '#9e9d9d');
+          interaction.fetchReply()
+            .then(reply => log('834179033289719839', `Muted ${target}\nAction by ${msg.author}\n[Jump to!](${reply.url})`, '#9e9d9d'));
         }
       } else interaction.reply({ embeds: [ new MessageEmbed().setDescription('This user is already muted').setColor('#9e9d9d') ] });
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });

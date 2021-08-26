@@ -22,9 +22,9 @@ module.exports = {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
         target.roles.remove(role, `Muted removed by ${interaction.user}`);
         setUserMuted(target.id, 0);
-        interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Unmuted ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] }).then(message => {
-          log('834179033289719839', `Unmuted ${target}\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d');
-        });
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Unmuted ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
+        interaction.fetchReply()
+          .then(reply => log('834179033289719839', `Unmuted ${target}\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d'));
       } else interaction.reply({ embeds: [ new MessageEmbed().setDescription('This user isn\'t muted').setColor('#9e9d9d') ] });
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });
   }
