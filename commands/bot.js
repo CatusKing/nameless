@@ -6,8 +6,7 @@ module.exports = {
 	name: 'bot',
 	description: 'Displays information on the bot',
   usage: `bot`,
-  command: true,
-  aliases: ['bot'],
+  command: false,
   slash: true,
   options: [],
   executeI(client, interaction) {
