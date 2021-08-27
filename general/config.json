@@ -33,23 +33,23 @@
   ],
   "bulbs": [
     {
-      "name": "Bulb 1",
+      "name": "1",
       "value": "1"
     },
     {
-      "name": "Bulb 2",
+      "name": "2",
       "value": "2"
     },
     {
-      "name": "Bulb 3",
+      "name": "3",
       "value": "3"
     },
     {
-      "name": "Bulb 4",
+      "name": "4",
       "value": "4"
     },
     {
-      "name": "All Bulbs",
+      "name": "All",
       "value": "all"
     }
   ],
