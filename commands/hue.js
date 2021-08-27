@@ -123,6 +123,7 @@ module.exports = {
         if (body[i] != null) lights.push(i);
       }
     });
+    var bulb = interaction.options.getString('bulb');
     if (sub == 'on') {
       const https = require("https");
       bulb = lights[bulb - 1];
