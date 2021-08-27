@@ -16,12 +16,12 @@ module.exports = {
     {
       name: 'on',
       description: 'Turns on the set lights',
-      type: 'SUB_COMMAND_GROUP',
+      type: 'SUB_COMMAND',
     },
     {
       name: 'off',
       description: 'Turns off the set lights',
-      type: 'SUB_COMMAND_GROUP',
+      type: 'SUB_COMMAND',
     },
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
