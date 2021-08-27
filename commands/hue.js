@@ -125,28 +125,28 @@ module.exports = {
       for (let i = 0; i < 20; ++i) {
         if (body[i] != null) lights.push(i);
       }
-    });
-    var bulb = interaction.options.getString('bulb');
-    if (sub == 'on') {
-      const https = require("https");
-      bulb = lights[bulb - 1];
-      const options = {
-        hostname: local_ip,
-        path: `/api/${hue}/lights/${bulb}/state`,
-        method: 'PUT'
+      var bulb = interaction.options.getString('bulb');
+      if (sub == 'on') {
+        const https = require("https");
+        bulb = lights[bulb - 1];
+        const options = {
+          hostname: local_ip,
+          path: `/api/${hue}/lights/${bulb}/state`,
+          method: 'PUT'
+        };
+
+        const req = https.request(options, response => {
+          console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
+        });
+
+        req.on('error', error => {
+          console.warn(error);
+        });
+
+        req.write(`{"on":${true}}`);
+        req.end();
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription('Set lights to on').setColor('#9e9d9d') ] })
       };
-
-      const req = https.request(options, response => {
-        console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
-      });
-
-      req.on('error', error => {
-        console.warn(error);
-      });
-
-      req.write(`{"on":${true}}`);
-      req.end();
-      interaction.reply({ embeds: [ new MessageEmbed().setDescription('Set lights to on').setColor('#9e9d9d') ] })
-    }
+    });
   }
 };
