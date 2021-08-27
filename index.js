@@ -408,6 +408,8 @@ const events = () => {
 
 
 client.once('ready', () => {
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
   setInterval(givePoints, 60000);
 
   setInterval(updateStatus, 300000);
