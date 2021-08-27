@@ -131,7 +131,7 @@ module.exports = {
         var path = '';
         var res = '';
         console.log(bulb)
-        if (bulb = 'all') {
+        if (bulb == 'all') {
           path = `/api/${hue}/groups/1/action`;
           res = 'Turned on all the lights';
         } else {
