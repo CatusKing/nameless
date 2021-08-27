@@ -53,8 +53,8 @@ module.exports = {
         },
         {
           name: 'hue',
-          description: 'Hex color of what you want',
-          type: 'STRING',
+          description: 'The hue of the lights you\'re setting (1-65535)',
+          type: 'INTEGER',
           required: true,
         },
         {
@@ -185,15 +185,16 @@ module.exports = {
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       } else if (sub == 'color') {
-        console.log(body)
-        var bri = 255;
-        var sat = 255;  
+        var hue = interaction.options.getInteger('hue') || 1;
+        if (hue > 65535 || hue < 1) hue = 1;
+        var bri = Math.floor((interaction.options.getInteger('brightness') / 5) * 255) || 255;
+        var sat = Math.floor((interaction.options.getInteger('saturation') / 5) * 255) || 255;
         const https = require("https");
         if (bulb == 'all') {
           path = `/api/${hueToken}/groups/1/action`;
-          des = 'Turned off all the lights';
+          des = 'Turned on all the lights and set it to \`\`\`\nhue: ${hue}\nbri: ${bri}\nsat: ${sat}\`\`\`';
         } else {
-          des = `Turned on Bulb #${bulb} and set it to ${interaction.options.getString('hue')}`;
+          des = `Turned on Bulb #${bulb} and set it to \`\`\`\nhue: ${hue}\nbri: ${bri}\nsat: ${sat}\`\`\``;
           bulb = lights[bulb - 1];
           path = `/api/${hueToken}/lights/${bulb}/state`;
         }
@@ -211,7 +212,7 @@ module.exports = {
           console.warn(error);
         });
 
-        req.write(`{"on":${true},"hue":${parseInt(interaction.options.getString('hue'), 16)}}`);
+        req.write(`{"on":${true},"hue":${hue},"bri":${bri},"sat":${sat}}`);
 
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
