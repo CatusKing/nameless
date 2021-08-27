@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix } = require('../general/config.json');
+const { prefix, bulbs } = require('../general/config.json');
 module.exports = {
 	name: 'hue',
 	description: 'Controls Thomas\'(The owner\'s) lights',
@@ -16,7 +16,8 @@ module.exports = {
           name: 'bulb',
           description: 'The bulb(s) you want to turn on',
           type: 'STRING',
-          required: true
+          required: true,
+          options: bulbs
         },
       ]
     },
@@ -29,7 +30,8 @@ module.exports = {
           name: 'bulb',
           description: 'The bulb(s) you want to turn off',
           type: 'STRING',
-          required: true
+          required: true,
+          options: bulbs
         },
       ]
     },
