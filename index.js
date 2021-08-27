@@ -333,7 +333,7 @@ const APOD = (id = config.APOD_chID) => {
       .setDescription(body.explanation)
       .setColor(`#0b3d91`)
       .setFooter(body.date);
-    ch.send(embed);
+    ch.send({ embeds: [embed] });
   });
 };
 
