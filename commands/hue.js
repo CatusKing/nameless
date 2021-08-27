@@ -137,7 +137,7 @@ module.exports = {
       };
 
       const req = https.request(options, response => {
-        console.debug(`statusCode: ${response.statusCode}`);
+        console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
       });
 
       req.on('error', error => {
