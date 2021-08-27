@@ -21,7 +21,7 @@ module.exports = {
     leaderboard.sort((a, b) => b - a)
       .filter((value, key) => client.users.cache.has(key))
       .forEach((value, key) => {
-        if (num <= leaderboard_count) {
+        if (num <= 10) {
           description += `\n< ${num} > ${round(value)}🦴 ${client.users.cache.get(key).tag}`;
         }
         ++num;
