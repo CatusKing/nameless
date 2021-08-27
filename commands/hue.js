@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { bulbs } = require('../general/config.json');
-const { hueToken, convertColors } = require('../general/token.json');
+const { hueToken } = require('../general/token.json');
 const { local_ip } = require('../general/config.json');
 const request = require('request');
 
@@ -185,47 +185,36 @@ module.exports = {
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       } else if (sub == 'color') {
+        console.log(body)
+        var bri = 255;
+        var sat = 255;  
+        const https = require("https");
+        if (bulb == 'all') {
+          path = `/api/${hueToken}/groups/1/action`;
+          des = 'Turned off all the lights';
+        } else {
+          des = `Turned on Bulb #${bulb} and set it to ${interaction.options.getString('hue')}`;
+          bulb = lights[bulb - 1];
+          path = `/api/${hueToken}/lights/${bulb}/state`;
+        }
         const options = {
-          method: 'GET',
-          url: 'https://convert-colors.p.rapidapi.com/convert/hex/decimal/FF00FF',
-          headers: {
-            'x-rapidapi-host': 'convert-colors.p.rapidapi.com',
-            'x-rapidapi-key': 'e82ba320d2msh04d4c7f7d1c847ap1d05bbjsne099d212cd7c',
-            useQueryString: true
-          }
+          hostname: local_ip,
+          path: path,
+          method: 'PUT'
         };
-        request(options, (err, res, body) => {
-          console.log(body)
-          var bri = 255;
-          var sat = 255;  
-          const https = require("https");
-          if (bulb == 'all') {
-            path = `/api/${hueToken}/groups/1/action`;
-            des = 'Turned off all the lights';
-          } else {
-            des = `Turned off Bulb #${bulb}`;
-            bulb = lights[bulb - 1];
-            path = `/api/${hueToken}/lights/${bulb}/state`;
-          }
-          const options = {
-            hostname: local_ip,
-            path: path,
-            method: 'PUT'
-          };
-  
-          const req = https.request(options, response => {
-            console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
-          });
-  
-          req.on('error', error => {
-            console.warn(error);
-          });
-  
-          req.write(`{"on":${false}}`);
-  
-          req.end();
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
+
+        const req = https.request(options, response => {
+          console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
         });
+
+        req.on('error', error => {
+          console.warn(error);
+        });
+
+        req.write(`{"on":${true},"hue":${parseInt(interaction.options.getString('hue'), 16)}}`);
+
+        req.end();
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       }
     });
   }
