@@ -117,7 +117,8 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    if (interaction.user.id != '473110112844644372') return interaction.reply(`no\n${client.users.cache.get('473110112844644372')} tell them to stop bothering me`)
+    if (interaction.user.id != '473110112844644372') return interaction.reply(`no\n${client.users.cache.get('473110112844644372')} tell them to stop bothering me`);
+    if (!interaction.member.roles.cache.has('845764951481122869')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Hey sorry you need the \`Hue\` role for this command. You can use \`/buy Hue\` to get the role`)] })
     const sub = interaction.options.getSubcommand();
     var lights = [];
     var path = '';
@@ -192,7 +193,7 @@ module.exports = {
         const https = require("https");
         if (bulb == 'all') {
           path = `/api/${hueToken}/groups/1/action`;
-          des = 'Turned on all the lights and set it to \`\`\`\nhue: ${hue}\nbri: ${bri}\nsat: ${sat}\`\`\`';
+          des = `Turned on all the lights and set it to \`\`\`\nhue: ${hue}\nbri: ${bri}\nsat: ${sat}\`\`\``;
         } else {
           des = `Turned on Bulb #${bulb} and set it to \`\`\`\nhue: ${hue}\nbri: ${bri}\nsat: ${sat}\`\`\``;
           bulb = lights[bulb - 1];
