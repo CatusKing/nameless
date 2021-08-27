@@ -130,9 +130,10 @@ module.exports = {
         const https = require("https");
         var path = '';
         var res = '';
+        console.log(bulb)
         if (bulb = 'all') {
           path = `/api/${hue}/groups/1/action`;
-          res = 'Turned all all the lights';
+          res = 'Turned on all the lights';
         } else {
           res = `Turned on Bulb #${bulb}`;
           bulb = lights[bulb - 1];
