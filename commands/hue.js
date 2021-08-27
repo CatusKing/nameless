@@ -17,7 +17,7 @@ module.exports = {
           description: 'The bulb(s) you want to turn on',
           type: 'STRING',
           required: true,
-          options: bulbs
+          choices: bulbs
         },
       ]
     },
@@ -31,7 +31,7 @@ module.exports = {
           description: 'The bulb(s) you want to turn off',
           type: 'STRING',
           required: true,
-          options: bulbs
+          choices: bulbs
         },
       ]
     },
