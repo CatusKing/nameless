@@ -1,7 +1,9 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix, bulbs } = require('../general/config.json');
+const { bulbs } = require('../general/config.json');
 const { hue } = require('../general/token.json');
 const { local_ip } = require('../general/config.json');
+const request = require('request');
+
 module.exports = {
 	name: 'hue',
 	description: 'Controls Thomas\'(The owner\'s) lights',
