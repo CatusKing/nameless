@@ -10,7 +10,7 @@ module.exports = {
     {
       name: 'on',
       description: 'Turns on the set lights',
-      type: 'SUB_COMMAND',
+      type: 'SUB_COMMAND_GROUP',
     },
     {
       name: 'bulb',
@@ -21,7 +21,7 @@ module.exports = {
     {
       name: 'off',
       description: 'Turns off the set lights',
-      type: 'SUB_COMMAND',
+      type: 'SUB_COMMAND_GROUP',
     },
     {
       name: 'bulb',
