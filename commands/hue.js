@@ -157,7 +157,7 @@ module.exports = {
 
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
-      } else if (sub = 'off') {
+      } else if (sub == 'off') {
         const https = require("https");
         console.log(bulb)
         if (bulb == 'all') {
