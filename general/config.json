@@ -31,6 +31,28 @@
     "880298132951429121",
     "880298130858446878"
   ],
+  "bulbs": [
+    {
+      "name": "Bulb 1",
+      "value": "1"
+    },
+    {
+      "name": "Bulb 2",
+      "value": "2"
+    },
+    {
+      "name": "Bulb 3",
+      "value": "3"
+    },
+    {
+      "name": "Bulb 4",
+      "value": "4"
+    },
+    {
+      "name": "All Bulbs",
+      "value": "all"
+    }
+  ],
   "flags": [
     ["AD", "Andorra"],
     ["AE", "United Arab Emirates"],
