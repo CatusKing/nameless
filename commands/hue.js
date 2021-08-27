@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { bulbs } = require('../general/config.json');
-const { hue } = require('../general/token.json');
+const { hueToken, convertColors } = require('../general/token.json');
 const { local_ip } = require('../general/config.json');
 const request = require('request');
 
@@ -122,7 +122,7 @@ module.exports = {
     var lights = [];
     var path = '';
     var des = '';
-    request(`https://${local_ip}/api/${hue}/lights`, { json: true }, (err, res, body) => {
+    request(`https://${local_ip}/api/${hueToken}/lights`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
       for (let i = 0; i < 20; ++i) {
         if (body[i] != null) lights.push(i);
@@ -130,14 +130,13 @@ module.exports = {
       var bulb = interaction.options.getString('bulb');
       if (sub == 'on') {
         const https = require("https");
-        console.log(bulb)
         if (bulb == 'all') {
-          path = `/api/${hue}/groups/1/action`;
+          path = `/api/${hueToken}/groups/1/action`;
           des = 'Turned on all the lights';
         } else {
           des = `Turned on Bulb #${bulb}`;
           bulb = lights[bulb - 1];
-          path = `/api/${hue}/lights/${bulb}/state`;
+          path = `/api/${hueToken}/lights/${bulb}/state`;
         }
         const options = {
           hostname: local_ip,
@@ -159,14 +158,13 @@ module.exports = {
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       } else if (sub == 'off') {
         const https = require("https");
-        console.log(bulb)
         if (bulb == 'all') {
-          path = `/api/${hue}/groups/1/action`;
+          path = `/api/${hueToken}/groups/1/action`;
           des = 'Turned off all the lights';
         } else {
           des = `Turned off Bulb #${bulb}`;
           bulb = lights[bulb - 1];
-          path = `/api/${hue}/lights/${bulb}/state`;
+          path = `/api/${hueToken}/lights/${bulb}/state`;
         }
         const options = {
           hostname: local_ip,
@@ -186,6 +184,39 @@ module.exports = {
 
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
+      } else if (sub == 'color') {
+        request(`https://convert-colors.p.rapidapi.com/convert/hex/decimal/${interaction.options.getString('hue')}`, { method: 'GET', headers: { 'x-rapidapi-host': 'convert-colors.p.rapidapi.com', 'x-rapidapi-key': convertColors }, json: true }, (err, res, body) => {
+          console.log(body)
+          var bri = 255;
+          var sat = 255;  
+          const https = require("https");
+          if (bulb == 'all') {
+            path = `/api/${hueToken}/groups/1/action`;
+            des = 'Turned off all the lights';
+          } else {
+            des = `Turned off Bulb #${bulb}`;
+            bulb = lights[bulb - 1];
+            path = `/api/${hueToken}/lights/${bulb}/state`;
+          }
+          const options = {
+            hostname: local_ip,
+            path: path,
+            method: 'PUT'
+          };
+  
+          const req = https.request(options, response => {
+            console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
+          });
+  
+          req.on('error', error => {
+            console.warn(error);
+          });
+  
+          req.write(`{"on":${false}}`);
+  
+          req.end();
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
+        });
       }
     });
   }
