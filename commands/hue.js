@@ -116,7 +116,7 @@ module.exports = {
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.user.id != '473110112844644372') return interaction.reply(`no\n${client.users.cache.get('473110112844644372')} tell them to stop bothering me`)
-    const sub = interaction.options.getSubCommand();
+    const sub = interaction.options.getSubcommand();
     var lights = [];
     request(`https://${config.local_ip}/api/${hue}/lights`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
