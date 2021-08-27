@@ -185,7 +185,7 @@ module.exports = {
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       } else if (sub == 'color') {
-        request(`https://convert-colors.p.rapidapi.com/convert/hex/decimal/${interaction.options.getString('hue')}`, { method: 'GET', headers: { 'x-rapidapi-host': 'convert-colors.p.rapidapi.com', 'x-rapidapi-key': convertColors }, json: true }, (err, res, body) => {
+        request({ url: `https://convert-colors.p.rapidapi.com/convert/hex/decimal/${interaction.options.getString('hue')}`, method: 'GET', headers: { 'x-rapidapi-host': 'convert-colors.p.rapidapi.com', 'x-rapidapi-key': convertColors, useQueryString: true }, json: true }, (err, res, body) => {
           console.log(body)
           var bri = 255;
           var sat = 255;  
