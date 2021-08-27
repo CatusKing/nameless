@@ -128,10 +128,19 @@ module.exports = {
       var bulb = interaction.options.getString('bulb');
       if (sub == 'on') {
         const https = require("https");
-        bulb = lights[bulb - 1];
+        var path = '';
+        var res = '';
+        if (bulb = 'all') {
+          path = `/api/${hue}/groups/1/action`;
+          res = 'Turned all all the lights';
+        } else {
+          res = `Turned on Bulb #${bulb}`;
+          bulb = lights[bulb - 1];
+          path = `/api/${hue}/lights/${bulb}/state`;
+        }
         const options = {
           hostname: local_ip,
-          path: `/api/${hue}/lights/${bulb}/state`,
+          path: path,
           method: 'PUT'
         };
 
@@ -144,8 +153,9 @@ module.exports = {
         });
 
         req.write(`{"on":${true}}`);
+
         req.end();
-        interaction.reply({ embeds: [ new MessageEmbed().setDescription('Set lights to on').setColor('#9e9d9d') ] })
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription(res).setColor('#9e9d9d') ] })
       };
     });
   }
