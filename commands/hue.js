@@ -120,7 +120,7 @@ module.exports = {
     if (interaction.user.id != '473110112844644372') return interaction.reply(`no\n${client.users.cache.get('473110112844644372')} tell them to stop bothering me`)
     const sub = interaction.options.getSubcommand();
     var lights = [];
-    request(`https://${config.local_ip}/api/${hue}/lights`, { json: true }, (err, res, body) => {
+    request(`https://${local_ip}/api/${hue}/lights`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
       for (let i = 0; i < 20; ++i) {
         if (body[i] != null) lights.push(i);
