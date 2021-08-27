@@ -120,6 +120,8 @@ module.exports = {
     if (interaction.user.id != '473110112844644372') return interaction.reply(`no\n${client.users.cache.get('473110112844644372')} tell them to stop bothering me`)
     const sub = interaction.options.getSubcommand();
     var lights = [];
+    var path = '';
+    var des = '';
     request(`https://${local_ip}/api/${hue}/lights`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
       for (let i = 0; i < 20; ++i) {
@@ -128,14 +130,12 @@ module.exports = {
       var bulb = interaction.options.getString('bulb');
       if (sub == 'on') {
         const https = require("https");
-        var path = '';
-        var res = '';
         console.log(bulb)
         if (bulb == 'all') {
           path = `/api/${hue}/groups/1/action`;
-          res = 'Turned on all the lights';
+          des = 'Turned on all the lights';
         } else {
-          res = `Turned on Bulb #${bulb}`;
+          des = `Turned on Bulb #${bulb}`;
           bulb = lights[bulb - 1];
           path = `/api/${hue}/lights/${bulb}/state`;
         }
@@ -156,8 +156,37 @@ module.exports = {
         req.write(`{"on":${true}}`);
 
         req.end();
-        interaction.reply({ embeds: [ new MessageEmbed().setDescription(res).setColor('#9e9d9d') ] })
-      };
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
+      } else if (sub = 'off') {
+        const https = require("https");
+        console.log(bulb)
+        if (bulb == 'all') {
+          path = `/api/${hue}/groups/1/action`;
+          des = 'Turned off all the lights';
+        } else {
+          des = `Turned off Bulb #${bulb}`;
+          bulb = lights[bulb - 1];
+          path = `/api/${hue}/lights/${bulb}/state`;
+        }
+        const options = {
+          hostname: local_ip,
+          path: path,
+          method: 'PUT'
+        };
+
+        const req = https.request(options, response => {
+          console.debug(`statusCode: ${response.statusCode}, ${bulb}`);
+        });
+
+        req.on('error', error => {
+          console.warn(error);
+        });
+
+        req.write(`{"on":${false}}`);
+
+        req.end();
+        interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
+      }
     });
   }
 };
