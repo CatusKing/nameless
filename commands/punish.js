@@ -19,6 +19,10 @@ module.exports = {
       description: 'The level of punishment',
       choices: [
         {
+          name: '1',
+          value: 1
+        },
+        {
           name: '2',
           value: 2
         },
@@ -43,7 +47,9 @@ module.exports = {
       const target = interaction.options.getMember('target');
       if (target == null || target.id == interaction.user.id) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You must mention a user that is not yourself`).setColor('#9e9d9d') ] });
       else {
-        if (interaction.options.getInteger('level') == 2) {
+        if (interaction.options.getInteger('level') == 1) {
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey ${target}, you were just warned by ${interaction.user}\n${target} was warned due to a level 1 infraction`).setColor('#9e9d9d') ] });
+        } else if (interaction.options.getInteger('level') == 2) {
           const duration = 120;
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           target.roles.add(role, `Muted by ${interaction.user}`);
