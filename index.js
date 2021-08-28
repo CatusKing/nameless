@@ -544,7 +544,7 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (reaction, user) => {
-  if (reaction.emoji != '💀') return;
+  if (reaction.emoji.name != '💀') return;
   if (reaction.count == 1) {
     const messages = client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 });
     var yes = false;
