@@ -551,13 +551,14 @@ client.on('messageReactionAdd', (reaction, user) => {
     messages.forEach(message => {
       if (message.embeds[0].footer == reaction.message.id && !yes) {
         yes = true;
-        message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.size} 💀`) ] })
+        message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.count} 💀`) ] })
       }
     });
     if (!yes) {
-      var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.size} 💀`);
+      var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
       if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
-      client.channels.cache.get('880999255622451270').send({ embeds: [ embed ] })
+      const channel = client.channels.cache.get('880999255622451270')
+      channel.send({ embeds: [ embed ] });
     }
   }
 });
