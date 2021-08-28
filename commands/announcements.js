@@ -27,7 +27,7 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send({ content: msg.content.replace('!announce!', ''), name: msg.guild.name, avatar: msg.guild.iconURL() });
+                  await webhook.send({ content: msg.content.replace('!announce!', ''), username: msg.guild.name, avatarURL: msg.guild.iconURL() });
                 } catch (error) {
                   console.warn(error);
                 }
@@ -57,7 +57,7 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send({ content: msg.content.replace('!event!', ''), name: msg.guild.name, avatar: msg.guild.iconURL() });
+                  await webhook.send({ content: msg.content.replace('!event!', ''), username: msg.guild.name, avatarURL: msg.guild.iconURL() });
                 } catch (error) {
                   console.warn(error);
                 }
@@ -87,7 +87,7 @@ module.exports = {
                   for (let i of msg.attachments) {
                     embeds.push(new MessageEmbed().setImage(i[1].url).setColor('#9e9d9d'));
                   }
-                  await webhook.send({ content: `||<@&830554664373714994>||\n${msg.content.replace('!partner!', '')}`, name: msg.guild.name, avatar: msg.guild.iconURL() });
+                  await webhook.send({ content: `||<@&830554664373714994>||\n${msg.content.replace('!partner!', '')}`, username: msg.guild.name, avatarURL: msg.guild.iconURL() });
                 } catch (error) {
                   console.warn(error);
                 }
