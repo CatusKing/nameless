@@ -549,10 +549,9 @@ client.on('messageReactionAdd', (reaction, user) => {
     const messages = client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 });
     var yes = false;
     messages.forEach(message => {
-      if (message.embeds[0].footer == reaction.message.id) {
+      if (message.embeds[0].footer == reaction.message.id && !yes) {
         yes = true;
         message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.size} 💀`) ] })
-        break;
       }
     });
     if (!yes) {
