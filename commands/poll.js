@@ -4,9 +4,47 @@ module.exports = {
 	name: 'poll',
 	description: 'Starts a poll',
   usage: `poll <question with a question mark at the end> <options separated by dashes>`,
-  command: true,
-  aliases: ['poll'],
-	execute(client, msg, args, reply) {
+  command: false,
+  slash: true,
+  options: [
+    {
+      name: 'question',
+      type: 'STRING',
+      description: 'The question for the poll',
+      required: true
+    },
+    {
+      name: 'option 1',
+      type: 'STRING',
+      description: 'The first option for the poll',
+      required: true
+    },
+    {
+      name: 'option 2',
+      type: 'STRING',
+      description: 'The second option for the poll',
+      required: true
+    },
+    {
+      name: 'option 3',
+      type: 'STRING',
+      description: 'The third option for the poll',
+      required: true
+    },
+    {
+      name: 'option 4',
+      type: 'STRING',
+      description: 'The fourth option for the poll',
+      required: true
+    },
+    {
+      name: 'option 5',
+      type: 'STRING',
+      description: 'The fifth option for the poll',
+      required: true
+    }
+  ],
+  executeI() {
     if (!args) return reply(msg.channel.id, `Can't start a poll with no arguments`, '#9e9d9d');
     const arguments = msg.content.slice(prefix.length).trim().split(' ');
     arguments.shift();
