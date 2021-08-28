@@ -549,8 +549,7 @@ client.on('messageReactionAdd', (reaction, user) => {
     client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
       var yes = false;
       messages.forEach(message => {
-        console.log(message.embeds[0].footer)
-        if (message.embeds[0].footer == reaction.message.id && !yes) {
+        if (message.embeds[0].footer.text == reaction.message.id && !yes) {
           yes = true;
           message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.count} 💀`) ] })
         }
