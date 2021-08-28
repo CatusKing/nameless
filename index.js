@@ -555,7 +555,7 @@ client.on('messageReactionAdd', (reaction, user) => {
         }
       });
       if (!yes) {
-        var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
+        var embed = new MessageEmbed().setDescription(reaction.message.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
         if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
         const channel = client.channels.cache.get('880999255622451270')
         channel.send({ embeds: [ embed ] });
