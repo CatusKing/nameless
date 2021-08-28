@@ -74,7 +74,7 @@ module.exports = {
       msg.channel.send(`\`Is this partner message ok?\nRespond yes or no\nImage will be included\`\n\n${msg.content.replace('!partner!', '')}`)
         .then(async () => {
           const filter = m => m.author.id == msg.author.id;
-          msg.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
+          msg.channel.awaitMessages({ filter, max: 1, time: 15000, errors: ['time'] })
             .then(async collected => {
   
               if (collected.first().content.toLowerCase().includes('yes')) {
