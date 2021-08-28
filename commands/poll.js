@@ -14,34 +14,34 @@ module.exports = {
       required: true
     },
     {
-      name: 'option 1',
+      name: 'option-1',
       type: 'STRING',
       description: 'The first option for the poll',
       required: true
     },
     {
-      name: 'option 2',
+      name: 'option-2',
       type: 'STRING',
       description: 'The second option for the poll',
       required: true
     },
     {
-      name: 'option 3',
+      name: 'option-3',
       type: 'STRING',
       description: 'The third option for the poll',
-      required: true
+      required: false
     },
     {
-      name: 'option 4',
+      name: 'option-4',
       type: 'STRING',
       description: 'The fourth option for the poll',
-      required: true
+      required: false
     },
     {
-      name: 'option 5',
+      name: 'option-5',
       type: 'STRING',
       description: 'The fifth option for the poll',
-      required: true
+      required: false
     }
   ],
   executeI() {
