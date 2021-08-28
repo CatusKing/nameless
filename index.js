@@ -544,7 +544,23 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (reaction, user) => {
-  console.log(reaction.message.reactions.cache.toJSON())
+  if (reaction.emoji != '💀') return;
+  if (reaction.count == 1) {
+    const messages = client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 });
+    var yes = false;
+    messages.forEach(message => {
+      if (message.embeds[0].footer == reaction.message.id) {
+        yes = true;
+        message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.size} 💀`) ] })
+        break;
+      }
+    });
+    if (!yes) {
+      var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.size} 💀`);
+      if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
+      client.channels.cache.get('880999255622451270').send({ embeds: [ embed ] })
+    }
+  }
 });
 
 client.on('interactionCreate', async interaction => {
