@@ -543,6 +543,10 @@ client.on('messageCreate', async (msg) => {
   });
 });
 
+client.on('messageReactionAdd', (reaction, user) => {
+  console.log(reaction.message.reactions.cache.toJSON())
+});
+
 client.on('interactionCreate', async interaction => {
   if (interaction.isCommand()) {
     var admins = getServerAdmins();
