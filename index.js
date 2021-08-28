@@ -546,20 +546,21 @@ client.on('messageCreate', async (msg) => {
 client.on('messageReactionAdd', (reaction, user) => {
   if (reaction.emoji.name != '💀') return;
   if (reaction.count == 1) {
-    const messages = client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 });
-    var yes = false;
-    messages.forEach(message => {
-      if (message.embeds[0].footer == reaction.message.id && !yes) {
-        yes = true;
-        message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.count} 💀`) ] })
+    client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
+      var yes = false;
+      messages.forEach(message => {
+        if (message.embeds[0].footer == reaction.message.id && !yes) {
+          yes = true;
+          message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.count} 💀`) ] })
+        }
+      });
+      if (!yes) {
+        var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
+        if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
+        const channel = client.channels.cache.get('880999255622451270')
+        channel.send({ embeds: [ embed ] });
       }
     });
-    if (!yes) {
-      var embed = new MessageEmbed().setDescription(reaction.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
-      if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
-      const channel = client.channels.cache.get('880999255622451270')
-      channel.send({ embeds: [ embed ] });
-    }
   }
 });
 
