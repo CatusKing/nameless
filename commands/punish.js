@@ -45,7 +45,7 @@ module.exports = {
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('830496065366130709') || interaction.member.roles.cache.has('830495937301577759') || interaction.member.roles.cache.has('830495908336369694')) {
       const target = interaction.options.getMember('target');
-      if (target == null || target.id == interaction.user.id) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You must mention a user that is not yourself`).setColor('#9e9d9d') ] });
+      if (target.id == interaction.user.id) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You must mention a user that is not yourself`).setColor('#9e9d9d') ] });
       else {
         if (interaction.options.getInteger('level') == 1) {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey ${target}, you were just warned by ${interaction.user}\n${target} was warned due to a level 1 infraction`).setColor('#9e9d9d') ] });
