@@ -77,7 +77,7 @@ module.exports = {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
             .then(reply => log('834179033289719839', `Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
-        } else if (args[0] == 5) {
+        } else if (interaction.options.getInteger('level') == 5) {
           const duration = -1;
           try {
             target.send('Perm banned. For more information contact the mod that banned you or one of the owners(CactusKing101#2624, spoon#3631, mutya#9580)\nhttps://discord.gg/Hja2gSnsAu');
