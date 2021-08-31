@@ -86,9 +86,9 @@ module.exports = {
             target.ban({reason: `Perm banned`, days: 1});
           } catch (err) {}
           setUserBanned(target.id, duration);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Perma Banned ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
-            .then(reply => log('834179033289719839', `Banned ${target} for 1 day\nAction by ${interaction.user}\n[Jump to!](${message.url})`, '#9e9d9d'));
+            .then(reply => log('834179033289719839', `Perma Banned ${target}\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
         }
       }
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });
