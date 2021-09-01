@@ -22,7 +22,7 @@ module.exports = {
     var random = Math.floor(flags.length * Math.random());
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     var randoms = [random];
-    while(randoms.length <= 5) {
+    while(randoms.length < 5) {
       var random2 = Math.floor(flags.length * Math.random());
       if (randoms.includes(random2)) continue;
       randoms.push(random2);
