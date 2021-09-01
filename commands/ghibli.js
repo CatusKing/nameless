@@ -2,9 +2,9 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const request = require("request");
 
 module.exports = {
-	name: 'cat',
-	description: 'Sends a random cat image',
-	usage: `cat`,
+	name: 'ghibli',
+	description: 'Send a Ghibli Studio menu',
+	usage: `ghibli`,
 	command: false,
   slash: true,
   options: [],
