@@ -3,13 +3,12 @@ const { prefix } = require('../general/config.json');
 const { readdirSync } = require('fs');
 
 var choices = [];
+var moreChoices = [];
 const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-  choices.push({
-    value: file.replace('.js', ''),
-    name: file.replace('.js', '')
-  });
+  if (choices.length < 25) choices.push({ value: file.replace('.js', ''), name: file.replace('.js', '') });
+  else moreChoices.push({ value: file.replace('.js', ''), name: file.replace('.js', '') });
 }
 module.exports = {
 	name: 'help',
@@ -24,6 +23,13 @@ module.exports = {
       description: 'The command you want to see more information on',
       required: false,
       choices: choices
+    },
+    {
+      type: 'STRING',
+      name: 'more commands',
+      description: 'The command you want to see more information on',
+      required: false,
+      choices: moreChoices
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
