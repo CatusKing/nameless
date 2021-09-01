@@ -26,7 +26,7 @@ module.exports = {
     },
     {
       type: 'STRING',
-      name: 'moreCommands',
+      name: 'more-commands',
       description: 'The command you want to see more information on',
       required: false,
       choices: moreChoices
@@ -34,8 +34,8 @@ module.exports = {
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     var embed = new MessageEmbed().setColor('#9e9d9d')
-    if ((commands.has(interaction.options.getString('command')) && commands.get(interaction.options.getString('command').toLowerCase()).command) || (commands.has(interaction.options.getString('moreCommands')) && commands.get(interaction.options.getString('moreCommands').toLowerCase()).command)) {
-      var command = interaction.options.getString('command') || interaction.options.getString('moreCommands');
+    if ((commands.has(interaction.options.getString('command')) && commands.get(interaction.options.getString('command').toLowerCase()).command) || (commands.has(interaction.options.getString('more-commands')) && commands.get(interaction.options.getString('more-commands').toLowerCase()).command)) {
+      var command = interaction.options.getString('command') || interaction.options.getString('more-commands');
       embed.setTitle(commands.get(command).name)
         .setDescription(`Description:\`\`\`\n${commands.get(command).description}\n\`\`\`Aliases:\`\`\`\n${commands.get(command).aliases}\`\`\`Usage:\`\`\`\n${prefix}${commands.get(command).usage}\n\`\`\``);
     } else {
