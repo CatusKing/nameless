@@ -51,6 +51,7 @@ module.exports = {
     }, 20000);
   },
   button: true,
+  buttonId: '-',
   executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ ephemeral: true, content: 'Hey uhm- you\'re banned from using this command until you do `/buy flag`' });
     var guess = interaction.customId.split('-')[0];
