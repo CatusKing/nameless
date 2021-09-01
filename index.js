@@ -443,7 +443,7 @@ client.once('ready', () => {
 
   console.log('Setting up slash commands');
   var commands = [];
-  client.commands.forEach((value, key) => {
+  await client.commands.forEach((value, key) => {
     if (value.slash) {
       commands.push({
         name: value.name,
@@ -452,7 +452,7 @@ client.once('ready', () => {
       });
     }
   });
-  client.application.commands.set(commands, config.guildId);
+  await client.application.commands.set(commands, config.guildId);
   console.log('Finished setting up slash commands');
 
   console.log(`Logged in as ${client.user.tag}`);
