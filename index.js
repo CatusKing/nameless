@@ -581,7 +581,7 @@ client.on('interactionCreate', async interaction => {
     });
   } else if (interaction.isSelectMenu()) {
     client.commands.forEach((value, key) => {
-      if (value.name == interaction.customId && value.selectMenu) {
+      if (interaction.customId.includes(value.buttonId) && value.selectMenu) {
         try {
           value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
@@ -592,7 +592,7 @@ client.on('interactionCreate', async interaction => {
     });
   } else if (interaction.isButton()) {
     client.commands.forEach((value, key) => {
-      if (value.name == interaction.customId && value.selectMenu) {
+      if (value.name == interaction.customId && value.button) {
         try {
           value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
