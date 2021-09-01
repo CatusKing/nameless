@@ -37,7 +37,7 @@ module.exports = {
     if (interaction.options.getString('command') || interaction.options.getString('more-commands')) {
       var command = interaction.options.getString('command') || interaction.options.getString('more-commands');
       embed.setTitle(commands.get(command).name)
-        .setDescription(`Description:\`\`\`\n${commands.get(command).description}\n\`\`\`Aliases:\`\`\`\n${commands.get(command).aliases}\`\`\`Usage:\`\`\`\n${prefix}${commands.get(command).usage}\n\`\`\``);
+        .setDescription(`Description:\`\`\`\n${commands.get(command).description}\n\`\`\``);
     } else {
       let description = '\`\`\`';
       commands.forEach((value, key) => {
