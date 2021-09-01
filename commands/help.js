@@ -3,7 +3,7 @@ const { prefix } = require('../general/config.json');
 const { readdirSync } = require('fs');
 
 var choices = [];
-const commandFiles = readdirSync('../commands').filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync('./').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   choices.push({
