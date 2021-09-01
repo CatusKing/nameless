@@ -41,7 +41,7 @@ module.exports = {
     } else {
       let description = '\`\`\`';
       commands.forEach((value, key) => {
-        if (value.command) description += `${value.name} - ${value.description}\n`;
+        if (value.command || value.slash) description += `${value.name} - ${value.description}\n`;
       });
       description += `\`\`\``;
       embed.setTitle('Commands:').setDescription(description);
