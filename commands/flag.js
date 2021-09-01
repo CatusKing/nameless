@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require("discord.js");
 const { flags } = require('../general/config.json');
 
 function shuffleArray(array) {
@@ -29,16 +29,17 @@ module.exports = {
       options.push({ label: flags[random2][1], value: `${flags[random2][0]}-${flags[random][0]}` });
     }
     shuffleArray(options);
-    const row = new MessageActionRow()
-      .addComponents(
-        new MessageSelectMenu()
-          .setCustomId('flag')
-          .setPlaceholder('Nothing selected')
-          .addOptions(options)
-      );
+    var components = [];
+    for(let i = 0; i < options.length; ++i) {
+      components.push(new MessageActionRow().addComponents(new MessageButton()
+				.setCustomId(options[i].value)
+				.setLabel(options[i].label)
+				.setStyle('PRIMARY'),
+			));
+    }
     interaction.reply({ 
       embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 20 seconds')],
-      components: [row]
+      components: components
     });
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
