@@ -1,5 +1,16 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js');
 const { prefix } = require('../general/config.json');
+
+const collection = new Collection();
+var choices = [];
+const commandFiles = fs.readdirSync('../commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  choices.push({
+    value: file.replace('.js', ''),
+    name: file.replace('.js', '')
+  });
+}
 module.exports = {
 	name: 'help',
 	description: 'Sends the current commands',
@@ -11,7 +22,8 @@ module.exports = {
       type: 'STRING',
       name: 'command',
       description: 'The command you want to see more information on',
-      required: false
+      required: false,
+      choices: choices
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
