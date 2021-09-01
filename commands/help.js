@@ -1,9 +1,9 @@
-const { MessageEmbed, Collection } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { prefix } = require('../general/config.json');
+const { readdirSync } = require('fs');
 
-const collection = new Collection();
 var choices = [];
-const commandFiles = fs.readdirSync('../commands').filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync('../commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   choices.push({
