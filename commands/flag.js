@@ -22,7 +22,7 @@ module.exports = {
     var random = Math.floor(flags.length * Math.random());
     var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
     var randoms = [random];
-    for(let i = 0; i < 4; ++i) {
+    while(randoms.length <= 5) {
       var random2 = Math.floor(flags.length * Math.random());
       if (randoms.includes(random2)) continue;
       randoms.push(random2);
@@ -50,16 +50,15 @@ module.exports = {
       });
     }, 20000);
   },
-  selectMenu: true,
-  executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    if (interaction.member.roles.cache.has('879961023191318568')) return;
-    var guess = interaction.values[0].split('-')[0];
-    var answer = interaction.values[0].split('-')[1];
+  button: true,
+  executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ ephemeral: true, content: 'Hey uhm- you\'re banned from using this command until you do `/buy flag`' });
+    var guess = interaction.customId.split('-')[0];
+    var answer = interaction.customId.split('-')[1];
     var answerCountry = '';
-    var guessCountry = '';
+    var guessCountry = interaction.component.label;
     for(let i = 0; i < flags.length; ++i) {
-      if (flags[i][0] == interaction.values[0].split('-')[1]) answerCountry = flags[i][1];
-      if (flags[i][0] == interaction.values[0].split('-')[0]) guessCountry = flags[i][1];
+      if (flags[i][0] == interaction.customId.split('-')[1]) answerCountry = flags[i][1];
     }
     if (guess == answer) {
       interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was **${answerCountry}**\n+75🦴`)], components: [] });
