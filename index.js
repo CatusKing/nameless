@@ -590,6 +590,17 @@ client.on('interactionCreate', async interaction => {
         }
       }
     });
+  } else if (interaction.isButton()) {
+    client.commands.forEach((value, key) => {
+      if (value.name == interaction.customId && value.selectMenu) {
+        try {
+          value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
+        } catch (err) {
+          interaction.reply('there was an error trying to execute that command!');
+          console.error(err);
+        }
+      }
+    });
   }
 });
 
