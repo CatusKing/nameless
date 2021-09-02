@@ -69,7 +69,7 @@ module.exports = {
             }
           }
         } else {
-          components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people`).setLabel('People').setStyle('SECONDARY')));
+          components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_${split[1]}_species`).setStyle('SECONDARY')));
           interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[split[1]].title).setDescription(body[split[1]].description).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
         }
       });
