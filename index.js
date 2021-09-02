@@ -430,7 +430,7 @@ const counting = () => {
         ++count;
         messages.first().react('✅');
       } else {
-        if (messages[0].author.id == messages[1].author.id) {
+        if (messages[1].author.id == messages[2].author.id) {
           db.set(`discord.count`, 0);
           count = 0;
           messages.first().react('❌');
