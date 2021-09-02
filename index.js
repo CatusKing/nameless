@@ -410,22 +410,37 @@ const events = () => {
 
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
-  channel.messages.fetch({limit: 5}, {force: true}).then((messages) => {
+  channel.messages.fetch({limit: 10}, {force: true}).then((messages) => {
     try {var number = math.evaluate(messages.first().content);}
     catch (err) {
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
-      messages.first().channel.send(`\`\`\`\n${err}\`\`\``)
+      messages.first().channel.send(`\`\`\`\n${err}\`\`\``);
+      messages.first().channel.send(`Why... reset back to 1...`);
     }
-    if (isNaN(number) || number != count + 1) {
+    if (number != count + 1) {
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
+      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}`);
     } else {
-      db.set('discord.count', count + 1);
-      ++count;
-      messages.first().react('✅');
+      if (count == 0) {
+        db.set('discord.count', count + 1);
+        ++count;
+        messages.first().react('✅');
+      } else {
+        if (messages[0].author.id == messages[1].author.id) {
+          db.set(`discord.count`, 0);
+          count = 0;
+          messages.first().react('❌');
+          messages.first().channel.send(`Why... You cant go after yourself...`);
+        } else {
+          db.set('discord.count', count + 1);
+          ++count;
+          messages.first().react('✅');
+        }
+      }
     }
   });
 };
