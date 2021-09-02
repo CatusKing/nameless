@@ -39,7 +39,7 @@ module.exports = {
             } else {
               split[3] = Number(split[3]);
               if (split[3] + 1 >= body[split[1]].people.length) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] - 1}`).setLabel('Back Person').setStyle('SECONDARY')));
-              else if (split[3] == 0 && body[split[1].people.length > 1]) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people_1`).setLabel('Next Person').setStyle('SECONDARY')));
+              else if (split[3] == 0 && body[split[1]].people.length > 1) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people_1`).setLabel('Next Person').setStyle('SECONDARY')));
               else if (split[3] == 0) {}
               else components.push(new MessageActionRow().addComponents([new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] - 1}`).setLabel('Back Person').setStyle('SECONDARY'), new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] + 1}`).setLabel('Next Person').setStyle('SECONDARY')]));      
               request(body[split[1]].people[split[3]], { json: true }, (err, res, body2) => {
@@ -60,7 +60,7 @@ module.exports = {
             } else {
               split[3] = Number(split[3]);
               if (split[3] + 1 >= body[split[1]].species.length) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_species_${split[3] - 1}`).setLabel('Back Species').setStyle('SECONDARY')));
-              else if (split[3] == 0 && body[split[1].species.length > 1]) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_species_1`).setLabel('Next Species').setStyle('SECONDARY')));
+              else if (split[3] == 0 && body[split[1]].species.length > 1) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_species_1`).setLabel('Next Species').setStyle('SECONDARY')));
               else if (split[3] == 0) {}
               else components.push(new MessageActionRow().addComponents([new MessageButton().setCustomId(`films_${split[1]}_species_${split[3] - 1}`).setLabel('Back Species').setStyle('SECONDARY'), new MessageButton().setCustomId(`films_${split[1]}_species_${split[3] + 1}`).setLabel('Next Species').setStyle('SECONDARY')]));      
               request(body[split[1]].species[split[3]], { json: true }, (err, res, body2) => {
