@@ -41,7 +41,7 @@ for (const file of functionFiles) {
 math.import({
   'import':     function () { throw new Error('Function import is disabled') },
   'createUnit': function () { throw new Error('Function createUnit is disabled') },
-  'compile':      function () { throw new Error('Function parse is disabled') },
+  'compile':    function () { throw new Error('Function compile is disabled') },
 }, { override: true })
 
 const log = (channelId = new String, content = new String, color = new String) => {
@@ -430,10 +430,10 @@ const counting = () => {
       messages.first().member.roles.add(role);
     }
     if (isNaN(number) || number != count + 1) {
+      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}`);
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
-      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}`);
       messages.first().member.roles.add(role);
     } else {
       if (count == 0) {
