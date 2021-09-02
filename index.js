@@ -411,14 +411,20 @@ const events = () => {
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
   channel.messages.fetch({limit: 5}, {force: true}).then((messages) => {
-    var number = math.evaluate(messages.first().content);
-    if (isNaN(number) || number + 1 != count + 1) {
+    try {var number = math.evaluate(messages.first().content);}
+    catch (err) {
       db.set(`discord.count`, 0);
+      count = 0;
+      messages.first().react('❌');
+    }
+    if (isNaN(number) || number != count + 1) {
+      db.set(`discord.count`, 0);
+      count = 0;
       messages.first().react('❌');
     } else {
       db.set('discord.count', count + 1);
       ++count;
-      messages.first().react('✔️');
+      messages.first().react('✅');
     }
   });
 };
