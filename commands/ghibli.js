@@ -32,7 +32,7 @@ module.exports = {
             interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[split[1]].title).setDescription(`The people for this film are not set :(`).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
           } else {
             if (split[3] == null) {
-              components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Person').setCustomId(`films_${split[1]}_people_1`).setStyle('SECONDARY')));
+              if (body[split[1]].people.length > 1) components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Person').setCustomId(`films_${split[1]}_people_1`).setStyle('SECONDARY')));
               request(body[split[1]].people[0], { json: true }, (err, res, body2) => {
                 interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Age: \`${body2.age}\u200B\`\nGender: \`${body2.gender}\u200B\`\nHair Color: \`${body2.hair_color}\u200B\`\nEye Color: \`${body2.eye_color}\u200B\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
@@ -53,7 +53,7 @@ module.exports = {
             interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[split[1]].title).setDescription(`The species for this film is not set :(`).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
           } else {
             if (split[3] == null) {
-              components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Species').setCustomId(`films_${split[1]}_species_1`).setStyle('SECONDARY')));
+              if (body[split[1]].species.length > 1) components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Species').setCustomId(`films_${split[1]}_species_1`).setStyle('SECONDARY')));
               request(body[split[1]].species[0], { json: true }, (err, res, body2) => {
                 interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Classification: \`${body2.classification}\u200B\`\nHair Colors: \`${body2.hair_colors}\u200B\`\nEye Colors: \`${body2.eye_colors}\u200B\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
