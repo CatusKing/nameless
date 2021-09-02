@@ -410,6 +410,7 @@ const events = () => {
 
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
+  const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830904166007701504');
   channel.messages.fetch({limit: 10}, {force: true}).then((messages) => {
     try {var number = math.evaluate(messages.first().content);}
     catch (err) {
@@ -418,12 +419,14 @@ const counting = () => {
       messages.first().react('❌');
       messages.first().channel.send(`\`\`\`\n${err}\`\`\``);
       messages.first().channel.send(`Why... reset back to 1...`);
+      messages.first().member.roles.add(role);
     }
-    if (number != count + 1) {
+    if (isNaN(number) || number != count + 1) {
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
       messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}`);
+      messages.first().member.roles.add(role);
     } else {
       if (count == 0) {
         db.set('discord.count', count + 1);
@@ -435,6 +438,7 @@ const counting = () => {
           count = 0;
           messages.first().react('❌');
           messages.first().channel.send(`Why... You cant go after yourself...`);
+          messages.first().member.roles.add(role);
         } else {
           db.set('discord.count', count + 1);
           ++count;
