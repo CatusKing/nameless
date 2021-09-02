@@ -54,7 +54,7 @@ module.exports = {
           } else {
             if (split[3] == null) {
               components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Species').setCustomId(`films_${split[1]}_species_1`).setStyle('SECONDARY')));
-              request(body[split[1]].people[0], { json: true }, (err, res, body2) => {
+              request(body[split[1]].species[0], { json: true }, (err, res, body2) => {
                 interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Classification: \`${body2.classification}\u200B\`\nHair Colors: \`${body2.hair_colors}\u200B\`\nEye Colors: \`${body2.eye_colors}\u200B\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
             } else {
@@ -63,7 +63,7 @@ module.exports = {
               else if (split[3] == 0 && body[split[1].species.length > 1]) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_species_1`).setLabel('Next Species').setStyle('SECONDARY')));
               else if (split[3] == 0) {}
               else components.push(new MessageActionRow().addComponents([new MessageButton().setCustomId(`films_${split[1]}_species_${split[3] - 1}`).setLabel('Back Species').setStyle('SECONDARY'), new MessageButton().setCustomId(`films_${split[1]}_species_${split[3] + 1}`).setLabel('Next Species').setStyle('SECONDARY')]));      
-              request(body[split[1]].people[split[3]], { json: true }, (err, res, body2) => {
+              request(body[split[1]].species[split[3]], { json: true }, (err, res, body2) => {
                 interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Classification: \`${body2.classification}\u200B\`\nHair Colors: \`${body2.hair_colors}\u200B\`\nEye Colors: \`${body2.eye_colors}\u200B\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
             }
