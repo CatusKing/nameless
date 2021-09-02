@@ -41,7 +41,7 @@ for (const file of functionFiles) {
 math.import({
   'import':     function () { throw new Error('Function import is disabled') },
   'createUnit': function () { throw new Error('Function createUnit is disabled') },
-  'parse':      function () { throw new Error('Function parse is disabled') },
+  'compile':      function () { throw new Error('Function parse is disabled') },
 }, { override: true })
 
 const log = (channelId = new String, content = new String, color = new String) => {
