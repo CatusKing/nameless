@@ -32,7 +32,16 @@ module.exports = {
             interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[split[1]].title).setDescription(`The people for this film are not set :(`).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
           } else {
             if (split[3] == null) {
+              components.push(new MessageActionRow().addComponents(new MessageButton().setLabel('Next Person').setCustomId(`films_${split[1]}_people_1`).setStyle('SECONDARY')));
               request(body[split[1]].people[0], { json: true }, (err, res, body2) => {
+                interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Age: \`${body2.age}\`\nGender: \`${body2.gender}\`\nHair Color: \`${body2.hair_color}\`\nEye Color: \`${body2.eye_color}\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
+              });
+            } else {
+              split[3] = Number(split[3]);
+              if (split[3] + 1 >= body[split[1]].people.length) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] - 1}`).setLabel('Back Person').setStyle('SECONDARY')));
+              else if (split[1] == 0) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people_1`).setLabel('Next Person').setStyle('SECONDARY')));
+              else components.push(new MessageActionRow().addComponents([new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] - 1}`).setLabel('Back Person').setStyle('SECONDARY'), new MessageButton().setCustomId(`films_${split[1]}_people_${split[3] + 1}`).setLabel('Next Person').setStyle('SECONDARY')]));      
+              request(body[split[1]].people[split[3]], { json: true }, (err, res, body2) => {
                 interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Age: \`${body2.age}\`\nGender: \`${body2.gender}\`\nHair Color: \`${body2.hair_color}\`\nEye Color: \`${body2.eye_color}\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
             }
