@@ -411,6 +411,7 @@ const events = () => {
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
   channel.messages.fetch({limit: 5}, {force: true}).then((messages) => {
+    console.log(messages)
     var number = math.evaluate(messages.first().content);
     if (isNaN(number) || number + 1 != count + 1) {
       db.set(`discord.count`, 0);
