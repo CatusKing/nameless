@@ -416,6 +416,7 @@ const counting = () => {
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
+      messages.first().channel.send(`\`\`\`\n${err}\`\`\``)
     }
     if (isNaN(number) || number != count + 1) {
       db.set(`discord.count`, 0);
