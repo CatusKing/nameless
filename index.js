@@ -5,6 +5,7 @@ const db = require('quick.db');
 const { google } = require('googleapis');
 const fs = require('fs');
 const request = require('request');
+const math = require('mathjs');
 const intents = new Intents(32767);
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents });
 const prefix = config.prefix;
@@ -13,6 +14,7 @@ var invites = [];
 var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
+var count = db.get(`discord.count`) || 0;
 
 client.commands = new Collection();
 client.functions = new Collection();
@@ -406,6 +408,21 @@ const events = () => {
   });
 };
 
+const counting = () => {
+  const channel = client.channels.cache.get('830661661991632907');
+  channel.messages.fetch({limit: 5}, {force: true}).then((messages) => {
+    var number = math.evaluate(messages.first().content);
+    if (isNaN(number) || number + 1 != count + 1) {
+      db.set(`discord.count`, 0);
+      messages.fist().react('❌');
+    } else {
+      db.set('discord.count', count + 1);
+      ++count;
+      messages.fist().react('✔️');
+    }
+  });
+};
+
 
 client.once('ready', () => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -480,6 +497,8 @@ client.on('messageCreate', async (msg) => {
   }
 
   if (msg.channel.type != 'GUILD_TEXT') return;
+
+  if (msg.channelId == '830661661991632907') counting();
 
   if (msg.content.toLowerCase().includes('crazy') && crazyTime == 0) {
     var time = 0;

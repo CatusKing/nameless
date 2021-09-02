@@ -32,7 +32,8 @@
     "[Dog Ceo](https://dog.ceo/)",
     "[Random Fox](https://randomfox.ca/)",
     "[itsthisforthat](http://itsthisforthat.com/api.php?json)",
-    "[Hue Developer Api](https://developers.meethue.com/)"
+    "[Hue Developer Api](https://developers.meethue.com/)",
+    "[NASA Api](https://api.nasa.gov)"
   ],
   "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"],
   "guildId": "830495072876494879",
