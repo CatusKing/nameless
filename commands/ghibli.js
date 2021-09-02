@@ -10,7 +10,7 @@ module.exports = {
   options: [],
   executeI(client, interaction) {
     request('https://ghibliapi.herokuapp.com/films', { json: true }, (err, res, body) => {
-      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[0].title).setDescription(body[0].description).setAuthor(body[0].director) ], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId('films_1').setLabel('Next').setStyle('PRIMARY')), new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_0_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_0_species`).setStyle('SECONDARY'))] });
+      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[0].title).setDescription(body[0].description).setAuthor(`Director: ${body[0].director}`) ], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId('films_1').setLabel('Next').setStyle('PRIMARY')), new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_0_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_0_species`).setStyle('SECONDARY'))] });
     });
   },
   button: true,
