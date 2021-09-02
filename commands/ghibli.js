@@ -33,7 +33,7 @@ module.exports = {
           } else {
             if (split[3] == null) {
               request(body[split[1]].people[0], { json: true }, (err, res, body2) => {
-                interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Age: \`${body.age}\`\nGender: \`${body2.gender}\`\nHair Color: \`${body.hair_color}\`\nEye Color: \`${body2.eye_color}\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
+                interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body2.name).setDescription(`Age: \`${body2.age}\`\nGender: \`${body2.gender}\`\nHair Color: \`${body2.hair_color}\`\nEye Color: \`${body2.eye_color}\``).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
               });
             }
           }
