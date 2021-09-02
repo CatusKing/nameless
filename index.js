@@ -5,7 +5,9 @@ const db = require('quick.db');
 const { google } = require('googleapis');
 const fs = require('fs');
 const request = require('request');
-const math = require('mathjs');
+const { create, all} = require('mathjs');
+const math = create(all);
+const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767);
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents });
 const prefix = config.prefix;
@@ -35,6 +37,15 @@ for (const file of functionFiles) {
   // With the key as the command name and the value as the exported module
   client.functions.set(file.replace('.js', ''), functions);
 }
+
+math.import({
+  'import':     function () { throw new Error('Function import is disabled') },
+  'createUnit': function () { throw new Error('Function createUnit is disabled') },
+  'evaluate':   function () { throw new Error('Function evaluate is disabled') },
+  'parse':      function () { throw new Error('Function parse is disabled') },
+  'simplify':   function () { throw new Error('Function simplify is disabled') },
+  'derivative': function () { throw new Error('Function derivative is disabled') }
+}, { override: true })
 
 const log = (channelId = new String, content = new String, color = new String) => {
   const channel = client.channels.cache.get(channelId);
