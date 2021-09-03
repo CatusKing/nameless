@@ -139,6 +139,7 @@ const updateStatus = async () => {
     .replace('%bank%', bank)
     .replace('%prefix%', prefix)
     .replace('%top%', top)
+    .replace('%topCount%', topCount)
   );
 };
 
