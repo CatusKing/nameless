@@ -31,20 +31,20 @@ module.exports = {
     shuffleArray(options);
     var components = [];
     for(let i = 0; i < options.length; ++i) {
-      components.push(new MessageActionRow().addComponents(new MessageButton()
+      components.push(new MessageButton()
 				.setCustomId(options[i].value)
 				.setLabel(options[i].label)
-				.setStyle('PRIMARY'),
-			));
+				.setStyle('SECONDARY'),
+			);
     }
     interaction.reply({ 
       embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 20 seconds')],
-      components: components
+      components: [new MessageActionRow().addComponents(components)]
     });
     setTimeout(() => {
       interaction.fetchReply().then((msg) => {
         if (msg.embeds[0].footer == null) return;
-        if (msg.embeds[0].footer.text == 'You have 20 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nYou were banned from the \`/flag\` command for not answering within 30 seconds.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
+        if (msg.embeds[0].footer.text == 'You have 20 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nYou were banned from the \`/flag\` command for not answering within 20 seconds.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
         interaction.member.roles.add(role);
       });
