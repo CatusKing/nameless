@@ -448,6 +448,9 @@ const counting = () => {
           messages.first().react('🎉');
           addUserBalance(messages.first().author.id, 50);
           log('830503210951245865', `+50🦴 to ${messages.first().author} for getting a new high score in counting`);
+        } else {
+          addUserBalance(messages.first().author.id, 5);
+          log('830503210951245865', `+5🦴 to ${messages.first().author} for counting`);
         }
       } else {
         if (messages.first().author.id == messages.first(2)[1].author.id) {
@@ -466,6 +469,9 @@ const counting = () => {
             messages.first().react('🎉');
             addUserBalance(messages.first().author.id, 50);
             log('830503210951245865', `+50🦴 to ${messages.first().author} for getting a new high score in counting`);
+          } else {
+            addUserBalance(messages.first().author.id, 5);
+            log('830503210951245865', `+5🦴 to ${messages.first().author} for counting`);
           }
         }
       }
