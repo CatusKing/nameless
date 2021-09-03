@@ -442,15 +442,17 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
+        if (messages.first().roles.cache.has('867226596103946250')) var mult = 1.5;
+        else var mult = 1;
         if (count > topCount) {
           db.set('discord.topCount', count);
           topCount = count;
           messages.first().react('🎉');
-          addUserBalance(messages.first().author.id, 50);
-          log('830503210951245865', `+50🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
+          addUserBalance(messages.first().author.id, Math.floor(50 * mult));
+          log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
         } else {
-          addUserBalance(messages.first().author.id, 5);
-          log('830503210951245865', `+5🦴 to ${messages.first().author} for counting`, '#baffc9');
+          addUserBalance(messages.first().author.id, Math.floor(5 * mult));
+          log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
         }
       } else {
         if (messages.first().author.id == messages.first(2)[1].author.id) {
@@ -463,15 +465,17 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
+          if (messages.first().roles.cache.has('867226596103946250')) var mult = 1.5;
+          else var mult = 1;
           if (count > topCount) {
             db.set('discord.topCount', count);
             topCount = count;
             messages.first().react('🎉');
-            addUserBalance(messages.first().author.id, 50);
-            log('830503210951245865', `+50🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
+            addUserBalance(messages.first().author.id, Math.floor(50 * mult));
+            log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
           } else {
-            addUserBalance(messages.first().author.id, 5);
-            log('830503210951245865', `+5🦴 to ${messages.first().author} for counting`, '#baffc9');
+            addUserBalance(messages.first().author.id, Math.floor(5 * mult));
+            log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
           }
         }
       }
