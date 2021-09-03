@@ -3,7 +3,7 @@
   "leaderboard_count": 10,
   "status": [
     "Bank: %bank%🦴",
-    "%prefix%help",
+    "/help",
     "%top% is #1",
     "Highest Count: %topCount%"
   ],
