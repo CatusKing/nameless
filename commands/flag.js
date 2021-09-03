@@ -34,7 +34,7 @@ module.exports = {
       components.push(new MessageButton()
 				.setCustomId(options[i].value)
 				.setLabel(options[i].label)
-				.setStyle('SECONDARY'),
+				.setStyle('DANGER'),
 			);
     }
     interaction.reply({ 
