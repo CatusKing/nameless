@@ -17,6 +17,7 @@ var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 var count = db.get(`discord.count`) || 0;
+var topCount = db.get(`discord.topCount`) || 0;
 
 client.commands = new Collection();
 client.functions = new Collection();
@@ -440,6 +441,11 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
+        if (count > topCount) {
+          db.set('discord.topCount', count);
+          topCount = count;
+          messages.first().react('🎉');
+        }
       } else {
         if (messages.first().author.id == messages.first(2)[1].author.id) {
           db.set(`discord.count`, 0);
@@ -451,6 +457,11 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
+          if (count > topCount) {
+            db.set('discord.topCount', count);
+            topCount = count;
+            messages.first().react('🎉');
+          }
         }
       }
     }
