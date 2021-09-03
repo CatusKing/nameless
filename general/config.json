@@ -4,7 +4,8 @@
   "status": [
     "Bank: %bank%🦴",
     "%prefix%help",
-    "%top% is #1"
+    "%top% is #1",
+    "Highest Count: %topCount%"
   ],
   "emojis": [":skull:", ":yellow_circle:", ":red_circle:", ":green_circle:", ":blue_circle:", ":brown_circle:", ":gem:"],
   "shop": [
