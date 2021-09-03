@@ -442,7 +442,7 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
-        if (messages.first().roles.cache.has('867226596103946250')) var mult = 1.5;
+        if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
         else var mult = 1;
         if (count > topCount) {
           db.set('discord.topCount', count);
@@ -465,7 +465,7 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
-          if (messages.first().roles.cache.has('867226596103946250')) var mult = 1.5;
+          if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
           else var mult = 1;
           if (count > topCount) {
             db.set('discord.topCount', count);
