@@ -18,6 +18,7 @@ module.exports = {
         break;
       }
     }
+    console.log(streakNum)
     if (streakNum = 0) {
       var total = 3;
       var current = streak;
