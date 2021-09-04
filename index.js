@@ -683,6 +683,10 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+client.on('threadCreate', (thread) => {
+  thread.join();
+});
+
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
   if (oldMsg.partial) {
