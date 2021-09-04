@@ -19,7 +19,7 @@ module.exports = {
       }
     }
     console.log(streakNum)
-    if (streakNum = 0) {
+    if (streakNum == 0) {
       var total = 3;
       var current = streak;
     } else {
