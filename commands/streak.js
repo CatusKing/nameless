@@ -22,8 +22,8 @@ module.exports = {
       var total = 3;
       var current = streak;
     } else {
-      var total = streaks[i][0] - streaks[i-1][0];
-      var current = current - streaks[i-1][0];
+      var total = streaks[streakNum][0] - streaks[streakNum-1][0];
+      var current = current - streaks[streakNum-1][0];
     }
     interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak: ${streaks[streakNum][0]} Days\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)}>`)] });
   }
