@@ -506,7 +506,7 @@ const checkStreaks = () => {
   db.set(`discord.users`, users);
 };
 
-const updateStreak = (id = new String, msg = new Message()) => {
+const updateStreak = (id = new String(), msg = new Message()) => {
   var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
   var date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
