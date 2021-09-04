@@ -489,9 +489,9 @@ const checkStreaks = () => {
   var date = new Date();
   var guild = client.guilds.cache.get('830495072876494879');
   guild.members.cache.forEach((member) => {
-    if (isNaN(users[member.id].streakTime)) users[member.id].streakTime = 0;
-    if (users[member.id].streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
-      users[member.id].streak = 0;
+    if (isNaN(users[member.id.toString()].streakTime)) users[member.id.toString()].streakTime = 0;
+    if (users[member.id.toString()].streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
+      users[member.id.toString()].streak = 0;
     }
   });
   db.set(`discord.users`, users);
