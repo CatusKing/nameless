@@ -18,7 +18,7 @@ module.exports = {
         break;
       }
     }
-    if (i = 0) {
+    if (streakNum = 0) {
       var total = 3;
       var current = streak;
     } else {
