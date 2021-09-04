@@ -485,7 +485,7 @@ const counting = () => {
 
 const checkStreaks = () => {
   console.debug('e')
-  var users = db.get(`discord.users`) || {};
+  var users = JSON.parse(db.get(`discord.users`)) || {};
   console.log(users)
   var date = new Date();
   users.forEach((user) => {
