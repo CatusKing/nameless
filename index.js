@@ -495,7 +495,7 @@ const checkStreaks = () => {
         users[member.id].streak = 0;
       } else {
         for(let i = 0; i < config.streaks.length; ++i) {
-          const role = guild.roles.cache.get(config.streaks[i][0]);
+          const role = guild.roles.cache.get(config.streaks[i][1]);
           if (users[member.id].streak >= config.streaks[i][0] && !member.roles.cache.has(role.id)) {
             member.roles.add(role, 'New Streak Role');
           } else if (users[member.id].streak < config.streaks[i][0] && member.roles.cache.has(role.id)) {
