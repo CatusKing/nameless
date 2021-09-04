@@ -494,7 +494,7 @@ const checkStreaks = () => {
       if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
         users[member.id].streak = 0;
       } else {
-        for(let i = 0; i < config.streaks; ++i) {
+        for(let i = 0; i < config.streaks.length; ++i) {
           const role = guild.roles.cache.get(config.streaks[i][0]);
           if (streak >= config.streaks[i][0] && !member.roles.cache.has(role.id)) {
             member.roles.add(role, 'New Streak Role');
