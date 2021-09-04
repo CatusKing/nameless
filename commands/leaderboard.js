@@ -6,7 +6,14 @@ module.exports = {
   usage: `leaderboard`,
   command: false,
   slash: true,
-  options: [],
+  options: [
+    {
+      type: 'SUB_COMMAND',
+      name: 'streaks',
+      description: 'Gives you the Streak Leaderboard',
+      required: false
+    }
+  ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
     const lb = db.get(`discord.server.leaderboard`) || [];
