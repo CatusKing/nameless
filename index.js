@@ -485,7 +485,8 @@ const counting = () => {
 
 const checkStreaks = () => {
   console.debug('e')
-  var users = db.get(`discord.users`);
+  var users = db.get(`discord.users`) || {};
+  console.log(users)
   var date = new Date();
   users.forEach((user) => {
     if (isNaN(user.streakTime)) user.streakTime = 0;
