@@ -43,7 +43,7 @@ math.import({
   'import':     function () { throw new Error('Function import is disabled') },
   'createUnit': function () { throw new Error('Function createUnit is disabled') },
   'compile':    function () { throw new Error('Function compile is disabled') },
-}, { override: true })
+}, { override: true });
 
 const log = (channelId = new String, content = new String, color = new String) => {
   const channel = client.channels.cache.get(channelId);
@@ -483,6 +483,30 @@ const counting = () => {
   });
 };
 
+const checkStreaks = () => {
+  console.debug('e')
+  var users = db.get(`discord.users`);
+  var date = new Date();
+  users.forEach((user) => {
+    if (isNaN(user.streakTime)) user.streakTime = 0;
+    if (user.streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
+      user.streak = 0;
+    }
+  });
+  db.set(`discord.users`, users);
+};
+
+const updateStreak = (id = new String) => {
+  console.debug('w')
+  var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
+  var date = new Date();
+  if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
+    console.debug('q')
+    db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
+    db.set(`discord.users.${id}.streak`, db.get(`discord.users.${id}.streak`) + 1 || 1);
+  }
+};
+
 
 client.once('ready', () => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -554,6 +578,9 @@ client.on('messageCreate', async (msg) => {
       client.user.setAvatar(guild.iconURL());
       msg.channel.send('Ran the following updates\nPfP');
     }
+    if (msg.content == '!test') {
+      checkStreaks();
+    }
   }
 
   if (msg.channel.type != 'GUILD_TEXT') return;
@@ -595,6 +622,8 @@ client.on('messageCreate', async (msg) => {
     setUserCooldown(msg.author.id, Date.now() + 60000);
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
+
+  updateStreak(msg.author.id);
 
   //Announcements commands
   try {
