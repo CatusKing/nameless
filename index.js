@@ -1,4 +1,4 @@
-const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
+const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js');
 const token = require('./general/token.json');
 const config = require('./general/config.json');
 const db = require('quick.db');
@@ -500,10 +500,11 @@ const checkStreaks = () => {
   db.set(`discord.users`, users);
 };
 
-const updateStreak = (id = new String) => {
+const updateStreak = (id = new String, msg = new Message()) => {
   var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
   var date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
+    msg.react('🔥');
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
     db.set(`discord.users.${id}.streak`, db.get(`discord.users.${id}.streak`) + 1 || 1);
   }
@@ -542,7 +543,9 @@ client.once('ready', () => {
 
   setTimeout(() => setInterval(nextLaunch, 900000), 60000);
 
-  setTimeout(() => setInterval(events, 900000), 90000);  
+  setTimeout(() => setInterval(events, 900000), 90000);
+
+  setInterval(checkStreaks, 3600000);
 
   console.log('Setting up slash commands');
   var commands = [];
@@ -625,7 +628,7 @@ client.on('messageCreate', async (msg) => {
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
 
-  updateStreak(msg.author.id);
+  updateStreak(msg.author.id, msg);
 
   //Announcements commands
   try {
