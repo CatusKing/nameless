@@ -501,11 +501,9 @@ const checkStreaks = () => {
 };
 
 const updateStreak = (id = new String) => {
-  console.debug('w')
   var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
   var date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
-    console.debug('q')
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
     db.set(`discord.users.${id}.streak`, db.get(`discord.users.${id}.streak`) + 1 || 1);
   }
