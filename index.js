@@ -498,7 +498,7 @@ const checkStreaks = () => {
           const role = guild.roles.cache.get(config.streaks[i][0]);
           if (streak >= config.streaks[i][0] && !member.roles.cache.has(role.id)) {
             member.roles.add(role, 'New Streak Role');
-          } else if (member.roles.cache.has(role.id)) {
+          } else if (streak < config.streaks[i][0] && member.roles.cache.has(role)) {
             member.roles.remove(role, 'Reset Streak :(');
           }
         }
