@@ -496,9 +496,7 @@ const checkStreaks = () => {
       } else {
         for(let i = 0; i < config.streaks.length; ++i) {
           const role = guild.roles.cache.get(config.streaks[i][1]);
-          if (users[member.id].streak >= config.streaks[i][0] && !member.roles.cache.has(role.id)) {
-            member.roles.add(role, 'New Streak Role');
-          } else if (users[member.id].streak < config.streaks[i][0] && member.roles.cache.has(role.id)) {
+          if (users[member.id].streak < config.streaks[i][0] && member.roles.cache.has(role.id)) {
             member.roles.remove(role, 'Reset Streak :(');
           }
         }
@@ -513,8 +511,18 @@ const updateStreak = (id = new String, msg = new Message()) => {
   var date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
     msg.react('🔥');
+    var streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
+    for(let i = 0; i < config.streaks.length; ++i) {
+      if (streak < config.streaks[i][0]) break;
+      else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
+        var role = msg.guild.roles.cache.get(config.streaks[i][1]);
+        msg.member.roles.add(role, 'New Streak Score');
+        addUserBalance(msg.author.id, config.streaks[i][2]);
+        log(`830503210951245865`, `+${config.streaks[i][2]}🦴 to ${msg.member} for reaching a streak of ${config.streaks[i][0]}`, '#9e9d9d')
+      }
+    }
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
-    db.set(`discord.users.${id}.streak`, db.get(`discord.users.${id}.streak`) + 1 || 1);
+    db.set(`discord.users.${id}.streak`, streak);
   }
 };
 
