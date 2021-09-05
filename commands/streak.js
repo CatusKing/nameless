@@ -11,6 +11,7 @@ module.exports = {
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     var streak = db.get(`discord.users.${interaction.user.id}.streak`) || 0;
+    var streakTime = db.get(`discord.users.${interaction.user.id}.streakTime`) || 0;
     var streakNum = 0;
     for(let i = 0; i < streaks.length; ++i) {
       if (streak < streaks[i][0]) {
@@ -26,6 +27,14 @@ module.exports = {
       var total = streaks[streakNum][0] - streaks[streakNum-1][0];
       var current = current - streaks[streakNum-1][0];
     }
-    interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak Goal: ${streaks[streakNum][0]} Day Streak 🔥\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)[0]}>\nYou are ${Math.floor(progressbar.filledBar(total, current)[1])}% the way there`)] });
+    if (streak > 0) {
+      var date = new Date();
+      if (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24 > streakTime) {
+        var description = '\nYou can continue your streak rn!'
+      } else {
+        var description = `\nYou can continue your streak in ${streakTime - Math.floor(((date.getTime() / 1000) / 60) / 60) + 24} hours`
+      }
+    }
+    interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak Goal: ${streaks[streakNum][0]} Day Streak 🔥\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)[0]}>\nYou are ${Math.floor(progressbar.filledBar(total, current)[1])}% the way there${description}`)] });
   }
 };
