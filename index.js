@@ -422,6 +422,7 @@ const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
   const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830904166007701504');
   channel.messages.fetch({limit: 10}, {force: true}).then((messages) => {
+    var error = false;
     try {var number = limitedEvaluate(messages.first().content);}
     catch (err) {
       db.set(`discord.count`, 0);
@@ -430,8 +431,10 @@ const counting = () => {
       messages.first().channel.send(`\`\`\`\n${err}\`\`\``);
       messages.first().channel.send(`Why...\nReset back to 1...`);
       messages.first().member.roles.add(role);
+      error = true;
     }
-    if (isNaN(number) || number != count + 1) {
+    if (error) return;
+    if (number != count + 1) {
       messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}\nReset back to 1...`);
       db.set(`discord.count`, 0);
       count = 0;
