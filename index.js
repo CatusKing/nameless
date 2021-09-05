@@ -428,11 +428,11 @@ const counting = () => {
       count = 0;
       messages.first().react('❌');
       messages.first().channel.send(`\`\`\`\n${err}\`\`\``);
-      messages.first().channel.send(`Why... reset back to 1...`);
+      messages.first().channel.send(`Why...\nReset back to 1...`);
       messages.first().member.roles.add(role);
     }
     if (isNaN(number) || number != count + 1) {
-      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}`);
+      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}\nReset back to 1...`);
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
@@ -459,7 +459,7 @@ const counting = () => {
           db.set(`discord.count`, 0);
           count = 0;
           messages.first().react('❌');
-          messages.first().channel.send(`Why... You cant go after yourself...`);
+          messages.first().channel.send(`Why... You cant go after yourself...\nReset back to 1...`);
           messages.first().member.roles.add(role);
         } else {
           db.set('discord.count', count + 1);
@@ -526,7 +526,6 @@ const updateStreak = (id = new String(), msg = new Message()) => {
     db.set(`discord.users.${id}.streak`, streak);
   }
 };
-
 
 client.once('ready', () => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
