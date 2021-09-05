@@ -29,6 +29,7 @@ module.exports = {
     if (streak > 0) {
       var date = new Date();
       console.log(streakTime)
+      console.log(Math.floor(((date.getTime() / 1000) / 60) / 60) + 24)
       if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
         var description = '\nYou can continue your streak rn!'
       } else {
