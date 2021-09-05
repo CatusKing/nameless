@@ -31,7 +31,7 @@ module.exports = {
       if (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24 > streakTime) {
         var description = '\nYou can continue your streak rn!'
       } else {
-        var description = `\nYou can continue your streak in ${streakTime - Math.floor(((date.getTime() / 1000) / 60) / 60) + 24} hours`
+        var description = `\nYou can continue your streak in ${Math.floor(((date.getTime() / 1000) / 60) / 60) + 24 - streakTime} hours`
       }
     }
     interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak Goal: ${streaks[streakNum][0]} Day Streak 🔥\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)[0]}>\nYou are ${Math.floor(progressbar.filledBar(total, current)[1])}% the way there${description}`)] });
