@@ -24,7 +24,7 @@ module.exports = {
       var current = streak;
     } else {
       var total = streaks[streakNum][0] - streaks[streakNum-1][0];
-      var current = current - streaks[streakNum-1][0];
+      var current = streak - streaks[streakNum-1][0];
     }
     console.debug(total)
     console.debug(current)
