@@ -26,8 +26,6 @@ module.exports = {
       var total = streaks[streakNum][0] - streaks[streakNum-1][0];
       var current = streak - streaks[streakNum-1][0];
     }
-    console.debug(total)
-    console.debug(current)
     if (streak > 0) {
       var date = new Date();
       if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
