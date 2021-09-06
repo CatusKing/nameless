@@ -857,11 +857,9 @@ process.on('message', (msg) => {
   if (msg == 'shutdown') {
     console.log('Closing all connections...')
     client.destroy();
-    setTimeout(() => {
-      console.log('Finished closing connections')
-      process.exit(0)
-    }, 1500);
+    console.log('Finished closing connections')
+    process.exit(0)
   }
-})
+});
 
 client.login(token.main);
