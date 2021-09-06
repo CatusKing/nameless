@@ -15,6 +15,6 @@ module.exports = {
       client.destroy();
       console.log('Finished closing connections');
       process.exit(0);
-    }, 1500)
+    }, 1500);
   }
 };
