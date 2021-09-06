@@ -522,7 +522,7 @@ const updateStreak = (id = new String(), msg = new Message()) => {
         msg.member.roles.add(role, 'New Streak Score');
         addUserBalance(msg.author.id, config.streaks[i][2]);
         msg.react('🦴');
-        log(`830503210951245865`, `+${config.streaks[i][2]}🦴 to ${msg.member} for reaching a streak of ${config.streaks[i][0]}`, '#9e9d9d')
+        log(`830503210951245865`, `+${config.streaks[i][2]}🦴 to ${msg.member} for reaching a streak of ${config.streaks[i][0]}`, '#baffc9')
       }
     }
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
