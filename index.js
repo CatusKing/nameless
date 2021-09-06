@@ -853,4 +853,15 @@ client.on('error', error => {
   cactus.send(`${cactus} hey error:\n${error}`);
 });
 
+process.on('message', (msg) => {
+  if (msg == 'shutdown') {
+    console.log('Closing all connections...')
+    client.destroy();
+    setTimeout(() => {
+      console.log('Finished closing connections')
+      process.exit(0)
+    }, 1500);
+  }
+})
+
 client.login(token.main);
