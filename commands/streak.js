@@ -26,10 +26,10 @@ module.exports = {
       var total = streaks[streakNum][0] - streaks[streakNum-1][0];
       var current = current - streaks[streakNum-1][0];
     }
+    console.debug(total)
+    console.debug(current)
     if (streak > 0) {
       var date = new Date();
-      console.log(streakTime)
-      console.log(Math.floor(((date.getTime() / 1000) / 60) / 60) + 24)
       if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
         var description = '\nYou can continue your streak rn!'
       } else {
