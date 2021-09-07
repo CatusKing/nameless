@@ -3,7 +3,7 @@ function chunkString(str = new String()) {
   str.split(' ').forEach((val, index) => {
     console.log(index);
     console.log(Math.floor(index / 5))
-    if (index == Math.floor(index / 5)) arr[Math.floor(index / 5)] = '';
+    if (index / 5 == Math.floor(index / 5)) arr[Math.floor(index / 5)] = '';
     arr[Math.floor(index / 5)] = arr[Math.floor(index / 5)] + ' ' + val
   });
   return arr;
