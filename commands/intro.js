@@ -66,7 +66,7 @@ module.exports = {
     const name = `┊ ❑ 𝙽𝚊𝚖𝚎: ${interaction.options.getString('name')}\n`;
     const pronouns = `┊ ✦ 𝙿𝚛𝚘𝚗𝚘𝚞𝚗𝚜: ${interaction.options.getString('pronouns')}\n`;
     var age = interaction.options.getInteger('age') || -1;
-    if (age > 12 || age <= 50) age = `┊ ✦ 𝙰𝚐𝚎: ${age}\n`
+    if (age > 12 && age <= 50) age = `┊ ✦ 𝙰𝚐𝚎: ${age}\n`
     else age = '';
     var gender = interaction.options.getString('gender') || '';
     if (gender != '') gender = `┊ ✦ 𝙶𝚎𝚗𝚍𝚎𝚛: ${gender}\n`;
@@ -77,7 +77,7 @@ module.exports = {
     var extra = interaction.options.getString('extra') || '';
     if (extra != '') extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${extra}\n`;
     client.channels.cache.get('833565619289980938').fetchWebhooks().then(hooks => {
-      hooks.first().send({ content: `╭┄┄┄┄┄࿐ྂ\n${name}${pronouns}${age}${gender}${timezone}${dms}${extra}╰┄┄┄┄┄┄┄➤`})
+      hooks.first().send({ content: `╭┄┄┄┄┄࿐ྂ\n${name}${pronouns}${age}${gender}${timezone}${dms}${extra}╰┄┄┄┄┄┄┄➤`, username: interaction.member.displayName, avatarURL: interaction.user.displayAvatarURL() })
       interaction.reply({ ephemeral: true, content: 'Sent to the introductions channel' });
     });
   }
