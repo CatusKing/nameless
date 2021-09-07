@@ -1,5 +1,9 @@
-function chunkString(str = new String(), length = new Number()) {
-  return str.match(new RegExp('.{1,' + length + '}', 'g'));
+function chunkString(str = new String()) {
+  var arr = [];
+  str.split(' ').forEach((val, index) => {
+    arr[Math.floor(index / 4)] = val + ' '
+  });
+  return arr;
 }
 
 module.exports = {
@@ -79,7 +83,7 @@ module.exports = {
     if (dms != '') dms = `┊ ✦ 𝙳𝙼 𝚂𝚝𝚊𝚝𝚞𝚜: ${dms}\n`;
     var extra = interaction.options.getString('extra') || '';
     if (extra != '') {
-      chunkString(extra, 30).forEach((val, index) => {
+      chunkString(extra).forEach((val, index) => {
         if (index == 0) {
           extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${val}\n`;
         } else {
