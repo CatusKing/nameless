@@ -81,9 +81,9 @@ module.exports = {
     if (extra != '') {
       chunkString(extra, 30).forEach((val, index) => {
         if (index == 0) {
-          extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${val}`;
+          extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${val}\n`;
         } else {
-          extra += `┊        ${val}`;
+          extra += `┊        ${val}\n`;
         }
       });
     }
