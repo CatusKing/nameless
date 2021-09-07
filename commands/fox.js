@@ -4,7 +4,6 @@ const request = require("request");
 module.exports = {
 	name: 'fox',
 	description: 'Sends a random fox image',
-	usage: `fox`,
 	command: false,
   slash: true,
   options: [],

@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'ignores',
 	description: 'Displays the current channels ignored from auto-mod',
-  usage: `ignores`,
   command: false,
   slash: true,
   options: [],

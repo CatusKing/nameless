@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'bank',
 	description: 'Display\'s the bank\'s balance',
-	usage: `bank`,
 	command: false,
 	slash: true,
 	options: [],

@@ -5,7 +5,6 @@ const { streaks } = require('../general/config.json');
 module.exports = {
 	name: 'streak',
 	description: 'Gives you your current streak',
-  usage: `streak`,
   command: false,
   slash: true,
   options: [],

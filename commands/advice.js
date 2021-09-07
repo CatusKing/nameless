@@ -3,7 +3,6 @@ const request = require('request');
 module.exports = {
 	name: 'advice',
 	description: 'Gives funky advice',
-  usage: `advice`,
   command: false,
   slash: true,
   options: [],

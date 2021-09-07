@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'mute',
 	description: 'Mute another user',
-  usage: `mute <time in hours> [@User]`,
   command: false,
   slash: true,
   options: [

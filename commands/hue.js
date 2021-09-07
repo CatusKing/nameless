@@ -7,7 +7,6 @@ const request = require('request');
 module.exports = {
 	name: 'hue',
 	description: 'Controls Thomas\'(The owner\'s) lights',
-  usage: `hue`,
   command: false,
   slash: true,
   options: [

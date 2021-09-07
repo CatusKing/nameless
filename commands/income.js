@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'income',
 	description: 'Sends explanation of the currency system',
-	usage: `income`,
 	command: false,
 	slash: true,
 	options: [],

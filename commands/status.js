@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'status',
 	description: 'Updates the bots status',
-  usage: `status`,
   command: true,
   aliases: ['status'],
 	execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus) {

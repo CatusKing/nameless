@@ -3,7 +3,6 @@ const { prefix } = require('../general/config.json');
 module.exports = {
 	name: 'remove',
 	description: 'Removes from the users balance',
-  usage: `remove <amount> [@User]`,
   command: false,
   slash: true,
   options: [

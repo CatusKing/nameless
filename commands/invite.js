@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'invite',
 	description: 'Sends the invite link',
-	usage: `invite`,
 	command: true,
 	aliases: ['invite'],
   slash: true,

@@ -4,7 +4,6 @@ const { leaderboard_count } = require("../general/config.json");
 module.exports = {
 	name: 'leaderboard',
 	description: 'Updates the leaderboard',
-  usage: `leaderboard`,
   command: false,
   slash: true,
   options: [

@@ -3,7 +3,6 @@ const { weeklyAmount } = require('../general/config.json');
 module.exports = {
 	name: 'weekly',
 	description: 'Claim your weekly reward',
-  usage: `weekly`,
   command: false,
   slash: true,
   options: [],

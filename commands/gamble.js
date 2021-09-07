@@ -4,7 +4,6 @@ const prefix = config.prefix;
 module.exports = {
 	name: 'gamble',
 	description: 'Allows you to gamble for more points',
-  usage: `gamble <amount>`,
   command: false,
   slash: true,
   options: [

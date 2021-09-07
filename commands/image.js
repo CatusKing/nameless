@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'image',
 	description: 'Sends a random image',
-	usage: `image`,
 	command: false,
   slash: true,
   options: [

@@ -3,7 +3,6 @@ const { dailyAmount } = require('../general/config.json');
 module.exports = {
 	name: 'daily',
 	description: 'Claim your daily reward',
-  usage: `daily`,
   command: false,
   slash: true,
   options: [],

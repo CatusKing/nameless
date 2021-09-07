@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'announcements',
 	description: 'Run in the control panel',
-  usage: ``,
   command: false,
   slash: false,
 	execute(client, msg) {

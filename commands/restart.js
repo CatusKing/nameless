@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'restart',
 	description: 'Restarts the bot',
-  usage: `restart`,
   command: false,
   slash: true,
   options: [],

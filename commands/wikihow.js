@@ -4,7 +4,6 @@ const request = require('request');
 module.exports = {
   name: 'wikihow',
   description: 'Retrieves a random WikiHow article',
-  usage: `wikihow`,
   command: false,
   slash: true,
   options: [],

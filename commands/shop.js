@@ -3,7 +3,6 @@ const config = require('../general/config.json');
 module.exports = {
 	name: 'shop',
 	description: 'Displays what you can use your points for',
-	usage: `shop`,
 	command: false,
 	aliases: ['shop'],
 	slash: true,

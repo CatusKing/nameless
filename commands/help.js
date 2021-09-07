@@ -13,7 +13,6 @@ for (const file of commandFiles) {
 module.exports = {
 	name: 'help',
 	description: 'Sends the current commands',
-  usage: `help [command]`,
   command: false,
   slash: true,
   options: [

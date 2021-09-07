@@ -3,7 +3,6 @@ const { adminRoles } = require('../general/config.json');
 module.exports = {
 	name: 'admin',
 	description: 'Toggles admin mode',
-  usage: `admin`,
   command: false,
   slash: true,
   options: [],

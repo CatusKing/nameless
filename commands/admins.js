@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'admins',
 	description: 'Displays the current members with admin mode',
-  usage: `admins`,
   command: false,
   slash: true,
   options: [],

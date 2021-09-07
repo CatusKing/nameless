@@ -4,7 +4,6 @@ const { exec } = require("child_process");
 module.exports = {
 	name: 'stop',
 	description: 'Stops the bot',
-  usage: `stop`,
   command: false,
   slash: true,
   options: [],

@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'punish',
 	description: 'Punishes a user',
-  usage: `punish <2-5> <@User>`,
   command: false,
   slash: true,
   options: [

@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'ping',
 	description: 'Sends the bot\'s ping',
-  usage: `ping`,
   command: true,
   aliases: ['ping'],
   slash: true,

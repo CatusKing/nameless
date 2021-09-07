@@ -4,7 +4,6 @@ const request = require("request");
 module.exports = {
 	name: 'ghibli',
 	description: 'Send a Ghibli Studio menu',
-	usage: `ghibli`,
 	command: false,
   slash: true,
   options: [],

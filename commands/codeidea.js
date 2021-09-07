@@ -3,7 +3,6 @@ const request = require('request');
 module.exports = {
 	name: 'codeidea',
 	description: 'Gives funky code ideas',
-  usage: `codeidea`,
   command: false,
   slash: true,
   options: [],

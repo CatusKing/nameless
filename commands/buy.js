@@ -4,7 +4,6 @@ const prefix = config.prefix;
 module.exports = {
 	name: 'buy',
 	description: 'Allows you to buy items from the shop',
-	usage: `buy <item>`,
 	command: false,
 	slash: true,
 	options: [

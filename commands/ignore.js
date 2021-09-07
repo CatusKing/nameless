@@ -3,7 +3,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: 'ignore',
 	description: 'Toggles ignore mode for the current channel',
-  usage: `ignore`,
   command: false,
   slash: true,
   options: [],

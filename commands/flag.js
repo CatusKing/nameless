@@ -13,7 +13,6 @@ function shuffleArray(array) {
 module.exports = {
 	name: 'flag',
 	description: 'Sends a random country flag to guess but if you get it wrong you must pay a 500🦴 fee to try again',
-	usage: `flag`,
 	command: false,
   slash: true,
   options: [],

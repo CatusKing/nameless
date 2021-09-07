@@ -4,7 +4,6 @@ const request = require("request");
 module.exports = {
 	name: 'bored',
 	description: 'Sends a random thing to do',
-	usage: `bored`,
 	command: false,
   slash: true,
   options: [],
