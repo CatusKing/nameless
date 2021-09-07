@@ -1,4 +1,7 @@
-const { MessageEmbed } = require('discord.js');
+function chunkString(str = new String(), length = new Number()) {
+  return str.match(new RegExp('.{1,' + length + '}', 'g'));
+}
+
 module.exports = {
 	name: 'intro',
 	description: 'Adds to the users balance',
@@ -75,7 +78,15 @@ module.exports = {
     var dms = interaction.options.getString('dms') || '';
     if (dms != '') dms = `┊ ✦ 𝙳𝙼 𝚂𝚝𝚊𝚝𝚞𝚜: ${dms}\n`;
     var extra = interaction.options.getString('extra') || '';
-    if (extra != '') extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${extra}\n`;
+    if (extra != '') {
+      chunkString(extra, 30).forEach((val, index) => {
+        if (index == 0) {
+          extra = `┊ ✦ 𝙴𝚡𝚝𝚛𝚊: ${val}`;
+        } else {
+          extra += `┊        ${val}`;
+        }
+      });
+    }
     client.channels.cache.get('833565619289980938').fetchWebhooks().then(hooks => {
       hooks.first().send({ content: `╭┄┄┄┄┄࿐ྂ\n${name}${pronouns}${age}${gender}${timezone}${dms}${extra}╰┄┄┄┄┄┄┄➤`, username: interaction.member.displayName, avatarURL: interaction.user.displayAvatarURL() })
       interaction.reply({ ephemeral: true, content: 'Sent to the introductions channel' });
