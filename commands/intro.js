@@ -1,7 +1,7 @@
 function chunkString(str = new String()) {
   var arr = [];
   str.split(' ').forEach((val, index) => {
-    arr[Math.floor(index / 4)] = val + ' '
+    arr[Math.floor(index / 4)] = arr[Math.floor(index / 4)] + ' ' + val
   });
   return arr;
 }
