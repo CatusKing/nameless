@@ -12,6 +12,6 @@ module.exports = {
     streaks.forEach(value => {
       description += `${floor(value[2])}🦴 - <@&${value[1]}>\n`;
     });
-    interaction.reply({ embeds: [new MessageEmbed().setDescription().setColor('#9e9d9d')] })
+    interaction.reply({ embeds: [new MessageEmbed().setDescription(description).setColor('#9e9d9d')] })
   }
 };
