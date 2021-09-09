@@ -325,6 +325,7 @@ client.once('ready', () => {
 
   setTimeout(() => setInterval(events, 900000), 90000);
 
+  console.log(client.functions.get('checkStreaks'))
   setInterval(client.functions.get('checkStreaks').execute(client, db), 3600000);
 
   console.log('Setting up slash commands');
