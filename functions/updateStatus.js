@@ -1,8 +1,10 @@
+const { status: stat } = require('../general/config.json');
+
 module.exports = {
 	execute(client, db, status) {
     ++status;
 
-    if (status == config.status.length) status = 0;
+    if (status == stat.length) status = 0;
     const lb = db.get(`discord.server.leaderboard`) || [];
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
     const leaderboard = new Collection();
