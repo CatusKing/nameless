@@ -265,9 +265,10 @@ const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
 const events = () => client.functions.get('events').execute();
 
 const counting = () => {
-  var data = client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount);
-  count = data[1];
-  topCount = data[0];
+  count = client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount);
+  if (count > topCount) {
+    topCount = count;
+  }
 };
 
 const updateStreak = (id = new String(), msg = new Message()) => {
