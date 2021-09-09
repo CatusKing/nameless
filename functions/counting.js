@@ -64,7 +64,7 @@ module.exports = {
           }
         }
       }
-      return { topCount: topCount, count: count };
+      return [topCount, count];
     });
   }
 };

@@ -266,8 +266,8 @@ const events = () => client.functions.get('events').execute();
 
 const counting = () => {
   var data = client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount);
-  count = data.count;
-  topCount = data.topCount;
+  count = data[1];
+  topCount = data[0];
 };
 
 const updateStreak = (id = new String(), msg = new Message()) => {
