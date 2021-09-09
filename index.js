@@ -114,76 +114,9 @@ const get_attrs = async (text) => {
   return attrs;
 };
 
-const updateStatus = async () => {
-  ++status;
+const updateStatus = async () => status = client.functions.get('updateStatus').execute(client, db, status);
 
-  if (status == config.status.length) status = 0;
-  const lb = db.get(`discord.server.leaderboard`) || [];
-  const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
-  const leaderboard = new Collection();
-  for (let i = 0; i < lb.length; ++i) {
-    if (guildMembers.has(lb[i][0])) {
-      leaderboard.set(lb[i][0], lb[i][1]);
-    }
-  }
-  let num = 1;
-  let top;
-  leaderboard.sort((a, b) => b - a)
-    .filter((value, key) => client.users.cache.has(key))
-    .forEach((value, key) => {
-      if (num == 1) top = client.users.cache.get(key).tag;
-      ++num;
-    });
-  let bank = round(getUserBalance('bank'));
-  client.user.setActivity(config.status[status]
-    .replace('%bank%', bank)
-    .replace('%prefix%', prefix)
-    .replace('%top%', top)
-    .replace('%topCount%', topCount)
-  );
-};
-
-const givePoints = () => {
-  const guild = client.guilds.cache.get('830495072876494879');
-  var description = '';
-  guild.channels.cache.forEach(ch => {
-    
-    if (ch.type == 'GUILD_VOICE' && ch.id != '830505700269883412') {
-      ch.members.forEach(member => {
-        
-        if (!member.voice.deaf) {
-          
-          if (member.user.bot) return;
-          let amount = 2;
-          
-          if (!member.voice.mute) {
-            amount += 3;
-            
-            if (member.voice.selfVideo) amount += 3;
-            else if (member.voice.streaming) amount += 1;
-          }
-          var yes = false;
-          if (member.roles.cache.has('867226596103946250')) {
-            amount = Math.floor(amount * 1.5);
-            yes = true;
-          }
-          if (member.presence) {
-            for (let i of member.presence.activities) {
-              if (i.type == 'CUSTOM_STATUS' && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
-                amount = Math.floor(amount * 1.5);
-                break;
-              }
-            }
-          }
-          addUserBalance(member.id, amount);
-          description += `\n+${amount}🦴 to ${member} for sitting in vc`;
-        }
-      });
-    }
-  });
-  
-  if (description != '') log('830503210951245865', description, '#baffc9');
-};
+const givePoints = () => client.functions.get('givePoints').execute(client, addUserBalance, log);
 
 const getUserBalance = (id = '') => {
   const user = db.get(`discord.users.${id}`) || {};
@@ -245,21 +178,13 @@ const setUserMuted = (id = '', num = 0) => {
   return user.muted;
 };
 
-const getServerAdmins = () => {
-  return db.get(`discord.server.admins`) || [];
-};
+const getServerAdmins = () => {return db.get(`discord.server.admins`) || []};
 
-const setServerAdmins = (admins = []) => {
-  db.set(`discord.server.admins`, admins);
-};
+const setServerAdmins = (admins = []) => {db.set(`discord.server.admins`, admins)};
 
-const getServerIgnoredCh = () => {
-  return db.get(`discord.server.ignoredCh`) || [];
-};
+const getServerIgnoredCh = () => {return db.get(`discord.server.ignoredCh`) || []};
 
-const setServerIgnoredCh = (ignoredCh = []) => {
-  db.set(`discord.server.ignoredCh`, ignoredCh);
-};
+const setServerIgnoredCh = (ignoredCh = []) => {db.set(`discord.server.ignoredCh`, ignoredCh)};
 
 const getUserCooldown = (id = '') => {
   const user = db.get(`discord.users.${id}`) || {};
@@ -333,157 +258,16 @@ const punish = async (msg) => {
   } catch (error) { }
 };
 
-const APOD = (id = config.APOD_chID) => {
-  request(`https://api.nasa.gov/planetary/apod?api_key=${token.apiKey1}`, { json: true }, (err, res, body) => {
-    if (err) return console.log(err);
-    const ch = client.channels.cache.get(id);
-    var embed = new MessageEmbed()
-      .setImage(body.hdurl)
-      .setAuthor(`Credit to NASA for providing the APOD(Astronomy Picture of the Day) <3`)
-      .setTitle(body.title)
-      .setURL(body.hdurl)
-      .setDescription(body.explanation)
-      .setColor(`#0b3d91`)
-      .setFooter(body.date);
-    ch.send({ embeds: [embed] });
-  });
-};
+const APOD = (id = config.APOD_chID) => client.functions.get('APOD').execute(client, id);
 
-const nextLaunch = () => {
-  client.channels.cache.get('841137170525716480').messages.fetch('880297426508972113')
-    .then(message => {
-      request(`https://ll.thespacedevs.com/2.0.0/launch/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
-        if (err) return console.log(err);
-        var date = new Date();
-        var id = 0;
-        var temp = -1;
-        for (let i = 0; i < body.results.length; ++i) {
-          var tempDate = new Date(body.results[i].net);
-          if (temp == -1 && (tempDate.getTime() - date.getTime()) > 0 || temp > (tempDate.getTime() - date.getTime()) && (tempDate.getTime() - date.getTime()) > 0) {
-            id = i;
-            temp = tempDate.getTime() - date.getTime();
-          }
-        }
-        var launchTime = new Date(body.results[id].net);
-        var embed = new MessageEmbed()
-          .setColor('#0b3d91')
-          .setAuthor(`Updated on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} EST`)
-          .setTitle(body.results[id].name)
-          .setThumbnail(body.results[id].image)
-          .addField(`Status and probability`, `Status: ${body.results[id].status.name}\nProbability: ${body.results[id].probability}`)
-          .addField(`Provider: ${body.results[id].launch_service_provider.name}`, `Type: ${body.results[id].launch_service_provider.type}`)
-          .setImage(body.results[id].ideographic);
-        if (body.results[id].mission != null) {
-          embed.setDescription(`Launch <t:${Math.floor(launchTime.getTime() / 1000)}:R>\n\n${body.results[id].mission.description}`)
-            .addField(`Mission ${body.results[id].mission.name}`, `Type: ${body.results[id].mission.type}`)
-          if (body.results[id].mission.orbit != null) {
-            embed.addField(`Orbit`, body.results[id].mission.orbit.name);
-          };
-        }
-        message.edit({ content: '\u200B', embeds: [embed] });
-      });
-    });
-};
+const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
 
-const events = () => {
-  var embeds = [];
-  request(`https://ll.thespacedevs.com/2.0.0/event/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
-    if (err) return console.log(err);
-    var date = new Date();
-    for (let i of body.results) {
-      var launchTime = new Date(i.date);
-      if (launchTime.getTime() - date.getTime() < 0) continue;
-      var embed = new MessageEmbed()
-        .setColor('#0b3d91')
-        .setAuthor(`Updated on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} EST`)
-        .setTitle(i.name)
-        .setURL(i.news_url)
-        .setDescription(`<t:${Math.floor(launchTime.getTime() / 1000)}:R>\n\n${i.description}`)
-        .addField('Type', i.type.name)
-        .setImage(i.feature_image);
-      embeds.push(embed);
-    }
-    var time = 0;
-    for (let j = 0; j < config.eventsMessages.length; ++j) {
-      client.channels.cache.get('841334897825415199').messages.fetch(config.eventsMessages[j])
-        .then(message => {
-          time = time + 5000;
-          if (embeds[j] != null) {
-            setTimeout(() => message.edit({ embeds: [embeds[j]], content: '\u200B' }), time);
-          } else {
-            setTimeout(() => message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: '\u200B' }), time);
-          }
-        });
-    }
-  });
-};
+const events = () => client.functions.get('events').execute();
 
 const counting = () => {
-  const channel = client.channels.cache.get('830661661991632907');
-  const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830904166007701504');
-  channel.messages.fetch({limit: 10}, {force: true}).then((messages) => {
-    var error = false;
-    try {var number = limitedEvaluate(messages.first().content.toLowerCase());}
-    catch (err) {
-      db.set(`discord.count`, 0);
-      count = 0;
-      messages.first().react('❌');
-      messages.first().channel.send(`\`\`\`\n${err}\`\`\``);
-      messages.first().channel.send(`Why...\nReset back to 1...`);
-      messages.first().member.roles.add(role);
-      error = true;
-    }
-    if (error) return;
-    if (number != count + 1) {
-      messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}\nReset back to 1...`);
-      db.set(`discord.count`, 0);
-      count = 0;
-      messages.first().react('❌');
-      messages.first().member.roles.add(role);
-    } else {
-      if (count == 0) {
-        db.set('discord.count', count + 1);
-        ++count;
-        messages.first().react('✅');
-        if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
-        else var mult = 1;
-        if (count > topCount) {
-          db.set('discord.topCount', count);
-          topCount = count;
-          messages.first().react('🎉');
-          addUserBalance(messages.first().author.id, Math.floor(50 * mult));
-          log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
-        } else {
-          addUserBalance(messages.first().author.id, Math.floor(5 * mult));
-          log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
-        }
-      } else {
-        if (messages.first().author.id == messages.first(2)[1].author.id) {
-          db.set(`discord.count`, 0);
-          count = 0;
-          messages.first().react('❌');
-          messages.first().channel.send(`Why... You cant go after yourself...\nReset back to 1...`);
-          messages.first().member.roles.add(role);
-        } else {
-          db.set('discord.count', count + 1);
-          ++count;
-          messages.first().react('✅');
-          if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
-          else var mult = 1;
-          if (count > topCount) {
-            db.set('discord.topCount', count);
-            topCount = count;
-            messages.first().react('🎉');
-            addUserBalance(messages.first().author.id, Math.floor(50 * mult));
-            log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
-          } else {
-            addUserBalance(messages.first().author.id, Math.floor(5 * mult));
-            log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
-          }
-        }
-      }
-    }
-  });
+  var data = client.functions.get('counting').execute(client, db, limitedEvaluate);
+  count = data.count;
+  topCount = data.topCount;
 };
 
 const checkStreaks = () => {
