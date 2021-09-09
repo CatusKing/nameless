@@ -265,32 +265,9 @@ const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
 const events = () => client.functions.get('events').execute();
 
 const counting = () => {
-  var data = client.functions.get('counting').execute(client, db, limitedEvaluate);
+  var data = client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount);
   count = data.count;
   topCount = data.topCount;
-};
-
-const checkStreaks = () => {
-  var users = db.get(`discord.users`) || {};
-  var date = new Date();
-  var guild = client.guilds.cache.get('830495072876494879');
-  guild.members.cache.forEach((member) => {
-    if (users[member.id]) {
-      if (isNaN(users[member.id].streakTime)) users[member.id].streakTime = 0;
-      var streakTime = users[member.id].streakTime || 0;
-      if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
-        users[member.id].streak = 0;
-      } else {
-        for(let i = 0; i < config.streaks.length; ++i) {
-          const role = guild.roles.cache.get(config.streaks[i][1]);
-          if (users[member.id].streak < config.streaks[i][0] && member.roles.cache.has(role.id)) {
-            member.roles.remove(role, 'Reset Streak :(');
-          }
-        }
-      }
-    }
-  });
-  db.set(`discord.users`, users);
 };
 
 const updateStreak = (id = new String(), msg = new Message()) => {
@@ -348,7 +325,7 @@ client.once('ready', () => {
 
   setTimeout(() => setInterval(events, 900000), 90000);
 
-  setInterval(checkStreaks, 3600000);
+  setInterval(client.functions.get('checkStreaks').execute(client, db), 3600000);
 
   console.log('Setting up slash commands');
   var commands = [];
@@ -387,7 +364,6 @@ client.on('messageCreate', async (msg) => {
       msg.channel.send('Ran the following updates\nPfP');
     }
     if (msg.content == '!test') {
-      checkStreaks();
     }
   }
 
