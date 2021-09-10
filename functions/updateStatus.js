@@ -1,7 +1,8 @@
+const { default: Collection } = require('@discordjs/collection');
 const { status: stat } = require('../general/config.json');
 
 module.exports = {
-	execute(client, db, status) {
+	execute(client, db, status, round) {
     ++status;
 
     if (status == stat.length) status = 0;

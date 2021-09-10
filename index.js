@@ -114,7 +114,7 @@ const get_attrs = async (text) => {
   return attrs;
 };
 
-const updateStatus = async () => status = client.functions.get('updateStatus').execute(client, db, status);
+const updateStatus = async () => status = client.functions.get('updateStatus').execute(client, db, status, round);
 
 const givePoints = () => client.functions.get('givePoints').execute(client, addUserBalance, log);
 
