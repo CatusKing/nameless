@@ -64,6 +64,7 @@ module.exports = {
           }
         }
       }
+      console.log(count)
       return count;
     });
   }
