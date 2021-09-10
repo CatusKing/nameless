@@ -2,7 +2,7 @@ const { default: Collection } = require('@discordjs/collection');
 const { status: stat } = require('../general/config.json');
 
 module.exports = {
-	async execute(client, db, status, round, getUserBalance) {
+	execute(client, db, status, round, getUserBalance) {
     ++status;
 
     if (status == stat.length) status = 0;
