@@ -265,7 +265,7 @@ const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
 const events = () => client.functions.get('events').execute();
 
 const counting = () => {
-  console.log(client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount))
+  console.log(`hi ${client.functions.get('counting').execute(client, db, limitedEvaluate, log, addUserBalance, count, topCount)}`)
   if (count > topCount) {
     topCount = count;
   }
