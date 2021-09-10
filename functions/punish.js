@@ -1,7 +1,7 @@
 const { abc } = require('../general/config.json');
 
 module.exports = {
-	execute(client, msg, get_attrs, setUserMuted, reply, log) {
+	async execute(client, msg, get_attrs, setUserMuted, reply, log) {
     try {
       const characters = msg.content.split('');
       var letters = false;
@@ -17,7 +17,7 @@ module.exports = {
         var warn = 0;
         var severity = 0;
         var reason = [];
-        const scores = get_attrs(msg.content)
+        const scores = await get_attrs(msg.content)
         for (let i of attributes) {
           if (scores[i] >= 0.75) {
             ++warn;
