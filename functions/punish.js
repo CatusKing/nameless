@@ -17,7 +17,8 @@ module.exports = {
         var warn = 0;
         var severity = 0;
         var reason = [];
-        const scores = await get_attrs(msg.content)
+        const scores = await get_attrs(msg.content);
+        console.debug(scores);
         for (let i of attributes) {
           if (scores[i] >= 0.75) {
             ++warn;
