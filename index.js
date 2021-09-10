@@ -211,7 +211,10 @@ const setUserBanned = (id = '', num = 0) => {
   return;
 };
 
-const punish = async (msg) => client.functions.get('punish').execute(client, msg, get_attrs, setUserMuted, reply, log);
+const punish = async (msg) => {
+  client.functions.get('punish').execute(client, msg, get_attrs, setUserMuted, reply, log);
+  console.log('punish');
+}
 
 const APOD = (id = config.APOD_chID) => client.functions.get('APOD').execute(client, id);
 
