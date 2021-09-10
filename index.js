@@ -262,7 +262,7 @@ const APOD = (id = config.APOD_chID) => client.functions.get('APOD').execute(cli
 
 const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
 
-const events = () => client.functions.get('events').execute();
+const events = () => client.functions.get('events').execute(client);
 
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');

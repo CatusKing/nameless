@@ -23,7 +23,7 @@ module.exports = {
         ++num;
       });
     let bank = round(getUserBalance('bank'));
-    client.user.setActivity(config.status[status]
+    client.user.setActivity(stats[status]
       .replace('%bank%', bank)
       .replace('%prefix%', prefix)
       .replace('%top%', top)
