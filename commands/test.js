@@ -1,4 +1,4 @@
-modules.export = {
+module.exports = {
   name: 'test',
   description: 'Just a simple test command',
   command: false,
