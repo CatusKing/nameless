@@ -513,9 +513,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-client.on('threadCreate', (thread) => {
-  thread.join();
-});
+client.on('threadCreate', (thread) => thread.join());
 
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
@@ -611,9 +609,9 @@ client.on('messageDelete', msg => {
   }
 });
 
-client.on('guildBanAdd', (guild, user) => { log('834179033289719839', `${user} was just banned`, '#9e9d9d'); });
+client.on('guildBanAdd', (guildBan) => { log('834179033289719839', `${guildBan.user} was just banned`, '#9e9d9d'); });
 
-client.on('guildBanRemove', (guild, user) => { log('834179033289719839', `${user} was unbanned`, '#9e9d9d'); });
+client.on('guildBanRemove', (guildBan) => { log('834179033289719839', `${guildBan.user} was unbanned`, '#9e9d9d'); });
 
 client.on('rateLimit', rl => {
   const cactus = client.users.cache.get('473110112844644372');
