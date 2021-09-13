@@ -25,7 +25,6 @@ module.exports = {
     let bank = round(getUserBalance('bank'));
     client.user.setActivity(stat[status]
       .replace('%bank%', bank)
-      .replace('%prefix%', prefix)
       .replace('%top%', top)
       .replace('%topCount%', topCount)
     );
