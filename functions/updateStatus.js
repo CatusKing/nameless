@@ -1,4 +1,4 @@
-const { default: Collection } = require('@discordjs/collection');
+const { Collection } = require('discord.js');
 const { status: stat } = require('../general/config.json');
 
 module.exports = {
