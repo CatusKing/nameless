@@ -2,7 +2,9 @@ const { abc } = require('../general/config.json');
 
 module.exports = {
 	async execute(client, msg, get_attrs, setUserMuted, reply, log) {
+    console.log('yep')
     try {
+      console.log('yah')
       const characters = msg.content.split('');
       var letters = false;
       for (let i of characters) {
