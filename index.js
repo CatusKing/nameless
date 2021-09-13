@@ -5,7 +5,7 @@ const db = require('quick.db');
 const { google } = require('googleapis');
 const fs = require('fs');
 const request = require('request');
-const { create, all} = require('mathjs');
+const { create, all } = require('mathjs');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767);
@@ -40,9 +40,9 @@ for (const file of functionFiles) {
 }
 
 math.import({
-  'import':     function () { throw new Error('Function import is disabled') },
+  'import': function () { throw new Error('Function import is disabled') },
   'createUnit': function () { throw new Error('Function createUnit is disabled') },
-  'compile':    function () { throw new Error('Function compile is disabled') },
+  'compile': function () { throw new Error('Function compile is disabled') },
 }, { override: true });
 
 const log = (channelId = new String, content = new String, color = new String) => {
@@ -78,7 +78,7 @@ const floor = (balance = Number) => {
   else return bal;
 };
 
-const hours = (milliseconds = Number) => {return Math.floor(((milliseconds / 1000) / 60) / 60) + 1};
+const hours = (milliseconds = Number) => { return Math.floor(((milliseconds / 1000) / 60) / 60) + 1 };
 
 const updateInvites = () => {
   const guild = client.guilds.cache.get('830495072876494879');
@@ -176,13 +176,13 @@ const setUserMuted = (id = '', num = 0) => {
   return user.muted;
 };
 
-const getServerAdmins = () => {return db.get(`discord.server.admins`) || []};
+const getServerAdmins = () => { return db.get(`discord.server.admins`) || [] };
 
-const setServerAdmins = (admins = []) => {db.set(`discord.server.admins`, admins)};
+const setServerAdmins = (admins = []) => { db.set(`discord.server.admins`, admins) };
 
-const getServerIgnoredCh = () => {return db.get(`discord.server.ignoredCh`) || []};
+const getServerIgnoredCh = () => { return db.get(`discord.server.ignoredCh`) || [] };
 
-const setServerIgnoredCh = (ignoredCh = []) => {db.set(`discord.server.ignoredCh`, ignoredCh)};
+const setServerIgnoredCh = (ignoredCh = []) => { db.set(`discord.server.ignoredCh`, ignoredCh) };
 
 const getUserCooldown = (id = '') => {
   const user = db.get(`discord.users.${id}`) || {};
@@ -199,7 +199,7 @@ const setUserCooldown = (id = '', num = 0) => {
 const setUserBanned = (id = '', num = 0) => {
   const bans = db.get(`discord.server.banned`) || [];
   let contains = false;
-  for(let i = 0; i < bans.length; ++i) {
+  for (let i = 0; i < bans.length; ++i) {
     if (bans[i][0] == id) {
       bans[i][1] = num;
       contains = true;
@@ -222,9 +222,9 @@ const events = () => client.functions.get('events').execute(client);
 const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
   const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830904166007701504');
-  channel.messages.fetch({limit: 10}, {force: true}).then((messages) => {
+  channel.messages.fetch({ limit: 10 }, { force: true }).then((messages) => {
     var error = false;
-    try {var number = limitedEvaluate(messages.first().content.toLowerCase());}
+    try { var number = limitedEvaluate(messages.first().content.toLowerCase()); }
     catch (err) {
       db.set(`discord.count`, 0);
       count = 0;
@@ -293,7 +293,7 @@ const updateStreak = (id = new String(), msg = new Message()) => {
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
     msg.react('🔥');
     var streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
-    for(let i = 0; i < config.streaks.length; ++i) {
+    for (let i = 0; i < config.streaks.length; ++i) {
       if (streak < config.streaks[i][0]) break;
       else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
         var role = msg.guild.roles.cache.get(config.streaks[i][1]);
@@ -375,20 +375,13 @@ client.on('messageCreate', async (msg) => {
 
   var admins = getServerAdmins();
   var ignoredCh = getServerIgnoredCh();
-  
+
   // //Dm commands
   if (msg.channel.type == 'DM') {
     const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
-
-    if (msg.content == '!update') {
-      client.user.setAvatar(guild.iconURL());
-      msg.channel.send('Ran the following updates\nPfP');
-    }
-    if (msg.content == '!test') {
-    }
   }
 
   if (msg.channel.type != 'GUILD_TEXT') return;
@@ -399,7 +392,7 @@ client.on('messageCreate', async (msg) => {
     var time = 0;
     var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!'];
     crazyTime = 60;
-    for(let i = 0; i < crazy.length * 3; ++i) {
+    for (let i = 0; i < crazy.length * 3; ++i) {
       time = time + 1350;
       setTimeout(() => {
         msg.channel.send(crazy[i % crazy.length]);
@@ -467,14 +460,14 @@ client.on('messageReactionAdd', (reaction, user) => {
       messages.forEach(message => {
         if (message.embeds[0].footer.text == reaction.message.id && !yes) {
           yes = true;
-          message.edit({ embeds: [ message.embeds[0].setTitle(`${reaction.count} 💀`) ] })
+          message.edit({ embeds: [message.embeds[0].setTitle(`${reaction.count} 💀`)] })
         }
       });
       if (!yes) {
         var embed = new MessageEmbed().setDescription(reaction.message.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
         if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
         const channel = client.channels.cache.get('880999255622451270')
-        channel.send({ embeds: [ embed ] });
+        channel.send({ embeds: [embed] });
       }
     });
   }
@@ -484,7 +477,7 @@ client.on('interactionCreate', async interaction => {
   if (interaction.isCommand()) {
     var admins = getServerAdmins();
     var ignoredCh = getServerIgnoredCh();
-  
+
     client.commands.forEach((value, key) => {
       if (value.name == interaction.commandName && value.slash) {
         try {
@@ -598,7 +591,7 @@ client.on('guildMemberAdd', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just joined the server`, '#9e9d9d');
 });
 
-client.on('guildMemberRemove', member => {log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d'); });
+client.on('guildMemberRemove', member => { log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d'); });
 
 client.on('messageDelete', msg => {
 
@@ -633,16 +626,16 @@ client.on('warn', warning => {
 });
 
 client.on('error', error => {
-  const cactus = client.users.cache.get('473110112844644372')
+  const cactus = client.users.cache.get('473110112844644372');
   cactus.send(`${cactus} hey error:\n${error}`);
 });
 
 process.on('message', (msg) => {
   if (msg == 'shutdown') {
-    console.log('Closing all connections...')
+    console.log('Closing all connections...');
     client.destroy();
-    console.log('Finished closing connections')
-    process.exit(0)
+    console.log('Finished closing connections');
+    process.exit(0);
   }
 });
 
