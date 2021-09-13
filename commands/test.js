@@ -7,9 +7,7 @@ module.exports = {
   options: [],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
     if (interaction.member.roles.cache.has('830496065366130709')) {
-      client.guilds.create('Test', { defaultMessageNotifications: 'ALL_MESSAGES', explicitContentFilter: 'ALL_MEMBERS', verificationLevel: 'NONE' }).then((guild) => {
-        guild.invites.create(guild.channels.cache.first(), { reason: 'Test', maxUses: '50' })
-      }, (err) => console.warn(err));
+      interaction.reply(client.guilds.cache.toJSON.toString())
     } else interaction.reply('No perms');
   }
 }
