@@ -381,9 +381,9 @@ client.once('ready', () => {
 //Currency and commands
 client.on('messageCreate', async (msg) => {
 
-  if (msg.author.bot || msg.webhookId) return;
-
   if (msg.channelId == '830661661991632907') counting();
+
+  if (msg.author.bot || msg.webhookId) return;
 
   var admins = getServerAdmins();
   var ignoredCh = getServerIgnoredCh();
