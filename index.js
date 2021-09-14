@@ -223,6 +223,14 @@ const counting = () => {
   const channel = client.channels.cache.get('830661661991632907');
   const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830904166007701504');
   channel.messages.fetch({ limit: 10 }, { force: true }).then((messages) => {
+    if (messages.first().interaction) {
+      db.set(`discord.count`, 0);
+      count = 0;
+      messages.first().react('❌');
+      messages.first().channel.send(`Why...\nReset back to 1...`);
+      client.guilds.cache.get(config.guildId).members.cache.get(messages.first().interaction.user.id).roles.add(role);
+      error = true;
+    }
     var error = false;
     try { var number = limitedEvaluate(messages.first().content.toLowerCase()); }
     catch (err) {
