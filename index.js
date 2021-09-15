@@ -1,17 +1,24 @@
-const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js');
-const token = require('./general/token.json');
-const config = require('./general/config.json');
-const db = require('quick.db');
-const { google } = require('googleapis');
-const fs = require('fs');
-const request = require('request');
-const { create, all } = require('mathjs');
+/*
+TODO
+  - Keep commenting code
+  - Fix up status to use db and set on launch
+  - Make the invite var be stored in the db
+  - Database is deprecated so change over to another db
+*/
+const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
+const token = require('./general/token.json'); //Token file
+const config = require('./general/config.json'); //Config file
+const db = require('quick.db'); //Database
+const { google } = require('googleapis'); //Google api handler
+const fs = require('fs'); //File Sync
+const request = require('request'); //Api handler
+const { create, all } = require('mathjs'); //Mathjs used for handling counting
 const math = create(all);
 const limitedEvaluate = math.evaluate;
-const intents = new Intents(32767);
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents });
-const prefix = config.prefix;
-var status = 0;
+const intents = new Intents(32767); //ALL
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents }); //Basic client setup
+const prefix = config.prefix; //too lazy to writ config.prefix over and over
+var status = 0; //Basic global var
 var invites = [];
 var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
@@ -19,6 +26,7 @@ const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TO
 var count = db.get(`discord.count`) || 0;
 var topCount = db.get(`discord.topCount`) || 0;
 
+//1 Used to store commands and functions to call upon later
 client.commands = new Collection();
 client.functions = new Collection();
 
@@ -38,6 +46,7 @@ for (const file of functionFiles) {
   // With the key as the command name and the value as the exported module
   client.functions.set(file.replace('.js', ''), functions);
 }
+//1 End
 
 math.import({
   'import': function () { throw new Error('Function import is disabled') },
@@ -45,6 +54,7 @@ math.import({
   'compile': function () { throw new Error('Function compile is disabled') },
 }, { override: true });
 
+//2 Tons of functions
 const log = (channelId = new String, content = new String, color = new String) => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
@@ -309,7 +319,9 @@ const updateStreak = (id = new String(), msg = new Message()) => {
     db.set(`discord.users.${id}.streak`, streak);
   }
 };
+//2 End
 
+//3 Ran when client logs in
 client.once('ready', () => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
@@ -369,6 +381,7 @@ client.once('ready', () => {
 
   console.log(`Logged in as ${client.user.tag}`);
 });
+//3 End
 
 //Currency and commands
 client.on('messageCreate', async (msg) => {
