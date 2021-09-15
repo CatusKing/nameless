@@ -3,6 +3,8 @@ module.exports = {
     const videoOnlyCh = client.channels.cache.get('831347288710316032');
     const generalCh = client.channels.cache.get('830495073430929472');
     const smallRoomCh = client.channels.cache.get('832047338456612885');
+    const schoolCh = client.channels.cache.get('886267507743268964');
+    const date = new Date();
     videoOnlyCh.members.forEach(m => {
       if (!m.voice.selfVideo && !m.user.bot) {
         m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
@@ -30,5 +32,10 @@ module.exports = {
       });
     });
     smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
+    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 3  && date.getDay() != 0 && date.getDay() != 6 && schoolCh.name != schoolCh.name.includes('school')) {
+      schoolCh.setName(schoolCh.name.replace('homework-help', 'school'));
+    } else if (schoolCh.name.includes('school')) {
+      schoolCh.setName(schoolCh.name.replace('school', 'homework-help'))
+    }
   }
 };
