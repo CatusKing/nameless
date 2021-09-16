@@ -32,8 +32,8 @@ module.exports = {
       });
     });
     smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
-    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6 && schoolCh.name.includes('homework-help')) {
-      schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
+    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6) {
+      if (schoolCh.name.includes('homework-help')) schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
     } else if (schoolCh.name.includes('school')) {
       schoolCh.setName(schoolCh.name.replace('school', 'homework-help'), 'No longer school time');
     }
