@@ -32,6 +32,7 @@ module.exports = {
       });
     });
     smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
+    console.log(date.getHours() + 1 >= 7 && date.getHours() + 1 <= 3  && date.getDay() != 0 && date.getDay() != 6 && schoolCh.name.includes('homework-help'))
     if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 3  && date.getDay() != 0 && date.getDay() != 6 && schoolCh.name.includes('homework-help')) {
       schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
     } else if (schoolCh.name.includes('school')) {
