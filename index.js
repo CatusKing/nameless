@@ -383,7 +383,7 @@ client.once('ready', () => {
 });
 //3 End
 
-//Currency and commands
+//4 Currency and message handling
 client.on('messageCreate', async (msg) => {
 
   if (msg.channelId == '830661661991632907') counting();
@@ -415,10 +415,10 @@ client.on('messageCreate', async (msg) => {
     }
   }
 
-  // //Hate Speech
+  //Hate Speech
   punish(msg);
 
-  // //Points
+  //Points
   const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
     let amount = 5;
@@ -439,6 +439,7 @@ client.on('messageCreate', async (msg) => {
     log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
 
+  //Streak Check
   updateStreak(msg.author.id, msg);
 
   //Announcements commands
@@ -449,7 +450,7 @@ client.on('messageCreate', async (msg) => {
     msg.reply('there was an error trying to execute that command!');
   }
 
-  //Currency Stuff
+  //Command handling
   if (!msg.content.toLowerCase().startsWith(prefix)) return;
   const args = msg.content.slice(prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
@@ -466,7 +467,9 @@ client.on('messageCreate', async (msg) => {
     }
   });
 });
+//4 End
 
+//5 Reaction handler
 client.on('messageReactionAdd', (reaction, user) => {
   if (reaction.emoji.name != '💀') return;
   if (reaction.count >= 3) {
@@ -487,8 +490,11 @@ client.on('messageReactionAdd', (reaction, user) => {
     });
   }
 });
+//5 End
 
+//6 Interaction handler
 client.on('interactionCreate', async interaction => {
+  //Command Handler
   if (interaction.isCommand()) {
     var admins = getServerAdmins();
     var ignoredCh = getServerIgnoredCh();
@@ -503,7 +509,7 @@ client.on('interactionCreate', async interaction => {
         }
       }
     });
-  } else if (interaction.isSelectMenu()) {
+  } /* Select menu Handler */ else if (interaction.isSelectMenu()) {
     client.commands.forEach((value, key) => {
       if (value.name == interaction.customId && value.selectMenu) {
         try {
@@ -514,7 +520,7 @@ client.on('interactionCreate', async interaction => {
         }
       }
     });
-  } else if (interaction.isButton()) {
+  } /* Button Handler */ else if (interaction.isButton()) {
     client.commands.forEach((value, key) => {
       if (interaction.customId.includes(value.buttonId) && value.button) {
         try {
@@ -527,6 +533,7 @@ client.on('interactionCreate', async interaction => {
     });
   }
 });
+//6 End
 
 client.on('threadCreate', (thread) => thread.join());
 
