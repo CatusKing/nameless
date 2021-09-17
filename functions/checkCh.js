@@ -4,6 +4,7 @@ module.exports = {
     const generalCh = client.channels.cache.get('830495073430929472');
     const smallRoomCh = client.channels.cache.get('832047338456612885');
     const schoolCh = client.channels.cache.get('886267507743268964');
+    const schoolVc = client.channels.cache.get('886267705286619167');
     const date = new Date();
     videoOnlyCh.members.forEach(m => {
       if (!m.voice.selfVideo && !m.user.bot) {
@@ -32,10 +33,15 @@ module.exports = {
       });
     });
     smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
-    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 3  && date.getDay() != 0 && date.getDay() != 6 && schoolCh.name.includes('homework-help')) {
-      schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
+    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6) {
+      if (schoolCh.name.includes('homework-help')) schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
     } else if (schoolCh.name.includes('school')) {
       schoolCh.setName(schoolCh.name.replace('school', 'homework-help'), 'No longer school time');
+    }
+    if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6) {
+      if (schoolVc.name.includes('homework')) schoolVc.setName(schoolVc.name.replace('homework', 'school'), 'School time!');
+    } else if (schoolVc.name.includes('school')) {
+      schoolVc.setName(schoolVc.name.replace('school', 'homework'), 'No longer school time');
     }
   }
 };
