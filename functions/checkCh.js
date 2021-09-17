@@ -41,7 +41,7 @@ module.exports = {
     if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6) {
       if (schoolVc.name.includes('homework')) schoolVc.setName(schoolVc.name.replace('homework', 'school'), 'School time!');
     } else if (schoolVc.name.includes('school')) {
-      schoolVc.setName(schoolVc.name.replace('school', 'homework'), 'No longer school time');
+      schoolVc.setName(schoolVc.name.replace('school', 'homework'), 'No longer school time :D');
     }
   }
 };
