@@ -39,7 +39,7 @@ module.exports = {
     if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
     let outcome = total - bet;
     if (outcome < 0 && interaction.member.roles.cache.has('889221970774867968')) {
-      outcome = Math.floor(outcome / 2);
+      outcome = Math.floor(outcome / 4);
       addUserBalance(interaction.user.id, outcome);
       addUserBalance('bank', -outcome);
       db.set(`discord.users.${interaction.member.id}.insuranceOwed`, (db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + -outcome)

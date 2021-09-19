@@ -29,7 +29,7 @@ module.exports = {
   ],
   executeI(client = new Client(), interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.options.getSubcommand() == 'help') {
-      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`Insurance rates start at 5k🦴 a week plus 1/3 of what you owe.\nWhat you owe is decided by how much you've lost and been given back\nYour rate is ${round(5000 + Math.floor(db.get(`discord.users.${interaction.member.id}.insuranceOwed`) / 3 || 0))}🦴`) ] });
+      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`Saves 25% of your gamble\nInsurance rates start at 5k🦴 a week plus 1/3 of what you owe.\nWhat you owe is decided by how much you've lost and been given back\nYour rate is ${round(5000 + Math.floor(db.get(`discord.users.${interaction.member.id}.insuranceOwed`) / 3 || 0))}🦴`) ] });
     } else if (interaction.options.getSubcommand() == 'buy') {
       if (interaction.member.roles.cache.has('889221970774867968')) {
         interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription('You already have insurance') ] });
