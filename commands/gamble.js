@@ -38,6 +38,19 @@ module.exports = {
 
     if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
     let outcome = total - bet;
+    if (outcome < 0 && interaction.member.roles.cache.has('889221970774867968')) {
+      outcome = outcome / 2;
+      addUserBalance(interaction.user.id, outcome);
+      addUserBalance('bank', -outcome);
+      db.set(`discord.users.${interaction.member.id}.insuranceOwed`, (db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + -outcome)
+      var embed = new MessageEmbed()
+        .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
+        .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`)
+        .setColor('#ff7784')
+        .setDescription(`You Spent: ${bet}🦴\nYou made: ${total}🦴 (${balance + outcome}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)\nInsurance saved half the bet meaning you owe the other half anf it has been added to your insurance rate`);
+        log('830503210951245865', `-${-outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#ff7784');
+      interaction.reply({ embeds: [embed] });
+    }
     addUserBalance(interaction.user.id, outcome);
     addUserBalance('bank', -outcome);
     var embed = new MessageEmbed()
@@ -50,7 +63,7 @@ module.exports = {
       log('830503210951245865', `+${outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#baffc9');
     } else {
       embed.setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}🦴\nYou Made: ${total}🦴 (${balance + outcome}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)`);
+        .setDescription(`You Spent: ${bet}🦴\nYou made: ${total}🦴 (${balance + outcome}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)`);
       log('830503210951245865', `-${-outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#ff7784');
     }
     interaction.reply({ embeds: [embed] });
