@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const config = require('../general/config.json');
-const prefix = config.prefix;
+const prefix = '/';
 module.exports = {
 	name: 'gamble',
 	description: 'Allows you to gamble for more points',
