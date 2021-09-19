@@ -333,7 +333,7 @@ const checkInsurance = () => {
           if (users[member.id].balance >= rate) {
             users[member.id].balance = users[member.id].balance - rate;
             users[member.id].insuranceOwed = (users[member.id].insuranceOwed || 0) - Math.floor((users[member.id].insuranceOwed / 3) || 0);
-            log(`830503210951245865`, `-${rate}🦴 to ${member} for insurance`);
+            log(`830503210951245865`, `-${rate}🦴 to ${member} for insurance`, '#ff7784');
           } else {
             const role = guild.roles.cache.get('889221970774867968');
             member.roles.remove(role, 'Couldn\'t pay insurance');
