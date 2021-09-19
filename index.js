@@ -390,6 +390,8 @@ client.once('ready', () => {
     }
   }, 60000);
 
+  setInterval(checkInsurance, 3600000)
+
   console.log('Setting up slash commands');
   var commands = [];
   client.commands.forEach((value, key) => {
