@@ -25,11 +25,6 @@ module.exports = {
       type: 'SUB_COMMAND',
       name: 'status',
       description: 'Tells you if you have insurance',
-    },
-    {
-      type: 'SUB_COMMAND',
-      name: 'owed',
-      description: 'See how much you owe'
     }
   ],
   executeI(client = new Client(), interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
@@ -54,7 +49,7 @@ module.exports = {
     } else if (interaction.options.getSubcommand() == 'cancel') {
       interaction.reply('this hasn\'t been setup yet sorry');
     } else if (interaction.options.getSubcommand() == 'status') {
-      interaction.reply('not supported yet :(');
+      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`You owe: ${db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0}🦴\nYour rate is ${(db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + 5000}🦴 per week`) ] });
     }
   },
 };
