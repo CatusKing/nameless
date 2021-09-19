@@ -1,5 +1,6 @@
 /*
 TODO
+  - addBalance needs to add the vip bonus and log
   - Keep commenting code
   - Fix up status to use db and set on launch
   - Make the invite var be stored in the db
@@ -317,6 +318,30 @@ const updateStreak = (id = new String(), msg = new Message()) => {
     }
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
     db.set(`discord.users.${id}.streak`, streak);
+  }
+};
+
+const checkInsurance = () => {
+  var date = new Date();
+  if (date.getDay() == 0 && date.getHours() == 0) {
+    var users = db.get(`discord.users`) || {};
+    var guild = client.guilds.cache.get('830495072876494879');
+    guild.members.cache.forEach((member) => {
+      if (users[member.id]) {
+        if (member.roles.cache.has('889221970774867968')) {
+          var rate = 5000 + Math.floor((users[member.id].insuranceOwed / 3) || 0);
+          if (users[member.id].balance >= rate) {
+            users[member.id].balance = users[member.id].balance - rate;
+            users[member.id].insuranceOwed = (users[member.id].insuranceOwed || 0) - Math.floor((users[member.id].insuranceOwed / 3) || 0);
+            log(`830503210951245865`, `-${rate}🦴 to ${member} for insurance`);
+          } else {
+            const role = guild.roles.cache.get('889221970774867968');
+            member.roles.remove(role, 'Couldn\'t pay insurance');
+          }
+        }
+      }
+    });
+    db.set(`discord.users`, users);
   }
 };
 //2 End
