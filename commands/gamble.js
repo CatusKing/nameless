@@ -49,7 +49,7 @@ module.exports = {
         .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
         .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`)
         .setColor('#ff7784')
-        .setDescription(`You Spent: ${bet}🦴\nYou made: ${-outcome}🦴 (${balance + insured}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)\nInsurance saved half the bet meaning you owe the other half anf it has been added to your insurance rate`);
+        .setDescription(`You Spent: ${bet}🦴\nYou made: ${-outcome}🦴 (${balance + insured}🦴)\n${-insured}🦴 points added to the bank(${bank + -insured}🦴)\nInsurance saved half the bet meaning you owe the other half anf it has been added to your insurance rate`);
         log('830503210951245865', `-${-outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#ff7784');
       interaction.reply({ embeds: [embed] });
       return;
