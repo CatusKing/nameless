@@ -42,6 +42,7 @@ module.exports = {
           for (let k = 0; k < 5 - label.length; ++i) {
             label = label + '\u200B';
           }
+          console.log(components[i])
           components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
         }
       }
