@@ -8,6 +8,6 @@ module.exports = {
   options: [],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
     var yep = game.play({ isNewGame: true }).nextField;
-    interaction.reply(yep)
+    interaction.reply(yep[0].toString())
   }
 }
