@@ -7,6 +7,11 @@ module.exports = {
   slash: true,
   options: [],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
-    interaction.reply(game.play({ isNewGame: true }).nextField());
+    try {
+      var yep = game.play({ isNewGame: true }).nextField();
+      interaction.reply(yep.toString());
+    } catch (err) {
+      interaction.reply(err);
+    }
   }
 }
