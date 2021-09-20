@@ -136,7 +136,7 @@ const addUserBalance = (id = '', num = 0, reason = new String(''), activity = fa
   const member = client.guilds.cache.get(config.guildId).members.cache.get(id);
   const lb = db.get(`discord.server.leaderboard`) || [];
   Number(user.balance);
-  if (member.roles.cache.has('867226596103946250') && activity) {
+  if (activity && member.roles.cache.has('867226596103946250')) {
     num = Math.floor(num * 1.5);
   }
   if (reason != '') {
