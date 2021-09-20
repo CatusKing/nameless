@@ -8,8 +8,12 @@ module.exports = {
   options: [],
   executeI(client = new Client(), interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     const preTable = db.get(`discord.server.table`);
-    var table = game.play({ isNewGame: true }).nextField;
-    db.set(`discord.server.table`, table);
+    if (preTable) {
+      var table = game.play({ prevField: preTable, isNewGame: true }).nextField;
+    } else {
+      var table = game.play({ isNewGame: true }).nextField;
+      db.set(`discord.server.table`, table);
+    }
     var components = [];
     for(let i = 0; i < table.length; ++i) {
       components[i] = new MessageActionRow()
