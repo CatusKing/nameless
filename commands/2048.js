@@ -15,15 +15,15 @@ module.exports = {
       db.set(`discord.server.table`, table);
     }
     var components = [];
-    for(let i = 0; i < table.length; ++i) {
+    for (let i = 0; i < table.length; ++i) {
       components[i] = new MessageActionRow()
-      for(let j = 0; j < table[i].length; ++j) {
+      for (let j = 0; j < table[i].length; ++j) {
         components[i].addComponents(new MessageButton().setLabel(`${table[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
       }
     }
     components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
     components[3].addComponents(new MessageButton().setEmoji('⬇️').setCustomId(`down!`).setStyle('PRIMARY'));
-    components[4] = new MessageActionRow().addComponents([ new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('➡️').setCustomId('right!').setStyle('PRIMARY') ]);
+    components[4] = new MessageActionRow().addComponents([new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('➡️').setCustomId('right!').setStyle('PRIMARY')]);
     interaction.reply({ content: 'text', components: components });
   },
   button: true,
@@ -33,22 +33,24 @@ module.exports = {
     if (!preTable) {
       interaction.message.edit({ content: 'No active thingy', components: [] })
     } else {
-      var direction = interaction.component.customId.replace('!', '');
-      console.log(direction)
-      for(let i = 0; i < 5 - direction.length; ++i) {
+      for (let i = 0; i < 5 - direction.length; ++i) {
         direction = direction + '\u200B';
       }
-      var table = game.play({ prevField: preTable, direction: direction });
+      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') });
       var components = [];
-      for(let i = 0; i < table.nextField.length; ++i) {
+      for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow()
-        for(let j = 0; j < table.nextField[i].length; ++j) {
-          components[i].addComponents(new MessageButton().setLabel(`${table.nextField[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
+        for (let j = 0; j < table.nextField[i].length; ++j) {
+          var label = String(table.nextField[i][j]);
+          for (let k = 0; k < 5 - label.length; ++i) {
+            label = label + '\u200B';
+          }
+          components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
         }
       }
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
       components[3].addComponents(new MessageButton().setEmoji('⬇️').setCustomId(`down!`).setStyle('PRIMARY'));
-      components[4] = new MessageActionRow().addComponents([ new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('➡️').setCustomId('right!').setStyle('PRIMARY') ]);
+      components[4] = new MessageActionRow().addComponents([new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('➡️').setCustomId('right!').setStyle('PRIMARY')]);
       interaction.update({ components: components });
       if (table.defeat) db.set(`discord.server.table`, null);
       else db.set(`discord.server.table`, table.nextField);
