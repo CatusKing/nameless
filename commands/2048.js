@@ -15,8 +15,8 @@ module.exports = {
         components[i].addComponents(new MessageButton().setLabel(`${table[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}-${j}`))
       }
     }
-    components[0].addComponents(new MessageButton().setEmoji('⬆️').customId(`up`));
-    components[3].addComponents(new MessageButton().setEmoji('⬇️').customId(`down`));
+    components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up`));
+    components[3].addComponents(new MessageButton().setEmoji('⬇️').setCustomId(`down`));
     components[4] = new MessageActionRow()
     components[4].addComponents([ new MessageButton().setEmoji('⬅️').setCustomId('left'), new MessageButton().setLabel('ye').setCustomId('fill1'), new MessageButton().setLabel('ye').setCustomId('label2'), new MessageButton().setEmoji('➡️').setCustomId('right') ])
     interaction.reply({ content: 'hi', components: components })
