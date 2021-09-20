@@ -37,17 +37,11 @@ module.exports = {
       var components = [];
       for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow();
-        console.log(components[i])
         for (let j = 0; j < table.nextField[i].length; ++j) {
-          console.log(components[i])
           var label = String(table.nextField[i][j]);
-          console.log(label.length)
-          console.log(components[i])
-          for (let k = 0; k < 5 - label.length; ++i) {
+          for (let k = 0; k < 5 - label.length; ++k) {
             label = label + '\u200B';
-            console.log(components[i])
           }
-          console.log(components[i])
           components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
         }
       }
