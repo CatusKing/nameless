@@ -33,7 +33,11 @@ module.exports = {
     if (!preTable) {
       interaction.message.edit({ content: 'No active thingy', components: [] })
     } else {
-      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') });
+      var direction = interaction.component.customId.replace('!', '');
+      for(let i = 0; i < 5 - direction.length; ++i) {
+        direction = direction + '\u200B';
+      }
+      var table = game.play({ prevField: preTable, direction: direction });
       var components = [];
       for(let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow()
