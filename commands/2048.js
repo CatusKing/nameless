@@ -6,7 +6,7 @@ module.exports = {
   description: 'Just a simple test command',
   slash: true,
   options: [],
-  executeI(client = new Client(), interaction = new CommandInteraction()) {
+  executeI(client = new Client(), interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     const preTable = db.get(`discord.server.table`);
     if (preTable == null) {
       var table = game.play({ isNewGame: true }).nextField;
