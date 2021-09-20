@@ -39,7 +39,7 @@ module.exports = {
       for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow();
         for (let j = 0; j < table.nextField[i].length; ++j) {
-          var label = emojiNumbers[table.nextField[i][j]];
+          var label = emojiNumbers[String(table.nextField[i][j])];
           if (label == '') var style = 'SECONDARY';
           else var style = 'SUCCESS';
           components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
