@@ -1,5 +1,6 @@
 const { CommandInteraction, Client, MessageActionRow, MessageButton, ButtonInteraction } = require("discord.js");
 const game = require('2048_functional');
+const { emojiNumbers } = require('../general/config.json');
 
 module.exports = {
   name: '2048',
@@ -38,11 +39,10 @@ module.exports = {
       for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow();
         for (let j = 0; j < table.nextField[i].length; ++j) {
-          var label = String(table.nextField[i][j]);
-          for (let k = 0; k < 5 - label.length; ++k) {
-            label = label + '\u200B';
-          }
-          components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
+          var label = emojiNumbers[table.nextField[i][j]];
+          if (label == '') var style = 'SECONDARY';
+          else var style = 'SUCCESS';
+          components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
         }
       }
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
