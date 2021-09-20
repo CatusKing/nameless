@@ -19,7 +19,10 @@ module.exports = {
     for (let i = 0; i < table.length; ++i) {
       components[i] = new MessageActionRow()
       for (let j = 0; j < table[i].length; ++j) {
-        components[i].addComponents(new MessageButton().setLabel(`${table[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
+        var label = emojiNumbers[String(table[i][j])];
+        if (label == '') var style = 'SECONDARY';
+        else var style = 'SUCCESS';
+        components[i].addComponents(new MessageButton().setLabel('\u200B').setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
       }
     }
     components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
