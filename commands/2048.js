@@ -15,6 +15,6 @@ module.exports = {
         components[i].addComponents(new MessageButton().setLabel(table[i][j]).setStyle('SECONDARY').setCustomId(`${i}-${j}`))
       }
     }
-    interaction.reply({ content: 'hi', components:  })
+    interaction.reply({ content: 'hi', components: components })
   }
 }
