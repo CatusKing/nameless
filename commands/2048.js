@@ -29,8 +29,7 @@ module.exports = {
     if (!preTable) {
       interaction.message.edit({ content: 'No active thingy', components: [] })
     } else {
-      console.log(interaction.component.customId.replace('!', ''))
-      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') });
+      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') }).nextField;
       console.log(table)
       var components = [];
       for(let i = 0; i < table.length; ++i) {
