@@ -34,6 +34,7 @@ module.exports = {
       interaction.message.edit({ content: 'No active thingy', components: [] })
     } else {
       var direction = interaction.component.customId.replace('!', '');
+      console.log(direction)
       for(let i = 0; i < 5 - direction.length; ++i) {
         direction = direction + '\u200B';
       }
