@@ -12,7 +12,7 @@ module.exports = {
     for(let i = 0; i < table.length; ++i) {
       components[i] = new MessageActionRow()
       for(let j = 0; j < table[i].length; ++j) {
-        components[i].addComponents(new MessageButton().setLabel(table[i][j]).setStyle('SECONDARY').setCustomId(`${i}-${j}`))
+        components[i].addComponents(new MessageButton().setLabel(`${table[i][j]}`).setStyle('SECONDARY').setCustomId(`${i}-${j}`))
       }
     }
     interaction.reply({ content: 'hi', components: components })
