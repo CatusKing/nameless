@@ -37,10 +37,10 @@ module.exports = {
       var components = [];
       for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow();
-        console.log(components[i])
-        console.log(table.nextField[i].length)
+        console.log(i)
         for (let j = 0; j < table.nextField[i].length; ++j) {
           var label = String(table.nextField[i][j]);
+          console.log(label.length)
           for (let k = 0; k < 5 - label.length; ++i) {
             label = label + '\u200B';
           }
