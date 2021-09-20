@@ -37,6 +37,8 @@ module.exports = {
       var components = [];
       for (let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow();
+        console.log(components[i])
+        console.log(table.nextField[i].length)
         for (let j = 0; j < table.nextField[i].length; ++j) {
           var label = String(table.nextField[i][j]);
           for (let k = 0; k < 5 - label.length; ++i) {
