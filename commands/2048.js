@@ -7,6 +7,6 @@ module.exports = {
   slash: true,
   options: [],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
-    interaction.reply(game.initPlayField().prevField())  
+    interaction.reply(game)  
   }
 }
