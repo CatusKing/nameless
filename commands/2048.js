@@ -42,7 +42,7 @@ module.exports = {
           var label = emojiNumbers[String(table.nextField[i][j])];
           if (label == '') var style = 'SECONDARY';
           else var style = 'SUCCESS';
-          components[i].addComponents(new MessageButton().setLabel(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
+          components[i].addComponents(new MessageButton().setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
         }
       }
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
