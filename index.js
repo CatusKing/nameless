@@ -1,7 +1,6 @@
 /*
 TODO
   - addBalance needs to add the vip bonus and log
-  - Keep commenting code
   - Fix up status to use db and set on launch
   - Make the invite var be stored in the db
   - Database is deprecated so change over to another db
@@ -132,10 +131,21 @@ const getUserBalance = (id = '') => {
   return user.balance || 0;
 };
 
-const addUserBalance = (id = '', num = 0) => {
+const addUserBalance = (id = '', num = 0, reason = new String(), activity = false) => {
   const user = db.get(`discord.users.${id}`) || {};
+  const member = client.guilds.cache.get(config.guildId).members.cache.get(id);
   const lb = db.get(`discord.server.leaderboard`) || [];
   Number(user.balance);
+  if (member.roles.cache.has('867226596103946250') && activity) {
+    num = Math.floor(num * 1.5);
+  }
+  if (reason != '') {
+    if (num > 0) {
+      log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#baffc9');
+    } else {
+      log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#ff7784');
+    }
+  }
   user.balance = user.balance + num;
   let included = false;
   for (let i = 0; i < lb.length; ++i) {
@@ -420,7 +430,7 @@ client.on('messageCreate', async (msg) => {
   var admins = getServerAdmins();
   var ignoredCh = getServerIgnoredCh();
 
-  // //Dm commands
+  //Dm commands
   if (msg.channel.type == 'DM') {
     const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
@@ -448,22 +458,8 @@ client.on('messageCreate', async (msg) => {
   //Points
   const cooldown = getUserCooldown(msg.author.id);
   if (cooldown < Date.now()) {
-    let amount = 5;
-    if (msg.member.presence == null) return;
-    var yes = false;
-    if (msg.member.roles.cache.has('867226596103946250')) {
-      amount = Math.floor(amount * 1.5);
-      yes = true;
-    }
-    for (let i of msg.member.presence.activities) {
-      if (i.type == 'CUSTOM_STATUS' && i.state != null && i.state.includes('discord.gg/Hja2gSnsAu') && !yes) {
-        amount = Math.floor(amount * 1.5);
-        break;
-      }
-    }
-    addUserBalance(msg.author.id, amount);
+    addUserBalance(msg.author.id, 5, `sending a message`, true);
     setUserCooldown(msg.author.id, Date.now() + 60000);
-    log('830503210951245865', `+${amount}🦴 to ${msg.author} for sending a message`, '#baffc9');
   }
 
   //Streak Check
@@ -562,6 +558,7 @@ client.on('interactionCreate', async interaction => {
 });
 //6 End
 
+//Auto joins threads so that they can have auto mod
 client.on('threadCreate', (thread) => thread.join());
 
 //Shows if a message is edited
@@ -638,8 +635,10 @@ client.on('guildMemberAdd', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just joined the server`, '#9e9d9d');
 });
 
+//Logs that someone left the server
 client.on('guildMemberRemove', member => { log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d'); });
 
+//Logs deleted messages
 client.on('messageDelete', msg => {
 
   if (msg.partial) {
@@ -658,25 +657,29 @@ client.on('messageDelete', msg => {
   }
 });
 
+//Logs bans
 client.on('guildBanAdd', (guildBan) => { log('834179033289719839', `${guildBan.user} was just banned`, '#9e9d9d'); });
-
 client.on('guildBanRemove', (guildBan) => { log('834179033289719839', `${guildBan.user} was unbanned`, '#9e9d9d'); });
 
+//Sends rate limit data to bot dev
 client.on('rateLimit', rl => {
   const cactus = client.users.cache.get('473110112844644372');
   cactus.send(`Hey um i was just rate limited :(\nLimit: ${rl.limit}\nMethod: ${rl.method}\nPath: ${rl.path}\nRoute: ${rl.route}\nTime Difference: ${rl.timeDifference}\nTimeout: ${rl.timeout}`);
 });
 
+//Deprecated
 client.on('warn', warning => {
   const cactus = client.users.cache.get('473110112844644372');
   cactus.send(`The bot was just warned :(\n${warning}`);
 });
 
+//Deprecated
 client.on('error', error => {
   const cactus = client.users.cache.get('473110112844644372');
   cactus.send(`${cactus} hey error:\n${error}`);
 });
 
+//Make sure to shut-down bot
 process.on('message', (msg) => {
   if (msg == 'shutdown') {
     console.log('Closing all connections...');
@@ -686,4 +689,5 @@ process.on('message', (msg) => {
   }
 });
 
+//Client login
 client.login(token.main);

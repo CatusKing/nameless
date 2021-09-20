@@ -42,7 +42,7 @@ module.exports = {
       var insured = outcome;
       outcome = Math.floor(outcome / 5);
       insured = insured - outcome;
-      addUserBalance(interaction.user.id, insured);
+      addUserBalance(interaction.user.id, insured) `gambling ${bet}🦴`, false;
       addUserBalance('bank', -insured);
       db.set(`discord.users.${interaction.member.id}.insuranceOwed`, (db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + -outcome)
       var embed = new MessageEmbed()
@@ -50,11 +50,10 @@ module.exports = {
         .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`)
         .setColor('#ff7784')
         .setDescription(`You Spent: ${bet}🦴\nYou made: ${-outcome}🦴 (${balance + insured}🦴)\n${-insured}🦴 points added to the bank(${bank + -insured}🦴)\nInsurance saved half the bet meaning you owe the other half anf it has been added to your insurance rate`);
-        log('830503210951245865', `-${-outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#ff7784');
       interaction.reply({ embeds: [embed] });
       return;
     }
-    addUserBalance(interaction.user.id, outcome);
+    addUserBalance(interaction.user.id, outcome, `gambling ${bet}🦴`, false);
     addUserBalance('bank', -outcome);
     var embed = new MessageEmbed()
       .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
@@ -63,11 +62,9 @@ module.exports = {
     if (total > 0) {
       embed.setColor('#baffc9')
         .setDescription(`You Spent: ${bet}🦴\nYou made: ${total}🦴 (${balance + outcome}🦴)\n${outcome}🦴 points taken from the bank(${bank + -outcome}🦴)`);
-      log('830503210951245865', `+${outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#baffc9');
     } else {
       embed.setColor('#ff7784')
         .setDescription(`You Spent: ${bet}🦴\nYou made: ${total}🦴 (${balance + outcome}🦴)\n${-outcome}🦴 points added to the bank(${bank + -outcome}🦴)`);
-      log('830503210951245865', `-${-outcome}🦴 to ${interaction.user} from gambling ${bet}🦴`, '#ff7784');
     }
     interaction.reply({ embeds: [embed] });
   }
