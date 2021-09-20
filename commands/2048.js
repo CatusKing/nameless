@@ -29,19 +29,20 @@ module.exports = {
     if (!preTable) {
       interaction.message.edit({ content: 'No active thingy', components: [] })
     } else {
-      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') }).nextField;
-      console.log(table)
+      var table = game.play({ prevField: preTable, direction: interaction.component.customId.replace('!', '') });
       var components = [];
-      for(let i = 0; i < table.length; ++i) {
+      for(let i = 0; i < table.nextField.length; ++i) {
         components[i] = new MessageActionRow()
-        for(let j = 0; j < table[i].length; ++j) {
-          components[i].addComponents(new MessageButton().setLabel(`${table[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
+        for(let j = 0; j < table.nextField[i].length; ++j) {
+          components[i].addComponents(new MessageButton().setLabel(`${table.nextField[i][j]}`).setStyle('SUCCESS').setCustomId(`${i}*${j}`));
         }
       }
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
       components[3].addComponents(new MessageButton().setEmoji('⬇️').setCustomId(`down!`).setStyle('PRIMARY'));
       components[4] = new MessageActionRow().addComponents([ new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('➡️').setCustomId('right!').setStyle('PRIMARY') ]);
-      interaction.message.edit({ components: components })
+      interaction.message.edit({ components: components });
+      if (table.defeat) db.set(`discord.server.table`, null);
+      else db.set(`discord.server.table`, table.nextField);
     }
   },
 }
