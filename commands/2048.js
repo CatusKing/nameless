@@ -29,7 +29,7 @@ module.exports = {
     components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
     components[3].addComponents(new MessageButton().setEmoji('➡️').setCustomId(`right!`).setStyle('PRIMARY'));
     components[4] = new MessageActionRow().addComponents([new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('⬇️').setCustomId('down!').setStyle('PRIMARY')]);
-    interaction.reply({ content: 'text', components: components });
+    interaction.reply({ content: '✨', components: components });
   },
   button: true,
   buttonId: '!',
