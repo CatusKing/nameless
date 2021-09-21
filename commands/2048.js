@@ -53,9 +53,16 @@ module.exports = {
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
       components[3].addComponents(new MessageButton().setEmoji('➡️').setCustomId(`right!`).setStyle('PRIMARY'));
       components[4] = new MessageActionRow().addComponents([new MessageButton().setEmoji('⬅️').setCustomId('left!').setStyle('PRIMARY'), new MessageButton().setLabel('ye').setCustomId('fill1').setStyle('SECONDARY'), new MessageButton().setLabel('ye').setCustomId('label2').setStyle('SECONDARY'), new MessageButton().setEmoji('⬇️').setCustomId('down!').setStyle('PRIMARY')]);
-      interaction.update({ components: components, content: `${interaction.user}` });
-      if (table.defeat) db.set(`discord.server.table`, null);
-      else db.set(`discord.server.table`, table.nextField);
+      if (table.defeat) {
+        interaction.update({ components: [], content: `${interaction.user} lost the game\nsoon we will punish for this` });
+        db.set(`discord.server.table`, null);
+      } else if (table.victory) {
+        interaction.update({ components: components, content: `${interaction.user} won the game` });
+        db.set(`discord.server.table`, table.nextField);
+      } else {
+        db.set(`discord.server.table`, table.nextField);
+        interaction.update({ components: components, content: `${interaction.user}` });
+      }
     }
   },
 }
