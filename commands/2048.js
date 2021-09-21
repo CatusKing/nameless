@@ -21,6 +21,7 @@ module.exports = {
       for (let j = 0; j < table[i].length; ++j) {
         var label = emojiNumbers[String(table[i][j])];
         if (label == '') var style = 'SECONDARY';
+        else if (label == '🔟' || label == '✨') var style = 'DANGER';
         else var style = 'SUCCESS';
         components[i].addComponents(new MessageButton().setLabel('\u200B').setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
       }
@@ -44,6 +45,7 @@ module.exports = {
         for (let j = 0; j < table.nextField[i].length; ++j) {
           var label = emojiNumbers[String(table.nextField[i][j])];
           if (label == '') var style = 'SECONDARY';
+          else if (label == '🔟' || label == '✨') var style = 'DANGER';
           else var style = 'SUCCESS';
           components[i].addComponents(new MessageButton().setLabel('\u200B').setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
         }
