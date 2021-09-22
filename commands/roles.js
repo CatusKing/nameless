@@ -1,5 +1,5 @@
 const { MessageSelectMenu, MessageActionRow, CommandInteraction } = require("discord.js");
-const { roleMessages } = require('../general/config.json');
+const { roleMessages, guildId } = require('../general/config.json');
 
 module.exports = {
 	name: 'roles',
