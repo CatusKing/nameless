@@ -33,6 +33,7 @@ module.exports = {
             interaction.member.roles.add(interaction.member.roles.cache.has(interaction.component.options.value));
           }
         }
+        interaction.reply({ ephemeral: true, content: 'added role' })
         break;
       }
     }
