@@ -534,7 +534,7 @@ client.on('interactionCreate', async interaction => {
     });
   } /* Select menu Handler */ else if (interaction.isSelectMenu()) {
     client.commands.forEach((value, key) => {
-      if (value.name == interaction.customId && value.selectMenu) {
+      if (interaction.customId.startsWith(value.name) && value.selectMenu) {
         try {
           value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {

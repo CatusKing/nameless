@@ -18,6 +18,16 @@
     [270, "883758830322868274", 340000],
     [365, "883758897456902205", 500000]
   ],
+  "roleMessages": [
+    {
+      "name": "",
+      "id": "",
+      "roles": [
+        "id",
+        ""
+      ]
+    }
+  ],
   "shop": [
     ["**Vip** - 35k🦴 - Gives a constant 1.5x multiplier on bones and gives access to vip only text and voice channels", "vip", 35000, "867226596103946250", 0],
     ["**DJ** - 10k🦴 - Allows you to play music", "dj", 10000, "830507721987194920", 0],
