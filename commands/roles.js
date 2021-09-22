@@ -19,7 +19,7 @@ module.exports = {
         var components = [
           new MessageActionRow().addComponents(selectMenu)
         ];
-        msg.edit({ components: components, embeds: [] })
+        msg.edit({ components: components, embeds: [], content: `\u200B` })
         interaction.reply({ ephemeral: true, content: 'done!' });
       });
     }
