@@ -1,4 +1,4 @@
-const { MessageSelectMenu, MessageActionRow, CommandInteraction } = require("discord.js");
+const { MessageSelectMenu, MessageActionRow, CommandInteraction, Client, SelectMenuInteraction } = require("discord.js");
 const { roleMessages, guildId } = require('../general/config.json');
 
 module.exports = {
@@ -11,10 +11,10 @@ module.exports = {
     const channel = client.guilds.cache.get(guildId).channels.cache.get('830550223653830708');
     for (let i = 0; i < roleMessages.length; ++i) {
       channel.messages.fetch(roleMessages[i].id).then(msg => {
-        let selectMenu = new MessageSelectMenu().setCustomId(`roles^${roleMessages[i].name}`);
+        let selectMenu = new MessageSelectMenu().setCustomId(`roles^${roleMessages[i].name}`).setMaxValues(10);
         for (let j = 0; j < roleMessages[i].roles.length; ++j) {
           var role = client.guilds.cache.get(guildId).roles.cache.get(roleMessages[i].roles[j].id);
-          selectMenu.addOptions({ label: role.name, value: `${roleMessages[i].name}^${roleMessages[i].roles[j].id}`, emoji: roleMessages[i].roles[j].emoji });
+          selectMenu.addOptions({ label: role.name, value: `${roleMessages[i].roles[j].id}`, emoji: roleMessages[i].roles[j].emoji });
         }
         var components = [
           new MessageActionRow().addComponents(selectMenu)
@@ -23,5 +23,18 @@ module.exports = {
         interaction.reply({ ephemeral: true, content: 'done!' });
       });
     }
-  }
+  },
+  selectMenu: true,
+  executeSM(client = new Client(), interaction = new SelectMenuInteraction()) {
+    for (let i = 0; roleMessages.length; ++i) {
+      if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
+        for (let j = 0; j < interaction.component.options; ++j) {
+          if (!interaction.member.roles.cache.has(interaction.component.options.value)) {
+            interaction.member.roles.add(interaction.member.roles.cache.has(interaction.component.options.value));
+          }
+        }
+        break;
+      }
+    }
+  },
 };
