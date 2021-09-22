@@ -28,10 +28,9 @@ module.exports = {
   executeSM(client = new Client(), interaction = new SelectMenuInteraction()) {
     for (let i = 0; roleMessages.length; ++i) {
       if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
-        for (let j = 0; j < interaction.component.options; ++j) {
-          console.log(interaction.member.roles.cache.has(interaction.component.options.value))
-          if (!interaction.member.roles.cache.has(interaction.component.options.value)) {
-            var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.member.roles.cache.has(interaction.component.options.value));
+        for (let j = 0; j < interaction.component.options.length; ++j) {
+          if (!interaction.member.roles.cache.has(interaction.component.options[j].value)) {
+            var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.member.roles.cache.has(interaction.component.options[j].value));
             interaction.member.roles.add(role);
           }
         }
