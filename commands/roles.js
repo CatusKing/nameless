@@ -29,9 +29,9 @@ module.exports = {
     for (let i = 0; roleMessages.length; ++i) {
       if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
         for (let j = 0; j < interaction.component.options.length; ++j) {
-          if (!interaction.member.roles.includes(interaction.component.options[j].value)) {
-            var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.member.roles.cache.has(interaction.component.options[j].value));
-            client.guilds.cache.get(guildId).members.cache.get(interaction.user.id).roles.add(role);
+          if (!interaction.member.roles.cache.has(interaction.component.options[j].value)) {
+            var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.component.options[j].value);
+            interaction.member.roles.add(roles);
           }
         }
         interaction.reply({ ephemeral: true, content: 'added role' })
