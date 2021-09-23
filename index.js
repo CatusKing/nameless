@@ -14,7 +14,6 @@ const math = create(all);
 const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents }); //Basic client setup
-const prefix = config.prefix; //too lazy to writ config.prefix over and over
 var invites = db.get(`discord.server.invites`) || [];
 var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
