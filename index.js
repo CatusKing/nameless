@@ -1,7 +1,6 @@
 /*
 TODO
-  - Make the invite var be stored in the db
-  - Database is deprecated so change over to another db
+  - Use needle
 */
 const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
@@ -469,23 +468,6 @@ client.on('messageCreate', async (msg) => {
     console.error(error);
     msg.reply('there was an error trying to execute that command!');
   }
-
-  //Command handling
-  if (!msg.content.toLowerCase().startsWith(prefix)) return;
-  const args = msg.content.slice(prefix.length).trim().split(' ');
-  const command = args.shift().toLowerCase();
-
-  client.commands.forEach((value, key) => {
-    if (value.command && value.aliases.includes(command)) {
-      try {
-        if (value.slash) msg.channel.send('Hey we now have slash commands! Eventually text commands will be removed so please use the slash version of this command next time.');
-        value.execute(client, msg, args, reply, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is leaderboard*/);
-      } catch (err) {
-        msg.reply('there was an error trying to execute that command!');
-        console.error(err);
-      }
-    }
-  });
 });
 //4 End
 
