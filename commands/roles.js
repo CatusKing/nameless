@@ -32,10 +32,10 @@ module.exports = {
           var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.values[j]);
           if (!interaction.member._roles.includes(interaction.values[j])) {
             interaction.member.roles.add(role);
-            interaction.reply({ ephemeral: true, content: `Added ${role}` });
+            interaction.reply({ ephemeral: true, content: `Added \`${role.name}\`` });
           } else {
             interaction.member.roles.remove(role);
-            interaction.reply({ ephemeral: true, content: `Removed ${role}` });
+            interaction.reply({ ephemeral: true, content: `Removed \`${role.name}\`` });
           }
         }
         break;
