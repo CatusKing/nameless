@@ -29,12 +29,15 @@ module.exports = {
     for (let i = 0; roleMessages.length; ++i) {
       if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
         for (let j = 0; j < interaction.values.length; ++j) {
+          var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.values[j]);
           if (!interaction.member._roles.includes(interaction.values[j])) {
-            var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.values[j]);
             interaction.member.roles.add(role);
+            interaction.reply({ ephemeral: true, content: 'Added Role' });
+          } else {
+            interaction.member.roles.remove(role);
+            interaction.reply({ ephemeral: true, content: 'Removed Role' });
           }
         }
-        interaction.reply({ ephemeral: true, content: 'added role' })
         break;
       }
     }
