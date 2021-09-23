@@ -11,7 +11,7 @@ module.exports = {
     const channel = client.guilds.cache.get(guildId).channels.cache.get('830550223653830708');
     for (let i = 0; i < roleMessages.length; ++i) {
       channel.messages.fetch(roleMessages[i].id).then(msg => {
-        let selectMenu = new MessageSelectMenu().setCustomId(`roles^${roleMessages[i].name}`).setMaxValues(10);
+        let selectMenu = new MessageSelectMenu().setCustomId(`roles^${roleMessages[i].name}`).setPlaceholder(roleMessages[i].name);
         for (let j = 0; j < roleMessages[i].roles.length; ++j) {
           var role = client.guilds.cache.get(guildId).roles.cache.get(roleMessages[i].roles[j].id);
           selectMenu.addOptions({ label: role.name, value: `${roleMessages[i].roles[j].id}`, emoji: roleMessages[i].roles[j].emoji });
