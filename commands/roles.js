@@ -31,7 +31,6 @@ module.exports = {
         for (let j = 0; j < interaction.component.options.length; ++j) {
           console.log(!interaction.member._roles.includes(interaction.component.options[j].value));
           if (!interaction.member._roles.includes(interaction.component.options[j].value)) {
-            console.log(interaction.component.options[j].value)
             var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.component.options[j].value);
             interaction.member.roles.add(role);
           }
