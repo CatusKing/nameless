@@ -29,6 +29,6 @@ module.exports = {
       .replace('%top%', top)
       .replace('%topCount%', topCount)
     );
-    db.set(`discord.server.status`, ++status);
+    db.set(`discord.server.status`, status + 1);
   }
 };
