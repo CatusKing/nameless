@@ -359,7 +359,7 @@ client.once('ready', () => {
   setInterval(givePoints, 60000);
 
   client.functions.get('updateStatus').execute(client, db, round, getUserBalance, topCount);
-  setInterval(client.functions.get('updateStatus').execute(client, db, round, getUserBalance, topCount), 300000);
+  setInterval(() => client.functions.get('updateStatus').execute(client, db, round, getUserBalance, topCount), 300000);
 
   setTimeout(() => {
     setInterval(() => client.functions.get('updateLeaderboard').execute(client, db, round), 300000);
@@ -684,6 +684,19 @@ process.on('message', (msg) => {
     console.log('Finished closing connections');
     process.exit(0);
   }
+});
+
+process.on('uncaughtException', error => {
+  var params = {
+    username: "SERVER ALERT",
+    avatar_url: "",
+    content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
+  }
+  request('https://discordapp.com/api/webhooks/834191225002393661/PoMvfkFqfVl6B-Tf6DpcLHpbDKCwEiQR-_Qv2JhWzUfYlV7VavYhzDFjs0vFqK3qFblW', { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) }, () => {
+    if (error instanceof BaseError) {
+      process.exit(1);
+    }  
+  });  
 });
 
 //Client login
