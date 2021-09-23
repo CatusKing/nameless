@@ -673,7 +673,7 @@ process.on('uncaughtException', error => {
     avatar_url: "",
     content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
   }
-  request('https://discordapp.com/api/webhooks/834191225002393661/PoMvfkFqfVl6B-Tf6DpcLHpbDKCwEiQR-_Qv2JhWzUfYlV7VavYhzDFjs0vFqK3qFblW', { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) }, () => {
+  request(token.webhook, { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) }, () => {
     if (error instanceof BaseError) {
       process.exit(1);
     }  
