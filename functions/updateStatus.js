@@ -2,13 +2,14 @@ const { Collection } = require('discord.js');
 const { status: stat } = require('../general/config.json');
 
 module.exports = {
-	execute(client, db, status, round, getUserBalance, topCount) {
-    ++status;
+	execute(client, db, round, getUserBalance) {
+    var status = db.get('discord.server.status') || 0;
+    var topCount = db.get('discord.server.topCount') || 0;
 
     if (status == stat.length) status = 0;
     const lb = db.get(`discord.server.leaderboard`) || [];
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
-    const leaderboard = new Collection();
+    var leaderboard = new Collection();
     for (let i = 0; i < lb.length; ++i) {
       if (guildMembers.has(lb[i][0])) {
         leaderboard.set(lb[i][0], lb[i][1]);
@@ -28,6 +29,6 @@ module.exports = {
       .replace('%top%', top)
       .replace('%topCount%', topCount)
     );
-    return status;
+    db.set(`discord.server.status`, ++status);
   }
 };

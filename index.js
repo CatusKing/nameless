@@ -1,6 +1,5 @@
 /*
 TODO
-  - addBalance needs to add the vip bonus and log
   - Fix up status to use db and set on launch
   - Make the invite var be stored in the db
   - Database is deprecated so change over to another db
@@ -18,7 +17,6 @@ const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents }); //Basic client setup
 const prefix = config.prefix; //too lazy to writ config.prefix over and over
-var status = 0; //Basic global var
 var invites = [];
 var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
@@ -121,8 +119,6 @@ const get_attrs = async (text) => {
   }
   return attrs;
 };
-
-const updateStatus = async () => status = client.functions.get('updateStatus').execute(client, db, status, round, getUserBalance, topCount);
 
 const givePoints = () => client.functions.get('givePoints').execute(client, addUserBalance, log);
 
@@ -362,7 +358,8 @@ client.once('ready', () => {
 
   setInterval(givePoints, 60000);
 
-  setInterval(updateStatus, 300000);
+  client.functions.get('updateStatus').execute(client, db, round, getUserBalance, topCount);
+  setInterval(client.functions.get('updateStatus').execute(client, db, round, getUserBalance, topCount), 300000);
 
   setTimeout(() => {
     setInterval(() => client.functions.get('updateLeaderboard').execute(client, db, round), 300000);
