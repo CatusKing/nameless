@@ -30,6 +30,7 @@ module.exports = {
       if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
         for (let j = 0; j < interaction.component.options.length; ++j) {
           if (!interaction.member.roles.cache.has(interaction.component.options[j].value)) {
+            console.log(interaction.component.options[j].value)
             var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.component.options[j].value);
             interaction.member.roles.add(role);
           }
