@@ -1,6 +1,5 @@
 /*
 TODO
-  - Fix up status to use db and set on launch
   - Make the invite var be stored in the db
   - Database is deprecated so change over to another db
 */
@@ -17,7 +16,7 @@ const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents }); //Basic client setup
 const prefix = config.prefix; //too lazy to writ config.prefix over and over
-var invites = [];
+var invites = db.get(`discord.server.invites`, []);
 var crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
@@ -89,7 +88,7 @@ const floor = (balance = Number) => {
 const hours = (milliseconds = Number) => { return Math.floor(((milliseconds / 1000) / 60) / 60) + 1 };
 
 const updateInvites = () => {
-  const guild = client.guilds.cache.get('830495072876494879');
+  const guild = client.guilds.cache.get(config.guildId);
   guild.invites.fetch().then(guildInvites => {
     guildInvites.forEach(invite => {
       let yes = true;
@@ -98,6 +97,7 @@ const updateInvites = () => {
       }
       if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
+    db.set(`discord.server.invites`, invites);
   });
 };
 
