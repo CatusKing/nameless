@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix } = require('../general/config.json');
 const { readdirSync } = require('fs');
 
 var choices = [];
