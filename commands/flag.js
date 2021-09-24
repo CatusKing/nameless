@@ -46,7 +46,7 @@ module.exports = {
         if (msg.embeds[0].footer.text == 'You have 20 seconds') msg.edit({ components: [], embeds: [new MessageEmbed().setColor('#ff7784').setDescription('You ran out of time.\nYou were banned from the \`/flag\` command for not answering within 20 seconds.\nDo `/buy flag` to pay the 500🦴 fee to be unbanned.')] });
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
         interaction.member.roles.add(role);
-      });
+      }).catch(err => console.warn(err));
     }, 20000);
   },
   button: true,

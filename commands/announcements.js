@@ -36,7 +36,7 @@ module.exports = {
             }).catch(() => {
               msg.channel.send('No response :(');
             });
-        });
+        }).catch(err => console.warn(err));
     }
     if (msg.channel.id == '830503569622827069' && msg.content.includes('!event!')) {
       if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
@@ -66,7 +66,7 @@ module.exports = {
             }).catch(() => {
               msg.channel.send('No response :(');
             });
-        });
+        }).catch(err => console.warn(err));
     }
     if (msg.channel.id == '830503569622827069' && msg.content.includes('!partner!')) {
       if (msg.content.toLowerCase() == 'yes' || msg.content.toLowerCase() == 'no') return;
@@ -96,7 +96,7 @@ module.exports = {
             }).catch(() => {
               msg.channel.send('No response :(');
             });
-        });
+        }).catch(err => console.warn(err));
     }
   }
 };

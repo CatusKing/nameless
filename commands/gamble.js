@@ -20,7 +20,7 @@ module.exports = {
     var bet = 0;
                             
     if (interaction.options.get('amount').value == 'all') bet = balance;
-    else if (!isNaN(interaction.options.get('amount').value)) bet = Math.floor(interaction.options.get('amount').value);
+    else if (!Number.isNaN(interaction.options.get('amount').value)) bet = Math.floor(interaction.options.get('amount').value);
     else return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
 
     if (bet < 500) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });

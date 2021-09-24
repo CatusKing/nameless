@@ -56,6 +56,7 @@ module.exports = {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
             .then(reply => log('834179033289719839', `Muted ${target} for 1 hour\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 2 infraction\n[Jump to!](${reply.url})`, '#9e9d9d'))
+            .catch(err => console.warn(err));
         } else if (interaction.options.getInteger('level') == 3) {
           const duration = 2880;
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');

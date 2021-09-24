@@ -39,7 +39,7 @@ for (const file of functionFiles) {
   const functions = require(`./functions/${file}`);
   // Set a new item in the Collection
   // With the key as the command name and the value as the exported module
-  client.functions.set(file.replace('.js', ''), functions);
+  client.functions.set(file.replace(/\.js$/, ''), functions);
 }
 //1 End
 
@@ -68,18 +68,18 @@ const reply = (channelId = new String(), content = new String(), color = '#9e9d9
 const round = (balance = Number) => {
   let bal = balance + '';
 
-  if (bal.length > 3 && bal.length < 7) return `${Math.round(bal / 100) / 10}k`;
-  else if (bal.length > 6 && bal.length < 10) return `${Math.round(bal / 10000) / 100}m`;
-  else if (bal.length > 9 && bal.length < 13) return `${Math.round(bal / 10000000) / 100}b`;
+  if (bal.length > 3 && bal.length < 7) return `${Math.round(Number(bal) / 100) / 10}k`;
+  else if (bal.length > 6 && bal.length < 10) return `${Math.round(Number(bal) / 10000) / 100}m`;
+  else if (bal.length > 9 && bal.length < 13) return `${Math.round(Number(bal) / 10000000) / 100}b`;
   else return bal;
 };
 
 const floor = (balance = Number) => {
   let bal = balance + '';
 
-  if (bal.length > 3 && bal.length < 7) return `${Math.floor(bal / 100) / 10}k`;
-  else if (bal.length > 6 && bal.length < 10) return `${Math.floor(bal / 10000) / 100}m`;
-  else if (bal.length > 9 && bal.length < 13) return `${Math.floor(bal / 10000000) / 100}b`;
+  if (bal.length > 3 && bal.length < 7) return `${Math.floor(Number(bal) / 100) / 10}k`;
+  else if (bal.length > 6 && bal.length < 10) return `${Math.floor(Number(bal) / 10000) / 100}m`;
+  else if (bal.length > 9 && bal.length < 13) return `${Math.floor(Number(bal) / 10000000) / 100}b`;
   else return bal;
 };
 
@@ -96,6 +96,8 @@ const updateInvites = () => {
       if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
     db.set(`discord.server.invites`, invites);
+  }).catch((err) => {
+    console.log(err);
   });
 };
 
@@ -263,8 +265,9 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
-        if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
-        else var mult = 1;
+        var mult;
+        if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
+        else mult = 1;
         if (count > topCount) {
           db.set('discord.topCount', count);
           topCount = count;
@@ -286,8 +289,9 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
-          if (messages.first().member.roles.cache.has('867226596103946250')) var mult = 1.5;
-          else var mult = 1;
+          var mult;
+          if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
+          else mult = 1;
           if (count > topCount) {
             db.set('discord.topCount', count);
             topCount = count;
@@ -301,7 +305,9 @@ const counting = () => {
         }
       }
     }
-  });
+  }).catch((err) => {
+    console.warn(err);
+  })
 };
 
 const updateStreak = (id = new String(), msg = new Message()) => {
@@ -488,7 +494,9 @@ client.on('messageReactionAdd', (reaction, user) => {
         const channel = client.channels.cache.get('880999255622451270')
         channel.send({ embeds: [embed] });
       }
-    });
+    }).catch((err) => {
+      console.warn(err);
+    })
   }
 });
 //5 End
@@ -548,7 +556,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
         const yes = punish(newMsg)
         if (yes[0]) newMsg.delete();
-      });
+      }).catch(err => console.warn(err));
     } catch (error) {
       console.error(error);
     }
@@ -589,7 +597,7 @@ client.on('guildMemberAdd', member => {
         log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
       }
     });
-  });
+  }).catch(err => console.warn(err));
   updateInvites();
   var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
@@ -623,7 +631,7 @@ client.on('messageDelete', msg => {
     try {
       msg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author}'s past message was just deleted\n\n${fullMessage.content}`, '#9e9d9d');
-      });
+      }).catch(err => console.warn(err));
     } catch (error) {
       console.error(error);
     }
