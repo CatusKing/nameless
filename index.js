@@ -653,18 +653,6 @@ client.on('rateLimit', rl => {
   cactus.send(`Hey um i was just rate limited :(\nLimit: ${rl.limit}\nMethod: ${rl.method}\nPath: ${rl.path}\nRoute: ${rl.route}\nTime Difference: ${rl.timeDifference}\nTimeout: ${rl.timeout}`);
 });
 
-//Deprecated
-client.on('warn', warning => {
-  const cactus = client.users.cache.get('473110112844644372');
-  cactus.send(`The bot was just warned :(\n${warning}`);
-});
-
-//Deprecated
-client.on('error', error => {
-  const cactus = client.users.cache.get('473110112844644372');
-  cactus.send(`${cactus} hey error:\n${error}`);
-});
-
 //Make sure to shut-down bot
 process.on('message', (msg) => {
   if (msg == 'shutdown') {
