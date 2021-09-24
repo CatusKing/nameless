@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'announcements',
 	description: 'Run in the control panel',
-  command: false,
   slash: false,
 	execute(client, msg) {
     const announcementChannel = client.channels.cache.get('830506698908893235');
