@@ -2,3 +2,4 @@ node_modules
 general/token.json
 json.sqlite
 .vscode
+.dccache

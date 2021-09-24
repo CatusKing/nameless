@@ -4,7 +4,7 @@ const { status: stat } = require('../general/config.json');
 module.exports = {
 	execute(client, db, round, getUserBalance) {
     var status = db.get('discord.server.status') || 0;
-    var topCount = db.get('discord.server.topCount') || 0;
+    var topCount = db.get('discord.topCount') || 0;
 
     if (status == stat.length) status = 0;
     const lb = db.get(`discord.server.leaderboard`) || [];

@@ -125,7 +125,7 @@ const getUserBalance = (id = '') => {
   return user.balance || 0;
 };
 
-const addUserBalance = (id = '', num = 0, reason = new String(''), activity = false) => {
+const addUserBalance = (id = '', num = 0, reason = String(''), activity = false) => {
   const user = db.get(`discord.users.${id}`) || {};
   const member = client.guilds.cache.get(config.guildId).members.cache.get(id);
   const lb = db.get(`discord.server.leaderboard`) || [];
