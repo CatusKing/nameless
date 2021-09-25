@@ -15,6 +15,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    console.log(addUserBalance)
     const balance = getUserBalance(interaction.user.id) || 0;
     const bank = getUserBalance('bank') || 0;
     var bet = 0;
