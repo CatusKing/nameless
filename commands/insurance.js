@@ -47,7 +47,12 @@ module.exports = {
         }
       }
     } else if (interaction.options.getSubcommand() == 'cancel') {
-      interaction.reply('this hasn\'t been setup yet sorry');
+      if (interaction.member.roles.cache.has('889221970774867968')) {
+        interaction.member.roles.remove('889221970774867968', 'Canceled insurance');
+        interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`Insurance canceled`) ] });
+      } else {
+        interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`You don't have insurance :()`) ] });
+      }
     } else if (interaction.options.getSubcommand() == 'status') {
       interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`You owe: ${db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0}🦴\nYour rate is ${(Math.floor(db.get(`discord.users.${interaction.member.id}.insuranceOwed`) / 3) || 0) + 5000}🦴 per week`) ] });
     }
