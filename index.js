@@ -663,14 +663,14 @@ process.on('message', (msg) => {
   }
 });
 
-process.on('uncaughtException', error => {
-  var params = {
-    username: "SERVER ALERT",
-    avatar_url: "",
-    content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
-  }
-  request(token.webhook, { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) });
-});
+// process.on('uncaughtException', error => {
+//   var params = {
+//     username: "SERVER ALERT",
+//     avatar_url: "",
+//     content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
+//   }
+//   request(token.webhook, { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) });
+// });
 
 //Client login
 client.login(token.main);
