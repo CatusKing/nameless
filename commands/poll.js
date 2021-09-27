@@ -66,7 +66,7 @@ module.exports = {
         if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
         else footer += `${value},`;
       });
-      msg.edit({ embeds: [msg.embeds.first().setFooter(footer)] });
+      interaction.update({ embeds: [msg.embeds.first().setFooter(footer)] });
     })
   }
 };
