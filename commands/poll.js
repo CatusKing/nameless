@@ -60,13 +60,11 @@ module.exports = {
   button: true,
   buttonId: '^',
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
-    interaction.fetchReply().then((msg) => {
-      var footer = '';
-      msg.embeds.first().footer.split(',').forEach((value) => {
-        if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
-        else footer += `${value},`;
-      });
-      interaction.update({ embeds: [msg.embeds.first().setFooter(footer)] });
-    })
+    var footer = '';
+    interaction.message.embeds.first().footer.split(',').forEach((value) => {
+      if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
+      else footer += `${value},`;
+    });
+    interaction.update({ embeds: [msg.embeds.first().setFooter(footer)] });
   }
 };
