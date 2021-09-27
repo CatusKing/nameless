@@ -61,7 +61,7 @@ module.exports = {
   buttonId: '^',
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
     var footer = '';
-    interaction.message.embeds.first().footer.split(',').forEach((value) => {
+    interaction.message.embeds[0].footer.split(',').forEach((value) => {
       if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
       else footer += `${value},`;
     });
