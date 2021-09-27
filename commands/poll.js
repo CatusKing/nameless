@@ -46,7 +46,7 @@ module.exports = {
   executeI(client = new Client(), interaction = new CommandInteraction()) {
     var footer = '', description = '', options = [];
     interaction.options.data.forEach((value) => {
-      if (value.type == 'STRING') {
+      if (value.type == 'STRING' && value.name.startsWith('option')) {
         footer += `${choicesEmojis[options.length]}-0,`;
         description += `${choicesEmojis[options.length]} - ${value.value}\n`;
         options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('PRIMARY'));
