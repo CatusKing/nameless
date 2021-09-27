@@ -61,8 +61,12 @@ module.exports = {
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
     var footer = '';
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
-      if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
-      else footer += `${value},`;
+      if (Number.isNaN(value.split('-')[1])) {
+
+      } else {
+        if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
+        else footer += `${value},`;  
+      }
     });
     interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer)] });
   }
