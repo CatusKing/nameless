@@ -47,8 +47,8 @@ module.exports = {
     var footer = '', description = '', options = [];
     interaction.options.data.forEach((value) => {
       if (value.type == 'STRING') {
-        footer += `${choicesEmojis[options.length]} - ${value.value},`;
-        description += `${choicesEmojis[options.length]} - ${value.value}`;
+        footer += `${choicesEmojis[options.length]}-0,`;
+        description += `${choicesEmojis[options.length]} - ${value.value}\n`;
         options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('PRIMARY'));
       }
     });
