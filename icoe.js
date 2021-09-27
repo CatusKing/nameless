@@ -1,7 +1,7 @@
 //In Case Of Emergency
 const { post } = require('request');
 module.exports = {
-  icoe(err = new Error('test')) {
+  icoe(error = new Error('test')) {
     var params = {
       username: "SERVER ALERT",
       avatar_url: "",
