@@ -10,6 +10,7 @@ const { google } = require('googleapis'); //Google api handler
 const fs = require('fs'); //File Sync
 const request = require('request'); //Api handler
 const { create, all } = require('mathjs'); //Mathjs used for handling counting
+const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
@@ -306,7 +307,7 @@ const counting = () => {
       }
     }
   }).catch((err) => {
-    console.warn(err);
+    icoe(err);
   })
 };
 
@@ -469,8 +470,8 @@ client.on('messageCreate', async (msg) => {
   //Announcements commands
   try {
     client.commands.get('announcements').execute(client, msg);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    icoe(err);
     msg.reply('there was an error trying to execute that command!');
   }
 });
@@ -495,7 +496,7 @@ client.on('messageReactionAdd', (reaction, user) => {
         channel.send({ embeds: [embed] });
       }
     }).catch((err) => {
-      console.warn(err);
+      icoe(err);
     })
   }
 });
@@ -514,7 +515,7 @@ client.on('interactionCreate', async interaction => {
           value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
-          console.error(err);
+          icoe(err);
         }
       }
     });
@@ -525,7 +526,7 @@ client.on('interactionCreate', async interaction => {
           value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/**/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
-          console.error(err);
+          icoe(err);
         }
       }
     });
@@ -536,7 +537,7 @@ client.on('interactionCreate', async interaction => {
           value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
-          console.error(err);
+          icoe(err);
         }
       }
     });
@@ -556,9 +557,9 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
         log('830856984579670086', `${fullMessage.author} just edited a past message\nNew: ${newMsg.content}`, '#9e9d9d');
         const yes = punish(newMsg)
         if (yes[0]) newMsg.delete();
-      }).catch(err => console.warn(err));
+      }).catch(err => icoe(err));
     } catch (error) {
-      console.error(error);
+      icoe(err);
     }
   } else {
 
@@ -597,7 +598,7 @@ client.on('guildMemberAdd', member => {
         log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
       }
     });
-  }).catch(err => console.warn(err));
+  }).catch(err => icoe(err));
   updateInvites();
   var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
@@ -631,9 +632,9 @@ client.on('messageDelete', msg => {
     try {
       msg.fetch().then(fullMessage => {
         log('830856984579670086', `${fullMessage.author}'s past message was just deleted\n\n${fullMessage.content}`, '#9e9d9d');
-      }).catch(err => console.warn(err));
+      }).catch(err => icoe(err));
     } catch (error) {
-      console.error(error);
+      icoe(err);
     }
   } else {
 
@@ -663,14 +664,9 @@ process.on('message', (msg) => {
   }
 });
 
-// process.on('uncaughtException', error => {
-//   var params = {
-//     username: "SERVER ALERT",
-//     avatar_url: "",
-//     content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
-//   }
-//   request(token.webhook, { method: 'POST', headers: {'Content-type': 'application/json'}, formData: JSON.stringify(params) });
-// });
+process.on('uncaughtException', error => {
+  icoe(error);
+});
 
 //Client login
 client.login(token.main);

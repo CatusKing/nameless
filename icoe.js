@@ -9,5 +9,6 @@ module.exports = {
       content: `<@473110112844644372> THE SERVER IS DYING HELP\n${error.message}`,
     }
     post(webhook, { method: 'POST', headers: {'Content-type': 'application/json'}, body: JSON.stringify(params) });
+    console.error(error);
   }
 }
