@@ -47,16 +47,26 @@ module.exports = {
     var footer = '', description = '', options = [];
     interaction.options.data.forEach((value) => {
       if (value.type == 'STRING' && value.name.startsWith('option')) {
-        footer += `${choicesEmojis[options.length]}-0,`;
+        footer += `${options.length}-0,`;
         description += `${choicesEmojis[options.length]} - ${value.value}\n`;
-        options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('PRIMARY'));
+        options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('SECONDARY'));
       }
     });
     interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer)] });
+    setTimeout(() => {
+      interaction.followUp('wowie');
+    }, 5000);
   },
   button: true,
   buttonId: '^',
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
-
+    interaction.fetchReply().then((msg) => {
+      var footer = '';
+      msg.embeds.first().footer.split(',').forEach((value) => {
+        if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
+        else footer += `${value},`;
+      });
+      msg.edit({ embeds: [msg.embeds.first().setFooter(footer)] });
+    })
   }
 };
