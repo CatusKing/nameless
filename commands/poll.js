@@ -65,7 +65,7 @@ module.exports = {
             }
           }
         });
-        reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(greatest.toString())] })
+        reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(`${choicesEmojis[greatest[0]]} wins!`)] })
       }).catch(err => icoe(err));
     }, 60000);
   },
