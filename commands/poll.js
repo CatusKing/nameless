@@ -86,14 +86,14 @@ module.exports = {
     interaction.message.embeds[0].image.url.replace('https://stop.stop/', '').split('-').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = user.split('_')[1];
     });
-    var temp2 = '';
+    var temp2 = '', url = '';
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
         var temp;
         if (interaction.customId.startsWith(value.split('-')[0])) {
           temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
-          interaction.message.embeds[0].setImage(interaction.message.embeds[0].image.url.replace(`${interaction.member.id}_${voted}`, `${interaction.member.id}_${value.split('-')[0]}`))
+          url = (interaction.message.embeds[0].image.url.replace(`${interaction.member.id}_${voted}`, `${interaction.member.id}_${value.split('-')[0]}`))
         } else temp = `${value},`;
         console.log(voted);
         console.log(value.split('-')[0])
@@ -109,6 +109,6 @@ module.exports = {
         temp2 = value.split('-')[0];
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer)] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(url)] });
   }
 };
