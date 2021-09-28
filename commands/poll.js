@@ -85,6 +85,7 @@ module.exports = {
     console.log(interaction.message.embeds[0].image.url);
     interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('.').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = user.split('#')[1];
+      console.log(user.includes(interaction.member.id));
     });
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
