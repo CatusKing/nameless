@@ -95,6 +95,8 @@ module.exports = {
           temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
           interaction.message.embeds[0].setImage(interaction.message.embeds[0].image.url.replace(`${interaction.member.id}_${voted}`, `${interaction.member.id}_${value.split('-')[0]}`))
         } else temp = `${value},`;
+        console.log(voted);
+        console.log(value.split('-')[0])
         if (interaction.customId.startsWith(voted)) {
           footer += `${value},`;
         } else if (value.split('-')[0] == voted) {
