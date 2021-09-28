@@ -91,18 +91,21 @@ module.exports = {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
         var temp;
-        if (interaction.customId.startsWith(value.split('-')[0])) temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
-        else temp = `${value},`;
+        if (interaction.customId.startsWith(value.split('-')[0])) {
+          temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
+          interaction.message.embeds[0].setImage(interaction.message.embeds[0].image.url.replace(`${interaction.member.id}_${voted}`, `${interaction.member.id}_${alue.split('-')[0]}`))
+        } else temp = `${value},`;
         if (interaction.customId.startsWith(voted)) {
           footer += `${value},`;
         } else if (value.split('-')[0] == voted) {
           footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) - 1},`;
+          footer += temp;
         } else {
           footer += temp;
         }
         temp2 = value.split('-')[0];
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url + `-${interaction.member.id}_${temp2}.stop`)] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url)] });
   }
 };
