@@ -59,7 +59,7 @@ module.exports = {
         options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('SECONDARY'));
       }
     });
-    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('https://823380896686014505_10.stop')] });
+    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('https://stop.stop/823380896686014505_10')] });
     setTimeout(() => {
       interaction.fetchReply().then(reply => {
         var greatest = ['-1', -1];
@@ -83,7 +83,7 @@ module.exports = {
     if (interaction.message.embeds[0].footer.text == 'over') return;
     var voted = false;
     console.log(interaction.message.embeds[0].image.url);
-    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('-').forEach((user) => {
+    interaction.message.embeds[0].image.url.replace('https://stop.stop/', '').split('-').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = user.split('_')[1];
     });
     var temp2 = '';
@@ -103,6 +103,6 @@ module.exports = {
         temp2 = value.split('-')[0];
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `-${interaction.member.id}_${temp2}.stop`))] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url + `-${interaction.member.id}_${temp2}.stop`)] });
   }
 };
