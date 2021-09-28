@@ -75,6 +75,7 @@ module.exports = {
     var footer = '';
     if (interaction.message.embeds[0].footer.text == 'over') return;
     var voted = false;
+    console.log(interaction.message.embeds[0].image.url);
     interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split(',').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = true;
     });
