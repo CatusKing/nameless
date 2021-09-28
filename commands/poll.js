@@ -52,7 +52,7 @@ module.exports = {
         options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('SECONDARY'));
       }
     });
-    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer)] });
+    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('823380896686014505-10')] });
     setTimeout(() => {
       interaction.fetchReply().then(reply => {
         var greatest = ['-1', -1];
@@ -65,7 +65,7 @@ module.exports = {
             }
           }
         });
-        reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(`${choicesEmojis[greatest[0]]} wins!`)] })
+        reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(`${choicesEmojis[greatest[0]]} wins!`)], components: [] })
       }).catch(err => icoe(err));
     }, 60000);
   },
