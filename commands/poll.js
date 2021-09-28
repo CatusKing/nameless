@@ -101,6 +101,6 @@ module.exports = {
         }
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `-${interaction.member.id}.stop`))] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `.${interaction.member.id}.stop`))] });
   }
 };
