@@ -86,9 +86,10 @@ module.exports = {
     interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('-').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = true;
     });
+    if (voted) return interaction.reply({ ephemeral: true, content: 'You already voted stinki' });
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
-      else if (!voted) {
+      else {
         if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
         else footer += `${value},`;
       }
