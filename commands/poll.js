@@ -74,6 +74,11 @@ module.exports = {
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
     var footer = '';
     if (interaction.message.embeds[0].footer.text == 'over') return;
+    var voted = false;
+    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split(',').forEach((user) => {
+      if (user.includes(interaction.member.id)) voted = true;
+    });
+    if (voted == true) return interaction.reply({ ephemeral: true, content: 'You already voted silly' });
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
