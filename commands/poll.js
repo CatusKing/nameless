@@ -56,7 +56,7 @@ module.exports = {
     setTimeout(() => {
       interaction.fetchReply().then(reply => {
         var greatest = ['-1', -1];
-        interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
+        reply.embeds[0].footer.text.split(',').forEach((value) => {
           if (Number.isNaN(Number(value.split('-')[1]))) {}
           else {
             if (Number(value.split('-')[1]) > greatest[1]) {
