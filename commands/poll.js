@@ -74,7 +74,7 @@ module.exports = {
         });
         reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(`${choicesEmojis[greatest[0]]} wins!`)], components: [] })
       }).catch(err => icoe(err));
-    }, 60000);
+    }, duration * 1000);
   },
   button: true,
   buttonId: '^',
