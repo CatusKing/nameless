@@ -109,6 +109,6 @@ module.exports = {
         temp2 = value.split('-')[0];
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url)] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer)] });
   }
 };
