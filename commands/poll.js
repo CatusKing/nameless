@@ -1,4 +1,5 @@
 const { choicesEmojis } = require('../general/config.json');
+const { icoe } = require('../icoe');
 const { MessageEmbed, CommandInteraction, Client, ButtonInteraction, MessageActionRow, MessageButton } = require('discord.js');
 module.exports = {
   name: 'poll',
@@ -53,13 +54,26 @@ module.exports = {
     });
     interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer)] });
     setTimeout(() => {
-      interaction.followUp('wowie');
-    }, 5000);
+      interaction.fetchReply().then(reply => {
+        var greatest = ['-1', -1];
+        interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
+          if (Number.isNaN(Number(value.split('-')[1]))) {}
+          else {
+            if (Number(value.split('-')[1]) > greatest[1]) {
+              greatest[0] = value.split('-')[0];
+              greatest[1] = Number(value.split('-')[1]);
+            }
+          }
+        });
+        reply.edit({ embeds: [reply.embeds[0].setFooter('over').setTitle(greatest.toString())] })
+      }).catch(err => icoe(err));
+    }, 60000);
   },
   button: true,
   buttonId: '^',
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
     var footer = '';
+    if (interaction.message.embeds[0].footer.text == 'over') return;
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
