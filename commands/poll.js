@@ -97,6 +97,7 @@ module.exports = {
         } else temp = `${value},`;
         console.log(voted);
         console.log(value.split('-')[0])
+        console.log(value.split('-')[0] == voted)
         if (interaction.customId.startsWith(voted)) {
           footer += `${value},`;
         } else if (value.split('-')[0] == voted) {
