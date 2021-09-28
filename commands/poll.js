@@ -59,7 +59,7 @@ module.exports = {
         options.push(new MessageButton().setCustomId(`${options.length}^`).setEmoji(choicesEmojis[options.length]).setStyle('SECONDARY'));
       }
     });
-    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('https://823380896686014505.10.stop')] });
+    interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('https://823380896686014505.stop')] });
     setTimeout(() => {
       interaction.fetchReply().then(reply => {
         var greatest = ['-1', -1];
@@ -83,25 +83,16 @@ module.exports = {
     if (interaction.message.embeds[0].footer.text == 'over') return;
     var voted = false;
     console.log(interaction.message.embeds[0].image.url);
-    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('.').forEach((user) => {
-      if (user.includes(interaction.member.id)) voted = user.split('#')[1];
-      console.log(user.includes(interaction.member.id));
+    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('-').forEach((user) => {
+      if (user.includes(interaction.member.id)) voted = true;
     });
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
-      else {
-        var temp;
-        if (interaction.customId.startsWith(value.split('-')[0])) temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
-        else temp = `${value},`;
-        if (interaction.customId.startsWith(voted)) {
-          footer += `${value},`;
-        } else if (value.split('-')[0] == voted) {
-          footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) - 1},`;
-        } else {
-          footer += temp;
-        }
+      else if (!voted) {
+        if (interaction.customId.startsWith(value.split('-')[0])) footer += `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
+        else footer += `${value},`;
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `.${interaction.member.id}.stop`))] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `-${interaction.member.id}.stop`))] });
   }
 };
