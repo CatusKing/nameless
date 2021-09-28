@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { icoe } = require("../icoe");
 
 module.exports = {
 	name: 'unmute',
@@ -23,7 +24,8 @@ module.exports = {
         setUserMuted(target.id, 0);
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Unmuted ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
         interaction.fetchReply()
-          .then(reply => log('834179033289719839', `Unmuted ${target}\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
+          .then(reply => log('834179033289719839', `Unmuted ${target}\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'))
+          .catch(err => icoe(err));
       } else interaction.reply({ embeds: [ new MessageEmbed().setDescription('This user isn\'t muted').setColor('#9e9d9d') ] });
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });
   }

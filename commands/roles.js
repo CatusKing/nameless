@@ -1,5 +1,6 @@
 const { MessageSelectMenu, MessageActionRow, CommandInteraction, Client, SelectMenuInteraction } = require("discord.js");
 const { roleMessages, guildId } = require('../general/config.json');
+const { icoe } = require("../icoe");
 
 module.exports = {
 	name: 'roles',
@@ -21,7 +22,7 @@ module.exports = {
         ];
         msg.edit({ components: components, embeds: [], content: `\u200B` })
         interaction.reply({ ephemeral: true, content: 'done!' });
-      });
+      }).catch(err => icoe(err));
     }
   },
   selectMenu: true,

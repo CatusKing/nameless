@@ -51,8 +51,8 @@ module.exports = {
     if (blur != 0) blur = `blur=${(blur * 2)}`;
     else blur = '';
     var input = interaction.options.getBoolean('grayscale') || false;
-    if (input) var grayscale = '&grayscale';
-    else var grayscale = '';
+    var grayscale = '';
+    if (input) grayscale = '&grayscale';
     interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/1920/1080?${blur}${grayscale}`) ] })
   }
 };

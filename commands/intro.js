@@ -1,3 +1,5 @@
+const { icoe } = require('../icoe');
+
 function chunkString(str = new String()) {
   var arr = [];
   str.split(' ').forEach((val, index) => {
@@ -95,6 +97,6 @@ module.exports = {
     client.channels.cache.get('833565619289980938').fetchWebhooks().then(hooks => {
       hooks.first().send({ content: `╭┄┄┄┄┄࿐ྂ\n${name}${pronouns}${age}${gender}${timezone}${dms}${extra}╰┄┄┄┄┄┄┄➤`, username: interaction.member.displayName, avatarURL: interaction.user.displayAvatarURL() })
       interaction.reply({ ephemeral: true, content: 'Sent to the introductions channel' });
-    });
+    }).catch(err => icoe(err));
   }
 };

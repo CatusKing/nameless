@@ -7,7 +7,7 @@ module.exports = {
     var guild = client.guilds.cache.get('830495072876494879');
     guild.members.cache.forEach((member) => {
       if (users[member.id]) {
-        if (isNaN(users[member.id].streakTime)) users[member.id].streakTime = 0;
+        if (Number.isNaN(users[member.id].streakTime)) users[member.id].streakTime = 0;
         var streakTime = users[member.id].streakTime || 0;
         if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60)) {
           users[member.id].streak = 0;

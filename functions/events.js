@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const request = require('request');
 const { eventsMessages } = require('../general/config.json');
+const { icoe } = require("../icoe");
 
 module.exports = {
   execute(client) {
@@ -31,7 +32,7 @@ module.exports = {
             } else {
               setTimeout(() => message.edit({ embeds: [new MessageEmbed().setDescription('\u200B').setColor('#9e9d9d')], content: '\u200B' }), time);
             }
-          });
+          }).catch(err => icoe(err));
       }
     });
   }

@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const { bulbs } = require('../general/config.json');
+const { bulbs, local_ip } = require('../general/config.json');
 const { hueToken } = require('../general/token.json');
-const { local_ip } = require('../general/config.json');
 const request = require('request');
 
 module.exports = {

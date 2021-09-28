@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { icoe } = require("../icoe");
 
 module.exports = {
 	name: 'punish',
@@ -65,6 +66,7 @@ module.exports = {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1h due to a level 3 infraction`).setColor('#9e9d9d') ] })
           interaction.fetchReply()
             .then(reply => log('834179033289719839', `Muted ${target} for 1 day\nAction by ${interaction.user}\n${target} was muted for 1 day due to a level 3 infraction\n[Jump to!](${reply.url})`, '#9e9d9d'))
+            .catch((err) => icoe(err))
         } else if (interaction.options.getInteger('level') == 4) {
           const duration = 2880;
           try {
@@ -76,7 +78,8 @@ module.exports = {
           setUserBanned(target.id, duration);
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
-            .then(reply => log('834179033289719839', `Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
+            .then(reply => log('834179033289719839', `Banned ${target} for 1 day due to a level 4 infraction\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'))
+            .catch((err) => icoe(err));
         } else if (interaction.options.getInteger('level') == 5) {
           const duration = -1;
           try {
@@ -88,7 +91,8 @@ module.exports = {
           setUserBanned(target.id, duration);
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Perma Banned ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
-            .then(reply => log('834179033289719839', `Perma Banned ${target}\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'));
+            .then(reply => log('834179033289719839', `Perma Banned ${target}\nAction by ${interaction.user}\n[Jump to!](${reply.url})`, '#9e9d9d'))
+            .catch(err => icoe(err));
         }
       }
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You don't have perms for this`).setColor('#9e9d9d') ] });

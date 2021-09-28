@@ -1,3 +1,5 @@
+const { icoe } = require("../icoe");
+
 module.exports = {
 	execute(client, db) {
     const users = db.get(`discord.server.banned`) || [];
@@ -13,7 +15,7 @@ module.exports = {
           client.guilds.cache.get('830495072876494879').bans.fetch().then(bannedMembers => {
             const banned = bannedMembers.find(user => user.user.id == users[i][0]);
             if (banned) client.guilds.cache.get('830495072876494879').members.unban(banned.user, 'Temp ban over')
-          });
+          }).catch(err => icoe(err));
         }
     }
     db.set(`discord.server.banned`, users);

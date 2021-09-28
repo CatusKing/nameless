@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const request = require('request');
+const { icoe } = require("../icoe");
 
 module.exports = {
   execute(client) {
@@ -35,6 +36,6 @@ module.exports = {
           }
           message.edit({ content: '\u200B', embeds: [embed] });
         });
-      });
+      }).catch(err => icoe(err));
   }
 };

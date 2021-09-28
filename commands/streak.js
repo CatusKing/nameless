@@ -27,11 +27,12 @@ module.exports = {
     }
     if (streak > 0) {
       var date = new Date();
+      var description;
       if (streakTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
-        var description = '\nYou can continue your streak rn!'
+        description = '\nYou can continue your streak rn!'
       } else {
-        if (streakTime - (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) == 1) var description = `\nYou can continue your streak in 1 hour`
-        else var description = `\nYou can continue your streak in ${streakTime - (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24)} hours`        
+        if (streakTime - (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) == 1) description = `\nYou can continue your streak in 1 hour`
+        else description = `\nYou can continue your streak in ${streakTime - (Math.floor(((date.getTime() / 1000) / 60) / 60) + 24)} hours`        
       }
     } else {
       var description = '\nYou can continue your streak rn!'
