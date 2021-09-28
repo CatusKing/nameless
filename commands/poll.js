@@ -76,7 +76,7 @@ module.exports = {
     if (interaction.message.embeds[0].footer.text == 'over') return;
     var voted = false;
     console.log(interaction.message.embeds[0].image.url);
-    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split(',').forEach((user) => {
+    interaction.message.embeds[0].image.url.replace('https://', '').replace('.stop', '').split('-').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = true;
     });
     if (voted == true) return interaction.reply({ ephemeral: true, content: 'You already voted silly' });
@@ -87,6 +87,6 @@ module.exports = {
         else footer += `${value},`;  
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `,${interaction.member.id}.stop`))] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `-${interaction.member.id}.stop`))] });
   }
 };
