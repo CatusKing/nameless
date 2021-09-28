@@ -80,7 +80,6 @@ module.exports = {
       if (user.includes(interaction.member.id)) voted = true;
     });
     if (voted == true) return interaction.reply({ ephemeral: true, content: 'You already voted silly' });
-    else interaction.message.embeds[0].setImage(interaction.message.embeds[0].image.url.replace('.stop', `,${interaction.member.id}.stop`))
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
@@ -88,6 +87,6 @@ module.exports = {
         else footer += `${value},`;  
       }
     });
-    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer)] });
+    interaction.update({ embeds: [interaction.message.embeds[0].setFooter(footer).setImage(interaction.message.embeds[0].image.url.replace('.stop', `,${interaction.member.id}.stop`))] });
   }
 };
