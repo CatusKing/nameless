@@ -42,9 +42,16 @@ module.exports = {
       description: 'The fifth option for the poll',
       required: false
     },
+    {
+      name: 'duration',
+      type: 'INTEGER',
+      description: 'The amount of minutes to run the poll',
+      required: false
+    },
   ],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
-    var footer = '', description = '', options = [];
+    var footer = '', description = '', options = [], duration = interaction.options.getInteger('duration') || 1;
+    if (duration < 1 || duration > 120) return interaction.reply('Polls cant be any longer then two hours');
     interaction.options.data.forEach((value) => {
       if (value.type == 'STRING' && value.name.startsWith('option')) {
         footer += `${options.length}-0,`;
