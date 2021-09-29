@@ -429,9 +429,6 @@ client.on('messageCreate', async (msg) => {
 
   if (msg.author.bot || msg.webhookId) return;
 
-  var admins = getServerAdmins();
-  var ignoredCh = getServerIgnoredCh();
-
   //Dm commands
   if (msg.channel.type == 'DM') {
     const guild = client.guilds.cache.get('830495072876494879');
@@ -664,9 +661,7 @@ process.on('message', (msg) => {
   }
 });
 
-process.on('uncaughtException', error => {
-  icoe(error);
-});
+process.on('uncaughtException', error => icoe(error));
 
 //Client login
 client.login(token.main);

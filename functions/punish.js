@@ -1,7 +1,11 @@
+const { post } = require('request');
 const { abc } = require('../general/config.json');
+const { icoe } = require('../icoe');
+const { apiKey2 } = require('../general/token.json');
 
 module.exports = {
-	async execute(client, msg, get_attrs, setUserMuted, reply, log, getServerAdmins, getServerIgnoredCh, attributes) {
+  async execute(client, msg, get_attrs, setUserMuted, reply, log, getServerAdmins, getServerIgnoredCh, attributes) {
+    //Message Content
     try {
       const characters = msg.content.split('');
       var letters = false;
@@ -43,6 +47,25 @@ module.exports = {
           return true;
         }
       } else return false;
-    } catch (error) { }
+    } catch (error) { icoe(error) }
+    //Links
+    try {
+      const messages = msg.content.split(' ');
+      for (let i = 0; i < messages.length; ++i) {
+        if (messages[i].includes('https://') || messages[i].includes('http://')) {
+          post('https://urlscan.io/api/v1/scan/', {
+            json: true, headers: {
+              'API-Key': apiKey2, data: {
+                url: messages[i],
+                visibility: "public",
+              }
+            }
+          }, (err, res, body) => {
+            if (err) return icoe(err);
+            console.log(body)
+          })
+        }
+      }
+    } catch (err) { icoe(err) }
   }
 }
