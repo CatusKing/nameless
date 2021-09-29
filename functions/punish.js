@@ -1,4 +1,4 @@
-const { post } = require('request');
+const { get } = require('request');
 const { abc } = require('../general/config.json');
 const { icoe } = require('../icoe');
 const { apiKey2 } = require('../general/token.json');
@@ -53,16 +53,9 @@ module.exports = {
       const messages = msg.content.split(' ');
       for (let i = 0; i < messages.length; ++i) {
         if (messages[i].toLowerCase().includes('https://') || messages[i].toLowerCase().includes('http://')) {
-          post('https://urlscan.io/api/v1/scan/', {
-            json: true, headers: {
-              'API-Key': apiKey2, data: {
-                url: messages[i],
-                visibility: "public",
-              }
-            }
-          }, (err, res, body) => {
+          get(`https://urlscan.io/api/v1/search/?q=domain:${messages[i].toLowerCase().replace('https://')}`, (err, res, body) => {
             if (err) return icoe(err);
-            console.log(body)
+            console.log(body);
           })
         }
       }
