@@ -93,7 +93,11 @@
     "[Random Fox](https://randomfox.ca/)",
     "[itsthisforthat](http://itsthisforthat.com/api.php?json)",
     "[Hue Developer Api](https://developers.meethue.com/)",
-    "[NASA Api](https://api.nasa.gov)"
+    "[NASA Api](https://api.nasa.gov)",
+    "[icanhazdadjoke](https://icanhazdadjoke.com/api)",
+    "[Bored Api](http://www.boredapi.com/api/activity/)",
+    "[Studio Ghibli Api](https://ghibliapi.herokuapp.com)",
+    "[WikiHow](http://www.wikihow.com/Special:Randomizer)"
   ],
   "adminRoles": ["830496065366130709", "830495937301577759", "830507588818436126"],
   "guildId": "830495072876494879",
