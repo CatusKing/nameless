@@ -53,7 +53,7 @@ module.exports = {
       const messages = msg.content.split(' ');
       for (let i = 0; i < messages.length; ++i) {
         if (messages[i].toLowerCase().includes('https://') || messages[i].toLowerCase().includes('http://')) {
-          get(`https://urlscan.io/api/v1/search/?q=domain:${messages[i].toLowerCase().replace('https://')}`, (err, res, body) => {
+          get(`https://urlscan.io/api/v1/search/?q=${messages[i].toLowerCase()}`, (err, res, body) => {
             if (err) return icoe(err);
             console.log(body);
           })
