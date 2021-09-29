@@ -21,7 +21,7 @@ module.exports = {
     }
   ],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
-    var country = ('&country=' + interaction.options.getString('country', true)) || '';
+    var country = ('&country=' + interaction.options.getString('country')) || '';
     get(`http://universities.hipolabs.com/search?name=${interaction.options.getString('query')}${country}`, { json: true }, (err, res, body) => {
       console.log(body);
     });
