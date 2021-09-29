@@ -1,4 +1,4 @@
-const { CommandInteraction, Client } = require("discord.js");
+const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
 const { icoe } = require('../icoe.js');
 const { get } = require('request');
 
@@ -11,8 +11,8 @@ module.exports = {
     var country;
     if (interaction.options.getString('country')) country = `&country=${interaction.options.getString('country')}`;
     get(`https://icanhazdadjoke.com/`, { json: true, headers: { 'Accept': 'application/json' } }, (err, res, body) => {
-      if (err) icoe(err);
-      console.log(body);
+      if (err || body.status != 200) return icoe(err);
+      interaction.reply({ embeds: [ new MessageEmbed().setDescription(body.joke).setFooter(body.id).setColor('#9e9d9d') ] })
     });
   },
 }
