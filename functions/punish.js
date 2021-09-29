@@ -52,7 +52,7 @@ module.exports = {
     try {
       const messages = msg.content.split(' ');
       for (let i = 0; i < messages.length; ++i) {
-        if (messages[i].includes('https://') || messages[i].includes('http://')) {
+        if (messages[i].toLowerCase().includes('https://') || messages[i].toLowerCase().includes('http://')) {
           post('https://urlscan.io/api/v1/scan/', {
             json: true, headers: {
               'API-Key': apiKey2, data: {
