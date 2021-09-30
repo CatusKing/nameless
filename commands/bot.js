@@ -17,7 +17,7 @@ module.exports = {
     const core = os.cpus()[0];
     var api = '';
     for(let i of apis) {
-      api += `${i}\n`;
+      api += `${i}\n\u3000`;
     }
     let dep = '';
     for(let i of dependencies) {
