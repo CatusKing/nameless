@@ -12,7 +12,7 @@ module.exports = {
       name: 'breed',
       type: 'STRING',
       description: 'The breed being searched for',
-      required: false
+      required: true
     }
   ],
   executeI(client, interaction = new CommandInteraction()) {
