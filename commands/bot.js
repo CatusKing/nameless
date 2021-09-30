@@ -1,7 +1,6 @@
 const os = require('os');
-const { version: version2 } = require('quick.db');
-const { MessageEmbed, version: version1 } = require('discord.js');
-const { apis } = require('../general/config.json');
+const { MessageEmbed } = require('discord.js');
+const { apis, dependencies } = require('../general/config.json');
 module.exports = {
 	name: 'bot',
 	description: 'Displays information on the bot',
@@ -19,6 +18,10 @@ module.exports = {
     var api = '';
     for(let i of apis) {
       api += `${i}\n`;
+    }
+    let dep = '';
+    for(let i of dependencies) {
+      dep += `${i[0]}: ${i[1]}\n`
     }
     const embed = new MessageEmbed().setColor('#ffffba')
       .addField('General', `**❯ ${nameless_emoji}** ${client.user.tag} (${client.user.id})\n**❯ ${pc_emoji}** ${Math.floor(client.uptime / 86400000)}d ${Math.floor(client.uptime / 3600000) % 24}hr ${Math.floor(client.uptime / 60000) % 60}min ${Math.floor(client.uptime / 1000) % 60}sec\n\u200b`)
