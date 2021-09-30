@@ -15,9 +15,9 @@ module.exports = {
     const ping_emoji = client.emojis.cache.get("864314397529866261");
     const nameless_emoji = client.emojis.cache.get("864319487746113557");
     const core = os.cpus()[0];
-    var api = '\u2000';
+    var api = '- ';
     for(let i of apis) {
-      api += `${i}\n\u2000`;
+      api += `${i}\n- `;
     }
     let dep = '';
     for(let i of dependencies) {
