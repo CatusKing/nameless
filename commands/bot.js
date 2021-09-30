@@ -25,7 +25,7 @@ module.exports = {
     }
     const embed = new MessageEmbed().setColor('#ffffba')
       .addField('General', `**❯ ${nameless_emoji}** ${client.user.tag} (${client.user.id})\n**❯ ${pc_emoji}** ${Math.floor(client.uptime / 86400000)}d ${Math.floor(client.uptime / 3600000) % 24}hr ${Math.floor(client.uptime / 60000) % 60}min ${Math.floor(client.uptime / 1000) % 60}sec\n\u200b`)
-      .addField('System', `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms ws ping\n**❯ ${hdd_emoji}:** ${os.platform()},${os.release()}\n**❯ ${cpu_emoji}:**\n\u3000 ${core.model}\n\u3000 ${os.cpus().length} x ${core.speed}MHz\n**❯ ${ram_emoji}:** ${Math.floor(((os.freemem()) / 10000000)) / 100}GiB/${Math.floor(((os.totalmem()) / 10000000)) / 100}GiB\n**❯ Dependencies:**\n\u3000 Node.js: ${process.version}\n\u3000\n${dep}`)
+      .addField('System', `**❯ ${ping_emoji}:** ${Math.round(client.ws.ping)}ms ws ping\n**❯ ${hdd_emoji}:** ${os.platform()},${os.release()}\n**❯ ${cpu_emoji}:**\n\u3000 ${core.model}\n\u3000 ${os.cpus().length} x ${core.speed}MHz\n**❯ ${ram_emoji}:** ${Math.floor(((os.freemem()) / 10000000)) / 100}GiB/${Math.floor(((os.totalmem()) / 10000000)) / 100}GiB\n**❯ Dependencies:**\n\u3000 Node.js: ${process.version}\n\u3000${dep}`)
       .addField('Current Apis', api)
       .setTimestamp();
     interaction.reply({ embeds: [embed] });
