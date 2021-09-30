@@ -18,7 +18,9 @@ module.exports = {
   executeI(client, interaction = new CommandInteraction()) {
     request(`https://api.thedogapi.com/v1/breeds/search?q=${interaction.options.getString('breed')}`, { json: true }, (err, res, body) => {
       if (err) return icoe(err);
-      interaction.reply({ embeds: [ new MessageEmbed().setTitle(body[0].name).setDescription(body[0].temperament).addField('Life Span', `${body[0].life_span} years`, true).addField('Origin', `${body[0].origin}`, true).addField('Bred For', `${body[0].bred_for}`, true).addField('Breed Group', `${body[0].breed_group}`, true).setColor('#9e9d9d').setThumbnail(`hhttps://cdn2.thedogapi.com/images/${body[0].reference_image_id}.jpg`) ] })
+      var embed = new MessageEmbed();
+      if (body[0].temperament) embed.setDescription(body[0].temperament)
+      interaction.reply({ embeds: [ new MessageEmbed().setTitle(body[0].name).addField('Life Span', `${body[0].life_span} years`, true).addField('Origin', `${body[0].origin}`, true).addField('Bred For', `${body[0].bred_for}`, true).addField('Breed Group', `${body[0].breed_group}`, true).setColor('#9e9d9d').setThumbnail(`hhttps://cdn2.thedogapi.com/images/${body[0].reference_image_id}.jpg`) ] })
     });
   }
 };
