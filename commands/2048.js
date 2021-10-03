@@ -20,10 +20,9 @@ module.exports = {
       components[i] = new MessageActionRow()
       for (let j = 0; j < table[i].length; ++j) {
         var label = emojiNumbers[String(table[i][j])];
-        if (label == '') var style = 'SECONDARY';
-        else if (label == '🔟' || label == '✨') var style = 'DANGER';
+        if (label[0] == '') var style = 'SECONDARY';
         else var style = 'SUCCESS';
-        components[i].addComponents(new MessageButton().setLabel('\u200B').setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
+        components[i].addComponents(new MessageButton().setLabel(`${label[1]}`).setEmoji(`${label[0]}`).setStyle(style).setCustomId(`${i}*${j}`));
       }
     }
     components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
@@ -45,10 +44,9 @@ module.exports = {
         components[i] = new MessageActionRow();
         for (let j = 0; j < table.nextField[i].length; ++j) {
           var label = emojiNumbers[String(table.nextField[i][j])];
-          if (label == '') var style = 'SECONDARY';
-          else if (label == '🔟' || label == '✨') var style = 'DANGER';
+          if (label[0] == '') var style = 'SECONDARY';
           else var style = 'SUCCESS';
-          components[i].addComponents(new MessageButton().setLabel('\u200B').setEmoji(`${label}`).setStyle(style).setCustomId(`${i}*${j}`));
+          components[i].addComponents(new MessageButton().setLabel(`${label[1]}`).setEmoji(`${label[0]}`).setStyle(style).setCustomId(`${i}*${j}`));
         }
       }
       components[0].addComponents(new MessageButton().setEmoji('⬆️').setCustomId(`up!`).setStyle('PRIMARY'));
