@@ -9,7 +9,7 @@ module.exports = {
   options: [],
   executeI(client, interaction) {
     request('https://ghibliapi.herokuapp.com/films', { json: true }, (err, res, body) => {
-      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[0].title).setDescription(body[0].description).setAuthor(`Director: ${body[0].director}`) ], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId('films_1').setLabel('Next').setStyle('PRIMARY')), new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_0_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_0_species`).setStyle('SECONDARY'))] });
+      interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(body[0].image).setThumbnail(body[0].movie_banner).setTitle(body[0].title).setDescription(body[0].description).setAuthor(`Director: ${body[0].director}`) ], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId('films_1').setLabel('Next').setStyle('PRIMARY')), new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_0_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_0_species`).setStyle('SECONDARY'))] });
     });
   },
   button: true,
@@ -67,7 +67,7 @@ module.exports = {
           }
         } else {
           components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1]}_people`).setLabel('People').setStyle('SECONDARY'), new MessageButton().setLabel('Species').setCustomId(`films_${split[1]}_species`).setStyle('SECONDARY')));
-          interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setTitle(body[split[1]].title).setDescription(body[split[1]].description).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
+          interaction.update({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(body[split[1]].image).setThumbnail(body[split[1]].movie_banner).setTitle(body[split[1]].title).setDescription(body[split[1]].description).setAuthor(`Director: ${body[split[1]].director}`).setFooter(`${split[1] + 1}/${body.length}`) ], components: components });  
         }
       });
     }
