@@ -482,9 +482,11 @@ client.on('messageReactionAdd', (reaction, user) => {
       var yes = false;
       messages.forEach(message => {
         if (message.embeds[0].footer.text == reaction.message.id && !yes) {
-          yes = true;
+          console.log(message.embeds[0].title);
           var embed = message.embeds[0].setTitle(`${reaction.count} 💀`);
+          console.log(embed.title)
           message.edit({ embeds: [embed] });
+          yes = true;
         }
       });
       if (!yes) {
