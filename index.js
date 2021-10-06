@@ -483,7 +483,8 @@ client.on('messageReactionAdd', (reaction, user) => {
       messages.forEach(message => {
         if (message.embeds[0].footer.text == reaction.message.id && !yes) {
           yes = true;
-          message.edit({ embeds: [message.embeds[0].setTitle(`${reaction.count} 💀`)] })
+          var embed = message.embeds[0].setTitle(`${reaction.count} 💀`);
+          message.edit({ embeds: [embed] });
         }
       });
       if (!yes) {
