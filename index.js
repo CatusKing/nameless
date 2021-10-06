@@ -478,28 +478,30 @@ client.on('messageCreate', async (msg) => {
 client.on('messageReactionAdd', (reaction, user) => {
   if (reaction.emoji.name != '💀') return;
   console.log(reaction.count)
-  if (reaction.count >= 3) {
-    client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
-      var yes = false;
-      messages.forEach(message => {
-        if (message.embeds[0].footer.text == reaction.message.id && !yes) {
-          console.log(message.embeds[0].title);
-          var embed = message.embeds[0].setTitle(`${reaction.count} 💀`);
-          console.log(embed.title)
-          message.edit({ embeds: [embed] });
-          yes = true;
+  reaction.fetch().then(betterReaction => {
+    if (betterReaction.count >= 3) {
+      client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
+        var yes = false;
+        messages.forEach(message => {
+          if (message.embeds[0].footer.text == betterReaction.message.id && !yes) {
+            console.log(message.embeds[0].title);
+            var embed = message.embeds[0].setTitle(`${betterReaction.count} 💀`);
+            console.log(embed.title)
+            message.edit({ embeds: [embed] });
+            yes = true;
+          }
+        });
+        if (!yes) {
+          var embed = new MessageEmbed().setDescription(betterReaction.message.content).setColor('#9e9d9d').setFooter(betterReaction.message.id).setAuthor(betterReaction.message.member.displayName, betterReaction.message.author.avatarURL()).addField('Source', `<#${betterReaction.message.channelId}>`).setTitle(`${betterReaction.count} 💀`);
+          if (betterReaction.message.attachments.size > 0) embed.setImage(betterReaction.message.attachments.first().url);
+          const channel = client.channels.cache.get('880999255622451270')
+          channel.send({ embeds: [embed] });
         }
-      });
-      if (!yes) {
-        var embed = new MessageEmbed().setDescription(reaction.message.content).setColor('#9e9d9d').setFooter(reaction.message.id).setAuthor(reaction.message.member.displayName, reaction.message.author.avatarURL()).addField('Source', `<#${reaction.message.channelId}>`).setTitle(`${reaction.count} 💀`);
-        if (reaction.message.attachments.size > 0) embed.setImage(reaction.message.attachments.first().url);
-        const channel = client.channels.cache.get('880999255622451270')
-        channel.send({ embeds: [embed] });
-      }
-    }).catch((err) => {
-      icoe(err);
-    })
-  }
+      }).catch((err) => {
+        icoe(err);
+      })
+    }
+  });
 });
 //5 End
 
