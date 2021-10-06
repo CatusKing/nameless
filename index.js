@@ -477,7 +477,6 @@ client.on('messageCreate', async (msg) => {
 //5 Reaction handler
 client.on('messageReactionAdd', (reaction, user) => {
   if (reaction.emoji.name != '💀') return;
-  console.log(reaction.count)
   reaction.fetch().then(betterReaction => {
     if (betterReaction.count >= 3) {
       client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
@@ -630,17 +629,13 @@ client.on('guildMemberRemove', member => { log('837513841389862932', `${member}(
 
 //Logs deleted messages
 client.on('messageDelete', msg => {
-
   if (msg.partial) {
     try {
-      msg.fetch().then(fullMessage => {
-        log('830856984579670086', `${fullMessage.author}'s past message was just deleted\n\n${fullMessage.content}`, '#9e9d9d');
-      }).catch(err => icoe(err));
+      log('830856984579670086', `A message was just deleted but idk what it was ¯\\_(ツ)_/¯`, '#9e9d9d');
     } catch (error) {
       icoe(err);
     }
   } else {
-
     if (msg.author.bot) return;
 
     if (msg.content) log('830856984579670086', `${msg.author}'s message was just deleted\n\n${msg.content}`, '#9e9d9d');
