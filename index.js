@@ -603,14 +603,10 @@ client.on('guildMemberAdd', member => {
       }
     });
   }).catch(err => icoe(err));
-  try {
-    updateInvites();
-  } catch (err) {
-    icoe(err);
-  }
+  updateInvites();
   var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
-  channel.send(embed);
+  channel.send({ embeds: [embed] });
   const muted = getUserMuted(member.user.id);
   if (muted == 1) {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
