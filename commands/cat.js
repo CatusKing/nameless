@@ -3,7 +3,7 @@ const request = require("request");
 
 module.exports = {
 	name: 'cat',
-	description: 'Sends a random cat image',
+	description: 'Sends information on a searched cat breed',
 	command: false,
   slash: true,
   options: [

@@ -11,7 +11,7 @@ function chunkString(str = new String()) {
 
 module.exports = {
 	name: 'intro',
-	description: 'Adds to the users balance',
+	description: 'Sends an intro into the introductions channel',
   command: false,
   slash: true,
   options: [

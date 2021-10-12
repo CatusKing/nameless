@@ -4,7 +4,7 @@ const { icoe } = require('../icoe');
 
 module.exports = {
   name: 'dog',
-  description: 'Sends a random dog image',
+  description: 'Sends information on a searched dog breed',
   command: false,
   slash: true,
   options: [
