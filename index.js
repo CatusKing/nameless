@@ -51,7 +51,7 @@ math.import({
 }, { override: true });
 
 //2 Tons of functions
-const log = (channelId = new String, content = new String, color = new String) => {
+const log = (channelId = new String, content = new String, color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.send({ embeds: [embed] });
@@ -550,7 +550,10 @@ client.on('interactionCreate', async interaction => {
 //6 End
 
 //Auto joins threads so that they can have auto mod
-client.on('threadCreate', (thread) => thread.join());
+client.on('threadCreate', (thread) => {
+  thread.join();
+  log('830856984579670086', `${thread.name} thread created`);
+});
 
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
