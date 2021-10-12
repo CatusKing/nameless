@@ -435,6 +435,8 @@ client.on('messageCreate', async (msg) => {
     const member = guild.members.cache.get(msg.author.id);
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
+    updateInvites();
+    console.log('hi');
   }
 
   if (msg.channel.type != 'GUILD_TEXT') return;
@@ -601,7 +603,11 @@ client.on('guildMemberAdd', member => {
       }
     });
   }).catch(err => icoe(err));
-  updateInvites();
+  try {
+    updateInvites();
+  } catch (err) {
+    icoe(err);
+  }
   var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send(embed);
