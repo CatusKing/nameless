@@ -378,7 +378,7 @@ const checkSpotify = () => {
         .then(function(data) {
           // Output items
           if (data.body && data.body.is_playing) {
-            console.log(data);
+            console.log(data.body.item);
           }
         }, function(err) {
           console.log('Something went wrong!', err);
