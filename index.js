@@ -27,7 +27,7 @@ var count = db.get(`discord.count`) || 0;
 var topCount = db.get(`discord.topCount`) || 0;
 var client_id = token.spotifyId; // Your client id
 var client_secret = token.spotifySecret; // Your secret
-var redirect_uri = 'https://google.com'; // Your redirect uri
+var redirect_uri = 'localhost:8888/callback'; // Your redirect uri
 
 //1 Used to store commands and functions to call upon later
 client.commands = new Collection();
