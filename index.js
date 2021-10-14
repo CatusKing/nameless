@@ -366,8 +366,9 @@ const checkInsurance = () => {
 
 const checkSpotify = () => {
   var users = db.get(`discord.users`) || {};
-  console.log(users)
+  console.log(users['723637398977642546'])
   client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
+    console.log(member.id)
     if (!member.user.bot && users[member.id].spotify) {
       var spotifyApi = new SpotifyWebApi({
         clientId: token.spotifyId,
