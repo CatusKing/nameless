@@ -30,7 +30,7 @@ module.exports = {
       db.set(`discord.users.${interaction.user.id}.spotify`, interaction.options.getString('token'));
       interaction.reply(`Set token to ${interaction.options.getString('token')}`);  
     } else {
-      db.unset(`discord.users.${interaction.user.id}.spotify`)
+      db.delete(`discord.users.${interaction.user.id}.spotify`);
       interaction.reply('done!');
     }
     
