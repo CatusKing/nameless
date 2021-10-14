@@ -378,7 +378,8 @@ const checkSpotify = () => {
         .then(function(data) {
           // Output items
           if (data.body && data.body.is_playing) {
-            console.log(data.body.item);
+            client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls[0]) ] })
+            console.log(data.body.item.album);
           }
         }, function(err) {
           console.log('Something went wrong!', err);
