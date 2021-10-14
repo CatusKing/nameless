@@ -26,7 +26,13 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    db.set(`discord.users.spotify`, )
+    if (interaction.options.getSubcommand() == 'link') {
+      db.set(`discord.users.${interaction.user.id}.spotify`, interaction.options.getString('token'));
+      interaction.reply(`Set token to ${interaction.getString('token')}`);  
+    } else {
+      db.unset(`discord.users.${interaction.user.id}.spotify`)
+      interaction.reply('done!');
+    }
     
     
     
