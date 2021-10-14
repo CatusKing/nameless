@@ -14,6 +14,7 @@ var express = require('express');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+const SpotifyWebApi = require('spotify-web-api-node');
 const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
@@ -362,6 +363,30 @@ const checkInsurance = () => {
     db.set(`discord.users`, users);
   }
 };
+
+const checkSpotify = () => {
+  const users = db.get(`discord.users`);
+  client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
+    if (!member.user.bot && users[member.id].spotify) {
+      var spotifyApi = new SpotifyWebApi({
+        clientId: token.spotifyId,
+        clientSecret: token.spotifySecret,
+        redirectUri: 'http://catusking.us.to:8888/callback'
+      });
+      spotifyApi.setAccessToken(users[member.id].spotify);
+      spotifyApi.getMyCurrentPlaybackState()
+        .then(function(data) {
+          // Output items
+          if (data.body && data.body.is_playing) {
+            console.log("User is currently playing something!");
+          }
+        }, function(err) {
+          console.log('Something went wrong!', err);
+        });
+    }
+  });
+  
+};
 //2 End
 
 //3 Ran when client logs in
@@ -442,7 +467,7 @@ client.on('messageCreate', async (msg) => {
     const member = guild.members.cache.get(msg.author.id);
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
-    updateInvites();
+    checkSpotify();
     console.log('hi');
   }
 

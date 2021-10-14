@@ -1,5 +1,4 @@
 const { icoe } = require("../icoe");
-const spotify = require('spotify-web-api-node');
 
 module.exports = {
 	name: 'spotify',
@@ -36,23 +35,7 @@ module.exports = {
     
     
     
-    // var spotifyApi = new SpotifyWebApi({
-    //   clientId: token.spotifyId,
-    //   clientSecret: token.spotifySecret,
-    //   redirectUri: 'http://catusking.us.to:8888/callback'
-    // });
-    // spotifyApi.setAccessToken('token');
-    // spotifyApi.getMyCurrentPlaybackState()
-    //   .then(function(data) {
-    //     // Output items
-    //     if (data.body && data.body.is_playing) {
-    //       console.log("User is currently playing something!");
-    //     } else {
-    //       console.log("User is not playing anything, or doing so in private.");
-    //     }
-    //   }, function(err) {
-    //     console.log('Something went wrong!', err);
-    //   });
+
       
   }
 };
