@@ -378,7 +378,19 @@ const checkSpotify = () => {
         .then(function(data) {
           // Output items
           if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
-            client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b') ] })
+            var feilds = [{
+              name: data.body.item.album.name,
+              value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls['spotify`']})`,
+              inline: false
+            }];
+            for(let i of data.body.item.artist) {
+              feilds.push({
+                name: i.name,
+                value: `[${i.type}](${i.external_urls['spotify']})`,
+                inline: true
+              })
+            }
+            client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields([]) ] })
             console.log(data.body.item);
           }
         }, function(err) {
