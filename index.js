@@ -398,7 +398,8 @@ const checkSpotify = () => {
                   inline: true
                 })
               }
-              client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] })
+              client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] });
+              console.log(data.body.item.album);
               db.push(`discord.server.songs`, data.body.item.id);
             } else {
               db.push(`discord.server.songs`, data.body.item.id);
