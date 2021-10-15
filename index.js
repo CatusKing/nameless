@@ -379,6 +379,8 @@ const checkSpotify = () => {
       spotifyApi.getMyCurrentPlaybackState()
         .then(function(data) {
           if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id)) {
+            console.log(oldSongs);
+            console.log(data.body.item.id)
             var fields = [{
               name: data.body.item.album.name,
               value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
@@ -393,7 +395,6 @@ const checkSpotify = () => {
             }
             client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] })
             db.push(`discord.server.songs`, data.body.item.id);
-            console.log(data.body.item);
           }
         }, function(err) {
           console.log('Something went wrong!', err);
@@ -451,7 +452,7 @@ client.once('ready', () => {
 
   setInterval(checkInsurance, 3600000);
 
-  setInterval(checkSpotify, 15000);
+  setInterval(checkSpotify, 30000);
 
   console.log('Setting up slash commands');
   var commands = [];
