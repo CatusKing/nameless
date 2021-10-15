@@ -451,7 +451,7 @@ client.once('ready', () => {
 
   setInterval(checkInsurance, 3600000);
 
-  setInterval(checkSpotify, 60000);
+  setInterval(checkSpotify, 15000);
 
   console.log('Setting up slash commands');
   var commands = [];
