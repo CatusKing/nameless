@@ -366,6 +366,8 @@ const checkInsurance = () => {
 
 const checkSpotify = () => {
   var users = db.get(`discord.users`) || {};
+  var oldSongs = db.get('discord.server.songs') || [];
+  var newSongs = [];
   client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
       if (!member.user.bot && users[member.id] && users[member.id].spotify) {
       var spotifyApi = new SpotifyWebApi({
@@ -376,8 +378,7 @@ const checkSpotify = () => {
       spotifyApi.setAccessToken(users[member.id].spotify);
       spotifyApi.getMyCurrentPlaybackState()
         .then(function(data) {
-          // Output items
-          if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
+          if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id) && !newSongs.includes(data.body.item.id)) {
             var fields = [{
               name: data.body.item.album.name,
               value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
@@ -391,12 +392,14 @@ const checkSpotify = () => {
               })
             }
             client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] })
+            newSongs.push(data.body.item.id);
             console.log(data.body.item);
           }
         }, function(err) {
           console.log('Something went wrong!', err);
         });
     }
+    db.set('discord.server.songs', newSongs);
   });
   
 };
@@ -447,7 +450,9 @@ client.once('ready', () => {
     }
   }, 60000);
 
-  setInterval(checkInsurance, 3600000)
+  setInterval(checkInsurance, 3600000);
+
+  setInterval(checkSpotify, 60000);
 
   console.log('Setting up slash commands');
   var commands = [];
