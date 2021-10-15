@@ -377,6 +377,14 @@ const checkSpotify = () => {
       });
       spotifyApi.setAccessToken(users[member.id].spotify);
       spotifyApi.setRefreshToken(users[member.id].refresh);
+      spotifyApi.refreshAccessToken().then(
+        function(data) {
+          console.log('The access token has been refreshed!');
+      
+          // Save the access token so that it's used in future calls
+          spotifyApi.setAccessToken(data.body['access_token']);
+        }
+      );
       spotifyApi.getMyCurrentPlaybackState()
         .then(function(data) {
           if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id)) {
