@@ -379,7 +379,7 @@ const checkSpotify = () => {
           // Output items
           if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
             client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b') ] })
-            console.log(data.body.item.artist);
+            console.log(data.body.item);
           }
         }, function(err) {
           console.log('Something went wrong!', err);
