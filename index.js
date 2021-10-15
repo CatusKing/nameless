@@ -378,7 +378,7 @@ const checkSpotify = () => {
       spotifyApi.setAccessToken(users[member.id].spotify);
       spotifyApi.getMyCurrentPlaybackState()
         .then(function(data) {
-          if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id) && !newSongs.includes(data.body.item.id)) {
+          if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id)) {
             var fields = [{
               name: data.body.item.album.name,
               value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
