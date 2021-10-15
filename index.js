@@ -383,7 +383,7 @@ const checkSpotify = () => {
               value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls['spotify`']})`,
               inline: false
             }];
-            for(let i of data.body.item.artist) {
+            for(let i of data.body.item.artists) {
               feilds.push({
                 name: i.name,
                 value: `[${i.type}](${i.external_urls['spotify']})`,
