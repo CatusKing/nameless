@@ -376,6 +376,7 @@ const checkSpotify = () => {
         redirectUri: 'http://catusking.us.to:8888/callback'
       });
       spotifyApi.setAccessToken(users[member.id].spotify);
+      spotifyApi.setRefreshToken(users[member.id].refresh);
       spotifyApi.getMyCurrentPlaybackState()
         .then(function(data) {
           if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item && !oldSongs.includes(data.body.item.id)) {
