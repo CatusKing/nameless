@@ -373,10 +373,9 @@ const checkSpotify = () => {
       var spotifyApi = new SpotifyWebApi({
         clientId: token.spotifyId,
         clientSecret: token.spotifySecret,
-        redirectUri: 'http://catusking.us.to:8888/callback'
+        accessToken: users[member.id].spotify,
+        refreshToken: users[member.id].refresh
       });
-      spotifyApi.setAccessToken(users[member.id].spotify);
-      spotifyApi.setRefreshToken(users[member.id].refresh);
       spotifyApi.refreshAccessToken().then(
         function(data) {
           spotifyApi.setAccessToken(data.body['access_token']);
