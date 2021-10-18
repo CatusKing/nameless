@@ -37,6 +37,6 @@ module.exports = {
     } else {
       var description = '\nYou can continue your streak rn!'
     }
-    interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak Goal: ${streaks[streakNum][0]} Day Streak 🔥\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)[0]}>\nYou are ${Math.floor(progressbar.filledBar(total, current)[1])}% the way there${description}`)] });
+    interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Your current streak is ${streak}🔥\nNext Streak Goal: ${streaks[streakNum][0]} Day Streak 🔥\nNext Streak Value: ${floor(streaks[streakNum][2])}🦴\n<${progressbar.filledBar(total, current)[0]}>\nYou are ${Math.floor(progressbar.filledBar(total, current)[1])}% the way there to the next goal${description}`)] });
   }
 };
