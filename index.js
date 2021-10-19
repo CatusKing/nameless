@@ -397,10 +397,8 @@ const checkSpotify = () => {
                     })
                   }
                   client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] });
-                  db.push(`discord.server.songs`, data.body.item.id);
-                } else {
-                  db.push(`discord.server.songs`, data.body.item.id);
                 }
+                db.push(`discord.server.songs`, data.body.item.id);
               }
             }, function(err) {
               console.log('Something went wrong!', err);
