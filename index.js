@@ -412,11 +412,12 @@ const checkSpotify = () => {
 const checkHolidays = () => {
   var date = new Date();
   console.log(date.getMonth() + 1);
+  console.log(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${/*date.getDate()*/26}`);
   request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${/*date.getDate()*/26}`, { json: true }, (err, res, body) => {
     if (body.status != 200) return icoe(new Error(body.error || body.warning));
     console.log(body)
     for(let i of body.holidays) {
-      client.guild.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setDescription(`Date: <t:${(new Date(i.date).getTime()) / 1000}:D>\nObserved: <t:${(new Date(i.observed).getTime()) / 1000}:D>`) ] })
+      client.guild.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setDescription(`Date: <t:${(new Date(i.date).getTime()) / 1000}:D>\nObserved: <t:${(new Date(i.observed).getTime()) / 1000}:D>`).setColor('BLURPLE') ] })
     }
   })
 };
