@@ -411,6 +411,7 @@ const checkSpotify = () => {
 
 const checkHolidays = () => {
   var date = new Date();
+  console.log(date.getMonth() + 1);
   request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${/*date.getDate()*/26}`, { json: true }, (err, res, body) => {
     if (body.status != 200) return icoe(new Error(body.error || body.warning));
     console.log(body)
