@@ -87,7 +87,7 @@ module.exports = {
     post(`https://aztro.sameerkumar.website/?sign=${interaction.options.getString('sign')}&day=${interaction.options.getString('day')}`, { json: true }, (err, res, body) => {
       if (err) return icoe(err);
       console.log(body);
-      interaction.reply({ embeds: [ new MessageEmbed().setDescription(body.description).setColor('#9e9d9d').setTitle(body.current_date).setAuthor(body.compatibility).addField('Lucky Time', body.lucky_time, true).addField('Lucky Number', body.lucky_number, true).addField('Mood', body.mood, true) ] });
+      interaction.reply({ embeds: [ new MessageEmbed().setDescription(body.description).setColor('#9e9d9d').setTitle(body.current_date).addField('Compatibility', body.compatibility, true).addField('Lucky Time', body.lucky_time, true).addField('Lucky Number', body.lucky_number, true).addField('Mood', body.mood, true).addField('Color', body.color, true) ] });
     });
   }
 };
