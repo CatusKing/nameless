@@ -8,7 +8,7 @@ const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js
 
 for (const file of commandFiles) {
   if (choices.length < 25) choices.push({ value: file.replace(/\.js$/, ''), name: file.replace(/\.js$/, '') });
-  else if (choices.length < 50) moreChoices.push({ value: file.replace(/\.js$/, ''), name: file.replace(/\.js$/, '') });
+  else if (moreChoices.length < 25) moreChoices.push({ value: file.replace(/\.js$/, ''), name: file.replace(/\.js$/, '') });
   else evenMoreChoices.push({ value: file.replace(/\.js$/, ''), name: file.replace(/\.js$/, '') })
 }
 module.exports = {
