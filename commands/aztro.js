@@ -10,7 +10,7 @@ module.exports = {
       name: 'sign',
       type: 'STRING',
       description: 'Your birth sign',
-      options: [
+      choices: [
         {
           name: 'aries',
           value: 'aries'
@@ -66,7 +66,7 @@ module.exports = {
       name: 'day',
       type: 'STRING',
       description: 'The day you want the horoscope for',
-      options: [
+      choices: [
         {
           name: 'today',
           value: 'today'
