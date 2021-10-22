@@ -1,6 +1,7 @@
 /*
 TODO
   - Use needle
+  - fix code in main file
 */
 const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
