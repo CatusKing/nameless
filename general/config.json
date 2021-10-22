@@ -98,7 +98,8 @@
     "[Bored Api](http://www.boredapi.com/api/activity/)",
     "[Studio Ghibli Api](https://ghibliapi.herokuapp.com)",
     "[WikiHow](http://www.wikihow.com/Special:Randomizer)",
-    "[Aztro](https://aztro.sameerkumar.website)"
+    "[Aztro](https://aztro.sameerkumar.website)",
+    "[Rapid Api](https://rapidapi.com/)"
   ],
   "dependencies": [
     ["2048_functional", "^0.1.1"],
