@@ -20,7 +20,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    get(`https://love-calculator.p.rapidapi.com/getPercentage`, { json: true, params: {sname: interaction.options.getString('person-2'), fname: interaction.options.getString('person-1')}, headers: { 'x-rapidapi-host': 'love-calculator.p.rapidapi.com', 'x-rapidapi-key': 'e82ba320d2msh04d4c7f7d1c847ap1d05bbjsne099d212cd7c'} }, (err, res, body) => {
+    get({ url: 'https://love-calculator.p.rapidapi.com/getPercentage', json: true, params: {sname: interaction.options.getString('person-2'), fname: interaction.options.getString('person-1')}, headers: { 'x-rapidapi-host': 'love-calculator.p.rapidapi.com', 'x-rapidapi-key': 'e82ba320d2msh04d4c7f7d1c847ap1d05bbjsne099d212cd7c'} }, (err, res, body) => {
       if (err) return icoe(err);
       console.log(body)
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(body.result).setColor('#FF58CA').setTitle(`${body.fname} + ${body.sname} = ${body.percentage}%`) ] });
