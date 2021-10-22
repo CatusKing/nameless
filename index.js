@@ -112,10 +112,11 @@ const updateInvites = () => {
 };
 
 const findInvite = (code = String) => {
+  let thing = -1
   for (let i = 0; i < invites.length; ++i) {
-    if (invites[i][0] == code) return i;
+    if (invites[i][0] == code) thing = i ;break;
   }
-  return -1;
+  return thing;
 };
 
 const get_attrs = async (text) => {
