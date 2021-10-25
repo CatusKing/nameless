@@ -114,7 +114,8 @@ const updateInvites = () => {
 const findInvite = (code = String) => {
   let thing = -1
   for (let i = 0; i < invites.length; ++i) {
-    if (invites[i][0] == code) thing = i ;break;
+    if (invites[i][0] == code) thing = i ;
+    break;
   }
   return thing;
 };
@@ -555,15 +556,13 @@ client.on('messageReactionAdd', (reaction, user) => {
         var yes = false;
         messages.forEach(message => {
           if (message.embeds[0].footer.text == betterReaction.message.id && !yes) {
-            console.log(message.embeds[0].title);
             var embed = message.embeds[0].setTitle(`${betterReaction.count} 💀`);
-            console.log(embed.title)
             message.edit({ embeds: [embed] });
             yes = true;
           }
         });
         if (!yes) {
-          var embed = new MessageEmbed().setDescription(betterReaction.message.content).setColor('#9e9d9d').setFooter(betterReaction.message.id).setAuthor(betterReaction.message.member.displayName, betterReaction.message.author.avatarURL()).addField('Source', `<#${betterReaction.message.channelId}>`).setTitle(`${betterReaction.count} 💀`);
+          var embed = new MessageEmbed().setDescription(betterReaction.message.content).setColor('#9e9d9d').setFooter(betterReaction.message.id).setAuthor(betterReaction.message.member.displayName, betterReaction.message.author.avatarURL()).addField('Source', `<#${betterReaction.message.channelId}>\n[Jump to!](${betterReaction.message.url})`).setTitle(`${betterReaction.count} 💀`);
           if (betterReaction.message.attachments.size > 0) embed.setImage(betterReaction.message.attachments.first().url);
           const channel = client.channels.cache.get('880999255622451270')
           channel.send({ embeds: [embed] });
