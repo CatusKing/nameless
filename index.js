@@ -3,7 +3,7 @@ TODO
   - Use needle
   - fix code in main file
 */
-const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
+const { Client, Collection, MessageEmbed, Intents, Message, TextChannel } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
 const config = require('./general/config.json'); //Config file
 const db = require('quick.db'); //Database
@@ -424,6 +424,13 @@ const checkHolidays = () => {
     }
   })
 };
+
+const namelessChatbot = (channel = new TextChannel()) => {
+  request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: 'sure', server: 'main'},headers: {authorization: 'KzDKANeAok5Z','x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
+    channel.send({ content: body.response });
+  });
+}
+
 //2 End
 
 //3 Ran when client logs in
@@ -497,6 +504,7 @@ client.once('ready', () => {
 client.on('messageCreate', async (msg) => {
 
   if (msg.channelId == '830661661991632907') counting();
+  if (msg.channelId == '900421544667414558' && !msg.author.bot) namelessChatbot(msg.channel);
 
   if (msg.author.bot || msg.webhookId) return;
 
