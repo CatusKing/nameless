@@ -427,7 +427,7 @@ const checkHolidays = () => {
 
 const namelessChatbot = (msg) => {
   request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: msg.content, server: 'main'}, json: true,headers: {authorization: token.apiKey6,'x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
-    msg.channel.send({ content: body.response });
+    msg.channel.send({ content: body[0].response });
   });
 }
 
