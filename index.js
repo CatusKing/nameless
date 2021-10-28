@@ -426,7 +426,7 @@ const checkHolidays = () => {
 };
 
 const namelessChatbot = (msg) => {
-  request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: msg.content, server: 'main', bot_master: 'CatusKing', bot_gender: 'nb', bot_name: 'Jeff', bot_company: 'ur mom', bot_age: '69', bot_birth_year: '2005', bot_favorite_color: 'Red', bot_favorite_book: 'Transgender History by susan', bot_favorite_band: 'Melosine', bot_favorite_artist: 'Joanna'}, json: true,headers: {authorization: token.apiKey6,'x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
+  request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: msg.content, server: 'main', bot_master: 'CatusKing', bot_gender: 'nb', bot_name: 'Jeff', bot_company: 'ur mom', bot_age: '69', bot_birth_year: '2005', bot_favorite_color: 'Red', bot_favorite_book: 'Transgender History by susan', bot_favorite_band: 'Melosine', bot_favorite_artist: 'Gorillaz'}, json: true,headers: {authorization: token.apiKey6,'x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
     msg.channel.send({ content: body[0].response });
   });
 }
