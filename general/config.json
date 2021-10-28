@@ -101,7 +101,8 @@
     "[Aztro](https://aztro.sameerkumar.website)",
     "[Rapid Api](https://rapidapi.com/)",
     "[Love Calculator](https://rapidapi.com/ajith/api/love-calculator/)",
-    "[Urban Dictionary](https://rapidapi.com/community/api/urban-dictionary/)"
+    "[Urban Dictionary](https://rapidapi.com/community/api/urban-dictionary/)",
+    "[Random Stuff Api](https://rapidapi.com/pgamerxdev/api/random-stuff-api/)"
   ],
   "dependencies": [
     ["2048_functional", "^0.1.1"],
