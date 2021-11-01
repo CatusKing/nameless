@@ -420,7 +420,7 @@ const checkHolidays = () => {
   request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
     if (body.status != 200) return icoe(new Error(body.error || body.warning));
     for(let i of body.holidays) {
-      client.guild.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setColor('BLURPLE') ] })
+      client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setColor('BLURPLE') ] })
     }
   })
 };
