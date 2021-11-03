@@ -245,6 +245,7 @@ const punish = async (msg) => client.functions.get('punish').execute(client, msg
 const APOD = (id = config.APOD_chID) => {
   client.functions.get('APOD').execute(client, id);
   checkHolidays();
+  covidInfo();
 };
 
 const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
@@ -431,6 +432,11 @@ const namelessChatbot = (msg) => {
   });
 }
 
+const covidInfo = (msg) => {
+  request.get({json: true,method: 'GET',url: 'https://covid-19-data.p.rapidapi.com/country/code',qs: {code: 'us', format: 'json'},headers: {'x-rapidapi-host': 'covid-19-data.p.rapidapi.com','x-rapidapi-key': token.apiKey5,useQueryString: true}}, (err, res, body) => {
+    client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Covid update').setTitle(body[0].country).setDescription(`Confirmed COVID Case's: ${body[0].confirmed}\nRecovered: ${body[0].recovered}\nCritical Case's: ${body[0].critical}\nCOVID Deaths: ${body[0].deaths}`).setColor('BLURPLE') ] })
+  });
+};
 //2 End
 
 //3 Ran when client logs in
