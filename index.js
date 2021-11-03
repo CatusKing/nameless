@@ -520,7 +520,7 @@ client.on('messageCreate', async (msg) => {
     const member = guild.members.cache.get(msg.author.id);
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
-    checkHolidays();
+    covidInfo();
     console.log('hi');
   }
 
