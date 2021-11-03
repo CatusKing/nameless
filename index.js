@@ -437,6 +437,14 @@ const covidInfo = (msg) => {
     client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Covid update').setTitle(body[0].country).setDescription(`Confirmed COVID Case's: ${body[0].confirmed}\nRecovered: ${body[0].recovered}\nCritical Case's: ${body[0].critical}\nCOVID Deaths: ${body[0].deaths}`).setColor('BLURPLE') ] })
   });
 };
+
+const updateCave = () => {
+  if (Math.floor(Math.random() * 10) == 2) {
+    client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', allow: 'VIEW_CHANNEL', type: 'role'}]})
+  } else {
+    client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', deny: 'VIEW_CHANNEL', type: 'role'}]})
+  }
+};
 //2 End
 
 //3 Ran when client logs in
@@ -487,6 +495,8 @@ client.once('ready', () => {
   setInterval(checkInsurance, 3600000);
 
   setInterval(checkSpotify, 60000);
+
+  setInterval(updateCave, 60000)
 
   console.log('Setting up slash commands');
   var commands = [];
