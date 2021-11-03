@@ -14,7 +14,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    post({json: true, url: `https://v1.api.amethyste.moe/generate/vs?authorization=${apiKey7}`, body: {url: interaction.user.avatarURL(), avatar: interaction.options.getUser('opponent').avatarURL}}, (err, res, body) => {
+    post({json: true, url: 'https://v1.api.amethyste.moe/generate/vs', headers: {Authorization: 'Bearer '+apiKey7}, body: {url: interaction.user.avatarURL(), avatar: interaction.options.getUser('opponent').avatarURL}}, (err, res, body) => {
       console.log(body)
     })
   }
