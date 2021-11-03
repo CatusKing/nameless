@@ -1,4 +1,4 @@
-const { CommandInteraction } = require('discord.js');
+const { CommandInteraction, MessageAttachment } = require('discord.js');
 const { post } = require('request');
 const { apiKey7 } = require('../general/token.json');
 module.exports = {
@@ -14,8 +14,8 @@ module.exports = {
     }
   ],
   executeI(client, interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    post({json: true, url: 'https://v1.api.amethyste.moe/generate/vs', headers: {Authorization: 'Bearer '+apiKey7}, body: {url: interaction.user.avatarURL({format: 'jpg'}), avatar: interaction.options.getUser('opponent').avatarURL({format: 'jpg'})}}, (err, res, body) => {
-      interaction.reply({files:[Buffer.from(body, 'base64')]})
+    post({json: true, url: 'https://v1.api.amethyste.moe/generate/vs', headers: {Authorization: 'Bearer '+apiKey7}, body: {url: interaction.user.avatarURL({format: 'png'}), avatar: interaction.options.getUser('opponent').avatarURL({format: 'png'})}}, (err, res, body) => {
+      interaction.reply({files:[new MessageAttachment(body, 'vs.png')]})
     })
   }
 };
