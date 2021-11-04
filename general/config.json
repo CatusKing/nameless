@@ -69,10 +69,10 @@
   ],
   "shop": [
     ["**Vip** - 35k🦴 - Gives a constant 1.5x multiplier on bones and gives access to vip only text and voice channels", "vip", 35000, "867226596103946250", 0],
-    ["**DJ** - 10k🦴 - Allows you to play music", "dj", 20000, "830507721987194920", 0],
+    ["**DJ** - 20k🦴 - Allows you to play music", "dj", 20000, "830507721987194920", 0],
     ["**Keycard** - 15K🦴 - Allows you to add one slot to the smoll room for yourself", "keycard", 15000, "866842219985502239", 0],
     ["**Mathematics** - 2.5k🦴 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2500, "830904166007701504", 1],
-    ["**Hue** - 20K🦴 - Allows you to control the lights in Thomas's room", "hue", 50000, "845764951481122869", 0],
+    ["**Hue** - 50K🦴 - Allows you to control the lights in Thomas's room", "hue", 50000, "845764951481122869", 0],
     ["**Flag** - 500🦴 - Allows you to use the /flag command again", "flag", 500, "879961023191318568", 1]
   ],
   "url": "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1",
