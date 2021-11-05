@@ -245,7 +245,6 @@ const punish = async (msg) => client.functions.get('punish').execute(client, msg
 const APOD = (id = config.APOD_chID) => {
   client.functions.get('APOD').execute(client, id);
   checkHolidays();
-  covidInfo();
 };
 
 const nextLaunch = () => client.functions.get('nextLaunch').execute(client);
@@ -430,12 +429,6 @@ const namelessChatbot = (msg) => {
   request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: msg.content, server: 'main', bot_master: 'CatusKing', bot_gender: 'nb', bot_name: 'Jeff', bot_company: 'ur mom', bot_age: '69', bot_birth_year: '2005', bot_favorite_color: 'Red', bot_favorite_book: 'Transgender History by susan', bot_favorite_band: 'Melosine', bot_favorite_artist: 'Gorillaz'}, json: true,headers: {authorization: token.apiKey6,'x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
     msg.channel.send({ content: body[0].response });
   });
-}
-
-const covidInfo = (msg) => {
-  request.get({json: true,method: 'GET',url: 'https://covid-19-data.p.rapidapi.com/country/code',qs: {code: 'us', format: 'json'},headers: {'x-rapidapi-host': 'covid-19-data.p.rapidapi.com','x-rapidapi-key': token.apiKey5,useQueryString: true}}, (err, res, body) => {
-    client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Covid update').setTitle(body[0].country).setDescription(`Confirmed COVID Case's: ${body[0].confirmed}\nRecovered: ${body[0].recovered}\nCritical Case's: ${body[0].critical}\nCOVID Deaths: ${body[0].deaths}`).setColor('BLURPLE') ] })
-  });
 };
 
 const updateCave = () => {
@@ -530,7 +523,6 @@ client.on('messageCreate', async (msg) => {
     const member = guild.members.cache.get(msg.author.id);
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
-    covidInfo();
     console.log('hi');
   }
 
