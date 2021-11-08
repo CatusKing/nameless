@@ -448,19 +448,6 @@ const fundraiser = () => {
     }, 15000);
   });
 };
-
-const sendToGitter = () => {
-  request.get('https://api.gitter.im/v1/rooms/61892b8a6da03739848a1541/chatMessages?limit=1', {json: true, headers: {Authorization: `Bearer ${token.apiKey8}`}}, (err, res, body) => {
-    console.log(body)
-    let message = db.get('discord.server.gitter') || '';
-    if (body[0].text != message) {
-      client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').fetchWebhooks().then(hooks => {
-        hooks.first().send({ username: body[0].fromUser.username, avatarURL: body[0].fromUser.avatarUrlSmall, content: body[0].text });
-      });
-    }
-    db.set(`discord.server.gitter`, body[0].text)
-  });
-};
 //2 End
 
 //3 Ran when client logs in
@@ -515,8 +502,6 @@ client.once('ready', () => {
   setInterval(updateCave, 60000);
 
   setInterval(fundraiser, 1800000);
-
-  setInterval(sendToGitter, 5000);
 
   console.log('Setting up slash commands');
   var commands = [];
