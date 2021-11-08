@@ -451,6 +451,7 @@ const fundraiser = () => {
 
 const sendToGitter = () => {
   request.get('https://api.gitter.im/v1/rooms/61892b8a6da03739848a1541/chatMessages?limit=50', {json: true, headers: {Authorization: token.apiKey8}}, (err, res, body) => {
+    console.log(body)
     let message = db.get('discord.server.gitter') || '';
     if (body[0].text != message) {
       client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').fetchWebhooks().then(hooks => {
