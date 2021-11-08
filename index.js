@@ -450,7 +450,7 @@ const fundraiser = () => {
 };
 
 const sendToGitter = () => {
-  request.get('https://api.gitter.im/v1/rooms/61892b8a6da03739848a1541/chatMessages?limit=50', {json: true, headers: {Authorization: `Bearer ${token.apiKey8}`}}, (err, res, body) => {
+  request.get('https://api.gitter.im/v1/rooms/61892b8a6da03739848a1541/chatMessages?limit=1', {json: true, headers: {Authorization: `Bearer ${token.apiKey8}`}}, (err, res, body) => {
     console.log(body)
     let message = db.get('discord.server.gitter') || '';
     if (body[0].text != message) {
