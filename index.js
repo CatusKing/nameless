@@ -515,6 +515,8 @@ client.once('ready', () => {
 
   setInterval(fundraiser, 1800000);
 
+  setInterval(sendToGitter, 5000);
+
   console.log('Setting up slash commands');
   var commands = [];
   client.commands.forEach((value, key) => {
