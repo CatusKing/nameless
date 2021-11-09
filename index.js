@@ -29,7 +29,7 @@ let count = db.get(`discord.count`) || 0;
 let topCount = db.get(`discord.topCount`) || 0;
 const client_id = token.spotifyId; // Your client id
 const client_secret = token.spotifySecret; // Your secret
-const redirect_uri = 'http://catusking.us.to:8888/callback'; // Your redirect uri
+const redirect_uri = 'https://catusking.us.to:8888/callback'; // Your redirect uri
 
 //1 Used to store commands and functions to call upon later
 client.commands = new Collection();
@@ -257,7 +257,7 @@ const counting = () => {
   channel.messages.fetch({ limit: 10 }, { force: true }).then((messages) => {
     if (messages.first().interaction) client.guilds.cache.get(config.guildId).members.cache.get(messages.first().interaction.user.id).roles.add(role);
     if (messages.first().author.bot) return;
-    var error = false;
+    let error = false;
     try { var number = limitedEvaluate(messages.first().content.toLowerCase()); }
     catch (err) {
       db.set(`discord.count`, 0);
@@ -280,7 +280,7 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
-        var mult;
+        let mult;
         if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
         else mult = 1;
         if (count > topCount) {
@@ -326,15 +326,15 @@ const counting = () => {
 };
 
 const updateStreak = (id = String(), msg = new Message()) => {
-  var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
-  var date = new Date();
+  const currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
+  const date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
     msg.react('🔥');
-    var streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
+    const streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
     for (let i = 0; i < config.streaks.length; ++i) {
       if (streak < config.streaks[i][0]) break;
       else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
-        var role = msg.guild.roles.cache.get(config.streaks[i][1]);
+        const role = msg.guild.roles.cache.get(config.streaks[i][1]);
         msg.member.roles.add(role, 'New Streak Score');
         addUserBalance(msg.author.id, config.streaks[i][2]);
         msg.react('🦴');
@@ -347,14 +347,14 @@ const updateStreak = (id = String(), msg = new Message()) => {
 };
 
 const checkInsurance = () => {
-  var date = new Date();
+  const date = new Date();
   if (date.getDay() === 0 && date.getHours() === 0) {
-    var users = db.get(`discord.users`) || {};
-    var guild = client.guilds.cache.get('830495072876494879');
+    const users = db.get(`discord.users`) || {};
+    const guild = client.guilds.cache.get('830495072876494879');
     guild.members.cache.forEach((member) => {
       if (users[member.id]) {
         if (member.roles.cache.has('889221970774867968')) {
-          var rate = 5000 + Math.floor((users[member.id].insuranceOwed / 3) || 0);
+          const rate = 5000 + Math.floor((users[member.id].insuranceOwed / 3) || 0);
           if (users[member.id].balance >= rate) {
             users[member.id].balance = users[member.id].balance - rate;
             users[member.id].insuranceOwed = (users[member.id].insuranceOwed || 0) - Math.floor((users[member.id].insuranceOwed / 3) || 0);
@@ -371,18 +371,18 @@ const checkInsurance = () => {
 };
 
 const checkSpotify = () => {
-  var users = db.get(`discord.users`) || {};
-  var oldSongs = db.get('discord.server.songs') || [];
+  const users = db.get(`discord.users`) || {};
+  const oldSongs = db.get('discord.server.songs') || [];
   db.set('discord.server.songs', []);
   client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
       if (!member.user.bot && users[member.id] && users[member.id].spotify) {
-      var spotifyApi = new SpotifyWebApi({
-        clientId: token.spotifyId,
-        clientSecret: token.spotifySecret,
-        accessToken: users[member.id].spotify,
-        refreshToken: users[member.id].refresh
-      });
-      spotifyApi.refreshAccessToken().then(
+        const spotifyApi = new SpotifyWebApi({
+          clientId: token.spotifyId,
+          clientSecret: token.spotifySecret,
+          accessToken: users[member.id].spotify,
+          refreshToken: users[member.id].refresh
+        });
+        spotifyApi.refreshAccessToken().then(
         function(data) {
           spotifyApi.setAccessToken(data.body['access_token']);
           db.set(`discord.users.${member.id}.spotify`, data.body['access_token'])
@@ -390,7 +390,7 @@ const checkSpotify = () => {
             .then(function(data) {
               if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
                 if (!oldSongs.includes(data.body.item.id)) {
-                  var fields = [{
+                  let fields = [{
                     name: data.body.item.album.name,
                     value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
                     inline: false
@@ -416,7 +416,7 @@ const checkSpotify = () => {
 };
 
 const checkHolidays = () => {
-  var date = new Date();
+  const date = new Date();
   request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
     if (body.status !== 200) return icoe(new Error(body.error || body.warning));
     for(let i of body.holidays) {
@@ -809,9 +809,9 @@ app.get('/callback', function(req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+  let code = req.query.code || null;
+  let state = req.query.state || null;
+  let storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -820,7 +820,7 @@ app.get('/callback', function(req, res) {
       }));
   } else {
     res.clearCookie(stateKey);
-    var authOptions = {
+    let authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
@@ -869,10 +869,10 @@ app.get('/callback', function(req, res) {
 app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
+  const refresh_token = req.query.refresh_token;
+  let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+    headers: {'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))},
     form: {
       grant_type: 'refresh_token',
       refresh_token: refresh_token
@@ -882,7 +882,7 @@ app.get('/refresh_token', function(req, res) {
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
+      const access_token = body.access_token;
       res.send({
         'access_token': access_token
       });
