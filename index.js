@@ -3,7 +3,7 @@ TODO
   - Use needle
   - fix code in main file
 */
-const { Client, Collection, MessageEmbed, Intents, Message, TextChannel } = require('discord.js'); //All discord.js stuff
+const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
 const config = require('./general/config.json'); //Config file
 const db = require('quick.db'); //Database
@@ -11,25 +11,25 @@ const { google } = require('googleapis'); //Google api handler
 const fs = require('fs'); //File Sync
 const request = require('request'); //Api handler
 const { create, all } = require('mathjs'); //Mathjs used for handling counting
-var express = require('express');
-var cors = require('cors');
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
+const express = require('express');
+const cors = require('cors');
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
 const SpotifyWebApi = require('spotify-web-api-node');
 const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], ws: { properties: { $browser: "Discord iOS" } }, intents: intents }); //Basic client setup
-var invites = db.get(`discord.server.invites`) || [];
-var crazyTime = 0;
+let invites = db.get(`discord.server.invites`) || [];
+let crazyTime = 0;
 const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EXPLICIT"];
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
-var count = db.get(`discord.count`) || 0;
-var topCount = db.get(`discord.topCount`) || 0;
-var client_id = token.spotifyId; // Your client id
-var client_secret = token.spotifySecret; // Your secret
-var redirect_uri = 'http://catusking.us.to:8888/callback'; // Your redirect uri
+let count = db.get(`discord.count`) || 0;
+let topCount = db.get(`discord.topCount`) || 0;
+const client_id = token.spotifyId; // Your client id
+const client_secret = token.spotifySecret; // Your secret
+const redirect_uri = 'https://catusking.us.to:8888/callback'; // Your redirect uri
 
 //1 Used to store commands and functions to call upon later
 client.commands = new Collection();
@@ -60,13 +60,13 @@ math.import({
 }, { override: true });
 
 //2 Tons of functions
-const log = (channelId = new String, content = new String, color = '#9e9d9d') => {
+const log = (channelId = String(), content = String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.send({ embeds: [embed] });
 };
 
-const reply = (channelId = new String(), content = new String(), color = '#9e9d9d') => {
+const reply = (channelId = String(), content = String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
   const embed = new MessageEmbed().setDescription(content).setColor(color);
   channel.sendTyping();
@@ -101,7 +101,7 @@ const updateInvites = () => {
     guildInvites.forEach(invite => {
       let yes = true;
       for (let i = 0; i < invites.length; ++i) {
-        if (invites[i][0] == invite.code) yes = false;
+        if (invites[i][0] === invite.code) yes = false;
       }
       if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
@@ -114,8 +114,10 @@ const updateInvites = () => {
 const findInvite = (code = String) => {
   let thing = -1
   for (let i = 0; i < invites.length; ++i) {
-    if (invites[i][0] == code) thing = i ;
-    break;
+    if (invites[i][0] === code) {
+      thing = i;
+      break;
+    }
   }
   return thing;
 };
@@ -126,8 +128,7 @@ const get_attrs = async (text) => {
   const response = await app.comments.analyze({ key: token.apiKey, resource: analyzeRequest });
   const attrs = {};
   for (let attr of attributes) {
-    const prediction = response.data["attributeScores"][attr]["summaryScore"]["value"];
-    attrs[attr] = prediction;
+    attrs[attr] = response.data["attributeScores"][attr]["summaryScore"]["value"];
   }
   return attrs;
 };
@@ -147,7 +148,7 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
   if (activity && member.roles.cache.has('867226596103946250')) {
     num = Math.floor(num * 1.5);
   }
-  if (reason != '') {
+  if (reason !== '') {
     if (num > 0) {
       log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#baffc9');
     } else {
@@ -157,7 +158,7 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
   user.balance = user.balance + num;
   let included = false;
   for (let i = 0; i < lb.length; ++i) {
-    if (lb[i][0] == id) {
+    if (lb[i][0] === id) {
       lb[i][1] = user.balance;
       included = true;
       break;
@@ -229,7 +230,7 @@ const setUserBanned = (id = '', num = 0) => {
   const bans = db.get(`discord.server.banned`) || [];
   let contains = false;
   for (let i = 0; i < bans.length; ++i) {
-    if (bans[i][0] == id) {
+    if (bans[i][0] === id) {
       bans[i][1] = num;
       contains = true;
       break;
@@ -237,7 +238,6 @@ const setUserBanned = (id = '', num = 0) => {
   }
   if (!contains) bans.push([Number(id), num]);
   db.set(`discord.server.banned`, bans);
-  return;
 };
 
 const punish = async (msg) => client.functions.get('punish').execute(client, msg, get_attrs, setUserMuted, reply, log, getServerAdmins, getServerIgnoredCh, attributes);
@@ -257,7 +257,7 @@ const counting = () => {
   channel.messages.fetch({ limit: 10 }, { force: true }).then((messages) => {
     if (messages.first().interaction) client.guilds.cache.get(config.guildId).members.cache.get(messages.first().interaction.user.id).roles.add(role);
     if (messages.first().author.bot) return;
-    var error = false;
+    let error = false;
     try { var number = limitedEvaluate(messages.first().content.toLowerCase()); }
     catch (err) {
       db.set(`discord.count`, 0);
@@ -269,18 +269,18 @@ const counting = () => {
       error = true;
     }
     if (error) return;
-    if (number != count + 1) {
+    if (number !== count + 1) {
       messages.first().channel.send(`Ugh wrong number\nThe right number was ${count + 1} not ${number}\nReset back to 1...`);
       db.set(`discord.count`, 0);
       count = 0;
       messages.first().react('❌');
       messages.first().member.roles.add(role);
     } else {
-      if (count == 0) {
+      if (count === 0) {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
-        var mult;
+        let mult;
         if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
         else mult = 1;
         if (count > topCount) {
@@ -294,7 +294,7 @@ const counting = () => {
           log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
         }
       } else {
-        if (messages.first().author.id == messages.first(2)[1].author.id) {
+        if (messages.first().author.id === messages.first(2)[1].author.id) {
           db.set(`discord.count`, 0);
           count = 0;
           messages.first().react('❌');
@@ -304,7 +304,7 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
-          var mult;
+          let mult;
           if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
           else mult = 1;
           if (count > topCount) {
@@ -325,16 +325,16 @@ const counting = () => {
   })
 };
 
-const updateStreak = (id = new String(), msg = new Message()) => {
-  var currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
-  var date = new Date();
+const updateStreak = (id = String(), msg = new Message()) => {
+  const currentTime = db.get(`discord.users.${id}.streakTime`) || 0;
+  const date = new Date();
   if (currentTime <= Math.floor(((date.getTime() / 1000) / 60) / 60) + 24) {
     msg.react('🔥');
-    var streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
+    const streak = db.get(`discord.users.${id}.streak`) + 1 || 1;
     for (let i = 0; i < config.streaks.length; ++i) {
       if (streak < config.streaks[i][0]) break;
       else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
-        var role = msg.guild.roles.cache.get(config.streaks[i][1]);
+        const role = msg.guild.roles.cache.get(config.streaks[i][1]);
         msg.member.roles.add(role, 'New Streak Score');
         addUserBalance(msg.author.id, config.streaks[i][2]);
         msg.react('🦴');
@@ -347,14 +347,14 @@ const updateStreak = (id = new String(), msg = new Message()) => {
 };
 
 const checkInsurance = () => {
-  var date = new Date();
-  if (date.getDay() == 0 && date.getHours() == 0) {
-    var users = db.get(`discord.users`) || {};
-    var guild = client.guilds.cache.get('830495072876494879');
+  const date = new Date();
+  if (date.getDay() === 0 && date.getHours() === 0) {
+    const users = db.get(`discord.users`) || {};
+    const guild = client.guilds.cache.get('830495072876494879');
     guild.members.cache.forEach((member) => {
       if (users[member.id]) {
         if (member.roles.cache.has('889221970774867968')) {
-          var rate = 5000 + Math.floor((users[member.id].insuranceOwed / 3) || 0);
+          const rate = 5000 + Math.floor((users[member.id].insuranceOwed / 3) || 0);
           if (users[member.id].balance >= rate) {
             users[member.id].balance = users[member.id].balance - rate;
             users[member.id].insuranceOwed = (users[member.id].insuranceOwed || 0) - Math.floor((users[member.id].insuranceOwed / 3) || 0);
@@ -371,18 +371,18 @@ const checkInsurance = () => {
 };
 
 const checkSpotify = () => {
-  var users = db.get(`discord.users`) || {};
-  var oldSongs = db.get('discord.server.songs') || [];
+  const users = db.get(`discord.users`) || {};
+  const oldSongs = db.get('discord.server.songs') || [];
   db.set('discord.server.songs', []);
   client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
       if (!member.user.bot && users[member.id] && users[member.id].spotify) {
-      var spotifyApi = new SpotifyWebApi({
-        clientId: token.spotifyId,
-        clientSecret: token.spotifySecret,
-        accessToken: users[member.id].spotify,
-        refreshToken: users[member.id].refresh
-      });
-      spotifyApi.refreshAccessToken().then(
+        const spotifyApi = new SpotifyWebApi({
+          clientId: token.spotifyId,
+          clientSecret: token.spotifySecret,
+          accessToken: users[member.id].spotify,
+          refreshToken: users[member.id].refresh
+        });
+        spotifyApi.refreshAccessToken().then(
         function(data) {
           spotifyApi.setAccessToken(data.body['access_token']);
           db.set(`discord.users.${member.id}.spotify`, data.body['access_token'])
@@ -390,7 +390,7 @@ const checkSpotify = () => {
             .then(function(data) {
               if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
                 if (!oldSongs.includes(data.body.item.id)) {
-                  var fields = [{
+                  let fields = [{
                     name: data.body.item.album.name,
                     value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
                     inline: false
@@ -416,9 +416,9 @@ const checkSpotify = () => {
 };
 
 const checkHolidays = () => {
-  var date = new Date();
+  const date = new Date();
   request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
-    if (body.status != 200) return icoe(new Error(body.error || body.warning));
+    if (body.status !== 200) return icoe(new Error(body.error || body.warning));
     for(let i of body.holidays) {
       client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setColor('BLURPLE') ] })
     }
@@ -433,7 +433,7 @@ const namelessChatbot = (msg) => {
 };
 
 const updateCave = () => {
-  if (Math.floor(Math.random() * 10) == 2) {
+  if (Math.floor(Math.random() * 10) === 2) {
     client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', allow: 'VIEW_CHANNEL', type: 'role'}]})
   } else {
     client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', deny: 'VIEW_CHANNEL', type: 'role'}]})
@@ -479,7 +479,7 @@ client.once('ready', () => {
 
   setInterval(() => {
     var date = new Date();
-    if (date.getHours() == 7 && date.getMinutes() == 0) APOD();
+    if (date.getHours() === 7 && date.getMinutes() === 0) APOD();
   }, 60000);
 
   setTimeout(() => setInterval(nextLaunch, 900000), 60000);
@@ -490,7 +490,7 @@ client.once('ready', () => {
 
   setInterval(() => {
     var date = new Date();
-    if (date.getMonth() == 11 && date.getDate() == 19) {
+    if (date.getMonth() === 11 && date.getDate() === 19) {
       client.guilds.cache.get('830495072876494879').members.cache.get('456535616281247751').setNickname('2', 'Don\'t worry abt it');
     }
   }, 60000);
@@ -505,7 +505,7 @@ client.once('ready', () => {
 
   console.log('Setting up slash commands');
   var commands = [];
-  client.commands.forEach((value, key) => {
+  client.commands.forEach((value) => {
     if (value.slash) {
       commands.push({
         name: value.name,
@@ -524,13 +524,13 @@ client.once('ready', () => {
 //4 Currency and message handling
 client.on('messageCreate', async (msg) => {
 
-  if (msg.channelId == '830661661991632907') counting();
-  if (msg.channelId == '900421544667414558' && !msg.author.bot) namelessChatbot(msg);
+  if (msg.channelId === '830661661991632907') counting();
+  if (msg.channelId === '900421544667414558' && !msg.author.bot) namelessChatbot(msg);
 
   if (msg.author.bot || msg.webhookId) return;
 
   //Dm commands
-  if (msg.channel.type == 'DM') {
+  if (msg.channel.type === 'DM') {
     const guild = client.guilds.cache.get('830495072876494879');
     const member = guild.members.cache.get(msg.author.id);
 
@@ -538,11 +538,11 @@ client.on('messageCreate', async (msg) => {
     console.log('hi');
   }
 
-  if (msg.channel.type != 'GUILD_TEXT') return;
+  if (msg.channel.type !== 'GUILD_TEXT') return;
 
-  if (msg.content.toLowerCase().includes('crazy') && crazyTime == 0) {
-    var time = 0;
-    var crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!'];
+  if (msg.content.toLowerCase().includes('crazy') && crazyTime === 0) {
+    let time = 0;
+    const crazy = ['Crazy?', 'I was crazy once.', 'They put me in a rubber room.', 'A rubber room with rats!', 'The rats made me crazy!'];
     crazyTime = 60;
     for (let i = 0; i < crazy.length * 3; ++i) {
       time = time + 1350;
@@ -576,14 +576,14 @@ client.on('messageCreate', async (msg) => {
 //4 End
 
 //5 Reaction handler
-client.on('messageReactionAdd', (reaction, user) => {
-  if (reaction.emoji.name != '💀') return;
+client.on('messageReactionAdd', (reaction) => {
+  if (reaction.emoji.name !== '💀') return;
   reaction.fetch().then(betterReaction => {
     if (betterReaction.count >= 3) {
       client.channels.cache.get('880999255622451270').messages.fetch({ limit: 10 }).then(messages => {
         var yes = false;
         messages.forEach(message => {
-          if (message.embeds[0].footer.text == betterReaction.message.id && !yes) {
+          if (message.embeds[0].footer.text === betterReaction.message.id && !yes) {
             var embed = message.embeds[0].setTitle(`${betterReaction.count} 💀`);
             message.edit({ embeds: [embed] });
             yes = true;
@@ -610,8 +610,8 @@ client.on('interactionCreate', async interaction => {
     var admins = getServerAdmins();
     var ignoredCh = getServerIgnoredCh();
 
-    client.commands.forEach((value, key) => {
-      if (value.name == interaction.commandName && value.slash) {
+    client.commands.forEach((value) => {
+      if (value.name === interaction.commandName && value.slash) {
         try {
           value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
@@ -621,7 +621,7 @@ client.on('interactionCreate', async interaction => {
       }
     });
   } /* Select menu Handler */ else if (interaction.isSelectMenu()) {
-    client.commands.forEach((value, key) => {
+    client.commands.forEach((value) => {
       if (interaction.customId.startsWith(value.name) && value.selectMenu) {
         try {
           value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/**/);
@@ -632,7 +632,7 @@ client.on('interactionCreate', async interaction => {
       }
     });
   } /* Button Handler */ else if (interaction.isButton()) {
-    client.commands.forEach((value, key) => {
+    client.commands.forEach((value) => {
       if (interaction.customId.includes(value.buttonId) && value.button) {
         try {
           value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
@@ -667,7 +667,7 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     }
   } else {
 
-    if (newMsg.author.bot || oldMsg.content == newMsg.content) return;
+    if (newMsg.author.bot || oldMsg.content === newMsg.content) return;
 
     if (oldMsg.content) {
       log('830856984579670086', `${newMsg.author} just edited a message\nOld: ${oldMsg.content}\nNew: ${newMsg.content}`, '#9e9d9d');
@@ -696,7 +696,7 @@ client.on('guildMemberAdd', member => {
   client.guilds.cache.get(config.guildId).invites.fetch().then(guildInvites => {
     guildInvites.forEach(invite => {
       let j = findInvite(invite.code);
-      if (j == -1) return;
+      if (j === -1) return;
       if (invite.uses > invites[j][1]) {
         const inviter = client.users.cache.get(invites[j][2]);
         log('832758919059341313', `${member.user}(${member.user.tag}) joined using invite code ${invite.code} from ${inviter}(${inviter.tag}). Invite was used ${invite.uses} times since its creation.`, '#9e9d9d');
@@ -708,14 +708,14 @@ client.on('guildMemberAdd', member => {
   const channel = client.channels.cache.get('830505212463546408');
   channel.send({ embeds: [embed] });
   const muted = getUserMuted(member.user.id);
-  if (muted == 1) {
+  if (muted === 1) {
     const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
     member.roles.add(role, `Auto muted on rejoin`);
   }
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
     if (body.pronouns != null) {
-      if (body.pronouns == 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');
-      if (body.pronouns == 'sh') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147959701554'), 'https://pronoundb.org/ claims she has these pronouns');
+      if (body.pronouns === 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');
+      if (body.pronouns === 'sh') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147959701554'), 'https://pronoundb.org/ claims she has these pronouns');
       if (body.pronouns.includes('h')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050148425138186'), 'https://pronoundb.org/ claims he has these pronouns');
       if (body.pronouns.includes('i')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869953400173899776'), 'https://pronoundb.org/ claims it has these pronouns');
       if (body.pronouns.includes('t')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147519299594'), 'https://pronoundb.org/ claims they have these pronouns');
@@ -756,7 +756,7 @@ client.on('rateLimit', rl => {
 
 //Make sure to shut-down bot
 process.on('message', (msg) => {
-  if (msg == 'shutdown') {
+  if (msg === 'shutdown') {
     console.log('Closing all connections...');
     client.destroy();
     console.log('Finished closing connections');
@@ -809,9 +809,9 @@ app.get('/callback', function(req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+  let code = req.query.code || null;
+  let state = req.query.state || null;
+  let storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -820,7 +820,7 @@ app.get('/callback', function(req, res) {
       }));
   } else {
     res.clearCookie(stateKey);
-    var authOptions = {
+    let authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
@@ -869,10 +869,10 @@ app.get('/callback', function(req, res) {
 app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
+  const refresh_token = req.query.refresh_token;
+  let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+    headers: {'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))},
     form: {
       grant_type: 'refresh_token',
       refresh_token: refresh_token
@@ -882,7 +882,7 @@ app.get('/refresh_token', function(req, res) {
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
+      const access_token = body.access_token;
       res.send({
         'access_token': access_token
       });
