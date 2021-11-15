@@ -371,10 +371,11 @@ const checkInsurance = () => {
 };
 
 const checkSpotify = () => {
-  const users = db.get(`discord.users`) || {};
-  const oldSongs = db.get('discord.server.songs') || [];
-  db.set('discord.server.songs', []);
-  client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
+  try {
+    const users = db.get(`discord.users`) || {};
+    const oldSongs = db.get('discord.server.songs') || [];
+    db.set('discord.server.songs', []);
+    client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
       if (!member.user.bot && users[member.id] && users[member.id].spotify) {
         const spotifyApi = new SpotifyWebApi({
           clientId: token.spotifyId,
@@ -383,36 +384,37 @@ const checkSpotify = () => {
           refreshToken: users[member.id].refresh
         });
         spotifyApi.refreshAccessToken().then(
-        function(data) {
-          spotifyApi.setAccessToken(data.body['access_token']);
-          db.set(`discord.users.${member.id}.spotify`, data.body['access_token'])
-          spotifyApi.getMyCurrentPlaybackState()
-            .then(function(data) {
-              if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
-                if (!oldSongs.includes(data.body.item.id)) {
-                  let fields = [{
-                    name: data.body.item.album.name,
-                    value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
-                    inline: false
-                  }];
-                  for(let i of data.body.item.artists) {
-                    fields.push({
-                      name: i.name,
-                      value: `[${i.type}](${i.external_urls['spotify']})`,
-                      inline: true
-                    })
-                  }
-                  client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({ embeds: [ new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields) ] });
-                }
-                db.push(`discord.server.songs`, data.body.item.id);
-              }
-            }, function(err) {
-              console.log('Something went wrong!', err);
-            });
-        }
-      );
-    }
-  });
+            function (data) {
+              spotifyApi.setAccessToken(data.body['access_token']);
+              db.set(`discord.users.${member.id}.spotify`, data.body['access_token'])
+              spotifyApi.getMyCurrentPlaybackState()
+                  .then(function (data) {
+                    if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
+                      if (!oldSongs.includes(data.body.item.id)) {
+                        let fields = [{
+                          name: data.body.item.album.name,
+                          value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
+                          inline: false
+                        }];
+                        for (let i of data.body.item.artists) {
+                          fields.push({
+                            name: i.name,
+                            value: `[${i.type}](${i.external_urls['spotify']})`,
+                            inline: true
+                          })
+                        }
+                        client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({embeds: [new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields)]});
+                      }
+                      db.push(`discord.server.songs`, data.body.item.id);
+                    }
+                  }, function (err) {
+                    console.log('Something went wrong!', err);
+                  });
+            }
+        );
+      }
+    });
+  } catch (err) {}
 };
 
 const checkHolidays = () => {
