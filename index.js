@@ -715,7 +715,7 @@ client.on('guildMemberAdd', member => {
     member.roles.add(role, `Auto muted on rejoin`);
   }
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
-    if (body.pronouns != null) {
+    if (body.pronouns != null || body.pronouns != 'unspecified') {
       if (body.pronouns === 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');
       if (body.pronouns === 'sh') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147959701554'), 'https://pronoundb.org/ claims she has these pronouns');
       if (body.pronouns.includes('h')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050148425138186'), 'https://pronoundb.org/ claims he has these pronouns');
