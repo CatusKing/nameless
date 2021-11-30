@@ -496,9 +496,7 @@ client.once('ready', () => {
   setInterval(checkSpotify, 60000);
 
   setInterval(updateCave, 60000);
-
-  setInterval(fundraiser, 1800000);
-
+  
   console.log('Setting up slash commands');
   var commands = [];
   client.commands.forEach((value) => {
