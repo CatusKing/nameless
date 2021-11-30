@@ -419,10 +419,13 @@ const checkSpotify = () => {
 
 const checkHolidays = () => {
   const date = new Date();
-  request.get(`https://holidayapi.com/v1/holidays?pretty&key=${token.apiKey4}&country=US&year=2020&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
-    if (body.status !== 200) return icoe(new Error(body.error || body.warning));
-    for(let i of body.holidays) {
-      client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setColor('BLURPLE') ] })
+  request.get(`https://holidays.abstractapi.com/v1/?api_key=${token.apiKey4}&country=US&year=${date.getFullYear()}&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
+    if (err) return icoe(err);
+    let alreadyDone = [];
+    for(let i of body) {
+      if (alreadyDone.includes(i.name)) continue;
+      client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Holiday Reminder').setTitle(i.name).setColor('BLURPLE').setAuthor(i.type + ' - ' + i.location) ] });
+      alreadyDone.push(i.name);
     }
   })
 };
@@ -538,6 +541,7 @@ client.on('messageCreate', async (msg) => {
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
     console.log('hi');
+    checkHolidays();
   }
 
   if (msg.channel.type !== 'GUILD_TEXT') return;
