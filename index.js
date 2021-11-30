@@ -101,7 +101,7 @@ const updateInvites = () => {
     guildInvites.forEach(invite => {
       let yes = true;
       for (let i = 0; i < invites.length; ++i) {
-        if (invites[i][0] === invite.code) yes = false;
+        if (invites[i][0] === invite.code && invite.inviter.id != null) yes = false;
       }
       if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
