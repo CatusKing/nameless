@@ -3,3 +3,4 @@ general/token.json
 json.sqlite
 .vscode
 .dccache
+.idea/workspace.xml

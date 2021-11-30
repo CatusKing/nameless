@@ -444,15 +444,6 @@ const updateCave = () => {
     client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', deny: 'VIEW_CHANNEL', type: 'role'}]})
   }
 };
-
-const fundraiser = () => {
-  client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').threads.fetch('906317959121748000').then(channel => {
-    channel.setAutoArchiveDuration(60);
-    setTimeout(() => {
-      channel.setAutoArchiveDuration(1440);
-    }, 15000);
-  });
-};
 //2 End
 
 //3 Ran when client logs in
