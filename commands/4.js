@@ -6,8 +6,8 @@ module.exports = {
   slash: true,
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    var date = new Date();
-    if (interaction.user.id == '576154421579481090' && date.getDate() == 19 && date.getMonth() == 11) {
+    const date = new Date();
+    if (interaction.user.id === '576154421579481090' && date.getDate() === 19 && date.getMonth() === 11) {
       interaction.reply(four);
     } else interaction.reply('not yet');
   }
