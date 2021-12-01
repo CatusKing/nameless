@@ -103,7 +103,7 @@ const updateInvites = () => {
       for (let i = 0; i < invites.length; ++i) {
         if (invites[i][0] === invite.code && invite.inviter != null) yes = false;
       }
-      if (yes) invites.push([invite.code, invite.uses, invite.inviter.id]);
+      if (yes && invite.inviter != null) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
     db.set(`discord.server.invites`, invites);
   }).catch((err) => {
@@ -485,7 +485,7 @@ client.once('ready', () => {
   setInterval(() => client.functions.get('checkStreaks').execute(client, db), 3600000);
 
   setInterval(() => {
-    var date = new Date();
+    const date = new Date();
     if (date.getMonth() === 11 && date.getDate() === 19) {
       client.guilds.cache.get('830495072876494879').members.cache.get('456535616281247751').setNickname('2', 'Don\'t worry abt it');
     }
@@ -498,7 +498,7 @@ client.once('ready', () => {
   setInterval(updateCave, 60000);
   
   console.log('Setting up slash commands');
-  var commands = [];
+  const commands = [];
   client.commands.forEach((value) => {
     if (value.slash) {
       commands.push({
