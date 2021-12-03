@@ -11,11 +11,6 @@ const { google } = require('googleapis'); //Google api handler
 const fs = require('fs'); //File Sync
 const request = require('request'); //Api handler
 const { create, all } = require('mathjs'); //Mathjs used for handling counting
-const express = require('express');
-const cors = require('cors');
-const querystring = require('querystring');
-const cookieParser = require('cookie-parser');
-const SpotifyWebApi = require('spotify-web-api-node');
 const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
@@ -27,9 +22,6 @@ const attributes = ["SEVERE_TOXICITY", "IDENTITY_ATTACK", "THREAT", "SEXUALLY_EX
 const analyzeRequest = { comment: { text: '' }, requestedAttributes: { SEVERE_TOXICITY: {}, IDENTITY_ATTACK: {}, THREAT: {}, SEXUALLY_EXPLICIT: {} } };
 let count = db.get(`discord.count`) || 0;
 let topCount = db.get(`discord.topCount`) || 0;
-const client_id = token.spotifyId; // Your client id
-const client_secret = token.spotifySecret; // Your secret
-const redirect_uri = 'https://catusking.us.to:8888/callback'; // Your redirect uri
 
 //1 Used to store commands and functions to call upon later
 client.commands = new Collection();
@@ -101,7 +93,7 @@ const updateInvites = () => {
     guildInvites.forEach(invite => {
       let yes = true;
       for (let i = 0; i < invites.length; ++i) {
-        if (invites[i][0] === invite.code && invite.inviter != null) yes = false;
+        if (invites[i][0] === invite.code) yes = false;
       }
       if (yes && invite.inviter != null) invites.push([invite.code, invite.uses, invite.inviter.id]);
     });
@@ -154,7 +146,7 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
     } else {
       log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#ff7784');
     }
-  }
+  } else icoe(new Error('No inputted reason for addUserBalance'));
   user.balance = user.balance + num;
   let included = false;
   for (let i = 0; i < lb.length; ++i) {
@@ -370,53 +362,6 @@ const checkInsurance = () => {
   }
 };
 
-const checkSpotify = () => {
-  try {
-    const users = db.get(`discord.users`) || {};
-    const oldSongs = db.get('discord.server.songs') || [];
-    db.set('discord.server.songs', []);
-    client.guilds.cache.get(config.guildId).members.cache.forEach(member => {
-      if (!member.user.bot && users[member.id] && users[member.id].spotify) {
-        const spotifyApi = new SpotifyWebApi({
-          clientId: token.spotifyId,
-          clientSecret: token.spotifySecret,
-          accessToken: users[member.id].spotify,
-          refreshToken: users[member.id].refresh
-        });
-        spotifyApi.refreshAccessToken().then(
-            function (data) {
-              spotifyApi.setAccessToken(data.body['access_token']);
-              db.set(`discord.users.${member.id}.spotify`, data.body['access_token'])
-              spotifyApi.getMyCurrentPlaybackState()
-                  .then(function (data) {
-                    if (data.body && data.body.is_playing && !data.body.device.is_private_session && data.body.item) {
-                      if (!oldSongs.includes(data.body.item.id)) {
-                        let fields = [{
-                          name: data.body.item.album.name,
-                          value: `[${data.body.item.album.album_type}](${data.body.item.album.external_urls.spotify})`,
-                          inline: false
-                        }];
-                        for (let i of data.body.item.artists) {
-                          fields.push({
-                            name: i.name,
-                            value: `[${i.type}](${i.external_urls['spotify']})`,
-                            inline: true
-                          })
-                        }
-                        client.guilds.cache.get(config.guildId).channels.cache.get('898257575986991136').send({embeds: [new MessageEmbed().setTitle(data.body.item.name).setURL(data.body.item.external_urls['spotify']).setThumbnail(data.body.item.album.images[0].url).setColor('#5de17b').addFields(fields)]});
-                      }
-                      db.push(`discord.server.songs`, data.body.item.id);
-                    }
-                  }, function (err) {
-                    console.log('Something went wrong!', err);
-                  });
-            }
-        );
-      }
-    });
-  } catch (err) {}
-};
-
 const checkHolidays = () => {
   const date = new Date();
   request.get(`https://holidays.abstractapi.com/v1/?api_key=${token.apiKey4}&country=US&year=${date.getFullYear()}&month=${date.getMonth() + 1}&day=${date.getDate()}`, { json: true }, (err, res, body) => {
@@ -492,8 +437,6 @@ client.once('ready', () => {
   }, 60000);
 
   setInterval(checkInsurance, 3600000);
-
-  setInterval(checkSpotify, 60000);
 
   setInterval(updateCave, 60000);
   
@@ -708,7 +651,7 @@ client.on('guildMemberAdd', member => {
     member.roles.add(role, `Auto muted on rejoin`);
   }
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
-    if (body.pronouns != null || body.pronouns != 'unspecified') {
+    if (body.pronouns != null || body.pronouns !== 'unspecified') {
       if (body.pronouns === 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');
       if (body.pronouns === 'sh') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147959701554'), 'https://pronoundb.org/ claims she has these pronouns');
       if (body.pronouns.includes('h')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050148425138186'), 'https://pronoundb.org/ claims he has these pronouns');
@@ -763,127 +706,3 @@ process.on('uncaughtException', error => icoe(error));
 
 //Client login
 client.login(token.main);
-
-const generateRandomString = function (length) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const stateKey = 'spotify_auth_state';
-
-const app = express();
-
-app.use(express.static(__dirname + '/public'))
-   .use(cors())
-   .use(cookieParser());
-
-app.get('/login', function(req, res) {
-
-  var state = generateRandomString(16);
-  res.cookie(stateKey, state);
-
-  // your application requests authorization
-  const scope = 'user-read-currently-playing user-read-playback-state';
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: client_id,
-      scope: scope,
-      redirect_uri: redirect_uri,
-      state: state
-    }));
-});
-
-app.get('/callback', function(req, res) {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
-  let code = req.query.code || null;
-  let state = req.query.state || null;
-  let storedState = req.cookies ? req.cookies[stateKey] : null;
-
-  if (state === null || state !== storedState) {
-    res.redirect('/#' +
-      querystring.stringify({
-        error: 'state_mismatch'
-      }));
-  } else {
-    res.clearCookie(stateKey);
-    let authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: redirect_uri,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-      },
-      json: true
-    };
-
-    request.post(authOptions, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-
-        var access_token = body.access_token,
-            refresh_token = body.refresh_token;
-
-        var options = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: { 'Authorization': 'Bearer ' + access_token },
-          json: true
-        };
-
-        // use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
-          console.log(body);
-        });
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
-      } else {
-        res.redirect('/#' +
-          querystring.stringify({
-            error: 'invalid_token'
-          }));
-      }
-    });
-  }
-});
-
-app.get('/refresh_token', function(req, res) {
-
-  // requesting access token from refresh token
-  const refresh_token = req.query.refresh_token;
-  let authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))},
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
-  };
-
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      const access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
-    }
-  });
-});
-
-console.log('Listening on 8888');
-app.listen(8888);
