@@ -279,7 +279,7 @@ const counting = () => {
           db.set('discord.topCount', count);
           topCount = count;
           messages.first().react('🎉');
-          addUserBalance(messages.first().author.id, Math.floor(50 * mult));
+          addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'counting to a new high');
           log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
         } else {
           addUserBalance(messages.first().author.id, Math.floor(5 * mult));
@@ -303,10 +303,10 @@ const counting = () => {
             db.set('discord.topCount', count);
             topCount = count;
             messages.first().react('🎉');
-            addUserBalance(messages.first().author.id, Math.floor(50 * mult));
+            addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'for counting to a new high');
             log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
           } else {
-            addUserBalance(messages.first().author.id, Math.floor(5 * mult));
+            addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'counting');
             log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
           }
         }
