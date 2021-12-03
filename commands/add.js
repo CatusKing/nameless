@@ -23,9 +23,8 @@ module.exports = {
       const target = interaction.options.getUser('user') || interaction.user;
       const amount = Math.floor(interaction.options.getInteger('amount'));
       const balance = addUserBalance(target.id, amount);
-      addUserBalance('bank', -amount);
+      addUserBalance('bank', -amount, `given by ${interaction.user}`);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Given ${amount}🦴 to ${target}\nThey now have ${balance}🦴`).setColor('#baffc9') ] });
-      log('830503210951245865', `+${amount}🦴 to ${target} given by ${interaction.user}`, '#baffc9');
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
   }
 };

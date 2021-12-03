@@ -280,10 +280,8 @@ const counting = () => {
           topCount = count;
           messages.first().react('🎉');
           addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'counting to a new high');
-          log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
         } else {
-          addUserBalance(messages.first().author.id, Math.floor(5 * mult));
-          log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
+          addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'for counting');
         }
       } else {
         if (messages.first().author.id === messages.first(2)[1].author.id) {
@@ -304,10 +302,8 @@ const counting = () => {
             topCount = count;
             messages.first().react('🎉');
             addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'for counting to a new high');
-            log('830503210951245865', `+${Math.floor(50 * mult)}🦴 to ${messages.first().author} for getting a new high score in counting`, '#baffc9');
           } else {
             addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'counting');
-            log('830503210951245865', `+${Math.floor(5 * mult)}🦴 to ${messages.first().author} for counting`, '#baffc9');
           }
         }
       }
@@ -328,9 +324,8 @@ const updateStreak = (id = String(), msg = new Message()) => {
       else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
         const role = msg.guild.roles.cache.get(config.streaks[i][1]);
         msg.member.roles.add(role, 'New Streak Score');
-        addUserBalance(msg.author.id, config.streaks[i][2]);
+        addUserBalance(msg.author.id, config.streaks[i][2], `for reaching a streak of ${config.streaks[i][0]}`);
         msg.react('🦴');
-        log(`830503210951245865`, `+${config.streaks[i][2]}🦴 to ${msg.member} for reaching a streak of ${config.streaks[i][0]}`, '#baffc9')
       }
     }
     db.set(`discord.users.${id}.streakTime`, Math.floor(((date.getTime() / 1000) / 60) / 60) + 48);
