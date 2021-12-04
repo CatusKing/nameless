@@ -15,6 +15,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    let embed;
     const balance = getUserBalance(interaction.user.id) || 0;
     const bank = getUserBalance('bank') || 0;
     var bet = 0;
@@ -25,9 +26,9 @@ module.exports = {
 
     if (bet < 500) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
     if (bet > balance) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Not enough funds! Your balance is ${balance}🦴 You need at least 500🦴`).setColor('#9e9d9d') ] });
-    var slot1 = Math.floor(Math.random() * config.emojis.length);
-    var slot2 = Math.floor(Math.random() * config.emojis.length);
-    var slot3 = Math.floor(Math.random() * config.emojis.length);
+    const slot1 = Math.floor(Math.random() * config.emojis.length);
+    const slot2 = Math.floor(Math.random() * config.emojis.length);
+    const slot3 = Math.floor(Math.random() * config.emojis.length);
     const diamond = config.emojis.length - 1;
     let total = 0;
 
@@ -39,13 +40,13 @@ module.exports = {
     if (slot1 == 0 || slot2 == 0 || slot3 == 0) total = 0;
     let outcome = total - bet;
     if (outcome < 0 && interaction.member.roles.cache.has('889221970774867968')) {
-      var insured = outcome;
+      let insured = outcome;
       outcome = Math.floor(outcome / 5);
       insured = insured - outcome;
       addUserBalance(interaction.user.id, insured, `gambling ${bet}🦴`, false);
       addUserBalance('bank', -insured);
       db.set(`discord.users.${interaction.member.id}.insuranceOwed`, (db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + -outcome)
-      var embed = new MessageEmbed()
+      embed = new MessageEmbed()
         .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
         .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`)
         .setColor('#ff7784')
@@ -54,10 +55,10 @@ module.exports = {
       return;
     }
     addUserBalance(interaction.user.id, outcome, `gambling ${bet}🦴`, false);
-    addUserBalance('bank', -outcome);
-    var embed = new MessageEmbed()
-      .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
-      .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
+    addUserBalance('bank', -outcome, 'bank');
+    embed = new MessageEmbed()
+        .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)
+        .setFooter(`Use *${prefix}gamble help* for an explanation on the slot machine`);
 
     if (total > 0) {
       embed.setColor('#baffc9')

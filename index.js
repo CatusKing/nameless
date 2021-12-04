@@ -141,10 +141,12 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
     num = Math.floor(num * 1.5);
   }
   if (reason !== '') {
-    if (num > 0) {
-      log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#baffc9');
-    } else {
-      log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#ff7784');
+    if (reason !== 'bank') {
+      if (num > 0) {
+        log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#baffc9');
+      } else {
+        log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#ff7784');
+      }
     }
   } else icoe(new Error('No inputted reason for addUserBalance'));
   user.balance = user.balance + num;

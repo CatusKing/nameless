@@ -22,8 +22,8 @@ module.exports = {
     if (interaction.member.roles.cache.has('830496065366130709')) {
       const target = interaction.options.getUser('user') || interaction.user;
       const amount = Math.floor(interaction.options.getInteger('amount'));
-      const balance = addUserBalance(target.id, amount);
-      addUserBalance('bank', -amount, `given by ${interaction.user}`);
+      const balance = addUserBalance(target.id, amount, `given by ${interaction.user}`);
+      addUserBalance('bank', -amount, `bank`);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Given ${amount}🦴 to ${target}\nThey now have ${balance}🦴`).setColor('#baffc9') ] });
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
   }
