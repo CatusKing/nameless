@@ -14,7 +14,7 @@ module.exports = {
         if (admins.includes(interaction.user.id)) {
           for (var i = 0; i < admins.length; i++) {
   
-            if (admins[i] == interaction.user.id) {
+            if (admins[i] === interaction.user.id) {
               admins.splice(i, 1);
               interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring you from auto mod\nid: ${interaction.user.id}`).setColor('#9e9d9d') ] });
               break;

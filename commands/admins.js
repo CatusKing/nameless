@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: 'admins',
-	description: 'Displays the current members with admin mode',
+  name: 'admins',
+  description: 'Displays the current members with admin mode',
   command: false,
   slash: true,
   options: [],
