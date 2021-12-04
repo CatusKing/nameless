@@ -279,9 +279,9 @@ const counting = () => {
           db.set('discord.topCount', count);
           topCount = count;
           messages.first().react('🎉');
-          addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'counting to a new high');
+          addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'counting to a new high', true);
         } else {
-          addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'for counting');
+          addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'for counting', true);
         }
       } else {
         if (messages.first().author.id === messages.first(2)[1].author.id) {
@@ -301,9 +301,9 @@ const counting = () => {
             db.set('discord.topCount', count);
             topCount = count;
             messages.first().react('🎉');
-            addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'for counting to a new high');
+            addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'for counting to a new high', true);
           } else {
-            addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'counting');
+            addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'counting', true);
           }
         }
       }
@@ -324,7 +324,7 @@ const updateStreak = (id = String(), msg = new Message()) => {
       else if (streak >= config.streaks[i][0] && !msg.member.roles.cache.has(config.streaks[i][1])) {
         const role = msg.guild.roles.cache.get(config.streaks[i][1]);
         msg.member.roles.add(role, 'New Streak Score');
-        addUserBalance(msg.author.id, config.streaks[i][2], `for reaching a streak of ${config.streaks[i][0]}`);
+        addUserBalance(msg.author.id, config.streaks[i][2], `for reaching a streak of ${config.streaks[i][0]}`, true);
         msg.react('🦴');
       }
     }
@@ -646,7 +646,7 @@ client.on('guildMemberAdd', member => {
     member.roles.add(role, `Auto muted on rejoin`);
   }
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
-    if (body.pronouns != null || body.pronouns !== 'unspecified') {
+    if (body.pronouns != null && body.pronouns !== 'unspecified') {
       if (body.pronouns === 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');
       if (body.pronouns === 'sh') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050147959701554'), 'https://pronoundb.org/ claims she has these pronouns');
       if (body.pronouns.includes('h')) member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('854050148425138186'), 'https://pronoundb.org/ claims he has these pronouns');

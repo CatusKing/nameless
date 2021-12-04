@@ -1,7 +1,6 @@
 module.exports = {
   execute(client, addUserBalance, log) {
     const guild = client.guilds.cache.get('830495072876494879');
-    var description = '';
     guild.channels.cache.forEach(ch => {
       
       if (ch.type == 'GUILD_VOICE' && ch.id != '830505700269883412') {
@@ -18,7 +17,7 @@ module.exports = {
               if (member.voice.selfVideo) amount += 3;
               else if (member.voice.streaming) amount += 1;
             }
-            var yes = false;
+            let yes = false;
             if (member.roles.cache.has('867226596103946250')) {
               amount = Math.floor(amount * 1.5);
               yes = true;
@@ -31,12 +30,10 @@ module.exports = {
                 }
               }
             }
-            addUserBalance(member.id, amount);
-            description += `\n+${amount}🦴 to ${member} for sitting in vc`;
+            addUserBalance(member.id, amount, `${member} for sitting in vc`, true);
           }
         });
       }
     });
-    if (description != '') log('830503210951245865', description, '#baffc9');
   }
 }
