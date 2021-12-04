@@ -30,7 +30,7 @@ module.exports = {
                 }
               }
             }
-            addUserBalance(member.id, amount, `${member} for sitting in vc`, true);
+            addUserBalance(member.id, amount, `sitting in vc`, true);
           }
         });
       }
