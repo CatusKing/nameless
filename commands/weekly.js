@@ -10,14 +10,12 @@ module.exports = {
     const weekly = getUserWeekly(interaction.user.id);
 
     if (weekly <= hours(Date.now())) {
-      addUserBalance(interaction.user.id, weeklyAmount);
-      addUserBalance('bank', -weeklyAmount);
+      addUserBalance(interaction.user.id, weeklyAmount, 'their weekly claim');
+      addUserBalance('bank', -weeklyAmount, 'bank');
       setUserWeekly(interaction.user.id, hours(Date.now()) + 167);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${interaction.user} just claimed ${weeklyAmount}🦴 for the week`).setColor('#baffc9') ] });
-      log('830503210951245865', `+${weeklyAmount}🦴 to ${interaction.user} for their weekly claim`, '#baffc9');
     } else {
       let result = weekly - hours(Date.now());
-
       if (result > 24) result = `${Math.floor(result / 24) + 1} days`;
       else if (result == 1) result = `${result} hour`;
       else result = `${result} hours`;

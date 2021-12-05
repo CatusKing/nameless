@@ -10,14 +10,12 @@ module.exports = {
     var date = new Date();
 
     if (getUserDaily(interaction.user.id) != date.getDate()) {
-      addUserBalance(interaction.user.id, dailyAmount);
-      addUserBalance('bank', -dailyAmount);
+      addUserBalance(interaction.user.id, dailyAmount, 'their daily claim');
+      addUserBalance('bank', -dailyAmount, 'bank');
       setUserDaily(interaction.user.id, date.getDate());
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${interaction.user} just claimed ${dailyAmount}🦴 for the day`).setColor('#baffc9') ] });
-      log('830503210951245865', `+${dailyAmount}🦴 to ${interaction.user} for their daily claim`, '#baffc9');
     } else {
       let result = 24 - date.getHours();
-  
       if (result == 1) result = `${result} hour`;
       else result = `${result} hours`;
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`${interaction.user} you have already claimed for the day\nYou can claim again in ${result}`).setColor('#9e9d9d') ] });
