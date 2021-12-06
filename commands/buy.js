@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const config = require('../general/config.json');
-const prefix = config.prefix;
 module.exports = {
 	name: 'buy',
 	description: 'Allows you to buy items from the shop',
@@ -46,7 +45,7 @@ module.exports = {
 		for (let i = 0; i < config.shop.length; ++i) {
 			if (interaction.options.getString('items') == config.shop[i][1]) {
 				const role = interaction.guild.roles.cache.get(config.shop[i][3]);
-
+				let reason = '';
 				if (config.shop[i][4] == 0) {
 					if (interaction.member.roles.cache.has(config.shop[i][3])) {
 						interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You already have ${role} you dumb`).setColor('#9e9d9d') ] });
@@ -57,7 +56,7 @@ module.exports = {
 						break;
 					}
 					interaction.member.roles.add(role, `Bought ${role.name}`);
-					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${interaction.user} for buying ${role}`, '#ff7784');
+					reason = `buying ${role}`;
 					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${interaction.user}, you now have ${role}`).setColor('#9e9d9d') ] });
 				} else {
 					if (!interaction.member.roles.cache.has(config.shop[i][3])) {
@@ -69,11 +68,11 @@ module.exports = {
 						break;
 					}
 					interaction.member.roles.remove(role, `Paid to remove ${role.name}`);
-					log('830503210951245865', `-${config.shop[i][2]}🦴 to ${interaction.user} for removing ${role}`, '#ff7784');
+					reason = `removing ${role}`;
 					interaction.reply({ embeds: [ new MessageEmbed().setDescription(`You spent ${config.shop[i][2]}🦴\n${interaction.user}, you now have removed ${role}`).setColor('#9e9d9d') ] });
 				}
-				addUserBalance(interaction.user.id, -config.shop[i][2]);
-				addUserBalance('bank', config.shop[i][2]);
+				addUserBalance(interaction.user.id, -config.shop[i][2], reason);
+				addUserBalance('bank', config.shop[i][2], 'bank');
 				break;
 			}
 		}

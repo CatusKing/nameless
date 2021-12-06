@@ -8,19 +8,19 @@ module.exports = {
     //Message Content
     try {
       const characters = msg.content.split('');
-      var letters = false;
+      let letters = false;
       for (let i of characters) {
         if (abc.includes(i.toLowerCase())) {
           letters = true;
           break;
         }
       }
-      var admins = getServerAdmins();
-      var ignoredCh = getServerIgnoredCh();
+      const admins = getServerAdmins(),
+          ignoredCh = getServerIgnoredCh();
       if (letters && !ignoredCh.includes(msg.channel.id) && !admins.includes(msg.author.id)) {
-        var warn = 0;
-        var severity = 0;
-        var reason = [];
+        let warn = 0,
+            severity = 0,
+            reason = [];
         const scores = await get_attrs(msg.content);
         for (let i of attributes) {
           if (scores[i] >= 0.75) {
@@ -29,8 +29,8 @@ module.exports = {
             reason.push(i);
           }
         }
-        var date = new Date();
-        if (warn == 1 && severity >= .9 || warn > 1 && severity <= 1.65) {
+        const date = new Date();
+        if (warn === 1 && severity >= .9 || warn > 1 && severity <= 1.65) {
           reply(msg.channel.id, `${msg.author}, this is a warning. You have been flagged for the following reason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#9e9d9d');
           log('834179033289719839', `Warned <t:${Math.floor(date.getTime() / 1000)}:R>\n\nReason:\n**${reason[0].toLowerCase()}**: ${scores[reason[0]]}\n\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n[Jump to!](${msg.url})`, '#9e9d9d');
           return true;

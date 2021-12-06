@@ -1,7 +1,7 @@
 const { icoe } = require('../icoe');
 
 function chunkString(str = new String()) {
-  var arr = [];
+  const arr = [];
   str.split(' ').forEach((val, index) => {
     if (index / 7 == Math.floor(index / 7)) arr[Math.floor(index / 7)] = '';
     arr[Math.floor(index / 7)] = arr[Math.floor(index / 7)] + ' ' + val
@@ -75,16 +75,16 @@ module.exports = {
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     const name = `┊ ❑ 𝙽𝚊𝚖𝚎: ${interaction.options.getString('name')}\n`;
     const pronouns = `┊ ✦ 𝙿𝚛𝚘𝚗𝚘𝚞𝚗𝚜: ${interaction.options.getString('pronouns')}\n`;
-    var age = interaction.options.getInteger('age') || -1;
+    let age = interaction.options.getInteger('age') || -1;
     if (age > 12 && age <= 50) age = `┊ ✦ 𝙰𝚐𝚎: ${age}\n`
     else age = '';
-    var gender = interaction.options.getString('gender') || '';
+    let gender = interaction.options.getString('gender') || '';
     if (gender != '') gender = `┊ ✦ 𝙶𝚎𝚗𝚍𝚎𝚛: ${gender}\n`;
-    var timezone = interaction.options.getString('timezone') || '';
+    let timezone = interaction.options.getString('timezone') || '';
     if (timezone != '') timezone = `┊ ✦ 𝚃𝚒𝚖𝚎𝚣𝚘𝚗𝚎: ${timezone}\n`;
-    var dms = interaction.options.getString('dms') || '';
+    let dms = interaction.options.getString('dms') || '';
     if (dms != '') dms = `┊ ✦ 𝙳𝙼 𝚂𝚝𝚊𝚝𝚞𝚜: ${dms}\n`;
-    var extra = interaction.options.getString('extra') || '';
+    let extra = interaction.options.getString('extra') || '';
     if (extra != '') {
       chunkString(extra).forEach((val, index) => {
         if (index == 0) {

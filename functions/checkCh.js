@@ -1,5 +1,5 @@
 module.exports = {
-	execute(client) {
+  execute(client) {
     const videoOnlyCh = client.channels.cache.get('831347288710316032');
     const generalCh = client.channels.cache.get('830495073430929472');
     const smallRoomCh = client.channels.cache.get('832047338456612885');
@@ -22,7 +22,7 @@ module.exports = {
         member.roles.remove(role);
       }
     });
-    var limit = 3;
+    let limit = 3;
     smallRoomCh.members.forEach((m) => {
       let yes = true;
       m.roles.cache.forEach(r => {
@@ -32,7 +32,7 @@ module.exports = {
         }
       });
     });
-    smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined');
+    smallRoomCh.setUserLimit(limit, 'Update because member with a keycard left or joined').then(r => {});
     if (date.getHours() + 1 >= 7 && date.getHours() + 1 <= 15  && date.getDay() != 0 && date.getDay() != 6) {
       if (schoolCh.name.includes('homework-help')) schoolCh.setName(schoolCh.name.replace('homework-help', 'school'), 'School time!');
     } else if (schoolCh.name.includes('school')) {

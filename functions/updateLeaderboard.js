@@ -2,7 +2,7 @@ const { MessageEmbed, Collection } = require('discord.js');
 const { leaderboard_count } = require('../general/config.json');
 const { icoe } = require('../icoe');
 module.exports = {
-	execute(client, db, round) {
+  execute(client, db, round) {
     const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
     const lb = db.get(`discord.server.leaderboard`) || [];
     const leaderboard = new Collection();
@@ -24,7 +24,7 @@ module.exports = {
             ++num;
           });
         description += '```';
-        var embed = new MessageEmbed().setColor('#ffffba').setDescription(description);
+        const embed = new MessageEmbed().setColor('#ffffba').setDescription(description);
         message.edit({ embeds: [embed] });
       }).catch(err => icoe(err));
   }

@@ -50,7 +50,7 @@ module.exports = {
     },
   ],
   executeI(client = new Client(), interaction = new CommandInteraction()) {
-    var footer = '', description = '', options = [], duration = interaction.options.getInteger('duration') || 1;
+    let footer = '', description = '', options = [], duration = interaction.options.getInteger('duration') || 1;
     if (duration < 1 || duration > 120) return interaction.reply('Polls cant be any longer then two hours');
     interaction.options.data.forEach((value) => {
       if (value.type == 'STRING' && value.name.startsWith('option')) {
@@ -62,7 +62,7 @@ module.exports = {
     interaction.reply({ components: [new MessageActionRow().addComponents(options)], embeds: [new MessageEmbed().setDescription(`**${interaction.options.getString('question')}**\n\`\`\`${description}\`\`\``).setColor('#9e9d9d').setFooter(footer).setImage('https://stop.stop/823380896686014505_10')] });
     setTimeout(() => {
       interaction.fetchReply().then(reply => {
-        var greatest = ['-1', -1];
+        const greatest = ['-1', -1];
         reply.embeds[0].footer.text.split(',').forEach((value) => {
           if (Number.isNaN(Number(value.split('-')[1]))) {}
           else {
@@ -79,18 +79,16 @@ module.exports = {
   button: true,
   buttonId: '^',
   executeB(client = new Client(), interaction = new ButtonInteraction()) {
-    var footer = '';
+    let footer = '', voted = false, temp2 = '', url = '';
     if (interaction.message.embeds[0].footer.text == 'over') return;
-    var voted = false;
     console.log(interaction.message.embeds[0].image.url);
     interaction.message.embeds[0].image.url.replace('https://stop.stop/', '').split('-').forEach((user) => {
       if (user.includes(interaction.member.id)) voted = user.split('_')[1];
     });
-    var temp2 = '', url = '';
     interaction.message.embeds[0].footer.text.split(',').forEach((value) => {
       if (Number.isNaN(Number(value.split('-')[1]))) {}
       else {
-        var temp;
+        let temp;
         if (interaction.customId.startsWith(value.split('-')[0])) {
           temp = `${value.split('-')[0]}-${Number(value.split('-')[1]) + 1},`;
           url = (interaction.message.embeds[0].image.url.replace(`${interaction.member.id}_${voted}`, `${interaction.member.id}_${value.split('-')[0]}`))

@@ -117,15 +117,15 @@ module.exports = {
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (!interaction.member.roles.cache.has('845764951481122869')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription(`Hey sorry you need the \`Hue\` role for this command. You can use \`/buy Hue\` to get the role`)] })
     const sub = interaction.options.getSubcommand();
-    var lights = [];
-    var path = '';
-    var des = '';
+    const lights = [];
+    let path = '',
+      des = '';
     request(`https://${local_ip}/api/${hueToken}/lights`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
       for (let i = 0; i < 20; ++i) {
         if (body[i] != null) lights.push(i);
       }
-      var bulb = interaction.options.getString('bulb');
+      let bulb = interaction.options.getString('bulb');
       if (sub == 'on') {
         const https = require("https");
         if (bulb == 'all') {
@@ -183,10 +183,10 @@ module.exports = {
         req.end();
         interaction.reply({ embeds: [ new MessageEmbed().setDescription(des).setColor('#9e9d9d') ] });
       } else if (sub == 'color') {
-        var hue = interaction.options.getInteger('hue') || 1;
+        let hue = interaction.options.getInteger('hue') || 1;
         if (hue > 65535 || hue < 1) hue = 1;
-        var bri = Math.floor((interaction.options.getInteger('brightness') / 5) * 255) || 255;
-        var sat = Math.floor((interaction.options.getInteger('saturation') / 5) * 255) || 255;
+        const bri = Math.floor((interaction.options.getInteger('brightness') / 5) * 255) || 255;
+        const sat = Math.floor((interaction.options.getInteger('saturation') / 5) * 255) || 255;
         const https = require("https");
         if (bulb == 'all') {
           path = `/api/${hueToken}/groups/1/action`;

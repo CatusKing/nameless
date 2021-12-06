@@ -8,7 +8,7 @@ module.exports = {
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('830496065366130709') || interaction.member.roles.cache.has('830495937301577759')) {
-      var description = 'Ignored channels\n';
+      let description = 'Ignored channels\n';
       for (let i of ignoredCh) {
         description += `${client.channels.cache.get(i).name} - ${i}\n`
       }

@@ -36,7 +36,7 @@ module.exports = {
     const ping_emoji = client.emojis.cache.get("864314397529866261");
     const nameless_emoji = client.emojis.cache.get("864319487746113557");
     const core = os.cpus()[0];
-    var api = '';
+    let api = '';
     for(let i of apis) {
       api += `- ${i}\n`;
     }
@@ -44,7 +44,7 @@ module.exports = {
     for(let i of dependencies) {
       dep += `${i[0]}: ${i[1]}\n\u3000`;
     }
-    var embed = new MessageEmbed().setColor('#ffffba').setTimestamp();
+    const embed = new MessageEmbed().setColor('#ffffba').setTimestamp();
     if (interaction.options.getString('option') == 'apis') {
       embed.setDescription(`**Current Apis**\n\n${api}`)
     } else if (interaction.options.getString('option') == 'system') {

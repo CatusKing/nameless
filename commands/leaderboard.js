@@ -19,6 +19,7 @@ module.exports = {
     }
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+    let embed;
     if (interaction.options.getSubcommand() == 'balance') {
       const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
       const lb = db.get(`discord.server.leaderboard`) || [];
@@ -39,7 +40,7 @@ module.exports = {
           ++num;
         });
       description += '```';
-      var embed = new MessageEmbed().setColor('#9e9d9d').setDescription(description);
+      embed = new MessageEmbed().setColor('#9e9d9d').setDescription(description);
       interaction.reply({ embeds: [embed] });
     } else {
       const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
@@ -61,7 +62,7 @@ module.exports = {
           ++num;
         });
       description += '```';
-      var embed = new MessageEmbed().setColor('#9e9d9d').setDescription(description);
+      embed = new MessageEmbed().setColor('#9e9d9d').setDescription(description);
       interaction.reply({ embeds: [embed] });
     }
   }

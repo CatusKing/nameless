@@ -9,8 +9,5 @@ module.exports = {
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor) {
     interaction.reply({ embeds: [new MessageEmbed().setDescription(`[discord.gg/Hja2gSnsAu](https://discord.gg/Hja2gSnsAu)`).setColor('#9e9d9d')] })
-  },
-	execute(client, msg, args, reply) {
-    reply(msg.channel.id, `[discord.gg/Hja2gSnsAu](https://discord.gg/Hja2gSnsAu)`, '#9e9d9d');
   }
 };

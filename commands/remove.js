@@ -21,10 +21,9 @@ module.exports = {
   ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('830496065366130709')) {
-      const target = interaction.options.getUser('user') || interaction.user;
-  
-      const amount = interaction.options.getInteger('amount');
-      const balance = addUserBalance(target.id, -amount);
+      const target = interaction.options.getUser('user') || interaction.user,
+        amount = interaction.options.getInteger('amount'),
+        balance = addUserBalance(target.id, -amount);
       addUserBalance('bank', amount);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`).setColor('#ff7784') ] });
       log('830503210951245865', `-${amount}🦴 to ${target} given by ${interaction.user}`, '#ff7784');

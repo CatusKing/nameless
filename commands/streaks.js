@@ -8,7 +8,7 @@ module.exports = {
   slash: true,
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    var description = '';
+    let description = '';
     streaks.forEach(value => {
       description += `${floor(value[2])}🦴 - <@&${value[1]}>\n`;
     });

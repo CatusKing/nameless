@@ -14,10 +14,10 @@ module.exports = {
       channel.messages.fetch(roleMessages[i].id).then(msg => {
         let selectMenu = new MessageSelectMenu().setCustomId(`roles^${roleMessages[i].name}`).setPlaceholder(roleMessages[i].name);
         for (let j = 0; j < roleMessages[i].roles.length; ++j) {
-          var role = client.guilds.cache.get(guildId).roles.cache.get(roleMessages[i].roles[j].id);
+          const role = client.guilds.cache.get(guildId).roles.cache.get(roleMessages[i].roles[j].id);
           selectMenu.addOptions({ label: role.name, value: `${roleMessages[i].roles[j].id}`, emoji: roleMessages[i].roles[j].emoji });
         }
-        var components = [
+        const components = [
           new MessageActionRow().addComponents(selectMenu)
         ];
         msg.edit({ components: components, embeds: [], content: `\u200B` })
@@ -30,7 +30,7 @@ module.exports = {
     for (let i = 0; roleMessages.length; ++i) {
       if (roleMessages[i].name == interaction.customId.replace('roles^', '')) {
         for (let j = 0; j < interaction.values.length; ++j) {
-          var role = client.guilds.cache.get(guildId).roles.cache.get(interaction.values[j]);
+          const role = client.guilds.cache.get(guildId).roles.cache.get(interaction.values[j]);
           if (!interaction.member._roles.includes(interaction.values[j])) {
             interaction.member.roles.add(role);
             interaction.reply({ ephemeral: true, content: `Added \`${role.name}\`` });

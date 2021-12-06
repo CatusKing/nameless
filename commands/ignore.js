@@ -9,7 +9,7 @@ module.exports = {
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('830496065366130709')) {
       if (ignoredCh.includes(interaction.channel.id)) {
-        for (var i = 0; i < ignoredCh.length; i++) {
+        for (let i = 0; i < ignoredCh.length; i++) {
 
           if (ignoredCh[i] == interaction.channel.id) {
             ignoredCh.splice(i, 1);

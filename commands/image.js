@@ -46,12 +46,12 @@ module.exports = {
     }
   ],
   executeI(client, interaction) {
-    var seed = Math.floor(Math.random() * 5000);
+    const seed = Math.floor(Math.random() * 5000);
     let blur = interaction.options.getInteger('blur') || 0;
     if (blur != 0) blur = `blur=${(blur * 2)}`;
     else blur = '';
-    var input = interaction.options.getBoolean('grayscale') || false;
-    var grayscale = '';
+    const input = interaction.options.getBoolean('grayscale') || false;
+    let grayscale = '';
     if (input) grayscale = '&grayscale';
     interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setImage(`https://picsum.photos/seed/${seed}/1920/1080?${blur}${grayscale}`) ] })
   }

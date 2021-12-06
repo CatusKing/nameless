@@ -15,11 +15,11 @@ module.exports = {
   button: true,
   buttonId: '_',
   executeB(client, interaction) {
-    var split = interaction.customId.split('_');
+    const split = interaction.customId.split('_');
     split[1] = Number(split[1]);
     if (split[0] == 'films') {
       request('https://ghibliapi.herokuapp.com/films', { json: true }, (err, res, body) => {
-        var components = [];
+        const components = [];
         if (split[1] + 1 >= body.length) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId(`films_${split[1] - 1}`).setLabel('Back').setStyle('PRIMARY')));
         else if (split[1] == 0) components.push(new MessageActionRow().addComponents(new MessageButton().setCustomId('films_1').setLabel('Next').setStyle('PRIMARY')));
         else components.push(new MessageActionRow().addComponents([new MessageButton().setCustomId(`films_${split[1] - 1}`).setLabel('Back').setStyle('PRIMARY'), new MessageButton().setCustomId(`films_${split[1] + 1}`).setLabel('Next').setStyle('PRIMARY')]));

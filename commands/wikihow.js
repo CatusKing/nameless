@@ -11,7 +11,7 @@ module.exports = {
     request('http://www.wikihow.com/Special:Randomizer', { json: false }, (err, res, body) => {
       if (err) console.warn(err);
       const dom = new jsdom.JSDOM(body);
-      var yes = true;
+      let yes = true;
       const embed = new MessageEmbed().setDescription(`[link](https://www.wikihow.com${res.socket._httpMessage.path})\n${dom.window.document.querySelector("title").textContent}`).setColor('#9e9d9d');
       dom.window.document.querySelectorAll('img').forEach((value) => {
         if (value.src.includes('https://') && value.src.includes(dom.window.document.querySelector("title").textContent.split(' ')[0]) && yes) {

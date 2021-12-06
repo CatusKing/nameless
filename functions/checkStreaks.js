@@ -2,9 +2,9 @@ const { streaks } = require('../general/config.json');
 
 module.exports = {
   execute(client, db) {
-    var users = db.get(`discord.users`) || {};
-    var date = new Date();
-    var guild = client.guilds.cache.get('830495072876494879');
+    const users = db.get(`discord.users`) || {};
+    const date = new Date();
+    const guild = client.guilds.cache.get('830495072876494879');
     guild.members.cache.forEach((member) => {
       if (users[member.id]) {
         if (Number.isNaN(users[member.id].streakTime)) users[member.id].streakTime = 0;

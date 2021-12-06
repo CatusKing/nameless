@@ -2,9 +2,9 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = req
 const { flags } = require('../general/config.json');
 
 function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = array[i];
     array[i] = array[j];
     array[j] = temp;
   }
@@ -18,17 +18,17 @@ module.exports = {
   options: [],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription('Sorry you have been banned from using this command. Use `/buy flag` to pay the 500🦴 fee to be unbanned.')]});
-    var random = Math.floor(flags.length * Math.random());
-    var options = [{ label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}` }];
-    var randoms = [random];
+    const random = Math.floor(flags.length * Math.random());
+    const options = [{label: flags[random][1], value: `${flags[random][0]}-${flags[random][0]}`}];
+    const randoms = [random];
     while(randoms.length < 5) {
-      var random2 = Math.floor(flags.length * Math.random());
+      const random2 = Math.floor(flags.length * Math.random());
       if (randoms.includes(random2)) continue;
       randoms.push(random2);
       options.push({ label: flags[random2][1], value: `${flags[random2][0]}-${flags[random][0]}` });
     }
     shuffleArray(options);
-    var components = [];
+    const components = [];
     for(let i = 0; i < options.length; ++i) {
       components.push(new MessageButton()
 				.setCustomId(options[i].value)
