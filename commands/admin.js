@@ -5,24 +5,32 @@ module.exports = {
 	description: 'Toggles admin mode',
   command: false,
   slash: true,
-  options: [],
+  options: [
+    {
+      name: 'target',
+      description: 'The person you want to give admin',
+      type: 'MEMBER',
+      required: false
+    }
+  ],
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
-    var yes = true;
-    interaction.member.roles.cache.forEach(r => {
+    let yes = true;
+    const target = interaction.options.getMember('target') || interaction.member;
+    target.roles.cache.forEach(r => {
       if (adminRoles.includes(r.id) && yes) {
 
-        if (admins.includes(interaction.user.id)) {
-          for (var i = 0; i < admins.length; i++) {
+        if (admins.includes(target.id)) {
+          for (let i = 0; i < admins.length; i++) {
   
-            if (admins[i] === interaction.user.id) {
+            if (admins[i] === target.id) {
               admins.splice(i, 1);
-              interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring you from auto mod\nid: ${interaction.user.id}`).setColor('#9e9d9d') ] });
+              interaction.reply({ embeds: [ new MessageEmbed().setDescription(`No longer ignoring ${target} from auto mod\nid: ${target.id}`).setColor('#9e9d9d') ] });
               break;
             }
           }
         } else {
-          admins.push(interaction.user.id);
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring you from auto mod\nid: ${interaction.user.id}`).setColor('#9e9d9d') ] });
+          admins.push(target.id);
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Ignoring ${target} from auto mod\nid: ${target.id}`).setColor('#9e9d9d') ] });
         }
         setServerAdmins(admins);
         yes = false;
