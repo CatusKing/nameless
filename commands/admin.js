@@ -9,7 +9,7 @@ module.exports = {
     {
       name: 'target',
       description: 'The person you want to give admin',
-      type: 'MEMBER',
+      type: 'USER',
       required: false
     }
   ],
