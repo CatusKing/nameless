@@ -143,10 +143,9 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
   if (reason !== '') {
     if (reason !== 'bank') {
       if (num > 0) {
-        log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#baffc9');
+        db.push('discord.server.queueP', `+${num}🦴 to ${member} for ${reason}`);
       } else {
-        log('830503210951245865', `${num}🦴 to ${member} for ${reason}`, '#ff7784');
-      }
+        db.push('discord.server.queueN', `-${num}🦴 to ${member} for ${reason}`);      }
     }
   } else icoe(new Error('No inputted reason for addUserBalance'));
   user.balance = user.balance + num;
@@ -162,6 +161,21 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
   db.set(`discord.server.leaderboard`, lb);
   db.set(`discord.users.${id}`, user);
   return user.balance;
+};
+
+const sendQueue = () => {
+  const queueP = db.get('discord.server.queueP') || [];
+  const queueN = db.get('discord.server.queueN') || [];
+  let description = '';
+  for(let i of queueP) {
+    description += i + `\n`;
+  }
+  if (description !== '') log('830503210951245865', description, '#baffc9');
+  description = '';
+  for(let i of queueN) {
+    description += i + `\n`;
+  }
+  if (description !== '') log('830503210951245865', description, '#ff7784');
 };
 
 const getUserWeekly = (id = '') => {
@@ -436,6 +450,8 @@ client.once('ready', () => {
   setInterval(checkInsurance, 3600000);
 
   setInterval(updateCave, 60000);
+
+  setInterval(sendQueue, 60000);
   
   console.log('Setting up slash commands');
   const commands = [];
