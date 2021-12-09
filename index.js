@@ -176,6 +176,8 @@ const sendQueue = () => {
     description += i + `\n`;
   }
   if (description !== '') log('830503210951245865', description, '#ff7784');
+  db.set('discord.server.queueP', []);
+  db.set('discord.server.queueN', []);
 };
 
 const getUserWeekly = (id = '') => {
