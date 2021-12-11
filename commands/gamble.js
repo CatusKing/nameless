@@ -19,10 +19,10 @@ module.exports = {
     const balance = getUserBalance(interaction.user.id) || 0;
     const bank = getUserBalance('bank') || 0;
     let bet = 0;
-    if (isNaN(interaction.options.get('amount'))) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
+    if (isNaN(interaction.options.getString('amount'))) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
 
     if (interaction.options.get('amount').value == 'all') bet = balance;
-    else bet = Math.floor(interaction.options.get('amount'));
+    else bet = Math.floor(interaction.options.getString('amount'));
 
     if (bet < 500) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
     if (bet > balance) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Not enough funds! Your balance is ${balance}🦴 You need at least 500🦴`).setColor('#9e9d9d') ] });
