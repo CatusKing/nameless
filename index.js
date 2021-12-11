@@ -458,7 +458,7 @@ client.once('ready', () => {
   console.log('Setting up slash commands');
   const commands = [];
   client.commands.forEach((value) => {
-    if (value.slash) {
+    if (value.slash && !value.disabled) {
       commands.push({
         name: value.name,
         description: value.description,

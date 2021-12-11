@@ -16,6 +16,7 @@ module.exports = {
 	command: false,
   slash: true,
   options: [],
+  disabled: true,
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription('Sorry you have been banned from using this command. Use `/buy flag` to pay the 500🦴 fee to be unbanned.')]});
     const random = Math.floor(flags.length * Math.random());
