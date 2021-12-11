@@ -21,9 +21,9 @@ module.exports = {
     let bet = 0;
     console.log(interaction.options.getString('amount'));
     console.log(isNaN(interaction.options.getString('amount')))
-    if (isNaN(interaction.options.getString('amount'))) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
 
-    if (interaction.options.get('amount').value == 'all') bet = balance;
+    if (interaction.options.getString('amount') === 'all') bet = balance;
+    else if (isNaN(interaction.options.getString('amount'))) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
     else bet = Math.floor(interaction.options.getString('amount'));
 
     if (bet < 500) return interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Hey sorry but you need to use the command like this ${prefix}gamble <all \\|\\| number \\|\\| help>\nMinimal gamble amount is 500🦴`).setColor('#9e9d9d') ] });
