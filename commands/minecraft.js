@@ -9,7 +9,6 @@ module.exports = {
       name: 'server',
       type: 'SUB_COMMAND',
       description: 'Get the server status',
-      required: true,
       options: []
     },
   ],
