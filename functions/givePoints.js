@@ -12,10 +12,10 @@ module.exports = {
             let amount = 2;
             
             if (!member.voice.mute) {
-              amount += 3;
+              amount = amount + 3;
               
-              if (member.voice.selfVideo) amount += 3;
-              else if (member.voice.streaming) amount += 1;
+              if (member.voice.selfVideo) amount = amount + 3;
+              else if (member.voice.streaming) amount = amount + 1;
             }
             addUserBalance(member.id, amount, `sitting in vc`, true);
           }
