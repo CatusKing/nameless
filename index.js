@@ -10,7 +10,7 @@ const db = require('quick.db'); //Database
 const { google } = require('googleapis'); //Google api handler
 const fs = require('fs'); //File Sync
 const request = require('request'); //Api handler
-const { create, all } = require('mathjs'); //Mathjs used for handling counting
+const { create, all, inv} = require('mathjs'); //Mathjs used for handling counting
 const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
@@ -101,6 +101,9 @@ const updateInvites = () => {
   }).catch((err) => {
     console.log(err);
   });
+  for(let i = 0; i < invites.length; ++i) {
+    if (!client.guilds.cache.get(config.guildId).invites.cache.has(invites[i][0])) invites.splice(i, 1);
+  }
 };
 
 const findInvite = (code = String) => {
