@@ -149,7 +149,7 @@ const addUserBalance = (id = '', num = 0, reason = String(''), activity = false)
       if (num > 0) {
         db.push('discord.server.queueP', `+${num}🦴 to ${member} for ${reason}`);
       } else {
-        db.push('discord.server.queueN', `-${num}🦴 to ${member} for ${reason}`);      }
+        db.push('discord.server.queueN', `${num}🦴 to ${member} for ${reason}`);      }
     }
   } else icoe(new Error('No inputted reason for addUserBalance'));
   user.balance = user.balance + num;
