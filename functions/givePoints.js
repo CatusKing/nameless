@@ -17,6 +17,7 @@ module.exports = {
               if (member.voice.selfVideo) amount = amount + 3;
               else if (member.voice.streaming) amount = amount + 1;
             }
+            if (member.roles.cache.has('830495536582361128')) amount = 0;
             addUserBalance(member.id, amount, `sitting in vc`, true);
           }
         });
