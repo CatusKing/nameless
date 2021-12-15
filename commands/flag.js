@@ -13,10 +13,9 @@ function shuffleArray(array) {
 module.exports = {
 	name: 'flag',
 	description: 'Sends a random country flag to guess but if you get it wrong you must pay a 500🦴 fee to try again',
-	command: false,
   slash: true,
   options: [],
-  disabled: true,
+  disabled: false,
   executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ embeds: [new MessageEmbed().setColor('#9e9d9d').setDescription('Sorry you have been banned from using this command. Use `/buy flag` to pay the 500🦴 fee to be unbanned.')]});
     const random = Math.floor(flags.length * Math.random());
@@ -38,7 +37,7 @@ module.exports = {
 			);
     }
     interaction.reply({ 
-      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://www.countryflags.io/${flags[random][0]}/flat/64.png`).setFooter('You have 20 seconds')],
+      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://flagcdn.com/h240/${flags[random][0].toLowerCase()}.png`).setFooter('You have 20 seconds')],
       components: [new MessageActionRow().addComponents(components)]
     });
     setTimeout(() => {
