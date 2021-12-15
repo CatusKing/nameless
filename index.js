@@ -294,16 +294,13 @@ const counting = () => {
         db.set('discord.count', count + 1);
         ++count;
         messages.first().react('✅');
-        let mult;
-        if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
-        else mult = 1;
         if (count > topCount) {
           db.set('discord.topCount', count);
           topCount = count;
           messages.first().react('🎉');
-          addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'counting to a new high', true);
+          addUserBalance(messages.first().author.id,50, 'counting to a new high', true);
         } else {
-          addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'for counting', true);
+          addUserBalance(messages.first().author.id, 5, 'for counting', true);
         }
       } else {
         if (messages.first().author.id === messages.first(2)[1].author.id) {
@@ -316,16 +313,13 @@ const counting = () => {
           db.set('discord.count', count + 1);
           ++count;
           messages.first().react('✅');
-          let mult;
-          if (messages.first().member.roles.cache.has('867226596103946250')) mult = 1.5;
-          else mult = 1;
           if (count > topCount) {
             db.set('discord.topCount', count);
             topCount = count;
             messages.first().react('🎉');
-            addUserBalance(messages.first().author.id, Math.floor(50 * mult), 'for counting to a new high', true);
+            addUserBalance(messages.first().author.id, 50, 'for counting to a new high', true);
           } else {
-            addUserBalance(messages.first().author.id, Math.floor(5 * mult), 'counting', true);
+            addUserBalance(messages.first().author.id, 5, 'counting', true);
           }
         }
       }
