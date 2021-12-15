@@ -53,18 +53,17 @@ module.exports = {
   buttonId: '-',
   executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     if (interaction.member.roles.cache.has('879961023191318568')) return interaction.reply({ ephemeral: true, content: 'Hey uhm- you\'re banned from using this command until you do `/buy flag`' });
-    var guess = interaction.customId.split('-')[0];
-    var answer = interaction.customId.split('-')[1];
-    var answerCountry = '';
-    var guessCountry = interaction.component.label;
+    const guess = interaction.customId.split('-')[0];
+    const answer = interaction.customId.split('-')[1];
+    let answerCountry = '';
+    const guessCountry = interaction.component.label;
     for(let i = 0; i < flags.length; ++i) {
       if (flags[i][0] == interaction.customId.split('-')[1]) answerCountry = flags[i][1];
     }
     if (guess == answer) {
       interaction.message.edit({ embeds: [new MessageEmbed().setColor('#baffc9').setDescription(`${interaction.user}, Pog you got it right! The flag was **${answerCountry}**\n+75🦴`)], components: [] });
-      addUserBalance(interaction.user.id, 75);
-      addUserBalance('bank', -75);
-      log('830503210951245865', `+75🦴 to ${interaction.user} for answering the flag correctly`, '#baffc9');
+      addUserBalance(interaction.user.id, 75, 'guessing a flag correctly', false);
+      addUserBalance('bank', -75, 'bank');
     } else {
       interaction.message.edit({ embeds: [new MessageEmbed().setColor('#ff7784').setDescription(`${interaction.user}, You got it wrong :( The answer was **${answerCountry}** not **${guessCountry}**\nYou were banned from the \`/flag\` command for getting the flag wrong. Do \`/buy flag\` to pay the 500🦴 fee to be unbanned.`)], components: [] });
       const role = client.guilds.cache.get('830495072876494879').roles.cache.get('879961023191318568');
