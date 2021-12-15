@@ -37,7 +37,7 @@ module.exports = {
 			);
     }
     interaction.reply({ 
-      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://flagcdn.com/h240/${flags[random][0].toLowerCase()}.png`).setFooter('You have 20 seconds')],
+      embeds: [new MessageEmbed().setColor('#9e9d9d').setTitle('What country is this?').setImage(`https://flagcdn.com/h120/${flags[random][0].toLowerCase()}.png`).setFooter('You have 20 seconds')],
       components: [new MessageActionRow().addComponents(components)]
     });
     setTimeout(() => {
