@@ -213,11 +213,13 @@ const getUserMuted = (id = '') => {
   return user.muted || 0;
 };
 
-const setUserMuted = (id = '', num = 0) => {
+const setUserMuted = (id = '', num = 0, type = 'm') => {
   const user = db.get(`discord.users.${id}`) || {};
-  user.muted = num;
+  if (num === -1) return db.set(`discord.users.${id}`, user.muted = -1);
+  let mult = 60;
+  if (type === 'h') mult = 120;
+  user.muted = Math.floor(num * mult);
   db.set(`discord.users.${id}`, user);
-  return user.muted;
 };
 
 const getServerAdmins = () => { return db.get(`discord.server.admins`) || [] };
