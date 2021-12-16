@@ -50,8 +50,10 @@ module.exports = {
       if (muted === 0) {
         const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
         target.roles.add(role, `Muted by ${interaction.user}`);
-        setUserMuted(target.id, interaction.options.getString('duration'), interaction.options.getString('type') || 'm');
+        setUserMuted(target.id, interaction.options.getInteger('duration'), interaction.options.getString('type') || 'm');
         if (duration >= 1) {
+          let time = 'hour(s)';
+          if (interaction.options.getString('type') === 'm') time = 'minute(s)';
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
             .then(reply => log('834179033289719839', `Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}\nReason: \`\`${interaction.options.getString('reason')}\`\`\n[Jump to!](${reply.url})`, '#9e9d9d'))
