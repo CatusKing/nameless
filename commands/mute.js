@@ -54,9 +54,9 @@ module.exports = {
         if (duration >= 1) {
           let time = 'hour(s)';
           if (interaction.options.getString('type') === 'm') time = 'minute(s)';
-          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
+          interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target} for ${duration} ${time}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
           interaction.fetchReply()
-            .then(reply => log('834179033289719839', `Muted ${target} for ${duration / 120} hour(s)\nAction by ${interaction.user}\nReason: \`\`${interaction.options.getString('reason')}\`\`\n[Jump to!](${reply.url})`, '#9e9d9d'))
+            .then(reply => log('834179033289719839', `Muted ${target} for ${duration} ${time}\nAction by ${interaction.user}\nReason: \`\`${interaction.options.getString('reason')}\`\`\n[Jump to!](${reply.url})`, '#9e9d9d'))
             .catch(err => icoe(err));
         } else {
           interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Muted ${target}\nAction by ${interaction.user}`).setColor('#9e9d9d') ] });
