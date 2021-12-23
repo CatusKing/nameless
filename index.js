@@ -215,7 +215,10 @@ const getUserMuted = (id = '') => {
 
 const setUserMuted = (id = '', num = 0, type = 'm') => {
   const user = db.get(`discord.users.${id}`) || {};
-  if (num === -1) return db.set(`discord.users.${id}`, user.muted = -1);
+  if (num === -1) {
+    user.muted = -1;
+    return db.set(`discord.users.${id}`, user);
+  }
   let mult = 2;
   if (type === 'h') mult = 120;
   user.muted = Math.floor(num * mult);
