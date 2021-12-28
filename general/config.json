@@ -65,7 +65,7 @@
         { "id": "843810450285002796", "emoji": "⛏️" },
         { "id": "852624288326615060", "emoji": "🟣" },
         { "id": "864595485604053012", "emoji": "🤽" },
-        { "id":  "924407698664067172", "emoji":  "💧" }
+        { "id": "924407698664067172", "emoji":  "💧" }
       ]
     },
     {
@@ -77,11 +77,11 @@
     }
   ],
   "shop": [
-    ["**Vip** - 35k🦴 - Gives a 1.5x multiplier on bones that were given based on activity. Also gives access to vip only text and voice channels", "vip", 35000, "867226596103946250", 0],
+    ["**Vip** - 50k🦴 - Gives a 1.5x multiplier on bones that were given based on activity. Also gives access to vip only text and voice channels", "vip", 50000, "867226596103946250", 0],
     ["**DJ** - 20k🦴 - Allows you to play music", "dj", 20000, "830507721987194920", 0],
-    ["**Keycard** - 15K🦴 - Allows you to add one slot to the smoll room for yourself", "keycard", 15000, "866842219985502239", 0],
-    ["**Mathematics** - 2.5k🦴 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 2500, "830904166007701504", 1],
-    ["**Hue** - 50K🦴 - Allows you to control the lights in Thomas's room", "hue", 50000, "845764951481122869", 0],
+    ["**Keycard** - 30k🦴 - Allows you to add one slot to the smoll room for yourself", "keycard", 30000, "866842219985502239", 0],
+    ["**Mathematics** - 5k🦴 - Removes the channel ban from the <#830661661991632907> channel if you are banned", "mathematics", 5000, "830904166007701504", 1],
+    ["**Hue** - 100k🦴 - Allows you to control the lights in Thomas's room", "hue", 100000, "845764951481122869", 0],
     ["**Flag** - 500🦴 - Allows you to use the /flag command again", "flag", 500, "879961023191318568", 1]
   ],
   "url": "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1",
