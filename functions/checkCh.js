@@ -17,9 +17,15 @@ module.exports = {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
           member.roles.add(role);
         }
-      } else if (member.roles.cache.has('859270541713211422')) {
-        const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
-        member.roles.remove(role);
+        if (!member.roles.cache.has('925588591609012224') && member.voice.channel.type == 'STAGE') {
+          const role = client.guilds.cache.get('830495072876494879').roles.cache.get('925588591609012224');
+          member.roles.add(role);
+        }
+      } else if (member.roles.cache.has('859270541713211422') || member.roles.cache.has('925588591609012224')) {
+        const role1 = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
+        member.roles.remove(role1);
+        const role2 = client.guilds.cache.get('830495072876494879').roles.cache.get('925588591609012224');
+        member.roles.remove(role2);
       }
     });
     let limit = 3;
