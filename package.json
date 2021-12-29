@@ -20,7 +20,7 @@
     "2048_functional": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "discord.js": "^13.3.1",
+    "discord.js": "^13.4.0",
     "express": "^4.17.1",
     "googleapis": "^71.0.0",
     "jsdom": "^16.6.0",

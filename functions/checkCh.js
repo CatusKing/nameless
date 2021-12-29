@@ -17,7 +17,7 @@ module.exports = {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
           member.roles.add(role);
         }
-        if (!member.roles.cache.has('925588591609012224') && member.voice.channel.type == 'STAGE') {
+        if (!member.roles.cache.has('925588591609012224') && member.voice.channel.type == 'GUILD_STAGE_VOICE') {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('925588591609012224');
           member.roles.add(role);
         }
