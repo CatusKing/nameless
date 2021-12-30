@@ -18,7 +18,7 @@
   "homepage": "https://github.com/CactusKing101/nameless",
   "dependencies": {
     "2048_functional": "^0.1.1",
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "discord.js": "^13.4.0",
     "express": "^4.17.1",
