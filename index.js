@@ -405,6 +405,12 @@ const updateCave = () => {
     client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', deny: 'VIEW_CHANNEL', type: 'role'}]})
   }
 };
+
+const checkTwitch = () => {
+  request.get('https://api.twitch.tv/helix/channels', {headers: {'Client-Id': token.apiKey9}, json: true}, (err, res, body) => {
+    console.log(body);
+  });
+};
 //2 End
 
 //3 Ran when client logs in
