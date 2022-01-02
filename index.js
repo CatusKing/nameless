@@ -666,7 +666,7 @@ client.on('guildMemberAdd', member => {
     });
   }).catch(err => icoe(err));
   updateInvites();
-  var embed = new MessageEmbed().setDescription(`${member.user} just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
+  const embed = new MessageEmbed().setDescription(`${member.user}(${member.user.tag}) just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send({ embeds: [embed] });
   const muted = getUserMuted(member.user.id);
