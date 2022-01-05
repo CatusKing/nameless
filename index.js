@@ -407,9 +407,21 @@ const updateCave = () => {
 };
 
 const checkTwitch = () => {
-  request.get('https://api.twitch.tv/helix/channels', {headers: {'Client-Id': token.apiKey9}, json: true}, (err, res, body) => {
-    console.log(body);
+  const streaming = db.get('discord.server.streaming') || [];
+  const streamingTemp = [];
+  client.guilds.cache.get(config.guildId).members.cache.forEach((member) => {
+    if (!member.user.bot) {
+      for(let i of member.presence.activities) {
+        if (i.type === 'STREAMING') {
+          streamingTemp.push(member.id);
+          if (!streaming.includes(member.id)) {
+            client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({embeds: [new MessageEmbed().setTitle(`${member.user.tag} is now live!`).setURL(i.url).setColor('#9e9d9d')]})
+          }
+        }
+      }
+    }
   });
+  db.set('discord.server.streaming', streamingTemp);
 };
 //2 End
 
@@ -464,6 +476,8 @@ client.once('ready', () => {
 
   setInterval(sendQueue, 60000);
   
+  setInterval(checkTwitch, 600000);
+  
   console.log('Setting up slash commands');
   const commands = [];
   client.commands.forEach((value) => {
@@ -497,7 +511,6 @@ client.on('messageCreate', async (msg) => {
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
     console.log('hi');
-    checkTwitch();
   }
 
   if (msg.channel.type !== 'GUILD_TEXT') return;
