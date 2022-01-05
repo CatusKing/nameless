@@ -410,7 +410,7 @@ const checkTwitch = () => {
   const streaming = db.get('discord.server.streaming') || [];
   const streamingTemp = [];
   client.guilds.cache.get(config.guildId).members.cache.forEach((member) => {
-    if (!member.user.bot) {
+    if (!member.user.bot && member.presence != null) {
       for(let i of member.presence.activities) {
         if (i.type === 'STREAMING') {
           streamingTemp.push(member.id);
