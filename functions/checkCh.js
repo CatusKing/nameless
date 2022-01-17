@@ -28,7 +28,7 @@ module.exports = {
         member.roles.remove(role2);
       }
     });
-    let limit = 3;
+    let limit = 2;
     smallRoomCh.members.forEach((m) => {
       let yes = true;
       m.roles.cache.forEach(r => {
