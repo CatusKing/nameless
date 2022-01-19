@@ -33,7 +33,7 @@ module.exports = {
       let yes = true;
       m.roles.cache.forEach(r => {
         if ((r.id == '866842219985502239' || r.id == '833449708013223978') && yes) {
-          !yes;
+          yes = false;
           ++limit;
         }
       });
