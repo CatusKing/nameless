@@ -391,13 +391,6 @@ const checkHolidays = () => {
   })
 };
 
-const namelessChatbot = (msg) => {
-  request({method: 'GET',url: 'https://random-stuff-api.p.rapidapi.com/ai',qs: {message: msg.content, server: 'main', bot_master: 'CatusKing', bot_gender: 'nb', bot_name: 'Jeff', bot_company: 'ur mom', bot_age: '69', bot_birth_year: '2005', bot_favorite_color: 'Red', bot_favorite_book: 'Transgender History by susan', bot_favorite_band: 'Melosine', bot_favorite_artist: 'Gorillaz'}, json: true,headers: {authorization: token.apiKey6,'x-rapidapi-host': 'random-stuff-api.p.rapidapi.com','x-rapidapi-key': token.apiKey5, useQueryString: true}}, (err, res, body) => {
-    if (err) return icoe(err);
-    msg.channel.send({ content: body[0].response });
-  });
-};
-
 const updateCave = () => {
   if (Math.floor(Math.random() * 10) === 2) {
     client.guilds.cache.get(config.guildId).channels.cache.get('905492692715323422').edit({permissionOverwrites: [{id: '830495072876494879', allow: 'VIEW_CHANNEL', type: 'role'}]})
@@ -500,7 +493,6 @@ client.once('ready', () => {
 client.on('messageCreate', async (msg) => {
 
   if (msg.channelId === '830661661991632907') counting();
-  if (msg.channelId === '900421544667414558' && !msg.author.bot) namelessChatbot(msg);
 
   if (msg.author.bot || msg.webhookId) return;
 
