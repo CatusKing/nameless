@@ -6,6 +6,8 @@ module.exports = {
     const schoolCh = client.channels.cache.get('886267507743268964');
     const schoolVc = client.channels.cache.get('886267705286619167');
     const noMic = client.channels.cache.get('830496530091606056');
+    const eventsNoMic = client.channels.cache.get('925594606677151844');
+    const stageChat = client.channels.cache.get('925588565184888932');
     const date = new Date();
     let vcInUse = false;
     videoOnlyCh.members.forEach(m => {
@@ -54,6 +56,16 @@ module.exports = {
     }
     if (!vcInUse) {
       noMic.messages.fetch().then((messages) => {
+        messages.forEach((message) => {
+          message.delete();
+        });
+      });
+      eventsNoMic.messages.fetch().then((messages) => {
+        messages.forEach((message) => {
+          message.delete();
+        });
+      });
+      stageChat.messages.fetch().then((messages) => {
         messages.forEach((message) => {
           message.delete();
         });
