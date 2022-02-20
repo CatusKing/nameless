@@ -5,7 +5,9 @@ module.exports = {
     const smallRoomCh = client.channels.cache.get('832047338456612885');
     const schoolCh = client.channels.cache.get('886267507743268964');
     const schoolVc = client.channels.cache.get('886267705286619167');
+    const noMic = client.channels.cache.get('830496530091606056');
     const date = new Date();
+    let vcInUse = false;
     videoOnlyCh.members.forEach(m => {
       if (!m.voice.selfVideo && !m.user.bot) {
         m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
@@ -13,6 +15,7 @@ module.exports = {
     });
     client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
       if (member.voice.channel != null) {
+        vcInUse = true;
         if (!member.roles.cache.has('859270541713211422')) {
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('859270541713211422');
           member.roles.add(role);
@@ -48,6 +51,13 @@ module.exports = {
       if (schoolVc.name.includes('homework')) schoolVc.setName(schoolVc.name.replace('homework', 'school'), 'School time!');
     } else if (schoolVc.name.includes('school')) {
       schoolVc.setName(schoolVc.name.replace('school', 'homework'), 'No longer school time :D');
+    }
+    if (!vcInUse) {
+      noMic.messages.fetch().then((messages) => {
+        messages.forEach((message) => {
+          message.delete();
+        });
+      });
     }
   }
 };
