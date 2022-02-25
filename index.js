@@ -693,6 +693,18 @@ client.on('guildMemberAdd', member => {
   log('837513841389862932', `${member}(${member.user.tag}) just joined the server`, '#9e9d9d');
 });
 
+client.on('voiceStateUpdate', (oldState, newState) => {
+  if (newState.channelId == '831347288710316032') {
+    setTimeout(() => {
+      if (client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.channelId == '831347288710316032') {
+        if (!client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.selfVideo) {
+          client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.setChannel('830495073430929472')
+        }
+      }
+    }, 15000);
+  }
+});
+
 //Logs that someone left the server
 client.on('guildMemberRemove', member => { log('837513841389862932', `${member}(${member.user.tag}) just left the server`, '#9e9d9d'); });
 

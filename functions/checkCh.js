@@ -1,7 +1,5 @@
 module.exports = {
   execute(client) {
-    const videoOnlyCh = client.channels.cache.get('831347288710316032');
-    const generalCh = client.channels.cache.get('830495073430929472');
     const smallRoomCh = client.channels.cache.get('832047338456612885');
     const schoolCh = client.channels.cache.get('886267507743268964');
     const schoolVc = client.channels.cache.get('886267705286619167');
@@ -10,11 +8,6 @@ module.exports = {
     const stageChat = client.channels.cache.get('925588565184888932');
     const date = new Date();
     let vcInUse = false;
-    videoOnlyCh.members.forEach(m => {
-      if (!m.voice.selfVideo && !m.user.bot) {
-        m.voice.setChannel(generalCh, 'Video not enabled in the video only channel');
-      }
-    });
     client.guilds.cache.get('830495072876494879').members.cache.forEach((member) => {
       if (member.voice.channel != null) {
         vcInUse = true;
