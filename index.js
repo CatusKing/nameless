@@ -507,6 +507,7 @@ client.on('messageCreate', async (msg) => {
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
     console.log('hi');
+    checkHolidays();
   }
 
   if (msg.channel.type !== 'GUILD_TEXT') return;
