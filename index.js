@@ -389,6 +389,10 @@ const checkHolidays = () => {
       alreadyDone.push(i.name);
     }
   })
+  request.get('https://en.pronouns.page/api/calendar/today', {json: true}, (err, res, body) => {
+    if (err) return icoe(err);
+    client.channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Pride Calander').setImage(body.image).setDescription(body.message).setColor('#cd3394') ] }).then();
+  })
 };
 
 const updateCave = () => {
