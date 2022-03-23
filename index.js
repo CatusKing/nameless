@@ -389,6 +389,10 @@ const checkHolidays = () => {
       alreadyDone.push(i.name);
     }
   })
+  request.get('https://en.pronouns.page/api/calendar/today', {json: true}, (err, res, body) => {
+    if (err) return icoe(err);
+    client.channels.cache.get('830495073430929471').send({ embeds: [ new MessageEmbed().setFooter('Pride Calander').setImage(body.image).setDescription(body.message).setColor('#cd3394') ] }).then();
+  })
 };
 
 const updateCave = () => {
@@ -496,6 +500,7 @@ client.on('messageCreate', async (msg) => {
 
     if (!member.roles.cache.get('830496065366130709')) return msg.channel.send('Sorry only owners can run core commands!');
     console.log('hi');
+    checkHolidays();
   }
 
   if (msg.channel.type !== 'GUILD_TEXT') return;
