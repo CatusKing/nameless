@@ -6,7 +6,7 @@ const { icoe } = require("../icoe");
 module.exports = {
   execute(client) {
     const embeds = [];
-    request(`https://ll.thespacedevs.com/2.0.0/event/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
+    request(`https://ll.thespacedevs.com/2.2.0/event/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
       if (err) return console.log(err);
       const date = new Date();
       for (let i of body.results) {
@@ -14,7 +14,7 @@ module.exports = {
         if (launchTime.getTime() - date.getTime() < 0) continue;
         const embed = new MessageEmbed()
             .setColor('#0b3d91')
-            .setAuthor(`Updated on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} EST`)
+            .setAuthor({name: `Updated on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} EST`})
             .setTitle(i.name)
             .setURL(i.news_url)
             .setDescription(`<t:${Math.floor(launchTime.getTime() / 1000)}:R>\n\n${i.description}`)

@@ -450,18 +450,11 @@ client.once('ready', () => {
     if (date.getHours() === 7 && date.getMinutes() === 0) APOD();
   }, 60000);
 
-  setTimeout(() => setInterval(nextLaunch, 900000), 60000);
+  setTimeout(() => setInterval(nextLaunch, 1800000), 60000);
 
-  setTimeout(() => setInterval(events, 900000), 90000);
+  setTimeout(() => setInterval(events, 1800000), 90000);
 
   setInterval(() => client.functions.get('checkStreaks').execute(client, db), 3600000);
-
-  setInterval(() => {
-    const date = new Date();
-    if (date.getMonth() === 11 && date.getDate() === 19) {
-      client.guilds.cache.get('830495072876494879').members.cache.get('456535616281247751').setNickname('2', 'Don\'t worry abt it');
-    }
-  }, 60000);
 
   setInterval(checkInsurance, 3600000);
 
@@ -698,7 +691,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     setTimeout(() => {
       if (client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.channelId == '831347288710316032') {
         if (!client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.selfVideo) {
-          client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.setChannel('830495073430929472')
+          client.guilds.cache.get(config.guildId).members.cache.get(newState.member.id).voice.setChannel('830495073430929472');
         }
       }
     }, 15000);

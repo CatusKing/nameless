@@ -6,7 +6,7 @@ module.exports = {
   execute(client) {
     client.channels.cache.get('841137170525716480').messages.fetch('880297426508972113')
       .then(message => {
-        get(`https://ll.thespacedevs.com/2.0.0/launch/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
+        get(`https://ll.thespacedevs.com/2.2.0/launch/upcoming/?format=json&limit=20`, { json: true }, (err, res, body) => {
           if (err) return console.log(err);
           const date = new Date();
           let id = 0;
