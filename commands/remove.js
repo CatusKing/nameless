@@ -23,10 +23,9 @@ module.exports = {
     if (interaction.member.roles.cache.has('830496065366130709')) {
       const target = interaction.options.getUser('user') || interaction.user,
         amount = interaction.options.getInteger('amount'),
-        balance = addUserBalance(target.id, -amount);
+        balance = addUserBalance(target.id, -amount, `removed by ${interaction.user}`);
       addUserBalance('bank', amount);
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`).setColor('#ff7784') ] });
-      log('830503210951245865', `-${amount}🦴 to ${target} given by ${interaction.user}`, '#ff7784');
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
   }
 };
