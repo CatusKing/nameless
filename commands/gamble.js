@@ -44,7 +44,7 @@ module.exports = {
       outcome = Math.floor(outcome / 5);
       insured = insured - outcome;
       addUserBalance(interaction.user.id, insured, `gambling ${bet}🦴`, false);
-      addUserBalance('bank', -insured);
+      addUserBalance('bank', -insured, 'bank', false);
       db.set(`discord.users.${interaction.member.id}.insuranceOwed`, (db.get(`discord.users.${interaction.member.id}.insuranceOwed`) || 0) + -outcome)
       embed = new MessageEmbed()
         .setTitle(`Slot Machine results: ${config.emojis[slot1]} ${config.emojis[slot2]} ${config.emojis[slot3]}`)

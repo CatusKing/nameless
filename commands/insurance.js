@@ -37,7 +37,7 @@ module.exports = {
         const balance = getUserBalance(interaction.user.id);
         const price = 5000 + Math.floor(db.get(`discord.users.${interaction.member.id}.insuranceOwed`) / 5 || 0);
         if (balance >= price) {
-          addUserBalance(interaction.user.id, -price, 'buying insurance');
+          addUserBalance(interaction.user.id, -price, 'buying insurance', false);
           addUserBalance('bank', price, 'bank');
           interaction.member.roles.add('889221970774867968');
           interaction.reply({ embeds: [ new MessageEmbed().setColor('#9e9d9d').setDescription(`You just bought insurance for ${round(price)}(${price})🦴`) ] })
