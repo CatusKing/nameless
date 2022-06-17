@@ -208,23 +208,6 @@ const setUserDaily = (id = '', num = 0) => {
   return user.daily;
 };
 
-const getUserMuted = (id = '') => {
-  const user = db.get(`discord.users.${id}`) || {};
-  return user.muted || 0;
-};
-
-const setUserMuted = (id = '', num = 0, type = 'm') => {
-  const user = db.get(`discord.users.${id}`) || {};
-  if (num === -1) {
-    user.muted = -1;
-    return db.set(`discord.users.${id}`, user);
-  }
-  let mult = 2;
-  if (type === 'h') mult = 120;
-  user.muted = Math.floor(num * mult);
-  db.set(`discord.users.${id}`, user);
-};
-
 const getServerAdmins = () => { return db.get(`discord.server.admins`) || [] };
 
 const setServerAdmins = (admins = []) => { db.set(`discord.server.admins`, admins) };
@@ -259,7 +242,7 @@ const setUserBanned = (id = '', num = 0) => {
   db.set(`discord.server.banned`, bans);
 };
 
-const punish = async (msg) => client.functions.get('punish').execute(client, msg, get_attrs, setUserMuted, reply, log, getServerAdmins, getServerIgnoredCh, attributes);
+const punish = async (msg) => client.functions.get('punish').execute(client, msg, get_attrs, reply, log, getServerAdmins, getServerIgnoredCh, attributes);
 
 const APOD = (id = config.APOD_chID) => {
   client.functions.get('APOD').execute(client, id);
@@ -440,9 +423,7 @@ client.once('ready', () => {
   setInterval(() => client.functions.get('updateMemberCount').execute(client), 900000);
 
   setInterval(() => client.functions.get('checkCh').execute(client), 15000);
-
-  setInterval(() => client.functions.get('checkMuted').execute(client, db), 30000);
-
+  
   setInterval(() => client.functions.get('checkBanned').execute(client, db), 30000);
 
   setInterval(() => {
@@ -578,7 +559,7 @@ client.on('interactionCreate', async interaction => {
     client.commands.forEach((value) => {
       if (value.name === interaction.commandName && value.slash) {
         try {
-          value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
+          value.executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
           icoe(err);
@@ -589,7 +570,7 @@ client.on('interactionCreate', async interaction => {
     client.commands.forEach((value) => {
       if (interaction.customId.startsWith(value.name) && value.selectMenu) {
         try {
-          value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/**/);
+          value.executeSM(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/**/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
           icoe(err);
@@ -600,7 +581,7 @@ client.on('interactionCreate', async interaction => {
     client.commands.forEach((value) => {
       if (interaction.customId.includes(value.buttonId) && value.button) {
         try {
-          value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, getUserMuted, setUserMuted, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
+          value.executeB(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, client.commands, client.functions.get('updateLeaderboard').execute, client.functions.get('updateStatus').execute, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db/*longest is income*/);
         } catch (err) {
           interaction.reply('there was an error trying to execute that command!');
           icoe(err);
@@ -672,11 +653,6 @@ client.on('guildMemberAdd', member => {
   const embed = new MessageEmbed().setDescription(`${member.user}(${member.user.tag}) just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send({ embeds: [embed] });
-  const muted = getUserMuted(member.user.id);
-  if (muted === 1) {
-    const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
-    member.roles.add(role, `Auto muted on rejoin`);
-  }
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
     if (body.pronouns != null && body.pronouns !== 'unspecified') {
       if (body.pronouns === 'other') return member.roles.add(client.guilds.cache.get('830495072876494879').roles.cache.get('869956623488143431'), 'https://pronoundb.org/ claims this member has these pronouns');

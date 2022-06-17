@@ -4,7 +4,7 @@ const { icoe } = require('../icoe');
 const { apiKey2 } = require('../general/token.json');
 
 module.exports = {
-  async execute(client, msg, get_attrs, setUserMuted, reply, log, getServerAdmins, getServerIgnoredCh, attributes) {
+  async execute(client, msg, get_attrs, reply, log, getServerAdmins, getServerIgnoredCh, attributes) {
     //Message Content
     try {
       const characters = msg.content.split('');
@@ -41,7 +41,6 @@ module.exports = {
           }
           const role = client.guilds.cache.get('830495072876494879').roles.cache.get('830495536582361128');
           msg.member.roles.add(role, `Muted for getting 2 or more warnings`);
-          setUserMuted(msg.author.id, -1);
           reply(msg.channel.id, `${msg.author}, you have been **muted** for the following reasons:\n${description}\nThis has been brought to the moderators attention and will be dealt with accordingly.`, '#ff0000');
           log('834179033289719839', `**Muted** <t:${Math.floor(date.getTime() / 1000)}:R>\n\nReasons:\n${description}\nAuthor: ${msg.author}\n\nContent:\n${msg.content}\n\n[Jump to!](${msg.url})`, '#9e9d9d');
           return true;
