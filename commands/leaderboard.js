@@ -18,7 +18,7 @@ module.exports = {
       description: 'Gives you the Balance Leaderboard',
     }
   ],
-  executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+  executeI(client, interaction, log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     let embed;
     if (interaction.options.getSubcommand() == 'balance') {
       const guildMembers = client.guilds.cache.get('830495072876494879').members.cache;
