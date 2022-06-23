@@ -24,7 +24,7 @@ module.exports = {
       const target = interaction.options.getUser('user') || interaction.user,
         amount = interaction.options.getInteger('amount'),
         balance = addUserBalance(target.id, -amount, `removed by ${interaction.user}`);
-      addUserBalance('bank', amount);
+      addUserBalance('bank', amount, 'bank');
       interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Taken ${amount}🦴 from ${target}\nThey now have ${balance}🦴`).setColor('#ff7784') ] });
     } else interaction.reply({ embeds: [ new MessageEmbed().setDescription(`Sorry you don't have perms for this`).setColor('#9e9d9d') ] });
   }
