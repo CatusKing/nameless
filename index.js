@@ -1,6 +1,7 @@
 /*
 TODO
-  - REDO COMMANDS
+  - Use needle
+  - fix code in main file
 */
 const { Client, Collection, MessageEmbed, Intents, Message } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
@@ -10,7 +11,7 @@ const { google } = require('googleapis'); //Google api handler
 const fs = require('fs'); //File Sync
 const request = require('request'); //Api handler
 const { create, all, inv} = require('mathjs'); //Mathjs used for handling counting
-const { icoe } = require('./icoe'); //ICOE is used for error handling
+const { icoe } = require('./icoe');
 const math = create(all);
 const limitedEvaluate = math.evaluate;
 const intents = new Intents(32767); //ALL
@@ -590,6 +591,12 @@ client.on('interactionCreate', async interaction => {
   }
 });
 //6 End
+
+//Auto joins threads so that they can have auto mod
+client.on('threadCreate', (thread) => {
+  thread.join();
+  log('830856984579670086', `${thread.name} thread created`);
+});
 
 //Shows if a message is edited
 client.on('messageUpdate', (oldMsg, newMsg) => {
