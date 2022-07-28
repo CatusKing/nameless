@@ -2,7 +2,7 @@
 TODO
   - REDO COMMANDS
 */
-const { Client, Collection, Embed, Message, GatewayIntentBits } = require('discord.js'); //All discord.js stuff
+const { Client, Collection, EmbedBuilder, Message, GatewayIntentBits } = require('discord.js'); //All discord.js stuff
 const token = require('./general/token.json'); //Token file
 const config = require('./general/config.json'); //Config file
 const db = require('quick.db'); //Database
@@ -52,13 +52,13 @@ math.import({
 //2 Tons of functions
 const log = (channelId = String(), content = String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
-  const embed = new Embed().setDescription(content).setColor(color);
+  const embed = new EmbedBuilder().setDescription(content).setColor(color);
   channel.send({ embeds: [embed] });
 };
 
 const reply = (channelId = String(), content = String(), color = '#9e9d9d') => {
   const channel = client.channels.cache.get(channelId);
-  const embed = new Embed().setDescription(content).setColor(color);
+  const embed = new EmbedBuilder().setDescription(content).setColor(color);
   channel.sendTyping();
   setTimeout(() => {
     channel.send({ embeds: [embed] });
@@ -372,7 +372,7 @@ const checkHolidays = () => {
   })
   request.get('https://en.pronouns.page/api/calendar/today', {json: true}, (err, res, body) => {
     if (err) return icoe(err);
-    client.channels.cache.get('830495073430929471').send({ embeds: [ new Embed().setFooter('Pride Calander').setImage(body.image).setDescription(body.message).setColor('#cd3394') ] }).then();
+    client.channels.cache.get('830495073430929471').send({ embeds: [ new EmbedBuilder().setFooter('Pride Calander').setImage(body.image).setDescription(body.message).setColor('#cd3394') ] }).then();
   })
 };
 
@@ -393,7 +393,7 @@ const checkTwitch = () => {
         if (i.type === 'STREAMING') {
           streamingTemp.push(member.id);
           if (!streaming.includes(member.id)) {
-            client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({embeds: [new Embed().setTitle(`${member.user.tag} is now live!`).setURL(i.url).setColor('#9e9d9d')]})
+            client.guilds.cache.get(config.guildId).channels.cache.get('830495073430929471').send({embeds: [new EmbedBuilder().setTitle(`${member.user.tag} is now live!`).setURL(i.url).setColor('#9e9d9d')]})
           }
         }
       }
@@ -534,7 +534,7 @@ client.on('messageReactionAdd', (reaction) => {
           }
         });
         if (!yes) {
-          var embed = new Embed().setDescription(betterReaction.message.content).setColor('#9e9d9d').setFooter(betterReaction.message.id).setAuthor(betterReaction.message.member.displayName, betterReaction.message.author.avatarURL()).addField('Source', `<#${betterReaction.message.channelId}>\n[Jump to!](${betterReaction.message.url})`).setTitle(`${betterReaction.count} 💀`);
+          var embed = new EmbedBuilder().setDescription(betterReaction.message.content).setColor('#9e9d9d').setFooter(betterReaction.message.id).setAuthor(betterReaction.message.member.displayName, betterReaction.message.author.avatarURL()).addField('Source', `<#${betterReaction.message.channelId}>\n[Jump to!](${betterReaction.message.url})`).setTitle(`${betterReaction.count} 💀`);
           if (betterReaction.message.attachments.size > 0) embed.setImage(betterReaction.message.attachments.first().url);
           const channel = client.channels.cache.get('880999255622451270')
           channel.send({ embeds: [embed] });
@@ -642,7 +642,7 @@ client.on('guildMemberAdd', member => {
     });
   }).catch(err => icoe(err));
   updateInvites();
-  const embed = new Embed().setDescription(`${member.user}(${member.user.tag}) just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
+  const embed = new EmbedBuilder().setDescription(`${member.user}(${member.user.tag}) just joined!`).setThumbnail(member.user.displayAvatarURL()).setColor('#ffffba');
   const channel = client.channels.cache.get('830505212463546408');
   channel.send({ embeds: [embed] });
   request(`https://pronoundb.org/api/v1/lookup?platform=discord&id=${member.user.id}`, { json: true }, (err, res, body) => {
