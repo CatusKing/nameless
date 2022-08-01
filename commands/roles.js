@@ -8,7 +8,7 @@ module.exports = {
   command: false,
   slash: true,
   options: [],
-	executeI(client, interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, getUserMuted, setUserMuted, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
+	executeI(client, interaction = new CommandInteraction(), log, hours, getUserDaily, setUserDaily, getUserWeekly, setUserWeekly, getUserBalance, addUserBalance, floor, commands, updateLeaderboard, updateStatus, setServerAdmins, admins, setServerIgnoredCh, ignoredCh, setUserBanned, round, db) {
     const channel = client.guilds.cache.get(guildId).channels.cache.get('830550223653830708');
     for (let i = 0; i < roleMessages.length; ++i) {
       channel.messages.fetch(roleMessages[i].id).then(msg => {
